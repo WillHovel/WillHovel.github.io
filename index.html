@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Will Hovel — Research Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:       #f4f0e8;
+      --ink:      #1a1612;
+      --muted:    #7a6f60;
+      --accent:   #1e4d6b;
+      --accent2:  #3a8fa3;
+      --rule:     #d4cdc0;
+      --card-bg:  #ffffff;
+      --tag-bg:   #e8f4f8;
+      --tag-ink:  #1e4d6b;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    /* ── Noise texture overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: 0.5;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(244,240,232,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rule);
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      font-size: 0.82rem;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      padding: clamp(5rem, 12vw, 9rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem);
+      max-width: 900px;
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 28px; height: 1px;
+      background: var(--accent2);
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-bio {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.65rem 1.4rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--accent2); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+    .btn-secondary:hover { background: var(--accent); color: #fff; }
+
+    /* ── Divider ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 0 clamp(1.5rem, 5vw, 4rem);
+    }
+
+    /* ── Section ── */
+    section {
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+      max-width: 200px;
+    }
+
+    /* ── Project card ── */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      padding: 2.2rem 2rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::after {
+      content: '→';
+      position: absolute;
+      bottom: 1.8rem; right: 1.8rem;
+      font-size: 1.1rem;
+      color: var(--rule);
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .project-card:hover { background: #fafaf7; }
+    .project-card:hover::after { color: var(--accent); transform: translate(3px, -3px); }
+
+    .card-number {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    .card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.35rem;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .card-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .card-tags {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+      margin-top: auto;
+    }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      padding: 0.25rem 0.6rem;
+      background: var(--tag-bg);
+      color: var(--tag-ink);
+      border-radius: 2px;
+    }
+
+    /* ── About ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      max-width: 860px;
+    }
+
+    @media (max-width: 640px) {
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .project-grid { grid-template-columns: 1fr; }
+      .nav-links { gap: 1.2rem; }
+    }
+
+    .about-block h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+      color: var(--ink);
+    }
+
+    .about-block p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2rem clamp(1.5rem, 5vw, 4rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    footer p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    footer a { color: var(--accent2); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Fade-in animation ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow { animation: fadeUp 0.6s ease both; }
+    .hero h1      { animation: fadeUp 0.6s 0.1s ease both; }
+    .hero-bio     { animation: fadeUp 0.6s 0.2s ease both; }
+    .hero-links   { animation: fadeUp 0.6s 0.3s ease both; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Will Hovel</a>
+  <div class="nav-links">
+    <a href="#projects">Projects</a>
+    <a href="#about">About</a>
+    <a href="https://github.com/WillHovel" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">UC San Diego · Electrical Engineering</div>
+  <h1>Engineering meets <em>living systems</em></h1>
+  <p class="hero-bio">
+    I build tools at the intersection of signal processing, data analysis, and biology —
+    extracting structure from noisy, dynamic systems to answer questions that matter for ecology and climate.
+  </p>
+  <div class="hero-links">
+    <a class="btn btn-primary" href="#projects">View Projects</a>
+    <a class="btn btn-secondary" href="https://github.com/WillHovel" target="_blank">GitHub ↗</a>
+  </div>
+</div>
+
+<hr class="divider"/>
+
+<section id="projects">
+  <div class="section-label">Selected Projects</div>
+  <div class="project-grid">
+
+    <a class="project-card" href="project-flapping-foil.html">
+      <div class="card-number">01 — Active</div>
+      <div class="card-title">Ocean Acidification &amp; Fish Schooling</div>
+      <p class="card-desc">
+        Investigating how elevated CO₂ disrupts schooling decisions in silversides using a controlled flapping-foil array and high-speed video analysis.
+      </p>
+      <div class="card-tags">
+        <span class="tag">Behavioral Biology</span>
+        <span class="tag">MATLAB</span>
+        <span class="tag">Flow Tank</span>
+        <span class="tag">Climate</span>
+      </div>
+    </a>
+
+    <a class="project-card" href="https://github.com/WillHovel" target="_blank">
+      <div class="card-number">02 — Tools</div>
+      <div class="card-title">Fish Kinematics Analysis Pipeline</div>
+      <p class="card-desc">
+        MATLAB toolkit for extracting tail-beat frequency, amplitude envelopes, propulsive wavelength, and body curvature from 3-D midline tracking data.
+      </p>
+      <div class="card-tags">
+        <span class="tag">MATLAB</span>
+        <span class="tag">FFT</span>
+        <span class="tag">Signal Processing</span>
+        <span class="tag">3-D Kinematics</span>
+      </div>
+    </a>
+
+    <a class="project-card" href="https://github.com/WillHovel" target="_blank">
+      <div class="card-number">03 — Prior</div>
+      <div class="card-title">Sensorized Gesture Glove</div>
+      <p class="card-desc">
+        A wearable glove that detects hand gestures from sensor data — an early project in extracting meaningful structure from noisy signals.
+      </p>
+      <div class="card-tags">
+        <span class="tag">Embedded Systems</span>
+        <span class="tag">Signal Processing</span>
+        <span class="tag">Hardware</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<section id="about">
+  <div class="section-label">About</div>
+  <div class="about-grid">
+    <div class="about-block">
+      <h3>Background</h3>
+      <p>
+        I'm an Electrical Engineering student at UC San Diego with a 4.0 GPA,
+        conducting research in Dr. Valentina Di Santo's lab. My coursework in
+        signal processing (ECE 45) and statistics (ECE 109) directly informs
+        how I approach biological data — as structured, measurable signals
+        rather than noise.
+      </p>
+    </div>
+    <div class="about-block">
+      <h3>Research Vision</h3>
+      <p>
+        I'm drawn to problems that sit at the boundary between disciplines —
+        where engineering tools open new windows into complex biological and
+        ecological systems. Long-term, I aim to pursue graduate research in
+        bio-inspired robotics and intelligent systems applied to climate challenges.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Will Hovel · UC San Diego · Electrical Engineering</p>
+  <p><a href="https://github.com/WillHovel" target="_blank">github.com/WillHovel</a></p>
+</footer>
+
+</body>
+</html>
