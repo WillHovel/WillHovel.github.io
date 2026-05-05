@@ -199,6 +199,19 @@
 
     .prose strong { color: var(--ink); font-weight: 600; }
 
+    .proj-list {
+      margin: 1rem 0 1.2rem 0;
+      padding-left: 1.3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .proj-list li {
+      font-size: 0.95rem;
+      color: #3d3530;
+      line-height: 1.7;
+    }
+
     /* ── Pull quote ── */
     .pull-quote {
       border-left: 3px solid var(--accent);
@@ -359,16 +372,25 @@
       This summer, I will investigate how CO₂-exposed silversides (<em>Menidia</em> sp.) make schooling decisions in a controlled flow tank setting. Rather than using live schools — which introduce uncontrolled variability — we use <strong>flapping foils</strong> that mimic the hydrodynamic signatures of schoolmates, creating a stable, repeatable artificial school. This allows us to isolate and observe the behavior of a single focal fish as it navigates and responds to its simulated neighbors.
     </p>
 
-    <div class="pull-quote">
-      <p>"The most meaningful problems sit at the boundary between disciplines — and that is where I want to work."</p>
-    </div>
-
     <p>
       I will run flow tank trials comparing the positioning and movement decisions of fish under elevated CO₂ to those under normal conditions. High-speed video will be used to record behavior throughout each trial. Results will improve our understanding of how ocean acidification disrupts the sensory and behavioral mechanisms that allow fish to school effectively.
     </p>
     <p>
       As CO₂ levels continue to rise, determining whether collective behavior in fish is vulnerable to climate change is critical for predicting the ecological consequences for marine ecosystems that depend on schooling species.
     </p>
+
+    <h2>Analysis Pipeline</h2>
+    <p>To support this research, I built a MATLAB toolkit for extracting swimming kinematics from high-speed video tracking data. Key contributions include:</p>
+    <ul class="proj-list">
+      <li><strong>Midline alignment</strong> — implemented a least-squares rotation algorithm that re-orients each frame so the fish's swimming axis is parallel to X and the snout sits at the origin, enabling frame-by-frame comparison regardless of heading</li>
+      <li><strong>FFT interpolation</strong> — upsampled sparse midlines (5–10 tracked landmarks) to 200 continuous body positions per frame using zero-padded FFT, producing smooth waveform profiles without landmark-spacing artifacts</li>
+      <li><strong>Tail-beat frequency</strong> — extracted dominant beat frequency at the head and tail independently via temporal FFT of position time series</li>
+      <li><strong>Amplitude envelope</strong> — computed mean lateral half-amplitude at each body position, yielding a full head-to-tail amplitude profile and summary metrics (head/tail ratio, min/max locations)</li>
+      <li><strong>Propulsive wavelength</strong> — estimated from a spatial FFT of the amplitude profile</li>
+      <li><strong>Body curvature</strong> — computed three-point geometric curvature at each of the 200 body positions and averaged across frames</li>
+      <li><strong>3-D support</strong> — extended the pipeline to handle Z-coordinate data, enabling dorso-ventral amplitude and curvature analysis for fin motion capture</li>
+      <li><strong>GUI wrapper</strong> — built an interactive MATLAB app to make the pipeline accessible without editing code directly</li>
+    </ul>
 
     <h2>Personal Statement</h2>
     <p>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Line Following Robot — Will Hovel</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#f4f0e8;--ink:#1a1612;--muted:#7a6f60;--accent:#1e4d6b;--accent2:#3a8fa3;--gold:#b8860b;--gold-bg:#fdf8e8;--rule:#d4cdc0;--card:#fff;--tag-bg:#e8f4f8;--tag-ink:#1e4d6b;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--ink);font-family:'Instrument Sans',sans-serif;font-size:16px;line-height:1.65;}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5;}
+    nav{position:sticky;top:0;z-index:100;background:rgba(244,240,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);padding:0 clamp(1.5rem,5vw,4rem);display:flex;align-items:center;justify-content:space-between;height:56px;}
+    .nav-logo{font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--ink);text-decoration:none;}
+    .nav-links{display:flex;gap:2rem;}
+    .nav-links a{font-size:.82rem;font-family:'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+    .nav-links a:hover{color:var(--ink);}
+    .page-header{padding:clamp(4rem,10vw,7rem) clamp(1.5rem,5vw,4rem) clamp(2rem,4vw,3rem);max-width:860px;animation:fadeUp .5s ease both;}
+    .back-link{font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;margin-bottom:2rem;transition:color .2s;}
+    .back-link:hover{color:var(--accent);}
+    .eyebrow{font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent2);margin-bottom:1rem;}
+    h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,5vw,3.6rem);line-height:1.1;letter-spacing:-.025em;margin-bottom:1.2rem;}
+    h1 em{font-style:italic;color:var(--accent);}
+    .tag-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem;}
+    .tag{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.06em;padding:.3rem .7rem;background:var(--tag-bg);color:var(--tag-ink);border-radius:2px;}
+    .tag.gold{background:var(--gold-bg);color:var(--gold);}
+    /* Trophy banner */
+    .trophy-bar{margin:0 clamp(1.5rem,5vw,4rem);background:var(--gold-bg);border:1px solid #e8cc80;padding:1.2rem 2rem;display:flex;align-items:center;gap:1.5rem;}
+    .trophy-icon{font-size:2.2rem;line-height:1;}
+    .trophy-text h3{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--ink);margin-bottom:.2rem;}
+    .trophy-text p{font-size:.85rem;color:var(--muted);}
+    /* Results grid */
+    .results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin:clamp(1.5rem,3vw,2.5rem) clamp(1.5rem,5vw,4rem);}
+    .result-card{background:var(--card);padding:1.4rem 1.3rem;}
+    .result-place{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;}
+    .result-event{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--ink);margin-bottom:.3rem;}
+    .result-stat{font-size:.88rem;color:var(--accent2);}
+    @media(max-width:600px){.results-grid{grid-template-columns:1fr;}}
+    /* Content */
+    .content{padding:clamp(2.5rem,5vw,4rem) clamp(1.5rem,5vw,4rem);display:grid;grid-template-columns:1fr 260px;gap:4rem;max-width:1100px;}
+    @media(max-width:768px){.content{grid-template-columns:1fr;gap:2rem;}}
+    .prose h2{font-family:'DM Serif Display',serif;font-size:1.5rem;letter-spacing:-.015em;margin:2.5rem 0 .9rem;padding-top:2rem;border-top:1px solid var(--rule);}
+    .prose h2:first-child{margin-top:0;padding-top:0;border-top:none;}
+    .prose p{font-size:.975rem;color:#3d3530;line-height:1.8;margin-bottom:1rem;}
+    .prose strong{color:var(--ink);font-weight:600;}
+    .proj-list{margin:.8rem 0 1.2rem;padding-left:1.3rem;display:flex;flex-direction:column;gap:.55rem;}
+    .proj-list li{font-size:.93rem;color:#3d3530;line-height:1.7;}
+    /* PID table */
+    .pid-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:1rem 0;}
+    .pid-cell{background:var(--card);padding:1rem;}
+    .pid-label{font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;}
+    .pid-name{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--ink);margin-bottom:.3rem;}
+    .pid-desc{font-size:.82rem;color:var(--muted);}
+    /* sidebar */
+    .sidebar-card{background:var(--card);border:1px solid var(--rule);padding:1.4rem;margin-bottom:1rem;position:sticky;top:72px;}
+    .sidebar-card h4{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
+    .sitem{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.85rem;padding-bottom:.85rem;border-bottom:1px solid var(--rule);}
+    .sitem:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+    .sicon{width:30px;height:30px;background:var(--tag-bg);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+    .stext{font-size:.82rem;color:var(--muted);line-height:1.5;}
+    .stext strong{display:block;color:var(--ink);font-size:.83rem;margin-bottom:.1rem;}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.2rem;font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border-radius:3px;transition:all .2s;width:100%;justify-content:center;margin-top:.5rem;}
+    .btn-primary{background:var(--accent);color:#fff;}
+    .btn-primary:hover{background:var(--accent2);}
+    footer{border-top:1px solid var(--rule);padding:2rem clamp(1.5rem,5vw,4rem);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+    footer p{font-family:'DM Mono',monospace;font-size:.75rem;color:var(--muted);}
+    footer a{color:var(--accent2);text-decoration:none;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">Will Hovel</a>
+  <div class="nav-links">
+    <a href="index.html#projects">Projects</a>
+    <a href="about.html">About</a>
+    <a href="https://github.com/WillHovel" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <a class="back-link" href="index.html">← All Projects</a>
+  <div class="eyebrow">ECE 5 · Team Tachyon · 1st Place Overall</div>
+  <h1>PID Line-Following <em>Robot</em></h1>
+  <div class="tag-row">
+    <span class="tag gold">🏆 1st Place Overall</span>
+    <span class="tag">PID Control</span>
+    <span class="tag">Photoresistors</span>
+    <span class="tag">CAD</span>
+    <span class="tag">Embedded Systems</span>
+  </div>
+</div>
+
+<div class="trophy-bar">
+  <div class="trophy-icon">🏆</div>
+  <div class="trophy-text">
+    <h3>First Place Overall — ECE 5 Lab 4 Competition</h3>
+    <p>Team Tachyon: Will Hovel, Andranik Maghakyan, Gage Schopen, Clinton Truong</p>
+  </div>
+</div>
+
+<div class="results-grid">
+  <div class="result-card">
+    <div class="result-place">🥇 1st Place</div>
+    <div class="result-event">Drag Race</div>
+    <div class="result-stat">7.96 seconds</div>
+  </div>
+  <div class="result-card">
+    <div class="result-place">🥇 1st Place</div>
+    <div class="result-event">Frequency Sweep</div>
+    <div class="result-stat">Checkpoint 9 · 21.73 sec</div>
+  </div>
+  <div class="result-card">
+    <div class="result-place">🥈 2nd Place</div>
+    <div class="result-event">Circuit Loop</div>
+    <div class="result-stat">34.68 loops</div>
+  </div>
+</div>
+
+<div class="content">
+  <div class="prose">
+    <h2>Project Overview</h2>
+    <p>
+      A line-following robot built for the ECE 5 Lab 4 competition. The robot uses an array of photoresistors to detect a black line on a white surface and a <strong>PID control loop</strong> to keep itself centered on the line — correcting its motor speeds in real time based on where it detects the line is relative to where it should be.
+    </p>
+    <p>
+      The team placed first overall across two of three events, winning the drag race (pure speed) and the frequency sweep (handling a track with increasingly tight turns) while placing second in the circuit loop (sustained laps).
+    </p>
+
+    <h2>PID Control System</h2>
+    <p>
+      The error is computed as the actual line position minus the desired center position. The PID controller uses three terms to compute motor corrections:
+    </p>
+    <div class="pid-grid">
+      <div class="pid-cell">
+        <div class="pid-label">P</div>
+        <div class="pid-name">Proportional</div>
+        <div class="pid-desc">Corrections based on current error magnitude</div>
+      </div>
+      <div class="pid-cell">
+        <div class="pid-label">I</div>
+        <div class="pid-name">Integral</div>
+        <div class="pid-desc">Corrects steady-state error by accumulating past errors</div>
+      </div>
+      <div class="pid-cell">
+        <div class="pid-label">D</div>
+        <div class="pid-name">Derivative</div>
+        <div class="pid-desc">Predicts future error from rate of change, damping oscillations</div>
+      </div>
+    </div>
+
+    <h2>Tuning Strategy</h2>
+    <p>
+      Each event required different PID parameters and speeds, because the optimal tradeoff between speed and correction accuracy changed with track geometry.
+    </p>
+    <ul class="proj-list">
+      <li><strong>Drag Race</strong> — maximum speed (nominal 200, potentiometer 60). P=40, I=100, D=100. Prioritized raw speed with minor corrections since the track had few sharp turns</li>
+      <li><strong>Frequency Sweep</strong> — slower speed (nominal 30, potentiometer 100) with P=100, I=100, D=100. The track had increasingly tight curves requiring aggressive, accurate corrections at the expense of speed</li>
+      <li><strong>Circuit Loop</strong> — balanced approach (nominal 150, potentiometer 70), P=95, I=100, D=100. Smooth, fast laps requiring both accuracy and sustained speed</li>
+    </ul>
+
+    <h2>Hardware Modifications</h2>
+    <p>
+      The team modified the base chassis CAD to improve reliability. A custom lightshield was designed to block ambient light from the photoresistors, reducing noise in the line-detection signal. Late in the competition, the team identified that the ball wheel was inconsistently making contact with the track — alternately rolling and lifting — which introduced unpredictable speed changes. The fix was to tape the ball wheel in a fixed position, ensuring consistent ground contact and predictable speed throughout each run. Wires were also added on top of the robot to keep the lightshield elevated and prevent it from dragging on the track.
+    </p>
+
+    <h2>Competition Notes</h2>
+    <p>
+      After the competition, the team reflected that allowing the ball wheel to make consistent contact with the track could have provided additional passive speed — a potential improvement for the drag race and circuit loop. The key insight was that predictability in the mechanical system is just as important as the control algorithm: a well-tuned PID controller still fails if the physical platform it runs on behaves inconsistently.
+    </p>
+  </div>
+
+  <div class="sidebar">
+    <div class="sidebar-card">
+      <h4>Tech Stack</h4>
+      <div class="sitem"><div class="sicon">💡</div><div class="stext"><strong>Photoresistors</strong>Array for line position detection</div></div>
+      <div class="sitem"><div class="sicon">⚙️</div><div class="stext"><strong>PID Control</strong>Real-time motor speed correction</div></div>
+      <div class="sitem"><div class="sicon">🖨</div><div class="stext"><strong>CAD Modifications</strong>Custom lightshield + chassis adjustments</div></div>
+      <div class="sitem"><div class="sicon">🏆</div><div class="stext"><strong>Result</strong>1st place overall out of all ECE 5 Lab 4 teams</div></div>
+      <a class="btn btn-primary" href="https://sites.google.com/ucsd.edu/ece5-lab4teamtachyon/home" target="_blank">Full Project Site ↗</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Will Hovel · UC San Diego · Electrical Engineering</p>
+  <p><a href="https://github.com/WillHovel" target="_blank">github.com/WillHovel</a></p>
+</footer>
+</body>
+</html>

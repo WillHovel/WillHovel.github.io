@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About — Will Hovel</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#f4f0e8;--ink:#1a1612;--muted:#7a6f60;--accent:#1e4d6b;--accent2:#3a8fa3;--rule:#d4cdc0;--card:#fff;--tag-bg:#e8f4f8;--tag-ink:#1e4d6b;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--ink);font-family:'Instrument Sans',sans-serif;font-size:16px;line-height:1.65;}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5;}
+    nav{position:sticky;top:0;z-index:100;background:rgba(244,240,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);padding:0 clamp(1.5rem,5vw,4rem);display:flex;align-items:center;justify-content:space-between;height:56px;}
+    .nav-logo{font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--ink);text-decoration:none;}
+    .nav-links{display:flex;gap:2rem;}
+    .nav-links a{font-size:.82rem;font-family:'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+    .nav-links a:hover{color:var(--ink);}
+    .hero{padding:clamp(5rem,12vw,8rem) clamp(1.5rem,5vw,4rem) clamp(3rem,6vw,4rem);max-width:780px;animation:fadeUp .5s ease both;}
+    .eyebrow{font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent2);margin-bottom:1.2rem;display:flex;align-items:center;gap:.75rem;}
+    .eyebrow::before{content:'';display:inline-block;width:28px;height:1px;background:var(--accent2);}
+    h1{font-family:'DM Serif Display',serif;font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.05;letter-spacing:-.03em;margin-bottom:1.8rem;}
+    h1 em{font-style:italic;color:var(--accent);}
+    .lead{font-size:1.05rem;color:var(--muted);line-height:1.8;margin-bottom:2.5rem;}
+    hr.divider{border:none;border-top:1px solid var(--rule);margin:0 clamp(1.5rem,5vw,4rem);}
+    section{padding:clamp(3rem,6vw,4.5rem) clamp(1.5rem,5vw,4rem);}
+    .section-label{font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:2rem;display:flex;align-items:center;gap:.75rem;}
+    .section-label::after{content:'';flex:1;height:1px;background:var(--rule);max-width:200px;}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:4rem;max-width:900px;}
+    @media(max-width:640px){.two-col{grid-template-columns:1fr;gap:2rem;}}
+    .prose-block h3{font-family:'DM Serif Display',serif;font-size:1.2rem;margin-bottom:.9rem;color:var(--ink);}
+    .prose-block p{font-size:.93rem;color:var(--muted);line-height:1.8;margin-bottom:.9rem;}
+    .prose-block p:last-child{margin-bottom:0;}
+    /* Statement section — single wide column */
+    .statement{max-width:720px;}
+    .statement p{font-size:1rem;color:#3d3530;line-height:1.85;margin-bottom:1.2rem;}
+    .statement p:last-child{margin-bottom:0;}
+    .statement strong{color:var(--ink);}
+    /* Courses */
+    .course-grid{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem;}
+    .course{font-family:'DM Mono',monospace;font-size:.72rem;padding:.3rem .7rem;background:var(--tag-bg);color:var(--tag-ink);border-radius:2px;}
+    /* Skills */
+    .skill-list{display:flex;flex-direction:column;gap:.6rem;margin-top:.5rem;}
+    .skill-item{display:flex;align-items:flex-start;gap:.6rem;font-size:.88rem;color:var(--muted);}
+    .skill-dot{width:6px;height:6px;border-radius:50%;background:var(--accent2);margin-top:.5rem;flex-shrink:0;}
+    footer{border-top:1px solid var(--rule);padding:2rem clamp(1.5rem,5vw,4rem);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+    footer p{font-family:'DM Mono',monospace;font-size:.75rem;color:var(--muted);}
+    footer a{color:var(--accent2);text-decoration:none;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">Will Hovel</a>
+  <div class="nav-links">
+    <a href="index.html#projects">Projects</a>
+    <a href="about.html">About</a>
+    <a href="https://github.com/WillHovel" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="eyebrow">About</div>
+  <h1>Engineering tools for <em>complex systems</em></h1>
+  <p class="lead">
+    I'm an Electrical Engineering student at UC San Diego with a 4.0 GPA.
+    I build things that extract structure from messy, dynamic data —
+    whether that's a signal from a fish's body, a sensor on a glove, or a robot chasing a line.
+  </p>
+</div>
+
+<hr class="divider"/>
+
+<section>
+  <div class="section-label">Personal Statement</div>
+  <div class="statement">
+    <p>
+      I'm drawn to systems that are hard to measure. Whether it's a fish swimming in a flow tank, a hand making a gesture, or a robot reacting to a track, the interesting engineering problems all share the same structure: you have a physical system generating a messy, continuous signal, and you want to extract something meaningful and repeatable from it.
+    </p>
+    <p>
+      My background in electrical engineering has given me the mathematical foundation to approach these problems rigorously. Coursework in signal processing (ECE 45) and statistics (ECE 109) taught me to think carefully about noise, sampling, and what it actually means for an algorithm to generalize. That foundation shapes every project I work on — I don't just want something that works in demo conditions. I want to understand why it works, and what would make it fail.
+    </p>
+    <p>
+      The projects on this site reflect that. The fish kinematics pipeline started as a data cleaning problem and turned into a full signal processing system — midline alignment, FFT interpolation, frequency analysis, curvature estimation. The sensorized glove required designing a PCB, routing USB differential pairs, reading noisy analog signals, and then figuring out a classification approach that was actually reliable. The line-following robot was an exercise in the feedback loop between algorithm and physical system: even a well-tuned PID controller fails if the mechanical platform behaves inconsistently.
+    </p>
+    <p>
+      <strong>What connects these projects is iteration.</strong> None of them worked on the first try. Each required diagnosing what was actually failing — whether that was a grounding issue in the PCB, a numerical artifact in the FFT, or a ball wheel that lifted off the track at exactly the wrong moment — and fixing it at the right level of abstraction. That process of building, debugging, and redesigning is where I've learned the most, and it's what I want to keep doing.
+    </p>
+    <p>
+      Long-term, I want to apply engineering to problems that sit at the boundary between disciplines — bio-inspired robotics, intelligent systems for environmental sensing, tools that make complex data legible to researchers who aren't engineers. I plan to pursue graduate study and eventually conduct independent research. The work I've done so far has shown me that the most interesting problems are usually the ones nobody has built the right tool for yet.
+    </p>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<section>
+  <div class="section-label">Background</div>
+  <div class="two-col">
+    <div class="prose-block">
+      <h3>Education</h3>
+      <p><strong>UC San Diego</strong> — B.S. Electrical Engineering</p>
+      <p>GPA: 4.0</p>
+      <div class="course-grid">
+        <span class="course">ECE 45 — Circuits & Systems</span>
+        <span class="course">ECE 109 — Engineering Probability</span>
+        <span class="course">ECE 35 — Circuit Analysis</span>
+        <span class="course">ECE 65 — Electronics</span>
+        <span class="course">MATH 20D — ODEs</span>
+        <span class="course">MATH 18 — Linear Algebra</span>
+      </div>
+    </div>
+    <div class="prose-block">
+      <h3>Research</h3>
+      <p><strong>Di Santo Lab, UC San Diego</strong></p>
+      <p>Studying how ocean acidification affects schooling behavior in silversides using flapping foil arrays and high-speed video. Funded by the URS David Marc Belkin Memorial Research Scholarship for Environment and Ecology.</p>
+    </div>
+    <div class="prose-block">
+      <h3>Technical Skills</h3>
+      <div class="skill-list">
+        <div class="skill-item"><div class="skill-dot"></div>MATLAB — signal processing, FFT analysis, App Building</div>
+        <div class="skill-item"><div class="skill-dot"></div>Java — Spigot plugin development, event-driven systems</div>
+        <div class="skill-item"><div class="skill-dot"></div>Python — data analysis, classification, Jupyter notebooks</div>
+        <div class="skill-item"><div class="skill-dot"></div>KiCad — schematic capture, PCB layout, DRC/ERC</div>
+        <div class="skill-item"><div class="skill-dot"></div>C/Embedded — microcontroller firmware, ADC interfacing</div>
+        <div class="skill-item"><div class="skill-dot"></div>Git — version control, Maven build system</div>
+      </div>
+    </div>
+    <div class="prose-block">
+      <h3>Interests</h3>
+      <div class="skill-list">
+        <div class="skill-item"><div class="skill-dot"></div>Bio-inspired robotics and locomotion</div>
+        <div class="skill-item"><div class="skill-dot"></div>Signal processing for biological systems</div>
+        <div class="skill-item"><div class="skill-dot"></div>Climate sensing and environmental instrumentation</div>
+        <div class="skill-item"><div class="skill-dot"></div>Hardware design and embedded systems</div>
+        <div class="skill-item"><div class="skill-dot"></div>Graduate research in intelligent systems</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Will Hovel · UC San Diego · Electrical Engineering</p>
+  <p><a href="https://github.com/WillHovel" target="_blank">github.com/WillHovel</a></p>
+</footer>
+</body>
+</html>
