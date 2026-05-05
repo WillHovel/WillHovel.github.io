@@ -28,6 +28,12 @@
     .meta-item:last-child{border-right:none;}
     .meta-label{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem;}
     .meta-value{font-family:'DM Serif Display',serif;font-size:.95rem;color:var(--ink);}
+
+    /* Photo hero strip */
+    .photo-strip{display:grid;grid-template-columns:1fr 1.6fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:2rem clamp(1.5rem,5vw,4rem) 0;}
+    .photo-strip img{width:100%;height:240px;object-fit:cover;display:block;}
+    @media(max-width:640px){.photo-strip{grid-template-columns:1fr;} .photo-strip img{height:200px;}}
+
     .content{padding:clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem);display:grid;grid-template-columns:1fr 260px;gap:4rem;max-width:1100px;}
     @media(max-width:768px){.content{grid-template-columns:1fr;gap:2.5rem;}}
     .prose h2{font-family:'DM Serif Display',serif;font-size:1.5rem;letter-spacing:-.015em;margin:2.5rem 0 .9rem;padding-top:2rem;border-top:1px solid var(--rule);}
@@ -36,11 +42,14 @@
     .prose strong{color:var(--ink);font-weight:600;}
     .proj-list{margin:.8rem 0 1.2rem;padding-left:1.3rem;display:flex;flex-direction:column;gap:.55rem;}
     .proj-list li{font-size:.93rem;color:#3d3530;line-height:1.7;}
-    /* image grid */
+
+    /* image grid within prose */
     .img-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0;}
-    .img-grid img{width:100%;border:1px solid var(--rule);border-radius:3px;object-fit:cover;}
+    .img-grid img{width:100%;border:1px solid var(--rule);border-radius:3px;object-fit:cover;height:200px;}
     .img-grid .wide{grid-column:1/-1;}
+    .img-grid .wide img{height:260px;}
     .img-caption{font-family:'DM Mono',monospace;font-size:.72rem;color:var(--muted);letter-spacing:.05em;margin-top:.4rem;}
+
     /* sidebar */
     .sidebar-card{background:var(--card);border:1px solid var(--rule);padding:1.4rem;margin-bottom:1rem;position:sticky;top:72px;}
     .sidebar-card h4{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
@@ -89,6 +98,13 @@
   <div class="meta-item"><div class="meta-label">Power</div><div class="meta-value">USB-C · 3.3V LDO</div></div>
 </div>
 
+<!-- Photo strip showing the three uploaded images -->
+<div class="photo-strip">
+  <img src="1777940039640_image.png" alt="Assembled PCB — circular board with ESP32-S3 and USB-C connector"/>
+  <img src="1777940048347_image.png" alt="KiCad PCB layout showing routed copper traces, antenna keepout, and component placement"/>
+  <img src="1777940043656_image.png" alt="KiCad schematic showing ESP32-S3, USB-C, LDO, flex sensor voltage dividers, and support components"/>
+</div>
+
 <div class="content">
   <div class="prose">
     <h2>Overview</h2>
@@ -96,14 +112,14 @@
       A custom-designed wearable PCB and firmware system for recognizing hand gestures from flex sensor data. Five flex sensors on the fingers produce analog resistance signals that vary with bend angle; these signals are read through the ESP32-S3's ADC channels, processed, and classified into distinct gestures using a trained classification algorithm.
     </p>
     <p>
-      The project spans the full hardware–software stack: schematic capture, PCB layout, component selection, firmware, data collection, and signal classification — all designed and built from scratch.
+      The project spans the full hardware and software stack: schematic capture, PCB layout, component selection, firmware, data collection, and signal classification, all designed and built from scratch.
     </p>
 
     <h2>What I Built</h2>
     <ul class="proj-list">
-      <li><strong>Custom PCB (v2)</strong> — a circular board designed in KiCad, housing the ESP32-S3-Mini-1, a USB-C receptacle with proper CC resistors for power negotiation, an AP2112K 3.3V LDO regulator, decoupling capacitors, dual status LEDs, two pushbuttons (including a BOOT button for flashing), I²C and JTAG headers, and five analog input channels for the flex sensors</li>
+      <li><strong>Custom PCB (v2)</strong> — a circular board designed in KiCad, housing the ESP32-S3-Mini-1, a USB-C receptacle with proper CC resistors for power negotiation, an AP2112K 3.3V LDO regulator, decoupling capacitors, dual status LEDs, two pushbuttons (including a BOOT button for flashing), I2C and JTAG headers, and five analog input channels for the flex sensors</li>
       <li><strong>Flex sensor interface</strong> — each flex sensor is wired as a voltage divider with a 10kΩ pull-up resistor. The resulting analog voltage is read on a dedicated GPIO/ADC pin, giving a continuous bend angle signal per finger</li>
-      <li><strong>Schematic + layout</strong> — full KiCad schematic with ERC-clean netlist, then routed PCB with antenna keepout, USB differential pair routing, and ground plane on both layers</li>
+      <li><strong>Schematic and layout</strong> — full KiCad schematic with ERC-clean netlist, then routed PCB with antenna keepout, USB differential pair routing, and ground plane on both layers</li>
       <li><strong>Signal classification</strong> — collected training data across gesture classes and implemented a classification algorithm in Python to identify distinct hand poses from the five-dimensional sensor readings</li>
       <li><strong>Firmware</strong> — embedded code on the ESP32-S3 to sample the ADC channels, package sensor data, and handle USB communication for streaming and flashing</li>
     </ul>
@@ -111,20 +127,28 @@
     <h2>PCB Design</h2>
     <div class="img-grid">
       <div>
-        <img src="https://raw.githubusercontent.com/WillHovel/sensorized/main/flex_v2.kicad_pcb" alt="PCB layout" onerror="this.style.display='none'"/>
-        <!-- fallback: show placeholder -->
+        <img src="1777940039640_image.png" alt="Assembled circular PCB showing ESP32-S3 module, USB-C port, and status LEDs"/>
+        <div class="img-caption">Assembled v2 board — circular form factor fits the back of the hand</div>
+      </div>
+      <div>
+        <img src="1777940048347_image.png" alt="KiCad PCB layout with antenna keepout zone and routed traces"/>
+        <div class="img-caption">KiCad layout showing antenna keepout, USB differential pair, and ground plane</div>
+      </div>
+      <div class="wide">
+        <img src="1777940043656_image.png" alt="Full KiCad schematic"/>
+        <div class="img-caption">Complete schematic: ESP32-S3, AP2112K LDO, USB-C power path, five flex sensor voltage dividers, LEDs, and programming buttons</div>
       </div>
     </div>
     <p>
       The board is circular to fit cleanly on the back of the hand. The ESP32-S3-Mini-1 module sits centrally with its antenna region extending beyond the board edge, kept clear of copper pours. USB-C is handled by a 16-pin receptacle with the CC1/CC2 lines pulled to ground through 5.1kΩ resistors (standard for USB device mode). The AP2112K LDO regulates the USB 5V bus down to 3.3V for the ESP32 and sensor circuitry.
     </p>
     <p>
-      Five analog input headers (J6 I²C + additional GPIO) break out to the flex sensor voltage dividers on the glove. Two LEDs (PWR1, PWR2) provide power and status indication. The BOOT and reset buttons allow in-circuit firmware flashing without removing the board.
+      Five analog input headers break out to the flex sensor voltage dividers on the glove. Two LEDs provide power and status indication. The BOOT and reset buttons allow in-circuit firmware flashing without removing the board.
     </p>
 
     <h2>Signal Processing</h2>
     <p>
-      Each flex sensor produces a noisy, slowly-varying analog signal. The core challenge is extracting reliable gesture classifications from five channels of correlated, non-stationary data — the same class of problem as extracting structure from biological motion signals. The approach involved collecting labeled training data for each target gesture, then training a classifier on the five-dimensional feature space defined by the per-finger bend readings.
+      Each flex sensor produces a noisy, slowly-varying analog signal. The core challenge is extracting reliable gesture classifications from five channels of correlated, non-stationary data, the same class of problem as extracting structure from biological motion signals. The approach involved collecting labeled training data for each target gesture, then training a classifier on the five-dimensional feature space defined by the per-finger bend readings.
     </p>
     <p>
       This project introduced the central challenge that carries into my research work: <strong>how do you extract meaningful, repeatable structure from noisy sensor signals?</strong> Iterating on the sensor interface, data collection protocol, and classification algorithm until the system worked reliably taught me to think carefully about noise sources, feature representation, and the difference between a signal that looks clean and one that actually generalizes.
@@ -135,10 +159,10 @@
     <div class="sidebar-card">
       <h4>Hardware Stack</h4>
       <div class="sitem"><div class="sicon">🧠</div><div class="stext"><strong>ESP32-S3-Mini-1</strong>Wi-Fi + BLE, dual-core, 45 GPIOs, onboard antenna</div></div>
-      <div class="sitem"><div class="sicon">⚡</div><div class="stext"><strong>AP2112K-3.3 LDO</strong>600mA, 3.8–6V input → 3.3V fixed output</div></div>
+      <div class="sitem"><div class="sicon">⚡</div><div class="stext"><strong>AP2112K-3.3 LDO</strong>600mA, 3.8–6V input to 3.3V fixed output</div></div>
       <div class="sitem"><div class="sicon">🔌</div><div class="stext"><strong>USB-C (16P)</strong>USB 2.0, CC resistors for device mode power</div></div>
       <div class="sitem"><div class="sicon">🖐</div><div class="stext"><strong>5× Flex Sensors</strong>Voltage divider with 10kΩ pull-ups on ADC pins</div></div>
-      <div class="sitem"><div class="sicon">📐</div><div class="stext"><strong>KiCad 10</strong>Schematic + PCB layout, ERC/DRC clean</div></div>
+      <div class="sitem"><div class="sicon">📐</div><div class="stext"><strong>KiCad 10</strong>Schematic and PCB layout, ERC/DRC clean</div></div>
       <a class="btn btn-primary" href="https://github.com/WillHovel/sensorized" target="_blank">View on GitHub ↗</a>
     </div>
   </div>

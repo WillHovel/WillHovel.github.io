@@ -51,6 +51,19 @@
     .pid-label{font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;}
     .pid-name{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--ink);margin-bottom:.3rem;}
     .pid-desc{font-size:.82rem;color:var(--muted);}
+    /* Video grid */
+    .video-section{margin:1.5rem 0;}
+    .video-label{font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;}
+    .video-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;}
+    .video-grid .wide{grid-column:1/-1;}
+    .video-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:1px solid var(--rule);border-radius:3px;}
+    .video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+    .video-caption{font-family:'DM Mono',monospace;font-size:.72rem;color:var(--muted);letter-spacing:.05em;margin-top:.4rem;}
+    @media(max-width:600px){.video-grid{grid-template-columns:1fr;}}
+    /* Robot photo */
+    .robot-photo{margin:1.5rem 0;}
+    .robot-photo img{width:100%;max-height:320px;object-fit:contain;border:1px solid var(--rule);border-radius:3px;background:var(--card);}
+    .robot-photo .img-caption{font-family:'DM Mono',monospace;font-size:.72rem;color:var(--muted);letter-spacing:.05em;margin-top:.4rem;}
     /* sidebar */
     .sidebar-card{background:var(--card);border:1px solid var(--rule);padding:1.4rem;margin-bottom:1rem;position:sticky;top:72px;}
     .sidebar-card h4{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
@@ -121,11 +134,51 @@
   <div class="prose">
     <h2>Project Overview</h2>
     <p>
-      A line-following robot built for the ECE 5 Lab 4 competition. The robot uses an array of photoresistors to detect a black line on a white surface and a <strong>PID control loop</strong> to keep itself centered on the line — correcting its motor speeds in real time based on where it detects the line is relative to where it should be.
+      A line-following robot built for the ECE 5 Lab 4 competition. The robot uses an array of photoresistors to detect a black line on a white surface and a <strong>PID control loop</strong> to keep itself centered on the line, correcting its motor speeds in real time based on where it detects the line relative to where it should be.
     </p>
     <p>
-      The team placed first overall across two of three events, winning the drag race (pure speed) and the frequency sweep (handling a track with increasingly tight turns) while placing second in the circuit loop (sustained laps).
+      The team placed first overall across two of three events, winning the drag race (pure speed) and the frequency sweep (handling a track with increasingly tight turns), while placing second in the circuit loop (sustained laps).
     </p>
+
+    <!-- Final robot photo from competition site -->
+    <div class="robot-photo">
+      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBii3Nw9RM4qdrhfsakXMI4rzCjUX5vaKn2EDYEFjGmr7AuRC6Sd2QkbDyu8YHc7HGqBgGUO0wA4zaC50UbCBkAs-d_5HX49V_qjkQHUNMfkVVeOdaiU1zwU8c4huPIi5ftDA1Z0TnnjofSkyjJErzy7GPNnL9Fzt2ZfpDYzm-oF4q8PscFRRZbheAspnO72zs7PiMxlSGs9UtJBNGsswT87PFFBELE4nsp=w1280" alt="Final competition robot with lightshield and photoresistor array"/>
+      <div class="img-caption">Final robot — custom lightshield keeps ambient light off the photoresistor array</div>
+    </div>
+
+    <h2>Competition Videos</h2>
+    <div class="video-section">
+      <div class="video-label">Drag Race — 1st Place, 7.96 sec</div>
+      <div class="video-wrap" style="margin-bottom:1rem;">
+        <iframe src="https://www.youtube.com/embed/qK5SsKoueh8" allowfullscreen loading="lazy" title="Drag Race run"></iframe>
+      </div>
+      <div class="video-grid">
+        <div>
+          <div class="video-label">Basic Line Following</div>
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/a1n2DMgpiFs" allowfullscreen loading="lazy" title="Basic line following"></iframe>
+          </div>
+        </div>
+        <div>
+          <div class="video-label">Frequency Sweep — 1st Place, Checkpoint 9</div>
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/zW_TivP3m7U" allowfullscreen loading="lazy" title="Frequency sweep run"></iframe>
+          </div>
+        </div>
+        <div>
+          <div class="video-label">Circuit Loop — 2nd Place, 34.68 loops</div>
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/k0RqDtqKP_Q" allowfullscreen loading="lazy" title="Circuit loop run"></iframe>
+          </div>
+        </div>
+        <div>
+          <div class="video-label">Harder Circuit Loop</div>
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/QJ5CKM7FGm8" allowfullscreen loading="lazy" title="Harder circuit loop"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <h2>PID Control System</h2>
     <p>
@@ -149,24 +202,40 @@
       </div>
     </div>
 
+    <!-- PID diagram from competition site -->
+    <div class="robot-photo" style="margin-top:1rem;">
+      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUC_Gx4TGlZY35HkF__nhJboMSqoJmx_oXFDoJum2kmIoSrUWWkBrCtvDBymM0OmqPZzzYCIOymuls4-p8lXxKRYsD6KPHJrbo2EBoHUUVD_PaHofK2_SHkvjGmY3NBYtq61tvQ39UafbkhT87ttsr5FWe3QWcA1y-KD1vWF8sjXxi85skWdtM0RAlzW4N2xJpzzO_HRLo7DvHBCTL3TltXjyWJfyFbq-L4k=w1280" alt="PID control diagram showing error calculation and P, I, D terms"/>
+      <div class="img-caption">PID control loop: error = actual line position minus desired position, fed through P, I, and D terms to set motor speeds</div>
+    </div>
+
     <h2>Tuning Strategy</h2>
     <p>
       Each event required different PID parameters and speeds, because the optimal tradeoff between speed and correction accuracy changed with track geometry.
     </p>
     <ul class="proj-list">
-      <li><strong>Drag Race</strong> — maximum speed (nominal 200, potentiometer 60). P=40, I=100, D=100. Prioritized raw speed with minor corrections since the track had few sharp turns</li>
-      <li><strong>Frequency Sweep</strong> — slower speed (nominal 30, potentiometer 100) with P=100, I=100, D=100. The track had increasingly tight curves requiring aggressive, accurate corrections at the expense of speed</li>
-      <li><strong>Circuit Loop</strong> — balanced approach (nominal 150, potentiometer 70), P=95, I=100, D=100. Smooth, fast laps requiring both accuracy and sustained speed</li>
+      <li><strong>Drag Race</strong> — maximum speed (nominal 200, potentiometer 60). P=40, I=100, D=100. Prioritized raw speed with minor corrections since the track had few sharp turns.</li>
+      <li><strong>Frequency Sweep</strong> — slower speed (nominal 30, potentiometer 100) with P=100, I=100, D=100. The track had increasingly tight curves requiring aggressive, accurate corrections at the expense of speed.</li>
+      <li><strong>Circuit Loop</strong> — balanced approach (nominal 150, potentiometer 70), P=95, I=100, D=100. Smooth, fast laps requiring both accuracy and sustained speed.</li>
     </ul>
 
     <h2>Hardware Modifications</h2>
+    <!-- CAD modifications photo -->
+    <div class="robot-photo">
+      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUA6BLBiQNUyndfHYLc9jWCKfNNgSn6bNkxgNbBV0RqBOBJg-i1Qvbv5l2v97lTNfCDQeV3Xkqy9bZMp9RX4hF4CgsQlC1-nChQcCcqYRxtXtL5LRwKtsxxXptGHhZV1OC_PKJlQ7G4ft-8adP94cW3ew1ybdz3D6HbHHrMTv9F3CHCmE9YuxQsoct29FQUlSUz5O9TJYn0y96I1aAnTJibxrUQLDybWNDna=w1280" alt="Modified chassis CAD showing lightshield and ball wheel modifications"/>
+      <div class="img-caption">Updated chassis CAD with lightshield — blocked ambient light from the photoresistor array to reduce detection noise</div>
+    </div>
     <p>
-      The team modified the base chassis CAD to improve reliability. A custom lightshield was designed to block ambient light from the photoresistors, reducing noise in the line-detection signal. Late in the competition, the team identified that the ball wheel was inconsistently making contact with the track — alternately rolling and lifting — which introduced unpredictable speed changes. The fix was to tape the ball wheel in a fixed position, ensuring consistent ground contact and predictable speed throughout each run. Wires were also added on top of the robot to keep the lightshield elevated and prevent it from dragging on the track.
+      The team modified the base chassis CAD to improve reliability. A custom lightshield was designed to block ambient light from the photoresistors, reducing noise in the line-detection signal. Late in the competition, the team identified that the ball wheel was inconsistently making contact with the track, alternately rolling and lifting, which introduced unpredictable speed changes. The fix was to tape the ball wheel in a fixed position, ensuring consistent ground contact and predictable speed throughout each run. Wires were also added on top of the robot to keep the lightshield elevated and prevent it from dragging on the track.
     </p>
 
     <h2>Competition Notes</h2>
+    <!-- First place overall photo -->
+    <div class="robot-photo">
+      <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUCX_TRMJZGSDPtHEgi6TKHh4TKHhsqk2JdOdmZxQbXHWwpBSTBQ_l_mehMi5js16UKSDihoxfea1bRVt1rbEGOu00F_d4vGT36o81C0daZUJHBU_rTfbtNmxWMueS2-MtNbplkTfjl-VEx0El6LmYaDVht_z63duA5VU0eQdb9Hyt_zW0T9LUmFBLo0vrL2rNOJMNJLHAMu3g7ACP6jlZBtz7euM=w1280" alt="First place overall result board"/>
+      <div class="img-caption">First place overall out of all ECE 5 Lab 4 teams</div>
+    </div>
     <p>
-      After the competition, the team reflected that allowing the ball wheel to make consistent contact with the track could have provided additional passive speed — a potential improvement for the drag race and circuit loop. The key insight was that predictability in the mechanical system is just as important as the control algorithm: a well-tuned PID controller still fails if the physical platform it runs on behaves inconsistently.
+      After the competition, the team reflected that allowing the ball wheel to make consistent contact with the track could have provided additional passive speed, a potential improvement for the drag race and circuit loop. The key insight was that predictability in the mechanical system is just as important as the control algorithm: a well-tuned PID controller still fails if the physical platform behaves inconsistently.
     </p>
   </div>
 
@@ -175,7 +244,7 @@
       <h4>Tech Stack</h4>
       <div class="sitem"><div class="sicon">💡</div><div class="stext"><strong>Photoresistors</strong>Array for line position detection</div></div>
       <div class="sitem"><div class="sicon">⚙️</div><div class="stext"><strong>PID Control</strong>Real-time motor speed correction</div></div>
-      <div class="sitem"><div class="sicon">🖨</div><div class="stext"><strong>CAD Modifications</strong>Custom lightshield + chassis adjustments</div></div>
+      <div class="sitem"><div class="sicon">🖨</div><div class="stext"><strong>CAD Modifications</strong>Custom lightshield and chassis adjustments</div></div>
       <div class="sitem"><div class="sicon">🏆</div><div class="stext"><strong>Result</strong>1st place overall out of all ECE 5 Lab 4 teams</div></div>
       <a class="btn btn-primary" href="https://sites.google.com/ucsd.edu/ece5-lab4teamtachyon/home" target="_blank">Full Project Site ↗</a>
     </div>

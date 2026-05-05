@@ -1,471 +1,861 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ocean Acidification &amp; Fish Schooling — Will Hovel</title>
+  <title>Ocean Acidification &amp; Fish Kinematics — Will Hovel</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --bg:      #f4f0e8;
-      --ink:     #1a1612;
-      --muted:   #7a6f60;
-      --accent:  #1e4d6b;
-      --accent2: #3a8fa3;
-      --rule:    #d4cdc0;
-      --card-bg: #ffffff;
-      --tag-bg:  #e8f4f8;
-      --tag-ink: #1e4d6b;
-    }
+    :root{--bg:#f4f0e8;--ink:#1a1612;--muted:#7a6f60;--accent:#1e4d6b;--accent2:#3a8fa3;--rule:#d4cdc0;--card:#fff;--tag-bg:#e8f4f8;--tag-ink:#1e4d6b;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--ink);font-family:'Instrument Sans',sans-serif;font-size:16px;line-height:1.65;}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5;}
+    nav{position:sticky;top:0;z-index:100;background:rgba(244,240,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);padding:0 clamp(1.5rem,5vw,4rem);display:flex;align-items:center;justify-content:space-between;height:56px;}
+    .nav-logo{font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--ink);text-decoration:none;}
+    .nav-links{display:flex;gap:2rem;}
+    .nav-links a{font-size:.82rem;font-family:'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+    .nav-links a:hover{color:var(--ink);}
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    /* ---- Hero ---- */
+    .page-header{padding:clamp(4rem,10vw,7rem) clamp(1.5rem,5vw,4rem) clamp(2rem,4vw,2.5rem);max-width:900px;animation:fadeUp .5s ease both;}
+    .back-link{font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;margin-bottom:2rem;transition:color .2s;}
+    .back-link:hover{color:var(--accent);}
+    .eyebrow{font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent2);margin-bottom:1rem;}
+    h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,5vw,3.6rem);line-height:1.1;letter-spacing:-.025em;margin-bottom:1.2rem;}
+    h1 em{font-style:italic;color:var(--accent);}
+    .tag-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem;}
+    .tag{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.06em;padding:.3rem .7rem;background:var(--tag-bg);color:var(--tag-ink);border-radius:2px;}
 
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: 'Instrument Sans', sans-serif;
-      font-size: 16px;
-      line-height: 1.65;
-    }
+    /* ---- Quick Summary Banner ---- */
+    .summary-banner{margin:0 clamp(1.5rem,5vw,4rem);border:1px solid var(--rule);background:var(--card);display:grid;grid-template-columns:1fr 1fr;gap:0;}
+    @media(max-width:680px){.summary-banner{grid-template-columns:1fr;}}
+    .summary-col{padding:2rem;}
+    .summary-col:first-child{border-right:1px solid var(--rule);}
+    @media(max-width:680px){.summary-col:first-child{border-right:none;border-bottom:1px solid var(--rule);}}
+    .summary-label{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
+    .summary-bullets{display:flex;flex-direction:column;gap:.75rem;}
+    .sbullet{display:flex;align-items:flex-start;gap:.75rem;}
+    .sbullet-num{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--accent2);background:var(--tag-bg);border-radius:2px;padding:.2rem .45rem;flex-shrink:0;margin-top:.18rem;}
+    .sbullet-text{font-size:.9rem;color:#3d3530;line-height:1.6;}
+    .sbullet-text strong{color:var(--ink);}
 
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 0; opacity: 0.5;
-    }
+    /* ---- Divider + section labels ---- */
+    hr.divider{border:none;border-top:1px solid var(--rule);margin:0 clamp(1.5rem,5vw,4rem);}
+    .section-label{font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:2rem;display:flex;align-items:center;gap:.75rem;}
+    .section-label::after{content:'';flex:1;height:1px;background:var(--rule);max-width:200px;}
+    section{padding:clamp(3rem,6vw,4.5rem) clamp(1.5rem,5vw,4rem);}
 
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(244,240,232,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--rule);
-      padding: 0 clamp(1.5rem, 5vw, 4rem);
-      display: flex; align-items: center; justify-content: space-between;
-      height: 56px;
-    }
+    /* ---- Interactive Tool section ---- */
+    #tool{background:var(--card);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);}
+    .tool-intro{max-width:700px;margin-bottom:2rem;}
+    .tool-intro p{font-size:.95rem;color:#3d3530;line-height:1.8;margin-bottom:.8rem;}
+    .tool-intro strong{color:var(--ink);}
 
-    .nav-logo {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.15rem;
-      color: var(--ink);
-      text-decoration: none;
-    }
+    /* Tool UI */
+    .tool-ui{display:grid;grid-template-columns:300px 1fr;gap:1.5rem;align-items:start;}
+    @media(max-width:800px){.tool-ui{grid-template-columns:1fr;}}
 
-    .nav-links { display: flex; gap: 2rem; }
-    .nav-links a {
-      font-size: 0.82rem;
-      font-family: 'DM Mono', monospace;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--ink); }
+    .tool-panel{background:var(--bg);border:1px solid var(--rule);padding:1.4rem;}
+    .tool-panel h4{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
 
-    /* ── Page header ── */
-    .page-header {
-      padding: clamp(4rem, 10vw, 7rem) clamp(1.5rem, 5vw, 4rem) clamp(2.5rem, 5vw, 4rem);
-      max-width: 860px;
-      animation: fadeUp 0.5s ease both;
-    }
+    .form-group{margin-bottom:1rem;}
+    .form-label{font-family:'DM Mono',monospace;font-size:.73rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:.35rem;}
+    .form-input{width:100%;padding:.5rem .7rem;border:1px solid var(--rule);background:var(--card);font-family:'DM Mono',monospace;font-size:.82rem;color:var(--ink);border-radius:2px;outline:none;}
+    .form-input:focus{border-color:var(--accent2);}
+    .form-select{width:100%;padding:.5rem .7rem;border:1px solid var(--rule);background:var(--card);font-family:'DM Mono',monospace;font-size:.82rem;color:var(--ink);border-radius:2px;outline:none;}
 
-    .back-link {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      margin-bottom: 2rem;
-      transition: color 0.2s;
-    }
-    .back-link:hover { color: var(--accent); }
+    .btn-run{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;padding:.75rem 1rem;background:var(--accent);color:#fff;font-family:'DM Mono',monospace;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;transition:background .2s;margin-top:.5rem;}
+    .btn-run:hover{background:var(--accent2);}
+    .btn-run:disabled{background:var(--muted);cursor:not-allowed;}
 
-    .project-status {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent2);
-      margin-bottom: 1rem;
-      display: flex; align-items: center; gap: 0.6rem;
-    }
+    .tool-status{font-family:'DM Mono',monospace;font-size:.78rem;color:var(--muted);margin-top:.75rem;min-height:1.4em;}
+    .tool-status.error{color:#c0392b;}
+    .tool-status.ok{color:#27ae60;}
 
-    .status-dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--accent2);
-      animation: pulse 2s infinite;
-    }
+    /* Results area */
+    .tool-results{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+    @media(max-width:600px){.tool-results{grid-template-columns:1fr;}}
+    .chart-box{border:1px solid var(--rule);background:var(--card);padding:1rem;}
+    .chart-box h5{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;}
+    .chart-box canvas{width:100%!important;height:180px!important;}
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
+    .metrics-box{border:1px solid var(--rule);background:var(--card);padding:1.2rem;grid-column:1/-1;}
+    .metrics-box h5{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;}
+    .metrics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.6rem;}
+    .metric{background:var(--bg);padding:.65rem .8rem;}
+    .metric-label{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted);margin-bottom:.2rem;}
+    .metric-value{font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--ink);}
+    .metric-unit{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--muted);margin-left:.2rem;}
 
-    .page-header h1 {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(2rem, 5vw, 3.6rem);
-      line-height: 1.1;
-      letter-spacing: -0.025em;
-      color: var(--ink);
-      margin-bottom: 1.5rem;
-    }
+    .tool-placeholder{border:1px solid var(--rule);background:var(--card);padding:3rem;text-align:center;color:var(--muted);font-family:'DM Mono',monospace;font-size:.82rem;grid-column:1/-1;}
 
-    .page-header h1 em { font-style: italic; color: var(--accent); }
+    /* ---- Meta bar ---- */
+    .meta-bar{display:flex;flex-wrap:wrap;border:1px solid var(--rule);background:var(--card);margin:0 clamp(1.5rem,5vw,4rem);}
+    .meta-item{flex:1;min-width:140px;padding:1.1rem 1.4rem;border-right:1px solid var(--rule);}
+    .meta-item:last-child{border-right:none;}
+    .meta-label{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem;}
+    .meta-value{font-family:'DM Serif Display',serif;font-size:.95rem;color:var(--ink);}
 
-    .tag-row {
-      display: flex; flex-wrap: wrap; gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
+    /* ---- Full research section ---- */
+    .research-content{display:grid;grid-template-columns:1fr 260px;gap:4rem;max-width:1100px;}
+    @media(max-width:768px){.research-content{grid-template-columns:1fr;gap:2rem;}}
+    .prose h2{font-family:'DM Serif Display',serif;font-size:1.5rem;letter-spacing:-.015em;margin:2.5rem 0 .9rem;padding-top:2rem;border-top:1px solid var(--rule);}
+    .prose h2:first-child{margin-top:0;padding-top:0;border-top:none;}
+    .prose p{font-size:.975rem;color:#3d3530;line-height:1.8;margin-bottom:1rem;}
+    .prose strong{color:var(--ink);font-weight:600;}
+    .pipeline-list{margin:.8rem 0 1.2rem;padding-left:1.3rem;display:flex;flex-direction:column;gap:.55rem;}
+    .pipeline-list li{font-size:.93rem;color:#3d3530;line-height:1.7;}
+    .sidebar-card{background:var(--card);border:1px solid var(--rule);padding:1.4rem;margin-bottom:1rem;position:sticky;top:72px;}
+    .sidebar-card h4{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
+    .sitem{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.85rem;padding-bottom:.85rem;border-bottom:1px solid var(--rule);}
+    .sitem:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+    .sicon{width:30px;height:30px;background:var(--tag-bg);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+    .stext{font-size:.82rem;color:var(--muted);line-height:1.5;}
+    .stext strong{display:block;color:var(--ink);font-size:.83rem;margin-bottom:.1rem;}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.2rem;font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border-radius:3px;transition:all .2s;width:100%;justify-content:center;margin-top:.5rem;}
+    .btn-primary{background:var(--accent);color:#fff;}
+    .btn-primary:hover{background:var(--accent2);}
 
-    .tag {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.06em;
-      padding: 0.3rem 0.7rem;
-      background: var(--tag-bg);
-      color: var(--tag-ink);
-      border-radius: 2px;
-    }
+    /* Animal selector (multi-fish) */
+    .animal-select-row{display:flex;align-items:center;gap:.7rem;margin-bottom:.8rem;}
+    .animal-select-row label{font-family:'DM Mono',monospace;font-size:.73rem;color:var(--muted);letter-spacing:.06em;}
 
-    /* ── Meta bar ── */
-    .meta-bar {
-      display: flex; flex-wrap: wrap; gap: 0;
-      border: 1px solid var(--rule);
-      background: var(--card-bg);
-      margin: 0 clamp(1.5rem, 5vw, 4rem) 0;
-    }
-
-    .meta-item {
-      flex: 1; min-width: 160px;
-      padding: 1.2rem 1.5rem;
-      border-right: 1px solid var(--rule);
-    }
-    .meta-item:last-child { border-right: none; }
-
-    .meta-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.35rem;
-    }
-
-    .meta-value {
-      font-family: 'DM Serif Display', serif;
-      font-size: 0.95rem;
-      color: var(--ink);
-    }
-
-    /* ── Main content ── */
-    .content {
-      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
-      display: grid;
-      grid-template-columns: 1fr 280px;
-      gap: 4rem;
-      max-width: 1100px;
-    }
-
-    @media (max-width: 768px) {
-      .content { grid-template-columns: 1fr; gap: 2.5rem; }
-      .meta-item { min-width: 120px; }
-    }
-
-    /* ── Prose ── */
-    .prose h2 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.55rem;
-      letter-spacing: -0.015em;
-      color: var(--ink);
-      margin: 2.5rem 0 0.9rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--rule);
-    }
-
-    .prose h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
-
-    .prose p {
-      font-size: 0.975rem;
-      color: #3d3530;
-      line-height: 1.8;
-      margin-bottom: 1.1rem;
-    }
-
-    .prose strong { color: var(--ink); font-weight: 600; }
-
-    .proj-list {
-      margin: 1rem 0 1.2rem 0;
-      padding-left: 1.3rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-    .proj-list li {
-      font-size: 0.95rem;
-      color: #3d3530;
-      line-height: 1.7;
-    }
-
-    /* ── Pull quote ── */
-    .pull-quote {
-      border-left: 3px solid var(--accent);
-      padding: 1rem 1.5rem;
-      margin: 2rem 0;
-      background: rgba(30,77,107,0.04);
-    }
-
-    .pull-quote p {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.15rem;
-      font-style: italic;
-      color: var(--accent);
-      line-height: 1.55;
-      margin: 0;
-    }
-
-    /* ── Sidebar ── */
-    .sidebar { position: relative; }
-
-    .sidebar-card {
-      background: var(--card-bg);
-      border: 1px solid var(--rule);
-      padding: 1.5rem;
-      margin-bottom: 1rem;
-      position: sticky;
-      top: 72px;
-    }
-
-    .sidebar-card h4 {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 1rem;
-    }
-
-    .sidebar-item {
-      display: flex; align-items: flex-start; gap: 0.75rem;
-      margin-bottom: 0.9rem;
-      padding-bottom: 0.9rem;
-      border-bottom: 1px solid var(--rule);
-    }
-    .sidebar-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
-
-    .sidebar-icon {
-      width: 32px; height: 32px;
-      background: var(--tag-bg);
-      border-radius: 3px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem;
-      flex-shrink: 0;
-    }
-
-    .sidebar-text {
-      font-size: 0.83rem;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    .sidebar-text strong {
-      display: block;
-      color: var(--ink);
-      font-size: 0.85rem;
-      margin-bottom: 0.1rem;
-    }
-
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.65rem 1.2rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.78rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border-radius: 3px;
-      transition: all 0.2s;
-      width: 100%;
-      justify-content: center;
-      margin-top: 0.5rem;
-    }
-
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: var(--accent2); }
-
-    /* ── Footer ── */
-    footer {
-      border-top: 1px solid var(--rule);
-      padding: 2rem clamp(1.5rem, 5vw, 4rem);
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 1rem;
-    }
-    footer p { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted); }
-    footer a { color: var(--accent2); text-decoration: none; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    footer{border-top:1px solid var(--rule);padding:2rem clamp(1.5rem,5vw,4rem);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+    footer p{font-family:'DM Mono',monospace;font-size:.75rem;color:var(--muted);}
+    footer a{color:var(--accent2);text-decoration:none;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
   </style>
 </head>
 <body>
-
 <nav>
   <a class="nav-logo" href="index.html">Will Hovel</a>
   <div class="nav-links">
     <a href="index.html#projects">Projects</a>
-    <a href="index.html#about">About</a>
+    <a href="about.html">About</a>
     <a href="https://github.com/WillHovel" target="_blank">GitHub</a>
   </div>
 </nav>
 
+<!-- ===================== HERO ===================== -->
 <div class="page-header">
   <a class="back-link" href="index.html">← All Projects</a>
-  <div class="project-status">
-    <span class="status-dot"></span>
-    Active Research · Summer 2025
-  </div>
-  <h1>Ocean Acidification &amp; <em>Fish Schooling</em></h1>
+  <div class="eyebrow">Active Research · Di Santo Lab · URS Funded · Summer 2025</div>
+  <h1>Ocean Acidification &amp; <em>Fish Kinematics</em></h1>
   <div class="tag-row">
-    <span class="tag">Behavioral Ecology</span>
-    <span class="tag">Ocean Acidification</span>
-    <span class="tag">MATLAB</span>
-    <span class="tag">Flow Tank</span>
-    <span class="tag">High-Speed Video</span>
-    <span class="tag">Signal Processing</span>
+    <span class="tag">MATLAB</span><span class="tag">FFT</span><span class="tag">Signal Processing</span>
+    <span class="tag">3-D Kinematics</span><span class="tag">Flow Tank</span><span class="tag">Ocean Acidification</span>
   </div>
 </div>
 
-<div class="meta-bar">
-  <div class="meta-item">
-    <div class="meta-label">Lab</div>
-    <div class="meta-value">Di Santo Lab, UCSD</div>
+<!-- ===================== QUICK SUMMARY ===================== -->
+<div class="summary-banner">
+  <div class="summary-col">
+    <div class="summary-label">The Experiment</div>
+    <div class="summary-bullets">
+      <div class="sbullet"><div class="sbullet-num">Q</div><div class="sbullet-text">Does elevated CO2 disrupt schooling behavior in fish? Ocean acidification impairs sensory processing; we test whether it also affects the collective movement decisions that underlie schooling.</div></div>
+      <div class="sbullet"><div class="sbullet-num">Setup</div><div class="sbullet-text"><strong>Flapping foil array</strong> in a recirculating flow tank mimics the hydrodynamic signature of schoolmates, letting us observe a single focal fish responding to a controlled, repeatable artificial school.</div></div>
+      <div class="sbullet"><div class="sbullet-num">Data</div><div class="sbullet-text"><strong>High-speed video</strong> records each trial. Landmark coordinates along the fish's body midline are digitized and fed into the analysis pipeline.</div></div>
+    </div>
   </div>
-  <div class="meta-item">
-    <div class="meta-label">Species</div>
-    <div class="meta-value">Menidia sp.</div>
-  </div>
-  <div class="meta-item">
-    <div class="meta-label">Funding</div>
-    <div class="meta-value">URS Belkin Scholarship</div>
-  </div>
-  <div class="meta-item">
-    <div class="meta-label">Timeline</div>
-    <div class="meta-value">Summer 2025</div>
-  </div>
-</div>
-
-<div class="content">
-  <div class="prose">
-
-    <h2>Abstract</h2>
-    <p>
-      Fish that swim in schools make rapid decisions: when to join, where to position themselves, and how to respond to their neighbors' movement. These decisions are thought to be driven by a combination of visual and hydrodynamic cues. However, <strong>ocean acidification</strong> — caused by rising atmospheric CO₂ dissolving into seawater — is known to impair sensory processing and behavior in fish. Whether elevated CO₂ disrupts the decision-making that underlies collective schooling is poorly understood.
-    </p>
-    <p>
-      This summer, I will investigate how CO₂-exposed silversides (<em>Menidia</em> sp.) make schooling decisions in a controlled flow tank setting. Rather than using live schools — which introduce uncontrolled variability — we use <strong>flapping foils</strong> that mimic the hydrodynamic signatures of schoolmates, creating a stable, repeatable artificial school. This allows us to isolate and observe the behavior of a single focal fish as it navigates and responds to its simulated neighbors.
-    </p>
-
-    <p>
-      I will run flow tank trials comparing the positioning and movement decisions of fish under elevated CO₂ to those under normal conditions. High-speed video will be used to record behavior throughout each trial. Results will improve our understanding of how ocean acidification disrupts the sensory and behavioral mechanisms that allow fish to school effectively.
-    </p>
-    <p>
-      As CO₂ levels continue to rise, determining whether collective behavior in fish is vulnerable to climate change is critical for predicting the ecological consequences for marine ecosystems that depend on schooling species.
-    </p>
-
-    <h2>Analysis Pipeline</h2>
-    <p>To support this research, I built a MATLAB toolkit for extracting swimming kinematics from high-speed video tracking data. Key contributions include:</p>
-    <ul class="proj-list">
-      <li><strong>Midline alignment</strong> — implemented a least-squares rotation algorithm that re-orients each frame so the fish's swimming axis is parallel to X and the snout sits at the origin, enabling frame-by-frame comparison regardless of heading</li>
-      <li><strong>FFT interpolation</strong> — upsampled sparse midlines (5–10 tracked landmarks) to 200 continuous body positions per frame using zero-padded FFT, producing smooth waveform profiles without landmark-spacing artifacts</li>
-      <li><strong>Tail-beat frequency</strong> — extracted dominant beat frequency at the head and tail independently via temporal FFT of position time series</li>
-      <li><strong>Amplitude envelope</strong> — computed mean lateral half-amplitude at each body position, yielding a full head-to-tail amplitude profile and summary metrics (head/tail ratio, min/max locations)</li>
-      <li><strong>Propulsive wavelength</strong> — estimated from a spatial FFT of the amplitude profile</li>
-      <li><strong>Body curvature</strong> — computed three-point geometric curvature at each of the 200 body positions and averaged across frames</li>
-      <li><strong>3-D support</strong> — extended the pipeline to handle Z-coordinate data, enabling dorso-ventral amplitude and curvature analysis for fin motion capture</li>
-      <li><strong>GUI wrapper</strong> — built an interactive MATLAB app to make the pipeline accessible without editing code directly</li>
-    </ul>
-
-    <h2>Personal Statement</h2>
-    <p>
-      As an electrical engineering student, I am drawn to biological systems that behave like dynamic, signal-driven networks. This intersection of engineering and biology motivates my work on the Flapping Foil Experiment in Dr. Valentina Di Santo's lab at UC San Diego, where I study how rising CO₂ levels affect the schooling behavior of silversides. The opportunity to apply my technical skills to a question with real ecological consequences is exactly the kind of research I have been looking for.
-    </p>
-    <p>
-      My academic preparation has equipped me well for this work. I have maintained a <strong>4.0 GPA</strong> while taking courses that directly support my research, including ECE 45, which focuses on signal processing and data analysis, and ECE 109, which I am currently taking to deepen my statistical analysis skills. These courses have given me the mathematical foundation to treat biological motion as a measurable, structured signal rather than noise.
-    </p>
-    <p>
-      That foundation has already shaped the tools I have built in this project. I developed an <strong>analysis pipeline</strong> that takes high-speed video tracking points along a fish's midline, converts the data into arrays, reconstructs a waveform of the fish's motion, and extracts kinematic metrics — all within an accessible interface. A previous project, a sensorized glove that detects hand signals from sensor data, introduced me to the challenges of extracting meaningful structure from noisy signals and iterating on a design until it works reliably.
-    </p>
-    <p>
-      This summer, I will expand that work by running flow tank trials comparing the schooling decisions of CO₂-exposed silversides to those under normal conditions. A key challenge in studying schooling behavior is isolating the decisions of a single fish from the chaos of a live group. We address this by using flapping foils to simulate the hydrodynamic signatures of schoolmates, creating a controlled and repeatable artificial school. I am also working to <strong>extend the analysis pipeline to three dimensions</strong>, which will allow us to capture fin motion and detect additional behavioral effects of CO₂.
-    </p>
-    <p>
-      My long-term goal is to use engineering to address climate change, particularly through bio-inspired robotics and intelligent systems. This research is preparing me for that path in concrete ways: I am strengthening my ability to design experiments, debug complex pipelines, and think critically when results do not behave as expected. With this foundation, I plan to pursue graduate study and eventually conduct independent research that bridges engineering and ecology.
-    </p>
-
-  </div>
-
-  <div class="sidebar">
-    <div class="sidebar-card">
-      <h4>Project Details</h4>
-
-      <div class="sidebar-item">
-        <div class="sidebar-icon">🐟</div>
-        <div class="sidebar-text">
-          <strong>Study organism</strong>
-          Atlantic silverside (<em>Menidia menidia</em>)
-        </div>
-      </div>
-
-      <div class="sidebar-item">
-        <div class="sidebar-icon">🌊</div>
-        <div class="sidebar-text">
-          <strong>Experimental setup</strong>
-          Flapping foil array in a recirculating flow tank
-        </div>
-      </div>
-
-      <div class="sidebar-item">
-        <div class="sidebar-icon">🎥</div>
-        <div class="sidebar-text">
-          <strong>Data collection</strong>
-          High-speed video, 3-D body tracking
-        </div>
-      </div>
-
-      <div class="sidebar-item">
-        <div class="sidebar-icon">⚙️</div>
-        <div class="sidebar-text">
-          <strong>Analysis tools</strong>
-          MATLAB pipeline: FFT interpolation, kinematics extraction
-        </div>
-      </div>
-
-      <div class="sidebar-item">
-        <div class="sidebar-icon">🏆</div>
-        <div class="sidebar-text">
-          <strong>Funding</strong>
-          URS David Marc Belkin Memorial Research Scholarship for Environment and Ecology
-        </div>
-      </div>
-
-      <a class="btn btn-primary" href="https://github.com/WillHovel/schooling-vs-CO2" target="_blank">
-        View on GitHub ↗
-      </a>
+  <div class="summary-col">
+    <div class="summary-label">What I Built</div>
+    <div class="summary-bullets">
+      <div class="sbullet"><div class="sbullet-num">01</div><div class="sbullet-text"><strong>Midline alignment</strong> — least-squares rotation so each frame's swimming axis is parallel to X, snout at origin</div></div>
+      <div class="sbullet"><div class="sbullet-num">02</div><div class="sbullet-text"><strong>FFT interpolation</strong> — upsamples 5 to 10 body landmarks to 200 continuous positions per frame for smooth waveform profiles</div></div>
+      <div class="sbullet"><div class="sbullet-num">03</div><div class="sbullet-text"><strong>Kinematic metrics</strong> — tail-beat frequency, amplitude envelope, propulsive wavelength, body curvature</div></div>
+      <div class="sbullet"><div class="sbullet-num">04</div><div class="sbullet-text"><strong>Interactive tool</strong> — upload your CSV below and run the full analysis in the browser, no MATLAB needed</div></div>
     </div>
   </div>
 </div>
+
+<div style="height:1px;background:var(--rule);margin:0 clamp(1.5rem,5vw,4rem);"></div>
+
+<div class="meta-bar">
+  <div class="meta-item"><div class="meta-label">Lab</div><div class="meta-value">Di Santo Lab, UCSD</div></div>
+  <div class="meta-item"><div class="meta-label">Species</div><div class="meta-value">Menidia sp.</div></div>
+  <div class="meta-item"><div class="meta-label">Funding</div><div class="meta-value">URS Belkin Scholarship</div></div>
+  <div class="meta-item"><div class="meta-label">Timeline</div><div class="meta-value">Summer 2025</div></div>
+</div>
+
+<!-- ===================== INTERACTIVE TOOL ===================== -->
+<section id="tool">
+  <div class="section-label">Interactive Analysis Tool</div>
+  <div class="tool-intro">
+    <p>
+      This is a browser port of the MATLAB kinematics toolkit I built for the Di Santo Lab. Upload a CSV of digitized fish body landmarks, set your parameters, and the pipeline will align the midlines, run FFT interpolation, and extract kinematic metrics directly in your browser.
+    </p>
+    <p>
+      <strong>CSV format:</strong> Two formats are supported. DLC-style indexed columns (<code>Fish1_P1_x, Fish1_P1_y</code>) or named landmark columns (<code>snout_X, snout_Y</code>). Z columns are optional (3D mode). One row per frame.
+    </p>
+  </div>
+
+  <div class="tool-ui">
+    <!-- Left panel: inputs -->
+    <div class="tool-panel">
+      <h4>Input</h4>
+
+      <div class="form-group">
+        <label class="form-label">CSV File</label>
+        <input type="file" accept=".csv" class="form-input" id="csvFile" style="padding:.4rem .5rem;font-size:.78rem;"/>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Frames per second</label>
+        <input type="number" class="form-input" id="fps" value="100" min="1" max="10000" step="1"/>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Min frequency (Hz)</label>
+        <input type="number" class="form-input" id="minFreq" value="0.5" min="0" max="1000" step="0.1"/>
+      </div>
+
+      <div class="form-group" id="animalSelectGroup" style="display:none;">
+        <label class="form-label">Animal</label>
+        <select class="form-select" id="animalSelect"></select>
+      </div>
+
+      <button class="btn-run" id="runBtn" onclick="runAnalysis()">Load &amp; Analyse</button>
+      <div class="tool-status" id="statusMsg">Load a CSV file to begin.</div>
+
+      <div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--rule);">
+        <div style="font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;">Example CSV format</div>
+        <div style="font-family:'DM Mono',monospace;font-size:.7rem;color:#6a5f55;background:var(--bg);padding:.6rem;border-radius:2px;line-height:1.7;overflow-x:auto;">
+          frame,Fish1_P1_x,Fish1_P1_y,...<br>
+          0,312.4,187.2,...<br>
+          1,313.1,188.0,...
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted);margin-top:.5rem;">or named: snout_X, snout_Y, eye_X, eye_Y, ...</div>
+      </div>
+    </div>
+
+    <!-- Right panel: results -->
+    <div id="resultsArea">
+      <div class="tool-placeholder">Upload a CSV and click "Load &amp; Analyse" to see results here.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- ===================== FULL RESEARCH SECTION ===================== -->
+<section>
+  <div class="section-label">Full Research Detail</div>
+  <div class="research-content">
+    <div class="prose">
+      <h2>Abstract</h2>
+      <p>
+        Fish that swim in schools make rapid decisions: when to join, where to position themselves, and how to respond to their neighbors' movement. These decisions are thought to be driven by a combination of visual and hydrodynamic cues. However, ocean acidification, caused by rising atmospheric CO2 dissolving into seawater, is known to impair sensory processing and behavior in fish. Whether elevated CO2 disrupts the decision-making that underlies collective schooling is poorly understood.
+      </p>
+      <p>
+        This summer, I will investigate how CO2-exposed silversides (<em>Menidia</em> sp.) make schooling decisions in a controlled flow tank setting. Rather than using live schools, which introduce uncontrolled variability, we use flapping foils that mimic the hydrodynamic signatures of schoolmates, creating a stable, repeatable artificial school. This allows us to isolate and observe the behavior of a single focal fish as it navigates and responds to its simulated neighbors.
+      </p>
+      <p>
+        Results will improve our understanding of how ocean acidification disrupts the sensory and behavioral mechanisms that allow fish to school effectively. As CO2 levels continue to rise, determining whether collective behavior in fish is vulnerable to climate change is critical for predicting ecological consequences for marine ecosystems that depend on schooling species.
+      </p>
+
+      <h2>Analysis Pipeline</h2>
+      <p>
+        To support this research, I built a MATLAB toolkit for extracting swimming kinematics from high-speed video tracking data. Key contributions include:
+      </p>
+      <ul class="pipeline-list">
+        <li><strong>Midline alignment</strong> — implemented a least-squares rotation algorithm that re-orients each frame so the fish's swimming axis is parallel to X and the snout sits at the origin, enabling frame-by-frame comparison regardless of heading</li>
+        <li><strong>FFT interpolation</strong> — upsampled sparse midlines (5 to 10 tracked landmarks) to 200 continuous body positions per frame using zero-padded FFT, producing smooth waveform profiles without landmark-spacing artifacts</li>
+        <li><strong>Tail-beat frequency</strong> — extracted dominant beat frequency at the head and tail independently via temporal FFT of position time series</li>
+        <li><strong>Amplitude envelope</strong> — computed mean lateral half-amplitude at each body position, yielding a full head-to-tail amplitude profile and summary metrics (head/tail ratio, min/max locations)</li>
+        <li><strong>Propulsive wavelength</strong> — estimated from a spatial FFT of the amplitude profile</li>
+        <li><strong>Body curvature</strong> — computed three-point geometric curvature at each of the 200 body positions and averaged across frames</li>
+        <li><strong>3-D support</strong> — extended the pipeline to handle Z-coordinate data, enabling dorso-ventral amplitude and curvature analysis for fin motion capture</li>
+        <li><strong>Interactive GUI</strong> — built an interactive MATLAB app (and the browser tool above) so any researcher can analyze their CSV without editing code directly</li>
+      </ul>
+
+      <h2>Personal Statement</h2>
+      <p>
+        I am drawn to systems that are hard to measure. Whether it is a fish swimming in a flow tank, a hand making a gesture, or a robot reacting to a track, the interesting engineering problems all share the same structure: you have a physical system generating a messy, continuous signal, and you want to extract something meaningful and repeatable from it.
+      </p>
+      <p>
+        My background in electrical engineering has given me the mathematical foundation to approach these problems rigorously. Coursework in signal processing (ECE 45) and statistics (ECE 109) taught me to think carefully about noise, sampling, and what it actually means for an algorithm to generalize. That foundation shapes every project I work on. I do not just want something that works in demo conditions. I want to understand why it works, and what would make it fail.
+      </p>
+      <p>
+        <strong>What connects these projects is iteration.</strong> None of them worked on the first try. Each required diagnosing what was actually failing and fixing it at the right level of abstraction. That process of building, debugging, and redesigning is where I have learned the most, and it is what I want to keep doing.
+      </p>
+    </div>
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <h4>Project Details</h4>
+        <div class="sitem"><div class="sicon">🐟</div><div class="stext"><strong>Study organism</strong>Atlantic silverside (Menidia menidia)</div></div>
+        <div class="sitem"><div class="sicon">🌊</div><div class="stext"><strong>Experimental setup</strong>Flapping foil array in a recirculating flow tank</div></div>
+        <div class="sitem"><div class="sicon">🎥</div><div class="stext"><strong>Data collection</strong>High-speed video, 3-D body tracking</div></div>
+        <div class="sitem"><div class="sicon">⚙️</div><div class="stext"><strong>Analysis tools</strong>MATLAB pipeline: FFT interpolation, kinematics extraction</div></div>
+        <div class="sitem"><div class="sicon">🏆</div><div class="stext"><strong>Funding</strong>URS David Marc Belkin Memorial Research Scholarship for Environment and Ecology</div></div>
+        <a class="btn btn-primary" href="https://github.com/WillHovel/schooling-vs-CO2" target="_blank">View on GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
 
 <footer>
   <p>Will Hovel · UC San Diego · Electrical Engineering</p>
   <p><a href="https://github.com/WillHovel" target="_blank">github.com/WillHovel</a></p>
 </footer>
 
+<!-- ===================== CHART.JS ===================== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+// ============================================================
+//  Fish Kinematics Analysis — JS port of the MATLAB toolkit
+// ============================================================
+
+let parsedData = null;  // { fishes: [{name, frames, X, Y, has_z, Z}] }
+let charts = {};
+
+// ---- CSV Parsing ----
+function parseCSV(text) {
+  const lines = text.trim().split(/\r?\n/);
+  const header = lines[0].split(',').map(s => s.trim());
+  const rows = lines.slice(1).map(l => l.split(',').map(s => parseFloat(s.trim())));
+  const nFrames = rows.length;
+
+  // Detect format
+  const dlcPat = /^(Fish\d+)_(P\d+)_([xyz])$/i;
+  const namedPat = /^(.+)_([XYZ])$/;
+
+  const dlcCols = header.map(h => h.match(dlcPat));
+  const isDLC = dlcCols.some(m => m !== null);
+
+  if (isDLC) {
+    return parseDLC(header, rows, dlcCols, nFrames);
+  } else {
+    return parseNamed(header, rows, namedPat, nFrames);
+  }
+}
+
+function parseDLC(header, rows, dlcCols, nFrames) {
+  const fishMap = {};
+  header.forEach((h, ci) => {
+    const m = dlcCols[ci];
+    if (!m) return;
+    const [, fishName, ptName, dim] = m;
+    if (!fishMap[fishName]) fishMap[fishName] = {};
+    if (!fishMap[fishName][ptName]) fishMap[fishName][ptName] = {};
+    fishMap[fishName][ptName][dim.toLowerCase()] = ci;
+  });
+
+  const fishes = [];
+  for (const fishName of Object.keys(fishMap)) {
+    const pts = Object.keys(fishMap[fishName]).sort((a,b) => {
+      const na = parseInt(a.replace(/\D/g,''));
+      const nb = parseInt(b.replace(/\D/g,''));
+      return na - nb;
+    });
+    const nPoints = pts.length;
+    const has_z = pts.some(p => fishMap[fishName][p].z !== undefined);
+
+    const Xr = [], Yr = [], Zr = [];
+    for (let f = 0; f < nFrames; f++) {
+      const xrow = [], yrow = [], zrow = [];
+      for (const pt of pts) {
+        const xi = fishMap[fishName][pt].x;
+        const yi = fishMap[fishName][pt].y;
+        const zi = fishMap[fishName][pt].z;
+        xrow.push(xi !== undefined ? rows[f][xi] : NaN);
+        yrow.push(yi !== undefined ? rows[f][yi] : NaN);
+        if (has_z) zrow.push(zi !== undefined ? rows[f][zi] : NaN);
+      }
+      Xr.push(xrow); Yr.push(yrow);
+      if (has_z) Zr.push(zrow);
+    }
+    fishes.push({ name: fishName, nPoints, nFrames, has_z, Xraw: Xr, Yraw: Yr, Zraw: has_z ? Zr : null });
+  }
+  return { fishes, format: 'DLC' };
+}
+
+function parseNamed(header, rows, namedPat, nFrames) {
+  const landmarkMap = {};
+  header.forEach((h, ci) => {
+    const m = h.match(/^(.+)_([XYZxyz])$/);
+    if (!m) return;
+    const [, name, dim] = m;
+    if (!landmarkMap[name]) landmarkMap[name] = {};
+    landmarkMap[name][dim.toUpperCase()] = ci;
+  });
+
+  const landmarks = Object.keys(landmarkMap);
+  if (landmarks.length < 3) throw new Error('Need at least 3 named landmarks (e.g. snout_X, snout_Y, ...)');
+  const has_z = landmarks.some(l => landmarkMap[l].Z !== undefined);
+
+  const Xr = [], Yr = [], Zr = [];
+  for (let f = 0; f < nFrames; f++) {
+    const xrow = [], yrow = [], zrow = [];
+    for (const lm of landmarks) {
+      const xi = landmarkMap[lm].X;
+      const yi = landmarkMap[lm].Y;
+      const zi = landmarkMap[lm].Z;
+      xrow.push(xi !== undefined ? rows[f][xi] : NaN);
+      yrow.push(yi !== undefined ? rows[f][yi] : NaN);
+      if (has_z) zrow.push(zi !== undefined ? rows[f][zi] : NaN);
+    }
+    Xr.push(xrow); Yr.push(yrow);
+    if (has_z) Zr.push(zrow);
+  }
+  return {
+    fishes: [{ name: 'Fish1', nPoints: landmarks.length, nFrames, has_z, Xraw: Xr, Yraw: Yr, Zraw: has_z ? Zr : null }],
+    format: 'Named'
+  };
+}
+
+// ---- Transform (midline alignment) ----
+function transformFish(fish) {
+  const { nFrames, nPoints, Xraw, Yraw } = fish;
+  const X = [], Y = [];
+
+  for (let f = 0; f < nFrames; f++) {
+    const xall = Xraw[f];
+    const yall = Yraw[f];
+
+    // Middle points only (exclude head & tail)
+    const midX = xall.slice(1, nPoints - 1);
+    const midY = yall.slice(1, nPoints - 1);
+
+    if (midX.some(isNaN) || midY.some(isNaN)) { X.push(xall.map(()=>NaN)); Y.push(yall.map(()=>NaN)); continue; }
+
+    // Polyfit degree 1 (least squares line)
+    const [b, a] = polyfit1(midX, midY);
+    const alpha = Math.atan(b);
+    const theta = 2 * Math.PI - alpha;
+    const cosT = Math.cos(theta), sinT = Math.sin(theta);
+
+    const xr = xall.map((x, i) => x * cosT - (yall[i] - a) * sinT);
+    const yr = xall.map((x, i) => x * sinT + (yall[i] - a) * cosT + a);
+
+    const minX = Math.min(...xr);
+    X.push(xr.map(v => v - minX));
+    Y.push(yr);
+  }
+  return { ...fish, X, Y };
+}
+
+function polyfit1(xs, ys) {
+  // Returns [slope, intercept] for y = slope*x + intercept
+  const n = xs.length;
+  let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+  for (let i = 0; i < n; i++) { sumX += xs[i]; sumY += ys[i]; sumXY += xs[i]*ys[i]; sumX2 += xs[i]*xs[i]; }
+  const denom = n * sumX2 - sumX * sumX;
+  if (Math.abs(denom) < 1e-12) return [0, sumY / n];
+  const b = (n * sumXY - sumX * sumY) / denom;
+  const a = (sumY - b * sumX) / n;
+  return [b, a];
+}
+
+// ---- FFT Interpolation ----
+function fftInterp(yIn, Nout) {
+  const Nin = yIn.length;
+  if (Nin >= Nout) return cubicSpline(yIn, Nout);
+
+  // Zero-pad FFT
+  const Y = fft(yIn);
+  const half = Math.floor(Nin / 2);
+  const Ypad = new Array(Nout * 2).fill(0);  // interleaved real/imag
+
+  // Copy lower half
+  for (let i = 0; i <= half; i++) {
+    Ypad[i*2]   = Y[i*2];
+    Ypad[i*2+1] = Y[i*2+1];
+  }
+  // Copy upper half (negative frequencies)
+  const srcStart = half + 1;
+  const dstStart = Nout - (Nin - half - 1);
+  for (let i = 0; i < Nin - half - 1; i++) {
+    Ypad[(dstStart + i)*2]   = Y[(srcStart + i)*2];
+    Ypad[(dstStart + i)*2+1] = Y[(srcStart + i)*2+1];
+  }
+
+  const yOut = ifft(Ypad, Nout);
+  const scale = Nout / Nin;
+  return yOut.map(v => v * scale);
+}
+
+// Simple DFT (small N only, acceptable for 5-20 points -> 200)
+function fft(x) {
+  const N = x.length;
+  const out = new Array(N * 2).fill(0); // interleaved real/imag
+  for (let k = 0; k < N; k++) {
+    let re = 0, im = 0;
+    for (let n = 0; n < N; n++) {
+      const angle = -2 * Math.PI * k * n / N;
+      re += x[n] * Math.cos(angle);
+      im += x[n] * Math.sin(angle);
+    }
+    out[k*2] = re; out[k*2+1] = im;
+  }
+  return out;
+}
+
+function ifft(Xpad, N) {
+  const out = new Array(N).fill(0);
+  for (let n = 0; n < N; n++) {
+    let re = 0;
+    for (let k = 0; k < N; k++) {
+      const angle = 2 * Math.PI * k * n / N;
+      re += Xpad[k*2] * Math.cos(angle) - Xpad[k*2+1] * Math.sin(angle);
+    }
+    out[n] = re / N;
+  }
+  return out;
+}
+
+function cubicSpline(y, Nout) {
+  // Simple linear interpolation fallback (sufficient for N >= 200)
+  const Nin = y.length;
+  const out = [];
+  for (let i = 0; i < Nout; i++) {
+    const t = i / (Nout - 1) * (Nin - 1);
+    const lo = Math.floor(t), hi = Math.min(lo + 1, Nin - 1);
+    const frac = t - lo;
+    out.push(y[lo] * (1 - frac) + y[hi] * frac);
+  }
+  return out;
+}
+
+function linspace(a, b, n) {
+  if (n === 1) return [a];
+  return Array.from({length: n}, (_, i) => a + (b - a) * i / (n - 1));
+}
+
+// ---- Compute kinematics ----
+function computeKinematics(fish, fps, minFreq) {
+  const NOUT = 200;
+  const { nFrames, nPoints, X, Y } = fish;
+  const sNorm = linspace(0, 1, NOUT);
+
+  // 1. FFT interpolation per frame
+  const Xinterp = [], Yinterp = [];
+  for (let f = 0; f < nFrames; f++) {
+    if (X[f].some(isNaN) || Y[f].some(isNaN)) {
+      Xinterp.push(new Array(NOUT).fill(NaN));
+      Yinterp.push(new Array(NOUT).fill(NaN));
+      continue;
+    }
+    const xTail = X[f][nPoints - 1];
+    Xinterp.push(linspace(0, xTail, NOUT));
+    Yinterp.push(fftInterp(Y[f], NOUT));
+  }
+
+  // 2. Amplitude envelope
+  const ampMean = new Array(NOUT).fill(0);
+  const ampCount = new Array(NOUT).fill(0);
+  for (let f = 0; f < nFrames; f++) {
+    if (Yinterp[f].some(isNaN)) continue;
+    for (let i = 0; i < NOUT; i++) {
+      ampMean[i] += Math.abs(Yinterp[f][i]);
+      ampCount[i]++;
+    }
+  }
+  for (let i = 0; i < NOUT; i++) ampMean[i] /= (ampCount[i] || 1);
+
+  const headAmp = mean(ampMean.filter((_, i) => sNorm[i] <= 0.05));
+  const tailAmp = mean(ampMean.filter((_, i) => sNorm[i] >= 0.95));
+  const minAmp = Math.min(...ampMean);
+  const maxAmp = Math.max(...ampMean);
+  const minAmpLoc = sNorm[ampMean.indexOf(minAmp)];
+  const maxAmpLoc = sNorm[ampMean.indexOf(maxAmp)];
+
+  // 3. Beat frequency from temporal FFT of first and last point Y
+  const headY = fillNaN(Y.map(row => row[0]));
+  const tailY = fillNaN(Y.map(row => row[nPoints - 1]));
+  const { freq: headFreq, power: headPower, dominant: headTBF } = dominantFreq(headY, fps, minFreq);
+  const { freq: tailFreq, power: tailPower, dominant: tailTBF } = dominantFreq(tailY, fps, minFreq);
+
+  // 4. Propulsive wavelength
+  const { wavelength } = spatialWavelength(ampMean, sNorm);
+
+  // 5. Curvature
+  const curvAll = [];
+  const lag = Math.max(1, Math.round(NOUT / 40));
+  for (let f = 0; f < nFrames; f++) {
+    if (Xinterp[f].some(isNaN) || Yinterp[f].some(isNaN)) { curvAll.push(new Array(NOUT).fill(NaN)); continue; }
+    const row = new Array(NOUT).fill(NaN);
+    for (let k = lag; k < NOUT - lag; k++) {
+      const [x1,y1] = [Xinterp[f][k-lag], Yinterp[f][k-lag]];
+      const [x2,y2] = [Xinterp[f][k], Yinterp[f][k]];
+      const [x3,y3] = [Xinterp[f][k+lag], Yinterp[f][k+lag]];
+      const A = Math.sqrt((x2-x1)**2+(y2-y1)**2);
+      const B = Math.sqrt((x3-x2)**2+(y3-y2)**2);
+      const C = Math.sqrt((x3-x1)**2+(y3-y1)**2);
+      const s = (A+B+C)/2;
+      const denom = 4 * Math.sqrt(Math.max(s*(s-A)*(s-B)*(s-C), 0));
+      if (denom > 0) row[k] = 1 / ((A*B*C)/denom);
+    }
+    curvAll.push(row);
+  }
+  const curvMean = new Array(NOUT).fill(0);
+  const curvCount = new Array(NOUT).fill(0);
+  for (let f = 0; f < nFrames; f++) {
+    for (let i = 0; i < NOUT; i++) {
+      if (!isNaN(curvAll[f][i])) { curvMean[i] += curvAll[f][i]; curvCount[i]++; }
+    }
+  }
+  for (let i = 0; i < NOUT; i++) curvMean[i] /= (curvCount[i] || 1);
+  const maxCurv = Math.max(...curvMean.filter(v => !isNaN(v)));
+  const maxCurvLoc = sNorm[curvMean.indexOf(maxCurv)];
+
+  // Select up to 20 midlines evenly spaced for display
+  const step = Math.max(1, Math.floor(nFrames / 20));
+  const midlines = [];
+  for (let f = 0; f < nFrames; f += step) {
+    if (!Xinterp[f].some(isNaN)) midlines.push({ x: Xinterp[f], y: Yinterp[f] });
+  }
+
+  return {
+    headTBF, tailTBF, headFreq, headPower, tailFreq, tailPower,
+    ampMean, sNorm, curvMean,
+    headAmp, tailAmp, minAmp, maxAmp, minAmpLoc, maxAmpLoc,
+    wavelength, maxCurv, maxCurvLoc,
+    headTailAmpRatio: headAmp / tailAmp,
+    midlines, nFrames, nValidFrames: curvCount[Math.round(NOUT/2)]
+  };
+}
+
+function mean(arr) {
+  const valid = arr.filter(v => !isNaN(v));
+  if (!valid.length) return NaN;
+  return valid.reduce((a,b) => a+b, 0) / valid.length;
+}
+
+function fillNaN(arr) {
+  const out = [...arr];
+  const good = arr.map((v, i) => [i, v]).filter(([,v]) => !isNaN(v));
+  if (good.length < 2) return out.fill(0);
+  for (let i = 0; i < out.length; i++) {
+    if (isNaN(out[i])) {
+      const before = good.filter(([j]) => j <= i).pop();
+      const after = good.find(([j]) => j >= i);
+      if (before && after) {
+        const [bi, bv] = before, [ai, av] = after;
+        out[i] = bi === ai ? bv : bv + (av - bv) * (i - bi) / (ai - bi);
+      } else if (before) out[i] = before[1];
+      else if (after) out[i] = after[1];
+    }
+  }
+  return out;
+}
+
+function dominantFreq(y, fs, minFreq) {
+  const N = y.length;
+  const ymean = mean(y);
+  const yc = y.map(v => v - ymean);
+  const freqs = [], power = [];
+  for (let k = 0; k <= Math.floor(N/2); k++) {
+    let re = 0, im = 0;
+    for (let n = 0; n < N; n++) { re += yc[n] * Math.cos(2*Math.PI*k*n/N); im -= yc[n] * Math.sin(2*Math.PI*k*n/N); }
+    freqs.push(fs * k / N);
+    power.push((2/N) * (re*re + im*im));
+  }
+  const validIdx = freqs.map((f, i) => f >= minFreq ? i : -1).filter(i => i >= 0);
+  if (!validIdx.length) return { freq: freqs, power, dominant: NaN };
+  const bestI = validIdx.reduce((best, i) => power[i] > power[best] ? i : best, validIdx[0]);
+  return { freq: freqs, power, dominant: freqs[bestI] };
+}
+
+function spatialWavelength(ampProfile, sNorm) {
+  const N = ampProfile.length;
+  const ds = sNorm[1] - sNorm[0];
+  const m = mean(ampProfile);
+  const yc = ampProfile.map(v => v - m);
+  const sfreqs = [], power = [];
+  for (let k = 0; k <= Math.floor(N/2); k++) {
+    let re = 0, im = 0;
+    for (let n = 0; n < N; n++) { re += yc[n]*Math.cos(2*Math.PI*k*n/N); im -= yc[n]*Math.sin(2*Math.PI*k*n/N); }
+    sfreqs.push(k / (N * ds));
+    power.push((2/N)*(re*re+im*im));
+  }
+  const validIdx = sfreqs.map((f, i) => f > 0 ? i : -1).filter(i => i >= 0);
+  if (!validIdx.length) return { wavelength: NaN };
+  const bestI = validIdx.reduce((best, i) => power[i] > power[best] ? i : best, validIdx[0]);
+  return { wavelength: sfreqs[bestI] > 0 ? 1 / sfreqs[bestI] : NaN };
+}
+
+// ---- UI ----
+async function runAnalysis() {
+  const fileInput = document.getElementById('csvFile');
+  const fps = parseFloat(document.getElementById('fps').value);
+  const minFreq = parseFloat(document.getElementById('minFreq').value);
+  const status = document.getElementById('statusMsg');
+
+  if (!fileInput.files.length) { setStatus('Please select a CSV file.', 'error'); return; }
+
+  setStatus('Reading file...', '');
+  const text = await fileInput.files[0].text();
+
+  let data;
+  try {
+    data = parseCSV(text);
+    parsedData = data;
+  } catch(e) {
+    setStatus('Parse error: ' + e.message, 'error');
+    return;
+  }
+
+  setStatus(`Loaded: ${data.format} format, ${data.fishes.length} animal(s), ${data.fishes[0].nFrames} frames, ${data.fishes[0].nPoints} points.`, 'ok');
+
+  // Populate animal selector
+  const sel = document.getElementById('animalSelect');
+  sel.innerHTML = '';
+  data.fishes.forEach((f, i) => { const o = document.createElement('option'); o.value = i; o.textContent = f.name; sel.appendChild(o); });
+  document.getElementById('animalSelectGroup').style.display = data.fishes.length > 1 ? '' : 'none';
+
+  analyzeSelected(fps, minFreq);
+}
+
+function analyzeSelected(fps, minFreq) {
+  fps = fps || parseFloat(document.getElementById('fps').value);
+  minFreq = minFreq || parseFloat(document.getElementById('minFreq').value);
+  const status = document.getElementById('statusMsg');
+  const selIdx = parseInt(document.getElementById('animalSelect').value) || 0;
+  const fish = parsedData.fishes[selIdx];
+
+  setStatus('Aligning midlines...', '');
+  let transformed;
+  try {
+    transformed = transformFish(fish);
+  } catch(e) {
+    setStatus('Transform error: ' + e.message, 'error');
+    return;
+  }
+
+  setStatus('Running FFT analysis...', '');
+  let kine;
+  try {
+    kine = computeKinematics(transformed, fps, minFreq);
+  } catch(e) {
+    setStatus('Analysis error: ' + e.message, 'error');
+    return;
+  }
+
+  setStatus(`Done. ${kine.nValidFrames} valid frames analyzed. Head TBF: ${kine.headTBF.toFixed(2)} Hz, Tail TBF: ${kine.tailTBF.toFixed(2)} Hz.`, 'ok');
+  renderResults(kine);
+}
+
+document.getElementById('animalSelect').addEventListener('change', () => analyzeSelected());
+
+function setStatus(msg, type) {
+  const el = document.getElementById('statusMsg');
+  el.textContent = msg;
+  el.className = 'tool-status' + (type ? ' ' + type : '');
+}
+
+function fmt(v, dec=3) { return isNaN(v) ? 'N/A' : v.toFixed(dec); }
+
+function renderResults(kine) {
+  // Destroy old charts
+  Object.values(charts).forEach(c => { try { c.destroy(); } catch(e){} });
+  charts = {};
+
+  const area = document.getElementById('resultsArea');
+  area.innerHTML = `
+    <div class="tool-results">
+      <div class="metrics-box">
+        <h5>Kinematic Values</h5>
+        <div class="metrics-grid" id="metricsGrid"></div>
+      </div>
+      <div class="chart-box">
+        <h5>Midlines (FFT interpolated)</h5>
+        <canvas id="chartMidlines"></canvas>
+      </div>
+      <div class="chart-box">
+        <h5>Amplitude Envelope</h5>
+        <canvas id="chartAmp"></canvas>
+      </div>
+      <div class="chart-box">
+        <h5>Curvature Profile</h5>
+        <canvas id="chartCurv"></canvas>
+      </div>
+      <div class="chart-box">
+        <h5>Beat Frequency Spectrum (Tail)</h5>
+        <canvas id="chartFFT"></canvas>
+      </div>
+    </div>`;
+
+  // Metrics
+  const metrics = [
+    { label: 'Head TBF', value: fmt(kine.headTBF, 2), unit: 'Hz' },
+    { label: 'Tail TBF', value: fmt(kine.tailTBF, 2), unit: 'Hz' },
+    { label: 'Head Amplitude', value: fmt(kine.headAmp, 4), unit: 'BL' },
+    { label: 'Tail Amplitude', value: fmt(kine.tailAmp, 4), unit: 'BL' },
+    { label: 'Head/Tail Ratio', value: fmt(kine.headTailAmpRatio, 3), unit: '' },
+    { label: 'Min Amplitude', value: fmt(kine.minAmp, 4) + ' @ ' + fmt(kine.minAmpLoc, 2), unit: 'BL' },
+    { label: 'Max Amplitude', value: fmt(kine.maxAmp, 4) + ' @ ' + fmt(kine.maxAmpLoc, 2), unit: 'BL' },
+    { label: 'Wavelength', value: fmt(kine.wavelength, 3), unit: 'BL' },
+    { label: 'Max Curvature', value: fmt(kine.maxCurv, 3) + ' @ ' + fmt(kine.maxCurvLoc, 2), unit: '1/BL' },
+    { label: 'Frames analyzed', value: kine.nFrames.toString(), unit: '' },
+  ];
+  const grid = document.getElementById('metricsGrid');
+  metrics.forEach(m => {
+    grid.innerHTML += `<div class="metric"><div class="metric-label">${m.label}</div><div class="metric-value">${m.value}<span class="metric-unit">${m.unit}</span></div></div>`;
+  });
+
+  // Colors for midlines
+  const nMid = kine.midlines.length;
+  const colors = kine.midlines.map((_, i) => `hsl(${200 + 160 * i / Math.max(nMid-1,1)}, 65%, 55%)`);
+
+  // Chart 1: Midlines
+  charts.midlines = new Chart(document.getElementById('chartMidlines'), {
+    type: 'scatter',
+    data: {
+      datasets: kine.midlines.map((ml, i) => ({
+        label: '', showLine: true, pointRadius: 0,
+        borderColor: colors[i], borderWidth: 1.2,
+        data: ml.x.map((x, j) => ({ x, y: ml.y[j] }))
+      }))
+    },
+    options: chartOpts('X (BL)', 'Y (BL)', false)
+  });
+
+  // Chart 2: Amplitude envelope
+  charts.amp = new Chart(document.getElementById('chartAmp'), {
+    type: 'line',
+    data: { labels: kine.sNorm.map(v => v.toFixed(2)), datasets: [{
+      label: 'Amplitude', data: kine.ampMean,
+      borderColor: 'var(--accent2)', backgroundColor: 'rgba(58,143,163,0.1)',
+      borderWidth: 2, pointRadius: 0, fill: true
+    }]},
+    options: chartOpts('Body position (0=head, 1=tail)', 'Half-amp (BL)')
+  });
+
+  // Chart 3: Curvature
+  charts.curv = new Chart(document.getElementById('chartCurv'), {
+    type: 'line',
+    data: { labels: kine.sNorm.map(v => v.toFixed(2)), datasets: [{
+      label: 'Curvature', data: kine.curvMean,
+      borderColor: '#b5651d', backgroundColor: 'rgba(181,101,29,0.1)',
+      borderWidth: 2, pointRadius: 0, fill: true
+    }]},
+    options: chartOpts('Body position (0=head, 1=tail)', 'Curvature (1/BL)')
+  });
+
+  // Chart 4: FFT spectrum (tail)
+  charts.fft = new Chart(document.getElementById('chartFFT'), {
+    type: 'line',
+    data: { labels: kine.tailFreq.map(v => v.toFixed(2)), datasets: [{
+      label: 'Power', data: kine.tailPower,
+      borderColor: 'var(--accent)', backgroundColor: 'rgba(30,77,107,0.1)',
+      borderWidth: 2, pointRadius: 0, fill: true
+    }]},
+    options: chartOpts('Frequency (Hz)', 'Power')
+  });
+}
+
+function chartOpts(xlabel, ylabel, legend=false) {
+  return {
+    responsive: true, maintainAspectRatio: false,
+    animation: false,
+    plugins: { legend: { display: legend }, tooltip: { enabled: true } },
+    scales: {
+      x: { title: { display: true, text: xlabel, font: { family: "'DM Mono'", size: 10 } }, ticks: { font: { family: "'DM Mono'", size: 9 }, maxTicksLimit: 6 } },
+      y: { title: { display: true, text: ylabel, font: { family: "'DM Mono'", size: 10 } }, ticks: { font: { family: "'DM Mono'", size: 9 }, maxTicksLimit: 5 } }
+    }
+  };
+}
+</script>
 </body>
 </html>
