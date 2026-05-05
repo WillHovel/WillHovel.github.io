@@ -4,139 +4,355 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>About — Will Hovel</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
   <style>
-    :root{--bg:#f4f0e8;--ink:#1a1612;--muted:#7a6f60;--accent:#1e4d6b;--accent2:#3a8fa3;--rule:#d4cdc0;--card:#fff;--tag-bg:#e8f4f8;--tag-ink:#1e4d6b;}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    body{background:var(--bg);color:var(--ink);font-family:'Instrument Sans',sans-serif;font-size:16px;line-height:1.65;}
-    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5;}
-    nav{position:sticky;top:0;z-index:100;background:rgba(244,240,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);padding:0 clamp(1.5rem,5vw,4rem);display:flex;align-items:center;justify-content:space-between;height:56px;}
-    .nav-logo{font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--ink);text-decoration:none;}
-    .nav-links{display:flex;gap:2rem;}
-    .nav-links a{font-size:.82rem;font-family:'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
-    .nav-links a:hover{color:var(--ink);}
-    .hero{padding:clamp(5rem,12vw,8rem) clamp(1.5rem,5vw,4rem) clamp(3rem,6vw,4rem);max-width:780px;animation:fadeUp .5s ease both;}
-    .eyebrow{font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent2);margin-bottom:1.2rem;display:flex;align-items:center;gap:.75rem;}
-    .eyebrow::before{content:'';display:inline-block;width:28px;height:1px;background:var(--accent2);}
-    h1{font-family:'DM Serif Display',serif;font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.05;letter-spacing:-.03em;margin-bottom:1.8rem;}
-    h1 em{font-style:italic;color:var(--accent);}
-    .lead{font-size:1.05rem;color:var(--muted);line-height:1.8;margin-bottom:2.5rem;}
-    hr.divider{border:none;border-top:1px solid var(--rule);margin:0 clamp(1.5rem,5vw,4rem);}
-    section{padding:clamp(3rem,6vw,4.5rem) clamp(1.5rem,5vw,4rem);}
-    .section-label{font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:2rem;display:flex;align-items:center;gap:.75rem;}
-    .section-label::after{content:'';flex:1;height:1px;background:var(--rule);max-width:200px;}
-    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:4rem;max-width:900px;}
-    @media(max-width:640px){.two-col{grid-template-columns:1fr;gap:2rem;}}
-    .prose-block h3{font-family:'DM Serif Display',serif;font-size:1.2rem;margin-bottom:.9rem;color:var(--ink);}
-    .prose-block p{font-size:.93rem;color:var(--muted);line-height:1.8;margin-bottom:.9rem;}
-    .prose-block p:last-child{margin-bottom:0;}
-    /* Statement section — single wide column */
-    .statement{max-width:720px;}
-    .statement p{font-size:1rem;color:#3d3530;line-height:1.85;margin-bottom:1.2rem;}
-    .statement p:last-child{margin-bottom:0;}
-    .statement strong{color:var(--ink);}
-    /* Courses */
-    .course-grid{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem;}
-    .course{font-family:'DM Mono',monospace;font-size:.72rem;padding:.3rem .7rem;background:var(--tag-bg);color:var(--tag-ink);border-radius:2px;}
-    /* Skills */
-    .skill-list{display:flex;flex-direction:column;gap:.6rem;margin-top:.5rem;}
-    .skill-item{display:flex;align-items:flex-start;gap:.6rem;font-size:.88rem;color:var(--muted);}
-    .skill-dot{width:6px;height:6px;border-radius:50%;background:var(--accent2);margin-top:.5rem;flex-shrink:0;}
-    footer{border-top:1px solid var(--rule);padding:2rem clamp(1.5rem,5vw,4rem);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
-    footer p{font-family:'DM Mono',monospace;font-size:.75rem;color:var(--muted);}
-    footer a{color:var(--accent2);text-decoration:none;}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+/* Will Hovel Portfolio — Dark Technical Design System */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+:root {
+  --black:  #080808;
+  --off-white: #F0EDE6;
+  --muted:  #6B6860;
+  --teal:   #00E5C4;
+  --teal-dim: rgba(0,229,196,0.12);
+  --border: rgba(240,237,230,0.10);
+  --border-bright: rgba(240,237,230,0.22);
+  --card:   rgba(240,237,230,0.04);
+  --card-hover: rgba(240,237,230,0.07);
+  --red:    #FF3B3B;
+  --gold:   #F0C040;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--off-white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(8,8,8,0.88);
+  backdrop-filter: blur(16px);
+}
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  color: var(--off-white);
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-links a {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--teal); }
+.nav-links a.active { color: var(--off-white); }
+
+/* TYPOGRAPHY */
+.display {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+.mono {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* BUTTONS */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.5rem;
+  background: var(--teal);
+  color: var(--black);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary:hover { background: #00fff5; transform: translateY(-1px); }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.5rem;
+  background: transparent;
+  color: var(--off-white);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--border-bright);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+
+/* TAGS */
+.tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--border-bright);
+  color: var(--muted);
+}
+.tag-teal { border-color: rgba(0,229,196,0.4); color: var(--teal); }
+.tag-gold { border-color: rgba(240,192,64,0.4); color: var(--gold); }
+.tag-red  { border-color: rgba(255,59,59,0.4);  color: var(--red);  }
+
+/* SECTION LABEL */
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+.section-label::before {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--teal);
+  flex-shrink: 0;
+}
+
+/* DIVIDERS */
+hr.rule { border: none; border-top: 1px solid var(--border); }
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+footer p {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+footer a { color: var(--teal); text-decoration: none; }
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.fade-up { animation: fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both; }
+.fade-up-d1 { animation-delay: 0.1s; }
+.fade-up-d2 { animation-delay: 0.2s; }
+.fade-up-d3 { animation-delay: 0.3s; }
+.fade-up-d4 { animation-delay: 0.4s; }
+
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { gap: 1.2rem; }
+  footer { padding: 1.5rem 20px; }
+}
+
+.page-hero {
+  padding: 160px 40px 80px;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+}
+.page-hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+}
+.page-hero h1 em { font-style: normal; color: var(--teal); }
+.page-hero-right { padding-bottom: 0.5rem; }
+.page-hero-right p { font-size: 1rem; color: var(--muted); line-height: 1.8; }
+
+/* Statement */
+.statement-section {
+  padding: 80px 40px;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 4rem;
+}
+.statement-section p {
+  font-size: 0.95rem;
+  color: #A0998E;
+  line-height: 1.9;
+  margin-bottom: 1.2rem;
+}
+.statement-section p:last-child { margin-bottom: 0; }
+.statement-section strong { color: var(--off-white); font-weight: 500; }
+
+/* Background grid */
+.bg-section {
+  padding: 80px 40px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+}
+.bg-block {
+  border: 1px solid var(--border);
+  padding: 2rem;
+}
+.bg-block h3 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+  margin-bottom: 1rem;
+  color: var(--off-white);
+}
+.bg-block p { font-size: 0.85rem; color: var(--muted); line-height: 1.75; margin-bottom: 0.6rem; }
+.bg-block p:last-child { margin-bottom: 0; }
+.course-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem; }
+.skill-list { display: flex; flex-direction: column; gap: 0.55rem; margin-top: 0.5rem; }
+.skill-item { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.83rem; color: var(--muted); line-height: 1.5; }
+.skill-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--teal); margin-top: 0.55rem; flex-shrink: 0; }
+
+@media (max-width: 900px) {
+  .page-hero { grid-template-columns: 1fr; gap: 2rem; padding: 120px 20px 60px; }
+  .statement-section { grid-template-columns: 1fr; gap: 2rem; padding: 60px 20px; }
+  .bg-section { grid-template-columns: 1fr; padding: 40px 20px; }
+}
   </style>
 </head>
 <body>
 <nav>
-  <a class="nav-logo" href="index.html">Will Hovel</a>
+  <a class="nav-logo" href="index.html">WH</a>
   <div class="nav-links">
     <a href="index.html#projects">Projects</a>
-    <a href="about.html">About</a>
-    <a href="https://github.com/WillHovel" target="_blank">GitHub</a>
+    <a href="about.html" class="active">About</a>
+    <a href="https://github.com/WillHovel" target="_blank">GitHub ↗</a>
   </div>
 </nav>
 
-<div class="hero">
-  <div class="eyebrow">About</div>
-  <h1>Engineering tools for <em>complex systems</em></h1>
-  <p class="lead">
-    I'm an Electrical Engineering student at UC San Diego with a 4.0 GPA.
-    I build things that extract structure from messy, dynamic data —
-    whether that's a signal from a fish's body, a sensor on a glove, or a robot chasing a line.
-  </p>
+<div class="page-hero">
+  <div class="fade-up">
+    <div style="font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--teal);margin-bottom:1.5rem;">About</div>
+    <h1>Engineering tools for <em>complex systems</em></h1>
+  </div>
+  <div class="page-hero-right fade-up fade-up-d1">
+    <p>I'm an Electrical Engineering student at UC San Diego with a 4.0 GPA. I build things that extract structure from messy, dynamic data — whether that's a signal from a fish's body, a sensor on a glove, or a robot chasing a line.</p>
+  </div>
 </div>
 
-<hr class="divider"/>
-
-<section>
-  <div class="section-label">Personal Statement</div>
-  <div class="statement">
-    <p>
-      I'm drawn to systems that are hard to measure. Whether it's a fish swimming in a flow tank, a hand making a gesture, or a robot reacting to a track, the interesting engineering problems all share the same structure: you have a physical system generating a messy, continuous signal, and you want to extract something meaningful and repeatable from it.
-    </p>
-    <p>
-      My background in electrical engineering has given me the mathematical foundation to approach these problems rigorously. Coursework in signal processing (ECE 45) and statistics (ECE 109) taught me to think carefully about noise, sampling, and what it actually means for an algorithm to generalize. That foundation shapes every project I work on — I don't just want something that works in demo conditions. I want to understand why it works, and what would make it fail.
-    </p>
-    <p>
-      The projects on this site reflect that. The fish kinematics pipeline started as a data cleaning problem and turned into a full signal processing system — midline alignment, FFT interpolation, frequency analysis, curvature estimation. The sensorized glove required designing a PCB, routing USB differential pairs, reading noisy analog signals, and then figuring out a classification approach that was actually reliable. The line-following robot was an exercise in the feedback loop between algorithm and physical system: even a well-tuned PID controller fails if the mechanical platform behaves inconsistently.
-    </p>
-    <p>
-      <strong>What connects these projects is iteration.</strong> None of them worked on the first try. Each required diagnosing what was actually failing — whether that was a grounding issue in the PCB, a numerical artifact in the FFT, or a ball wheel that lifted off the track at exactly the wrong moment — and fixing it at the right level of abstraction. That process of building, debugging, and redesigning is where I've learned the most, and it's what I want to keep doing.
-    </p>
-    <p>
-      Long-term, I want to apply engineering to problems that sit at the boundary between disciplines — bio-inspired robotics, intelligent systems for environmental sensing, tools that make complex data legible to researchers who aren't engineers. I plan to pursue graduate study and eventually conduct independent research. The work I've done so far has shown me that the most interesting problems are usually the ones nobody has built the right tool for yet.
-    </p>
+<div class="statement-section">
+  <div class="section-label" style="writing-mode:vertical-lr;transform:rotate(180deg);margin-bottom:0;margin-right:0;flex-direction:row-reverse;">Personal Statement</div>
+  <div>
+    <p>I am drawn to systems that are hard to measure. Whether it is a fish swimming in a flow tank, a hand making a gesture, or a robot reacting to a track, the interesting engineering problems all share the same structure: you have a physical system generating a messy, continuous signal, and you want to extract something meaningful and repeatable from it.</p>
+    <p>My background in electrical engineering has given me the mathematical foundation to approach these problems rigorously. Coursework in signal processing (ECE 45) and statistics (ECE 109) taught me to think carefully about noise, sampling, and what it actually means for an algorithm to generalize. That foundation shapes every project I work on. I do not just want something that works in demo conditions. I want to understand why it works, and what would make it fail.</p>
+    <p>The projects on this site reflect that. The fish kinematics pipeline started as a data cleaning problem and turned into a full signal processing system. The sensorized glove required designing a PCB, routing USB differential pairs, reading noisy analog signals, and then figuring out a classification approach that was actually reliable. The line-following robot was an exercise in the feedback loop between algorithm and physical system: even a well-tuned PID controller fails if the mechanical platform behaves inconsistently.</p>
+    <p><strong>What connects these projects is iteration.</strong> None of them worked on the first try. Each required diagnosing what was actually failing and fixing it at the right level of abstraction. That process of building, debugging, and redesigning is where I have learned the most, and it is what I want to keep doing.</p>
+    <p>Long-term, I want to apply engineering to problems that sit at the boundary between disciplines: bio-inspired robotics, intelligent systems for environmental sensing, tools that make complex data legible to researchers who are not engineers. I plan to pursue graduate study and eventually conduct independent research.</p>
   </div>
-</section>
+</div>
 
-<hr class="divider"/>
-
-<section>
-  <div class="section-label">Background</div>
-  <div class="two-col">
-    <div class="prose-block">
-      <h3>Education</h3>
-      <p><strong>UC San Diego</strong> — B.S. Electrical Engineering</p>
-      <p>GPA: 4.0</p>
-      <div class="course-grid">
-        <span class="course">ECE 45 — Circuits & Systems</span>
-        <span class="course">ECE 109 — Engineering Probability</span>
-        <span class="course">ECE 35 — Circuit Analysis</span>
-        <span class="course">ECE 65 — Electronics</span>
-        <span class="course">MATH 20D — ODEs</span>
-        <span class="course">MATH 18 — Linear Algebra</span>
-      </div>
-    </div>
-    <div class="prose-block">
-      <h3>Research</h3>
-      <p><strong>Di Santo Lab, UC San Diego</strong></p>
-      <p>Studying how ocean acidification affects schooling behavior in silversides using flapping foil arrays and high-speed video. Funded by the URS David Marc Belkin Memorial Research Scholarship for Environment and Ecology.</p>
-    </div>
-    <div class="prose-block">
-      <h3>Technical Skills</h3>
-      <div class="skill-list">
-        <div class="skill-item"><div class="skill-dot"></div>MATLAB — signal processing, FFT analysis, App Building</div>
-        <div class="skill-item"><div class="skill-dot"></div>Java — Spigot plugin development, event-driven systems</div>
-        <div class="skill-item"><div class="skill-dot"></div>Python — data analysis, classification, Jupyter notebooks</div>
-        <div class="skill-item"><div class="skill-dot"></div>KiCad — schematic capture, PCB layout, DRC/ERC</div>
-        <div class="skill-item"><div class="skill-dot"></div>C/Embedded — microcontroller firmware, ADC interfacing</div>
-        <div class="skill-item"><div class="skill-dot"></div>Git — version control, Maven build system</div>
-      </div>
-    </div>
-    <div class="prose-block">
-      <h3>Interests</h3>
-      <div class="skill-list">
-        <div class="skill-item"><div class="skill-dot"></div>Bio-inspired robotics and locomotion</div>
-        <div class="skill-item"><div class="skill-dot"></div>Signal processing for biological systems</div>
-        <div class="skill-item"><div class="skill-dot"></div>Climate sensing and environmental instrumentation</div>
-        <div class="skill-item"><div class="skill-dot"></div>Hardware design and embedded systems</div>
-        <div class="skill-item"><div class="skill-dot"></div>Graduate research in intelligent systems</div>
-      </div>
+<div class="bg-section">
+  <div class="bg-block">
+    <h3>Education</h3>
+    <p><strong style="color:var(--off-white)">UC San Diego</strong> — B.S. Electrical Engineering</p>
+    <p>GPA: 4.0</p>
+    <div class="course-list">
+      <span class="tag">ECE 45 — Circuits &amp; Systems</span>
+      <span class="tag">ECE 109 — Engineering Probability</span>
+      <span class="tag">ECE 35 — Circuit Analysis</span>
+      <span class="tag">ECE 65 — Electronics</span>
+      <span class="tag">MATH 20D — ODEs</span>
+      <span class="tag">MATH 18 — Linear Algebra</span>
     </div>
   </div>
-</section>
+  <div class="bg-block">
+    <h3>Research</h3>
+    <p><strong style="color:var(--off-white)">Di Santo Lab, UC San Diego</strong></p>
+    <p>Studying how ocean acidification affects schooling behavior in silversides using flapping foil arrays and high-speed video. Funded by the URS David Marc Belkin Memorial Research Scholarship for Environment and Ecology (pending).</p>
+  </div>
+  <div class="bg-block">
+    <h3>Technical Skills</h3>
+    <div class="skill-list">
+      <div class="skill-item"><div class="skill-dot"></div>MATLAB — signal processing, FFT analysis, App Building</div>
+      <div class="skill-item"><div class="skill-dot"></div>Java — Spigot plugin development, event-driven systems</div>
+      <div class="skill-item"><div class="skill-dot"></div>Python — data analysis, classification, Jupyter notebooks</div>
+      <div class="skill-item"><div class="skill-dot"></div>KiCad — schematic capture, PCB layout, DRC/ERC</div>
+      <div class="skill-item"><div class="skill-dot"></div>C / Embedded — microcontroller firmware, ADC interfacing</div>
+      <div class="skill-item"><div class="skill-dot"></div>Git — version control, Maven build system</div>
+    </div>
+  </div>
+  <div class="bg-block">
+    <h3>Interests</h3>
+    <div class="skill-list">
+      <div class="skill-item"><div class="skill-dot"></div>Bio-inspired robotics and locomotion</div>
+      <div class="skill-item"><div class="skill-dot"></div>Signal processing for biological systems</div>
+      <div class="skill-item"><div class="skill-dot"></div>Climate sensing and environmental instrumentation</div>
+      <div class="skill-item"><div class="skill-dot"></div>Hardware design and embedded systems</div>
+      <div class="skill-item"><div class="skill-dot"></div>Graduate research in intelligent systems</div>
+    </div>
+  </div>
+</div>
 
 <footer>
   <p>Will Hovel · UC San Diego · Electrical Engineering</p>

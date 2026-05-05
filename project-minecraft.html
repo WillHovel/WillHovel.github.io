@@ -1,545 +1,337 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Minecraft Plugins — Will Hovel</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <title>Minecraft Server Plugins — Will Hovel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --bg:      #f4f0e8;
-      --ink:     #1a1612;
-      --muted:   #7a6f60;
-      --accent:  #1e4d6b;
-      --accent2: #3a8fa3;
-      --accent3: #2d7a4f;
-      --rule:    #d4cdc0;
-      --card-bg: #ffffff;
-      --tag-bg:  #e8f4f8;
-      --tag-ink: #1e4d6b;
-      --green-bg: #e8f5ed;
-      --green-ink: #2d7a4f;
-    }
+/* Will Hovel Portfolio — Dark Technical Design System */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+:root {
+  --black:  #080808;
+  --off-white: #F0EDE6;
+  --muted:  #6B6860;
+  --teal:   #00E5C4;
+  --teal-dim: rgba(0,229,196,0.12);
+  --border: rgba(240,237,230,0.10);
+  --border-bright: rgba(240,237,230,0.22);
+  --card:   rgba(240,237,230,0.04);
+  --card-hover: rgba(240,237,230,0.07);
+  --red:    #FF3B3B;
+  --gold:   #F0C040;
+}
 
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: 'Instrument Sans', sans-serif;
-      font-size: 16px;
-      line-height: 1.65;
-    }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 0; opacity: 0.5;
-    }
+body {
+  background: var(--black);
+  color: var(--off-white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
 
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(244,240,232,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--rule);
-      padding: 0 clamp(1.5rem, 5vw, 4rem);
-      display: flex; align-items: center; justify-content: space-between;
-      height: 56px;
-    }
-    .nav-logo { font-family: 'DM Serif Display', serif; font-size: 1.15rem; color: var(--ink); text-decoration: none; }
-    .nav-links { display: flex; gap: 2rem; }
-    .nav-links a { font-size: 0.82rem; font-family: 'DM Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--ink); }
+/* Grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
 
-    .page-header {
-      padding: clamp(4rem, 10vw, 7rem) clamp(1.5rem, 5vw, 4rem) clamp(2.5rem, 5vw, 4rem);
-      max-width: 860px;
-      animation: fadeUp 0.5s ease both;
-    }
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(8,8,8,0.88);
+  backdrop-filter: blur(16px);
+}
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  color: var(--off-white);
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-links a {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--teal); }
+.nav-links a.active { color: var(--off-white); }
 
-    .back-link { font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; margin-bottom: 2rem; transition: color 0.2s; }
-    .back-link:hover { color: var(--accent); }
+/* TYPOGRAPHY */
+.display {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+.mono {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
 
-    .project-status { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent3); margin-bottom: 1rem; }
+/* BUTTONS */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.5rem;
+  background: var(--teal);
+  color: var(--black);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary:hover { background: #00fff5; transform: translateY(-1px); }
 
-    .page-header h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1.1; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 1.2rem; }
-    .page-header h1 em { font-style: italic; color: var(--accent); }
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.5rem;
+  background: transparent;
+  color: var(--off-white);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--border-bright);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
 
-    .page-header p { font-size: 1rem; color: var(--muted); max-width: 600px; line-height: 1.75; margin-bottom: 1.5rem; }
+/* TAGS */
+.tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--border-bright);
+  color: var(--muted);
+}
+.tag-teal { border-color: rgba(0,229,196,0.4); color: var(--teal); }
+.tag-gold { border-color: rgba(240,192,64,0.4); color: var(--gold); }
+.tag-red  { border-color: rgba(255,59,59,0.4);  color: var(--red);  }
 
-    .tag-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .tag { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.06em; padding: 0.3rem 0.7rem; background: var(--tag-bg); color: var(--tag-ink); border-radius: 2px; }
-    .tag.green { background: var(--green-bg); color: var(--green-ink); }
+/* SECTION LABEL */
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+.section-label::before {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--teal);
+  flex-shrink: 0;
+}
 
-    /* Plugin grid */
-    .section {
-      padding: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 5vw, 4rem);
-    }
+/* DIVIDERS */
+hr.rule { border: none; border-top: 1px solid var(--border); }
 
-    .section-label { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 2rem; display: flex; align-items: center; gap: 0.75rem; }
-    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); max-width: 200px; }
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+footer p {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+footer a { color: var(--teal); text-decoration: none; }
 
-    .plugin-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1px;
-      background: var(--rule);
-      border: 1px solid var(--rule);
-      margin-bottom: 3rem;
-    }
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.fade-up { animation: fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both; }
+.fade-up-d1 { animation-delay: 0.1s; }
+.fade-up-d2 { animation-delay: 0.2s; }
+.fade-up-d3 { animation-delay: 0.3s; }
+.fade-up-d4 { animation-delay: 0.4s; }
 
-    .plugin-card {
-      background: var(--card-bg);
-      padding: 1.8rem 1.7rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { gap: 1.2rem; }
+  footer { padding: 1.5rem 20px; }
+}
+.page-hero{padding:140px 40px 60px;border-bottom:1px solid var(--border);max-width:900px;}
+.back-link{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:0.4rem;margin-bottom:2.5rem;transition:color .2s;}
+.back-link:hover{color:var(--teal);}
+.eyebrow{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);margin-bottom:1rem;}
+.page-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.5rem,6vw,4.5rem);line-height:0.95;letter-spacing:-0.04em;margin-bottom:1.5rem;}
+.page-title em{font-style:normal;color:var(--teal);}
+.tag-row{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:1.5rem;}
 
-    .plugin-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 1rem;
-    }
+.plugin-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;padding:40px;border-bottom:1px solid var(--border);}
+.plugin-card{background:var(--card);border:1px solid var(--border);padding:1.8rem;transition:border-color .2s,background .2s;}
+.plugin-card:hover{border-color:var(--border-bright);background:var(--card-hover);}
+.plugin-name{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;margin-bottom:0.5rem;color:var(--off-white);}
+.plugin-desc{font-size:0.83rem;color:var(--muted);line-height:1.7;}
+.plugin-badge{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal);background:var(--teal-dim);border:1px solid rgba(0,229,196,0.2);padding:0.18rem 0.5rem;display:inline-block;margin-bottom:0.7rem;}
 
-    .plugin-icon {
-      width: 40px; height: 40px;
-      background: var(--tag-bg);
-      border-radius: 4px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem;
-      flex-shrink: 0;
-    }
+.project-content{display:grid;grid-template-columns:1fr 280px;border-top:1px solid var(--border);}
+.prose{padding:60px 40px;border-right:1px solid var(--border);}
+.prose h2{font-family:'Syne',sans-serif;font-weight:700;font-size:1.3rem;letter-spacing:-0.02em;margin:3rem 0 1rem;padding-top:3rem;border-top:1px solid var(--border);}
+.prose h2:first-child{margin-top:0;padding-top:0;border-top:none;}
+.prose p{font-size:0.9rem;color:#A0998E;line-height:1.85;margin-bottom:1rem;}
+.prose strong{color:var(--off-white);font-weight:500;}
+.prose-list{margin:0.8rem 0 1rem;padding-left:1.2rem;display:flex;flex-direction:column;gap:0.55rem;}
+.prose-list li{font-size:0.88rem;color:#A0998E;line-height:1.7;}
+.code-block{background:#0d0d0d;border:1px solid var(--border);border-left:2px solid var(--teal);padding:1rem 1.2rem;font-family:'Space Mono',monospace;font-size:0.72rem;color:#6B9E8A;line-height:1.8;margin:1rem 0;overflow-x:auto;}
 
-    .plugin-name {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.2rem;
-      line-height: 1.2;
-      color: var(--ink);
-    }
+.sidebar{padding:40px 24px;}
+.sidebar-block{border:1px solid var(--border);padding:1.2rem;margin-bottom:2px;}
+.sidebar-block h4{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
+.sitem{display:flex;align-items:flex-start;gap:0.7rem;margin-bottom:0.8rem;padding-bottom:0.8rem;border-bottom:1px solid var(--border);}
+.sitem:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.sicon{width:28px;height:28px;background:var(--teal-dim);border:1px solid rgba(0,229,196,0.2);display:flex;align-items:center;justify-content:center;font-size:0.8rem;flex-shrink:0;}
+.stext{font-size:0.78rem;color:var(--muted);line-height:1.5;}
+.stext strong{display:block;color:var(--off-white);font-size:0.8rem;margin-bottom:0.1rem;}
 
-    .plugin-version {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-      margin-top: 0.15rem;
-    }
-
-    .plugin-desc {
-      font-size: 0.875rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .plugin-highlight {
-      font-size: 0.83rem;
-      color: var(--accent);
-      background: var(--tag-bg);
-      padding: 0.5rem 0.75rem;
-      border-left: 2px solid var(--accent);
-      line-height: 1.55;
-    }
-
-    .plugin-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: auto; padding-top: 0.4rem; }
-
-    /* Install section */
-    .install-box {
-      background: var(--card-bg);
-      border: 1px solid var(--rule);
-      padding: 2rem 2rem;
-      max-width: 760px;
-    }
-
-    .install-box h3 { font-family: 'DM Serif Display', serif; font-size: 1.25rem; margin-bottom: 1rem; }
-
-    .install-steps { display: flex; flex-direction: column; gap: 1.1rem; }
-
-    .step { display: flex; gap: 1rem; align-items: flex-start; }
-
-    .step-num {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
-      color: var(--accent2);
-      background: var(--tag-bg);
-      width: 28px; height: 28px;
-      border-radius: 3px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .step-content { font-size: 0.9rem; color: #3d3530; line-height: 1.65; }
-    .step-content strong { color: var(--ink); }
-
-    code {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.82rem;
-      background: #ede9e0;
-      padding: 0.15rem 0.4rem;
-      border-radius: 3px;
-      color: var(--accent);
-    }
-
-    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.4rem; font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; border-radius: 3px; transition: all 0.2s; margin-top: 1.5rem; }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: var(--accent2); }
-
-    footer { border-top: 1px solid var(--rule); padding: 2rem clamp(1.5rem, 5vw, 4rem); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-    footer p { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted); }
-    footer a { color: var(--accent2); text-decoration: none; }
-
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-
-    @media (max-width: 640px) {
-      .plugin-grid { grid-template-columns: 1fr; }
-    }
+@media(max-width:900px){
+  .plugin-grid{grid-template-columns:1fr;padding:24px 20px;}
+  .project-content{grid-template-columns:1fr;}
+  .prose{border-right:none;padding:40px 20px;}
+  .sidebar{padding:20px;border-top:1px solid var(--border);}
+  .page-hero{padding:120px 20px 40px;}
+}
   </style>
 </head>
 <body>
-
 <nav>
-  <a class="nav-logo" href="index.html">Will Hovel</a>
+  <a class="nav-logo" href="index.html">WH</a>
   <div class="nav-links">
     <a href="index.html#projects">Projects</a>
-    <a href="index.html#about">About</a>
-    <a href="https://github.com/WillHovel" target="_blank">GitHub</a>
+    <a href="about.html">About</a>
+    <a href="https://github.com/WillHovel" target="_blank">GitHub ↗</a>
   </div>
 </nav>
 
-<div class="page-header">
+<div class="page-hero fade-up">
   <a class="back-link" href="index.html">← All Projects</a>
-  <div class="project-status">Personal Project · Java · Spigot API</div>
-  <h1>Minecraft <em>Server Plugins</em></h1>
-  <p>
-    A collection of custom Spigot plugins built in Java for multiplayer Minecraft servers —
-    from fully featured game modes to small quality-of-life utilities. Each plugin was written
-    from scratch, compiled with Maven, and deployed on a live server for friends to play.
-  </p>
+  <div class="eyebrow">Personal · Java · Spigot API</div>
+  <h1 class="page-title">Minecraft <em>Server Plugins</em></h1>
   <div class="tag-row">
-    <span class="tag">Java</span>
-    <span class="tag">Spigot API</span>
-    <span class="tag">Maven</span>
-    <span class="tag">Event-Driven</span>
-    <span class="tag">Multiplayer</span>
+    <span class="tag">Java</span><span class="tag">Spigot API</span>
+    <span class="tag">Maven</span><span class="tag">Event-Driven</span><span class="tag">14 Plugins</span>
   </div>
 </div>
 
-<div class="section">
-  <div class="section-label">Game Modes</div>
-  <div class="plugin-grid">
-
-    <div class="plugin-card">
-      <div class="plugin-header">
-        <div>
-          <div class="plugin-name">Manhunt</div>
-          <div class="plugin-version">Spigot 1.19.2 · Java</div>
-        </div>
-        <div class="plugin-icon">🏹</div>
-      </div>
-      <p class="plugin-desc">
-        A full Minecraft Manhunt game mode where hunters track down runners across a freshly generated world. Supports multiple runners and hunters, full advancement resets, and cross-dimension portal tracking. Hunters receive a compass that tracks the nearest runner.
-      </p>
-      <div class="plugin-highlight">
-        The compass updates <strong>continuously</strong> in real time via a <code>PlayerMoveEvent</code> listener — no right-clicking required. Implementing live lodestone metadata updates on every movement event without performance degradation required careful use of the Spigot scheduler and compass meta API.
-      </div>
-      <div class="plugin-tags">
-        <span class="tag">Event Listener</span>
-        <span class="tag">World Generation</span>
-        <span class="tag">Compass API</span>
-        <span class="tag">Multi-Dimension</span>
-      </div>
-    </div>
-
-    <div class="plugin-card">
-      <div class="plugin-header">
-        <div>
-          <div class="plugin-name">100×100 Enhancer</div>
-          <div class="plugin-version">Spigot 1.20.1 · Java</div>
-        </div>
-        <div class="plugin-icon">⚔️</div>
-      </div>
-      <p class="plugin-desc">
-        A competitive 1v1 game mode where players are eliminated on death and the last survivor wins. Implements a rotating revival mechanic — when you die you enter spectator mode, and the previously eliminated player returns. Worlds are seeded from a curated list for consistent competitive play.
-      </p>
-      <div class="plugin-tags">
-        <span class="tag">Death Events</span>
-        <span class="tag">Spectator Mode</span>
-        <span class="tag">World Seeding</span>
-        <span class="tag">Advancement Reset</span>
-      </div>
-    </div>
-
-    <div class="plugin-card">
-      <div class="plugin-header">
-        <div>
-          <div class="plugin-name">Endfight</div>
-          <div class="plugin-version">Spigot 1.19 · Java</div>
-        </div>
-        <div class="plugin-icon">🐉</div>
-      </div>
-      <p class="plugin-desc">
-        A structured Ender Dragon boss fight game mode. Teleports all players to a custom end world, equips hunters with curated kits, spawns a dragon, and manages the fight flow through event listeners. Handles respawning, dragon kill detection, and item distribution.
-      </p>
-      <div class="plugin-tags">
-        <span class="tag">Boss Fight</span>
-        <span class="tag">Inventory Management</span>
-        <span class="tag">Entity Events</span>
-      </div>
-    </div>
-
-    <div class="plugin-card">
-      <div class="plugin-header">
-        <div>
-          <div class="plugin-name">DAASMCC Turtle Run</div>
-          <div class="plugin-version">Spigot 1.19.3 · Java</div>
-        </div>
-        <div class="plugin-icon">🐢</div>
-      </div>
-      <p class="plugin-desc">
-        A custom obstacle course / race game built around a hand-crafted map. Features speed boost pads, jump pads, slow fields, launch pads, checkpoint detection using bounding boxes, and elytra/trident checkpoints. Player positions are tracked via <code>PlayerMoveEvent</code> and compared against bounding box regions.
-      </p>
-      <div class="plugin-tags">
-        <span class="tag">Bounding Box Detection</span>
-        <span class="tag">Potion Effects</span>
-        <span class="tag">Checkpoints</span>
-        <span class="tag">Custom Map</span>
-      </div>
-    </div>
-
-    <div class="plugin-card">
-      <div class="plugin-header">
-        <div>
-          <div class="plugin-name">GameJam</div>
-          <div class="plugin-version">Spigot 1.19.2 · Java</div>
-        </div>
-        <div class="plugin-icon">🎮</div>
-      </div>
-      <p class="plugin-desc">
-        A rapid-prototype game mode built for a game jam event. Uses the FastBoard library for live scoreboard updates and implements timed game flow with a Bukkit scheduler.
-      </p>
-      <div class="plugin-tags">
-        <span class="tag">FastBoard</span>
-        <span class="tag">Scoreboard</span>
-        <span class="tag">Timed Events</span>
-      </div>
-    </div>
-
-    <div class="plugin-card">
-      <div class="plugin-header">
-        <div>
-          <div class="plugin-name">Project Expedition</div>
-          <div class="plugin-version">Spigot 1.19.2 · Java</div>
-        </div>
-        <div class="plugin-icon">🗺️</div>
-      </div>
-      <p class="plugin-desc">
-        A multi-branch plugin with a dedicated framework for commands, parsing, and setup. Includes a "Crumbling Heights" game mode variant where a shrinking top border adds a survival pressure mechanic. The most architecturally structured plugin in the collection, with separate files for command handling, parsing, and game logic.
-      </p>
-      <div class="plugin-tags">
-        <span class="tag">Command Framework</span>
-        <span class="tag">World Border</span>
-        <span class="tag">Multi-Module</span>
-        <span class="tag">Tab Completion</span>
-      </div>
-    </div>
-
+<div class="plugin-grid">
+  <div class="plugin-card">
+    <div class="plugin-badge">Flagship</div>
+    <div class="plugin-name">Manhunt</div>
+    <div class="plugin-desc">Real-time compass tracking via <code style="font-family:'Space Mono',monospace;font-size:0.8em;background:rgba(0,229,196,0.08);color:var(--teal);padding:0.1em 0.3em;">PlayerMoveEvent</code>. Hunter compasses continuously update to point at the speedrunner's live position across dimensions. Team management, respawn logic, and win conditions all handled server-side.</div>
   </div>
-
-  <div class="section-label">Utilities &amp; Tools</div>
-  <div class="plugin-grid">
-
-    <div class="plugin-card">
-      <div class="plugin-header">
-        <div>
-          <div class="plugin-name">Potion Every Minute</div>
-          <div class="plugin-version">Spigot 1.18.1 · Java</div>
-        </div>
-        <div class="plugin-icon">🧪</div>
-      </div>
-      <p class="plugin-desc">
-        Gives all online players a random set of potion effects every minute using a repeating <code>BukkitRunnable</code>. Effects are randomly selected from a curated list and applied server-wide, creating chaotic and unpredictable gameplay.
-      </p>
-      <div class="plugin-tags">
-        <span class="tag">Scheduler</span>
-        <span class="tag">Potion Effects</span>
-        <span class="tag">BukkitRunnable</span>
-      </div>
-    </div>
-
-    <div class="plugin-card">
-      <div class="plugin-header">
-        <div>
-          <div class="plugin-name">Random Item</div>
-          <div class="plugin-version">Spigot 1.18.1 · Java</div>
-        </div>
-        <div class="plugin-icon">🎲</div>
-      </div>
-      <p class="plugin-desc">
-        Gives all players a random item from a hand-curated list of meaningful Minecraft items on a timer. An improved version ("RandomItem Better") expanded the item pool and refined the selection logic.
-      </p>
-      <div class="plugin-tags">
-        <span class="tag">Scheduler</span>
-        <span class="tag">Item API</span>
-        <span class="tag">Curated Loot</span>
-      </div>
-    </div>
-
-    <div class="plugin-card">
-      <div class="plugin-header">
-        <div>
-          <div class="plugin-name">RANDOM120</div>
-          <div class="plugin-version">Spigot 1.20.2 · Java</div>
-        </div>
-        <div class="plugin-icon">🌀</div>
-      </div>
-      <p class="plugin-desc">
-        A newer random-effect plugin for 1.20.2, applying randomized potion effects and items to players on a schedule.
-      </p>
-      <div class="plugin-tags">
-        <span class="tag">1.20 API</span>
-        <span class="tag">Scheduler</span>
-      </div>
-    </div>
-
-    <div class="plugin-card">
-      <div class="plugin-header">
-        <div>
-          <div class="plugin-name">Minecraft Timer</div>
-          <div class="plugin-version">Spigot 1.18.1 · Java</div>
-        </div>
-        <div class="plugin-icon">⏱️</div>
-      </div>
-      <p class="plugin-desc">
-        Displays a countdown timer in all players' action bars using a repeating task. Supports <code>/timer add &lt;minutes&gt;</code> and <code>/timer stop</code> commands. Useful for timed challenges and speedruns.
-      </p>
-      <div class="plugin-tags">
-        <span class="tag">Action Bar</span>
-        <span class="tag">BukkitTask</span>
-        <span class="tag">Commands</span>
-      </div>
-    </div>
-
-    <div class="plugin-card">
-      <div class="plugin-header">
-        <div>
-          <div class="plugin-name">Random Teams</div>
-          <div class="plugin-version">Spigot 1.16.5 · Java</div>
-        </div>
-        <div class="plugin-icon">👥</div>
-      </div>
-      <p class="plugin-desc">
-        Randomly splits all online players into two teams and assigns them team colors. Simple utility for starting team-based game modes.
-      </p>
-      <div class="plugin-tags">
-        <span class="tag">Scoreboard Teams</span>
-        <span class="tag">Randomization</span>
-      </div>
-    </div>
-
-    <div class="plugin-card">
-      <div class="plugin-header">
-        <div>
-          <div class="plugin-name">Gamemode Connector</div>
-          <div class="plugin-version">Spigot 1.16.1 · Java</div>
-        </div>
-        <div class="plugin-icon">🔗</div>
-      </div>
-      <p class="plugin-desc">
-        Lets players switch game modes by right-clicking an item in their hand. Uses a <code>PlayerInteractEvent</code> listener to detect clicks and toggle between survival and creative.
-      </p>
-      <div class="plugin-tags">
-        <span class="tag">Interact Event</span>
-        <span class="tag">Gamemode API</span>
-      </div>
-    </div>
-
-    <div class="plugin-card">
-      <div class="plugin-header">
-        <div>
-          <div class="plugin-name">Nick</div>
-          <div class="plugin-version">Spigot 1.18.1 · Java</div>
-        </div>
-        <div class="plugin-icon">🎭</div>
-      </div>
-      <p class="plugin-desc">
-        Allows players to change their displayed name with <code>/nick &lt;name&gt;</code> and reset it with <code>/unnick</code>. Modifies the player's display name and tab list name.
-      </p>
-      <div class="plugin-tags">
-        <span class="tag">Display Name</span>
-        <span class="tag">Commands</span>
-      </div>
-    </div>
-
-    <div class="plugin-card">
-      <div class="plugin-header">
-        <div>
-          <div class="plugin-name">Riding Players</div>
-          <div class="plugin-version">Spigot 1.16.5 · Java</div>
-        </div>
-        <div class="plugin-icon">🐎</div>
-      </div>
-      <p class="plugin-desc">
-        Allows players to mount each other by right-clicking with a specific item. Uses entity passenger API to attach one player to another.
-      </p>
-      <div class="plugin-tags">
-        <span class="tag">Entity Passenger</span>
-        <span class="tag">Interact Event</span>
-      </div>
-    </div>
-
+  <div class="plugin-card">
+    <div class="plugin-badge">Game</div>
+    <div class="plugin-name">Endfight</div>
+    <div class="plugin-desc">Custom boss fight mechanics for the Ender Dragon encounter. Adds configurable phases, modified attack patterns, and player-facing events not present in vanilla Minecraft.</div>
+  </div>
+  <div class="plugin-card">
+    <div class="plugin-badge">Game</div>
+    <div class="plugin-name">Turtle Run</div>
+    <div class="plugin-desc">Obstacle course with bounding box checkpoint system. Each checkpoint is defined as an axis-aligned bounding box in world coordinates; crossing triggers a server-side state update and advancement.</div>
+  </div>
+  <div class="plugin-card">
+    <div class="plugin-badge">Utility</div>
+    <div class="plugin-name">Server Utilities (11 plugins)</div>
+    <div class="plugin-desc">A collection of server management and quality-of-life plugins: custom spawn handlers, permission utilities, chat formatting, and game rule overrides. All compile cleanly with Maven and run on Paper/Spigot 1.20+.</div>
   </div>
 </div>
 
-<div class="section" style="padding-top: 0;">
-  <div class="section-label">Installation</div>
-  <div class="install-box">
-    <h3>Installing a Plugin on Your Server</h3>
-    <div class="install-steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <div class="step-content">
-          <strong>Prerequisites</strong> — you need a running Spigot or Paper server. Download the server jar from
-          <a href="https://papermc.io" target="_blank" style="color:var(--accent2)">papermc.io</a> and run it once to generate the folder structure.
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <div class="step-content">
-          <strong>Get the .jar</strong> — each plugin's compiled <code>.jar</code> is in the <code>target/</code> folder of its directory (e.g. <code>Manhunt/target/Manhunt-1.0-SNAPSHOT.jar</code>). You can also clone the repo and build with Maven: <code>mvn clean package</code>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <div class="step-content">
-          <strong>Drop it in</strong> — copy the <code>.jar</code> into your server's <code>plugins/</code> folder.
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <div class="step-content">
-          <strong>Restart</strong> — stop and restart your server. The plugin will load automatically on startup.
-          You can verify it loaded with <code>/plugins</code> in the server console.
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">05</div>
-        <div class="step-content">
-          <strong>Run commands in-game</strong> — most plugins require operator permissions. Use <code>/op &lt;yourname&gt;</code> from the console, then run the plugin's command in-game (e.g. <code>/manhunt &lt;runner&gt;</code>, <code>/timer add 10</code>, <code>/potionStart</code>).
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">06</div>
-        <div class="step-content">
-          <strong>Spigot version</strong> — each plugin targets a specific Spigot version (listed in each card above). Using a mismatched server version may cause errors. Check the <code>pom.xml</code> in each plugin folder for the exact API version.
-        </div>
-      </div>
+<div class="project-content">
+  <div class="prose">
+    <h2>Overview</h2>
+    <p>A suite of 14 custom Spigot plugins written in Java for a private Minecraft server. The most complex — Manhunt — required real-time position tracking across multiple players, dimension-aware compass updates, and event-driven state management for an indefinite session.</p>
+    <p>These projects were built for personal use, but they required the same engineering discipline as anything else: clear interfaces between components, predictable behavior under edge cases, and a build system that actually works.</p>
+
+    <h2>Technical Approach</h2>
+    <p>All plugins are structured around Spigot's event system. Handlers register for specific server events, process them, and mutate game state accordingly. The key challenge in Manhunt was keeping compass bearings accurate at low latency across many simultaneous player movements.</p>
+    <div class="code-block">// Compass update on PlayerMoveEvent
+@EventHandler
+public void onPlayerMove(PlayerMoveEvent e) {
+    if (!isHunter(e.getPlayer())) return;
+    Location target = speedrunner.getLocation();
+    updateCompassBearing(e.getPlayer(), target);
+}</div>
+    <p>Turtle Run introduced a different challenge: arbitrary bounding box intersection testing in 3D world space. Each checkpoint stores its AABB in world coordinates; every tick checks whether the runner's position falls inside any registered box, triggering checkpoint progression.</p>
+
+    <h2>Build System</h2>
+    <p>All plugins compile with Maven, using the Spigot API as a provided dependency. The build produces a standalone JAR dropped into a server's plugins directory, with no additional runtime dependencies. Plugin metadata is declared in <code style="font-family:'Space Mono',monospace;font-size:0.82em;background:rgba(0,229,196,0.08);color:var(--teal);padding:0.1em 0.35em;">plugin.yml</code>, including version, main class, permissions, and command registrations.</p>
+
+    <h2>What I Learned</h2>
+    <p>These plugins were my first serious work with an event-driven architecture. Debugging race conditions in server-tick-driven state — where two events can fire in the same tick and leave state inconsistent — pushed me to think more carefully about ordering guarantees and idempotency. The Spigot API also exposed me to a real-world Java codebase with an enormous surface area, which taught me to navigate unfamiliar APIs efficiently.</p>
+  </div>
+
+  <div class="sidebar">
+    <div class="sidebar-block">
+      <h4>Tech Stack</h4>
+      <div class="sitem"><div class="sicon">☕</div><div class="stext"><strong>Java</strong>Plugin logic, event handlers, state management</div></div>
+      <div class="sitem"><div class="sicon">🔌</div><div class="stext"><strong>Spigot API</strong>Event system, entity tracking, world access</div></div>
+      <div class="sitem"><div class="sicon">📦</div><div class="stext"><strong>Maven</strong>Build system, dependency management</div></div>
+      <div class="sitem"><div class="sicon">🎮</div><div class="stext"><strong>14 Plugins</strong>Games, utilities, server management</div></div>
     </div>
-    <a class="btn btn-primary" href="https://github.com/WillHovel/minecraft-plugins" target="_blank">View on GitHub ↗</a>
+    <div style="margin-top:2px;">
+      <a class="btn-primary" href="https://github.com/WillHovel" target="_blank" style="width:100%;justify-content:center;">View on GitHub ↗</a>
+    </div>
   </div>
 </div>
 
@@ -547,6 +339,5 @@
   <p>Will Hovel · UC San Diego · Electrical Engineering</p>
   <p><a href="https://github.com/WillHovel" target="_blank">github.com/WillHovel</a></p>
 </footer>
-
 </body>
 </html>

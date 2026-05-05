@@ -4,857 +4,810 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ocean Acidification &amp; Fish Kinematics — Will Hovel</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
   <style>
-    :root{--bg:#f4f0e8;--ink:#1a1612;--muted:#7a6f60;--accent:#1e4d6b;--accent2:#3a8fa3;--rule:#d4cdc0;--card:#fff;--tag-bg:#e8f4f8;--tag-ink:#1e4d6b;}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    html{scroll-behavior:smooth;}
-    body{background:var(--bg);color:var(--ink);font-family:'Instrument Sans',sans-serif;font-size:16px;line-height:1.65;}
-    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5;}
-    nav{position:sticky;top:0;z-index:100;background:rgba(244,240,232,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);padding:0 clamp(1.5rem,5vw,4rem);display:flex;align-items:center;justify-content:space-between;height:56px;}
-    .nav-logo{font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--ink);text-decoration:none;}
-    .nav-links{display:flex;gap:2rem;}
-    .nav-links a{font-size:.82rem;font-family:'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
-    .nav-links a:hover{color:var(--ink);}
+/* Will Hovel Portfolio — Dark Technical Design System */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
 
-    /* ---- Hero ---- */
-    .page-header{padding:clamp(4rem,10vw,7rem) clamp(1.5rem,5vw,4rem) clamp(2rem,4vw,2.5rem);max-width:900px;animation:fadeUp .5s ease both;}
-    .back-link{font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;margin-bottom:2rem;transition:color .2s;}
-    .back-link:hover{color:var(--accent);}
-    .eyebrow{font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent2);margin-bottom:1rem;}
-    h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,5vw,3.6rem);line-height:1.1;letter-spacing:-.025em;margin-bottom:1.2rem;}
-    h1 em{font-style:italic;color:var(--accent);}
-    .tag-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem;}
-    .tag{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.06em;padding:.3rem .7rem;background:var(--tag-bg);color:var(--tag-ink);border-radius:2px;}
+:root {
+  --black:  #080808;
+  --off-white: #F0EDE6;
+  --muted:  #6B6860;
+  --teal:   #00E5C4;
+  --teal-dim: rgba(0,229,196,0.12);
+  --border: rgba(240,237,230,0.10);
+  --border-bright: rgba(240,237,230,0.22);
+  --card:   rgba(240,237,230,0.04);
+  --card-hover: rgba(240,237,230,0.07);
+  --red:    #FF3B3B;
+  --gold:   #F0C040;
+}
 
-    /* ---- Quick Summary Banner ---- */
-    .summary-banner{margin:0 clamp(1.5rem,5vw,4rem);border:1px solid var(--rule);background:var(--card);display:grid;grid-template-columns:1fr 1fr;gap:0;}
-    @media(max-width:680px){.summary-banner{grid-template-columns:1fr;}}
-    .summary-col{padding:2rem;}
-    .summary-col:first-child{border-right:1px solid var(--rule);}
-    @media(max-width:680px){.summary-col:first-child{border-right:none;border-bottom:1px solid var(--rule);}}
-    .summary-label{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
-    .summary-bullets{display:flex;flex-direction:column;gap:.75rem;}
-    .sbullet{display:flex;align-items:flex-start;gap:.75rem;}
-    .sbullet-num{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--accent2);background:var(--tag-bg);border-radius:2px;padding:.2rem .45rem;flex-shrink:0;margin-top:.18rem;}
-    .sbullet-text{font-size:.9rem;color:#3d3530;line-height:1.6;}
-    .sbullet-text strong{color:var(--ink);}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
-    /* ---- Divider + section labels ---- */
-    hr.divider{border:none;border-top:1px solid var(--rule);margin:0 clamp(1.5rem,5vw,4rem);}
-    .section-label{font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:2rem;display:flex;align-items:center;gap:.75rem;}
-    .section-label::after{content:'';flex:1;height:1px;background:var(--rule);max-width:200px;}
-    section{padding:clamp(3rem,6vw,4.5rem) clamp(1.5rem,5vw,4rem);}
+body {
+  background: var(--black);
+  color: var(--off-white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
 
-    /* ---- Interactive Tool section ---- */
-    #tool{background:var(--card);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);}
-    .tool-intro{max-width:700px;margin-bottom:2rem;}
-    .tool-intro p{font-size:.95rem;color:#3d3530;line-height:1.8;margin-bottom:.8rem;}
-    .tool-intro strong{color:var(--ink);}
+/* Grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
 
-    /* Tool UI */
-    .tool-ui{display:grid;grid-template-columns:300px 1fr;gap:1.5rem;align-items:start;}
-    @media(max-width:800px){.tool-ui{grid-template-columns:1fr;}}
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(8,8,8,0.88);
+  backdrop-filter: blur(16px);
+}
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  color: var(--off-white);
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-links a {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--teal); }
+.nav-links a.active { color: var(--off-white); }
 
-    .tool-panel{background:var(--bg);border:1px solid var(--rule);padding:1.4rem;}
-    .tool-panel h4{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
+/* TYPOGRAPHY */
+.display {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+.mono {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
 
-    .form-group{margin-bottom:1rem;}
-    .form-label{font-family:'DM Mono',monospace;font-size:.73rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:.35rem;}
-    .form-input{width:100%;padding:.5rem .7rem;border:1px solid var(--rule);background:var(--card);font-family:'DM Mono',monospace;font-size:.82rem;color:var(--ink);border-radius:2px;outline:none;}
-    .form-input:focus{border-color:var(--accent2);}
-    .form-select{width:100%;padding:.5rem .7rem;border:1px solid var(--rule);background:var(--card);font-family:'DM Mono',monospace;font-size:.82rem;color:var(--ink);border-radius:2px;outline:none;}
+/* BUTTONS */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.5rem;
+  background: var(--teal);
+  color: var(--black);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary:hover { background: #00fff5; transform: translateY(-1px); }
 
-    .btn-run{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;padding:.75rem 1rem;background:var(--accent);color:#fff;font-family:'DM Mono',monospace;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;transition:background .2s;margin-top:.5rem;}
-    .btn-run:hover{background:var(--accent2);}
-    .btn-run:disabled{background:var(--muted);cursor:not-allowed;}
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.5rem;
+  background: transparent;
+  color: var(--off-white);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--border-bright);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
 
-    .tool-status{font-family:'DM Mono',monospace;font-size:.78rem;color:var(--muted);margin-top:.75rem;min-height:1.4em;}
-    .tool-status.error{color:#c0392b;}
-    .tool-status.ok{color:#27ae60;}
+/* TAGS */
+.tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--border-bright);
+  color: var(--muted);
+}
+.tag-teal { border-color: rgba(0,229,196,0.4); color: var(--teal); }
+.tag-gold { border-color: rgba(240,192,64,0.4); color: var(--gold); }
+.tag-red  { border-color: rgba(255,59,59,0.4);  color: var(--red);  }
 
-    /* Results area */
-    .tool-results{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-    @media(max-width:600px){.tool-results{grid-template-columns:1fr;}}
-    .chart-box{border:1px solid var(--rule);background:var(--card);padding:1rem;}
-    .chart-box h5{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;}
-    .chart-box canvas{width:100%!important;height:180px!important;}
+/* SECTION LABEL */
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+.section-label::before {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--teal);
+  flex-shrink: 0;
+}
 
-    .metrics-box{border:1px solid var(--rule);background:var(--card);padding:1.2rem;grid-column:1/-1;}
-    .metrics-box h5{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;}
-    .metrics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.6rem;}
-    .metric{background:var(--bg);padding:.65rem .8rem;}
-    .metric-label{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted);margin-bottom:.2rem;}
-    .metric-value{font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--ink);}
-    .metric-unit{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--muted);margin-left:.2rem;}
+/* DIVIDERS */
+hr.rule { border: none; border-top: 1px solid var(--border); }
 
-    .tool-placeholder{border:1px solid var(--rule);background:var(--card);padding:3rem;text-align:center;color:var(--muted);font-family:'DM Mono',monospace;font-size:.82rem;grid-column:1/-1;}
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+footer p {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+footer a { color: var(--teal); text-decoration: none; }
 
-    /* ---- Meta bar ---- */
-    .meta-bar{display:flex;flex-wrap:wrap;border:1px solid var(--rule);background:var(--card);margin:0 clamp(1.5rem,5vw,4rem);}
-    .meta-item{flex:1;min-width:140px;padding:1.1rem 1.4rem;border-right:1px solid var(--rule);}
-    .meta-item:last-child{border-right:none;}
-    .meta-label{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem;}
-    .meta-value{font-family:'DM Serif Display',serif;font-size:.95rem;color:var(--ink);}
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.fade-up { animation: fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both; }
+.fade-up-d1 { animation-delay: 0.1s; }
+.fade-up-d2 { animation-delay: 0.2s; }
+.fade-up-d3 { animation-delay: 0.3s; }
+.fade-up-d4 { animation-delay: 0.4s; }
 
-    /* ---- Full research section ---- */
-    .research-content{display:grid;grid-template-columns:1fr 260px;gap:4rem;max-width:1100px;}
-    @media(max-width:768px){.research-content{grid-template-columns:1fr;gap:2rem;}}
-    .prose h2{font-family:'DM Serif Display',serif;font-size:1.5rem;letter-spacing:-.015em;margin:2.5rem 0 .9rem;padding-top:2rem;border-top:1px solid var(--rule);}
-    .prose h2:first-child{margin-top:0;padding-top:0;border-top:none;}
-    .prose p{font-size:.975rem;color:#3d3530;line-height:1.8;margin-bottom:1rem;}
-    .prose strong{color:var(--ink);font-weight:600;}
-    .pipeline-list{margin:.8rem 0 1.2rem;padding-left:1.3rem;display:flex;flex-direction:column;gap:.55rem;}
-    .pipeline-list li{font-size:.93rem;color:#3d3530;line-height:1.7;}
-    .sidebar-card{background:var(--card);border:1px solid var(--rule);padding:1.4rem;margin-bottom:1rem;position:sticky;top:72px;}
-    .sidebar-card h4{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
-    .sitem{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.85rem;padding-bottom:.85rem;border-bottom:1px solid var(--rule);}
-    .sitem:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
-    .sicon{width:30px;height:30px;background:var(--tag-bg);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
-    .stext{font-size:.82rem;color:var(--muted);line-height:1.5;}
-    .stext strong{display:block;color:var(--ink);font-size:.83rem;margin-bottom:.1rem;}
-    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.2rem;font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border-radius:3px;transition:all .2s;width:100%;justify-content:center;margin-top:.5rem;}
-    .btn-primary{background:var(--accent);color:#fff;}
-    .btn-primary:hover{background:var(--accent2);}
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { gap: 1.2rem; }
+  footer { padding: 1.5rem 20px; }
+}
 
-    /* Animal selector (multi-fish) */
-    .animal-select-row{display:flex;align-items:center;gap:.7rem;margin-bottom:.8rem;}
-    .animal-select-row label{font-family:'DM Mono',monospace;font-size:.73rem;color:var(--muted);letter-spacing:.06em;}
+/* ── PAGE LAYOUT ── */
+.page-hero { padding:140px 40px 60px; border-bottom:1px solid var(--border); }
+.back-link { font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:0.4rem;margin-bottom:2.5rem;transition:color .2s; }
+.back-link:hover { color:var(--teal); }
+.eyebrow { font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);margin-bottom:1rem; }
+.page-title { font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.5rem,6vw,4.5rem);line-height:0.95;letter-spacing:-0.04em;margin-bottom:1.5rem; }
+.page-title em { font-style:normal;color:var(--teal); }
+.tag-row { display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1.5rem; }
 
-    footer{border-top:1px solid var(--rule);padding:2rem clamp(1.5rem,5vw,4rem);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
-    footer p{font-family:'DM Mono',monospace;font-size:.75rem;color:var(--muted);}
-    footer a{color:var(--accent2);text-decoration:none;}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+/* Quick summary */
+.summary-banner {
+  display:grid;grid-template-columns:1fr 1fr;
+  border-bottom:1px solid var(--border);
+}
+.summary-col { padding:2.5rem 40px; }
+.summary-col:first-child { border-right:1px solid var(--border); }
+.summary-col-label { font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:1.5rem; }
+.sbullets { display:flex;flex-direction:column;gap:0.9rem; }
+.sbullet { display:flex;gap:0.9rem;align-items:flex-start; }
+.sbullet-key { font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--teal);background:var(--teal-dim);border:1px solid rgba(0,229,196,0.2);padding:0.18rem 0.45rem;flex-shrink:0;margin-top:0.15rem;letter-spacing:0.04em; }
+.sbullet-text { font-size:0.87rem;color:#A0998E;line-height:1.65; }
+.sbullet-text strong { color:var(--off-white);font-weight:500; }
+
+/* Spec bar */
+.spec-bar { display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border); }
+.spec-item { padding:1.2rem 1.5rem;border-right:1px solid var(--border); }
+.spec-item:last-child { border-right:none; }
+.spec-label { font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.35rem; }
+.spec-value { font-family:'Syne',sans-serif;font-weight:600;font-size:0.9rem; }
+
+/* ── TOOL SECTION ── */
+.tool-section { padding:60px 40px;border-bottom:1px solid var(--border); }
+.tool-intro { max-width:680px;margin-bottom:2.5rem; }
+.tool-intro p { font-size:0.88rem;color:#A0998E;line-height:1.8;margin-bottom:0.8rem; }
+.tool-intro strong { color:var(--off-white); }
+code { font-family:'Space Mono',monospace;font-size:0.78em;background:rgba(0,229,196,0.08);color:var(--teal);padding:0.1em 0.35em;border:1px solid rgba(0,229,196,0.15); }
+
+.tool-ui { display:grid;grid-template-columns:280px 1fr;gap:2px;align-items:start; }
+
+/* Tool panel */
+.tool-panel { background:var(--card);border:1px solid var(--border);padding:1.4rem; }
+.tool-panel-label { font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:1.2rem; }
+.form-group { margin-bottom:0.9rem; }
+.form-label { font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:0.35rem; }
+.form-input,.form-select { width:100%;padding:0.5rem 0.7rem;background:#111;border:1px solid var(--border);color:var(--off-white);font-family:'Space Mono',monospace;font-size:0.78rem;outline:none;transition:border-color .2s; }
+.form-input:focus,.form-select:focus { border-color:var(--teal); }
+.btn-run { display:flex;align-items:center;justify-content:center;gap:0.5rem;width:100%;padding:0.7rem 1rem;background:var(--teal);color:var(--black);font-family:'Space Mono',monospace;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border:none;cursor:pointer;transition:background .2s;margin-top:0.5rem; }
+.btn-run:hover { background:#00fff5; }
+.tool-status { font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--muted);margin-top:0.75rem;line-height:1.5;min-height:1.2em; }
+.tool-status.error { color:var(--red); }
+.tool-status.ok { color:var(--teal); }
+.format-hint { margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border); }
+.format-hint-label { font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--muted);letter-spacing:0.08em;margin-bottom:0.4rem; }
+.format-code { font-family:'Space Mono',monospace;font-size:0.65rem;color:#6B9E8A;background:#0d1a16;border:1px solid rgba(0,229,196,0.1);padding:0.5rem;line-height:1.8; }
+
+/* Tabs */
+.tab-bar { display:flex;border-bottom:1px solid var(--border);margin-bottom:0; }
+.tab-btn { font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.8rem 1.2rem;cursor:pointer;color:var(--muted);border:none;background:transparent;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s; }
+.tab-btn.active { color:var(--teal);border-bottom-color:var(--teal); }
+.tab-btn:hover:not(.active) { color:var(--off-white); }
+.tab-panel { display:none;padding:1.5rem; }
+.tab-panel.active { display:block; }
+.tab-wrap { border:1px solid var(--border);background:var(--card); }
+
+/* Results */
+.results-grid { display:grid;grid-template-columns:1fr 1fr;gap:2px; }
+.chart-box { border:1px solid var(--border);background:#0c0c0c;padding:1rem; }
+.chart-box h5 { font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.6rem; }
+.chart-box canvas { width:100%!important;height:180px!important; }
+.metrics-box { border:1px solid var(--border);background:#0c0c0c;padding:1.2rem;grid-column:1/-1; }
+.metrics-box h5 { font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.8rem; }
+.metrics-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:2px; }
+.metric { background:#111;border:1px solid var(--border);padding:0.7rem 0.9rem; }
+.metric-label { font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--muted);margin-bottom:0.2rem; }
+.metric-value { font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;color:var(--off-white); }
+.metric-unit { font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--muted);margin-left:0.2rem; }
+.placeholder-box { border:1px solid var(--border);background:#0c0c0c;padding:3rem;text-align:center;color:var(--muted);font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:0.06em;grid-column:1/-1; }
+
+/* Fin tab */
+.fin-sel-row { display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap; }
+.fin-sel-row .form-group { margin-bottom:0;flex:1;min-width:120px; }
+.fin-metrics { font-family:'Space Mono',monospace;font-size:0.72rem;color:#6B9E8A;line-height:1.9;white-space:pre-wrap; }
+.anim-wrap { border:1px solid var(--border);background:#05050f;grid-column:1/-1;position:relative; }
+.anim-wrap canvas { display:block;width:100%;height:300px; }
+.anim-controls { display:flex;gap:0.6rem;align-items:center;padding:0.5rem 0.8rem;background:#0d0d1a;border-top:1px solid rgba(255,255,255,0.05); }
+.anim-btn-sm { font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.35rem 0.8rem;border:1px solid var(--teal);background:transparent;color:var(--teal);cursor:pointer;transition:all .15s; }
+.anim-btn-sm:hover,.anim-btn-sm.playing { background:var(--teal);color:var(--black); }
+.anim-speed { display:flex;align-items:center;gap:0.5rem;margin-left:auto; }
+.anim-speed label { font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--muted); }
+.anim-speed input[type=range] { width:80px;accent-color:var(--teal); }
+.anim-speed span { font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--teal);min-width:2.5em; }
+
+/* Research section */
+.research-section { display:grid;grid-template-columns:1fr 280px;border-top:1px solid var(--border); }
+.prose { padding:60px 40px;border-right:1px solid var(--border); }
+.prose h2 { font-family:'Syne',sans-serif;font-weight:700;font-size:1.3rem;letter-spacing:-0.02em;margin:3rem 0 1rem;padding-top:3rem;border-top:1px solid var(--border); }
+.prose h2:first-child { margin-top:0;padding-top:0;border-top:none; }
+.prose p { font-size:0.9rem;color:#A0998E;line-height:1.85;margin-bottom:1rem; }
+.prose strong { color:var(--off-white);font-weight:500; }
+.prose em { font-style:italic;color:var(--off-white); }
+.prose-list { margin:0.8rem 0 1rem;padding-left:1.2rem;display:flex;flex-direction:column;gap:0.55rem; }
+.prose-list li { font-size:0.88rem;color:#A0998E;line-height:1.7; }
+
+/* Sidebar */
+.sidebar { padding:40px 24px; }
+.sidebar-block { border:1px solid var(--border);padding:1.2rem;margin-bottom:2px; }
+.sidebar-block h4 { font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem; }
+.sitem { display:flex;align-items:flex-start;gap:0.7rem;margin-bottom:0.8rem;padding-bottom:0.8rem;border-bottom:1px solid var(--border); }
+.sitem:last-child { border-bottom:none;margin-bottom:0;padding-bottom:0; }
+.sicon { width:28px;height:28px;background:var(--teal-dim);border:1px solid rgba(0,229,196,0.2);display:flex;align-items:center;justify-content:center;font-size:0.8rem;flex-shrink:0; }
+.stext { font-size:0.78rem;color:var(--muted);line-height:1.5; }
+.stext strong { display:block;color:var(--off-white);font-size:0.8rem;margin-bottom:0.1rem; }
+
+@media(max-width:900px) {
+  .summary-banner { grid-template-columns:1fr; }
+  .summary-col:first-child { border-right:none;border-bottom:1px solid var(--border); }
+  .summary-col { padding:2rem 20px; }
+  .spec-bar { grid-template-columns:1fr 1fr; }
+  .tool-ui { grid-template-columns:1fr; }
+  .results-grid { grid-template-columns:1fr; }
+  .research-section { grid-template-columns:1fr; }
+  .prose { border-right:none;padding:40px 20px; }
+  .sidebar { padding:20px;border-top:1px solid var(--border); }
+  .tool-section { padding:40px 20px; }
+  .page-hero { padding:120px 20px 40px; }
+}
   </style>
 </head>
 <body>
 <nav>
-  <a class="nav-logo" href="index.html">Will Hovel</a>
+  <a class="nav-logo" href="index.html">WH</a>
   <div class="nav-links">
     <a href="index.html#projects">Projects</a>
     <a href="about.html">About</a>
-    <a href="https://github.com/WillHovel" target="_blank">GitHub</a>
+    <a href="https://github.com/WillHovel" target="_blank">GitHub ↗</a>
   </div>
 </nav>
 
-<!-- ===================== HERO ===================== -->
-<div class="page-header">
+<div class="page-hero fade-up">
   <a class="back-link" href="index.html">← All Projects</a>
-  <div class="eyebrow">Active Research · Di Santo Lab · URS Funded · Summer 2025</div>
-  <h1>Ocean Acidification &amp; <em>Fish Kinematics</em></h1>
+  <div class="eyebrow">Active Research · Di Santo Lab · URS Funding Pending · Summer 2025</div>
+  <h1 class="page-title">Ocean Acidification &amp; <em>Fish Kinematics</em></h1>
   <div class="tag-row">
-    <span class="tag">MATLAB</span><span class="tag">FFT</span><span class="tag">Signal Processing</span>
-    <span class="tag">3-D Kinematics</span><span class="tag">Flow Tank</span><span class="tag">Ocean Acidification</span>
+    <span class="tag tag-teal">⏳ URS Funding Pending</span>
+    <span class="tag">MATLAB</span><span class="tag">FFT</span>
+    <span class="tag">Signal Processing</span><span class="tag">3-D Kinematics</span><span class="tag">Flow Tank</span>
   </div>
 </div>
 
-<!-- ===================== QUICK SUMMARY ===================== -->
 <div class="summary-banner">
   <div class="summary-col">
-    <div class="summary-label">The Experiment</div>
-    <div class="summary-bullets">
-      <div class="sbullet"><div class="sbullet-num">Q</div><div class="sbullet-text">Does elevated CO2 disrupt schooling behavior in fish? Ocean acidification impairs sensory processing; we test whether it also affects the collective movement decisions that underlie schooling.</div></div>
-      <div class="sbullet"><div class="sbullet-num">Setup</div><div class="sbullet-text"><strong>Flapping foil array</strong> in a recirculating flow tank mimics the hydrodynamic signature of schoolmates, letting us observe a single focal fish responding to a controlled, repeatable artificial school.</div></div>
-      <div class="sbullet"><div class="sbullet-num">Data</div><div class="sbullet-text"><strong>High-speed video</strong> records each trial. Landmark coordinates along the fish's body midline are digitized and fed into the analysis pipeline.</div></div>
+    <div class="summary-col-label">The Experiment</div>
+    <div class="sbullets">
+      <div class="sbullet"><div class="sbullet-key">Q</div><div class="sbullet-text">Does elevated CO2 disrupt schooling behavior? Ocean acidification impairs sensory processing; we test whether it disrupts the collective movement decisions that underlie schooling.</div></div>
+      <div class="sbullet"><div class="sbullet-key">Setup</div><div class="sbullet-text"><strong>Flapping foil array</strong> in a recirculating flow tank mimics the hydrodynamic signature of schoolmates, letting us observe one focal fish responding to a controlled artificial school.</div></div>
+      <div class="sbullet"><div class="sbullet-key">Data</div><div class="sbullet-text"><strong>High-speed video</strong> captures each trial. Landmark coordinates along the fish midline are digitized and fed into the analysis pipeline.</div></div>
     </div>
   </div>
   <div class="summary-col">
-    <div class="summary-label">What I Built</div>
-    <div class="summary-bullets">
-      <div class="sbullet"><div class="sbullet-num">01</div><div class="sbullet-text"><strong>Midline alignment</strong> — least-squares rotation so each frame's swimming axis is parallel to X, snout at origin</div></div>
-      <div class="sbullet"><div class="sbullet-num">02</div><div class="sbullet-text"><strong>FFT interpolation</strong> — upsamples 5 to 10 body landmarks to 200 continuous positions per frame for smooth waveform profiles</div></div>
-      <div class="sbullet"><div class="sbullet-num">03</div><div class="sbullet-text"><strong>Kinematic metrics</strong> — tail-beat frequency, amplitude envelope, propulsive wavelength, body curvature</div></div>
-      <div class="sbullet"><div class="sbullet-num">04</div><div class="sbullet-text"><strong>Interactive tool</strong> — upload your CSV below and run the full analysis in the browser, no MATLAB needed</div></div>
+    <div class="summary-col-label">What I Built</div>
+    <div class="sbullets">
+      <div class="sbullet"><div class="sbullet-key">01</div><div class="sbullet-text"><strong>Midline alignment</strong> — least-squares rotation, snout at origin each frame</div></div>
+      <div class="sbullet"><div class="sbullet-key">02</div><div class="sbullet-text"><strong>FFT interpolation</strong> — 5 to 10 landmarks upsampled to 200 continuous positions</div></div>
+      <div class="sbullet"><div class="sbullet-key">03</div><div class="sbullet-text"><strong>Kinematic metrics</strong> — tail-beat frequency, amplitude, wavelength, curvature</div></div>
+      <div class="sbullet"><div class="sbullet-key">04</div><div class="sbullet-text"><strong>Tail vector analysis</strong> — pitch, yaw, roll angles + live 3D animation</div></div>
     </div>
   </div>
 </div>
 
-<div style="height:1px;background:var(--rule);margin:0 clamp(1.5rem,5vw,4rem);"></div>
-
-<div class="meta-bar">
-  <div class="meta-item"><div class="meta-label">Lab</div><div class="meta-value">Di Santo Lab, UCSD</div></div>
-  <div class="meta-item"><div class="meta-label">Species</div><div class="meta-value">Menidia sp.</div></div>
-  <div class="meta-item"><div class="meta-label">Funding</div><div class="meta-value">URS Belkin Scholarship</div></div>
-  <div class="meta-item"><div class="meta-label">Timeline</div><div class="meta-value">Summer 2025</div></div>
+<div class="spec-bar">
+  <div class="spec-item"><div class="spec-label">Lab</div><div class="spec-value">Di Santo Lab, UCSD</div></div>
+  <div class="spec-item"><div class="spec-label">Species</div><div class="spec-value">Menidia sp.</div></div>
+  <div class="spec-item"><div class="spec-label">Funding</div><div class="spec-value" style="color:var(--gold)">URS Belkin (Pending)</div></div>
+  <div class="spec-item"><div class="spec-label">Timeline</div><div class="spec-value">Summer 2025</div></div>
 </div>
 
-<!-- ===================== INTERACTIVE TOOL ===================== -->
-<section id="tool">
+<!-- ── TOOL ── -->
+<div class="tool-section">
   <div class="section-label">Interactive Analysis Tool</div>
   <div class="tool-intro">
-    <p>
-      This is a browser port of the MATLAB kinematics toolkit I built for the Di Santo Lab. Upload a CSV of digitized fish body landmarks, set your parameters, and the pipeline will align the midlines, run FFT interpolation, and extract kinematic metrics directly in your browser.
-    </p>
-    <p>
-      <strong>CSV format:</strong> Two formats are supported. DLC-style indexed columns (<code>Fish1_P1_x, Fish1_P1_y</code>) or named landmark columns (<code>snout_X, snout_Y</code>). Z columns are optional (3D mode). One row per frame.
-    </p>
+    <p>A browser port of the MATLAB kinematics toolkit built for the Di Santo Lab. Pick a sample <em>Polypterus</em> dataset or upload your own CSV, then run the full pipeline: midline alignment, FFT interpolation, kinematic metrics, and tail vector animation — all in the browser.</p>
+    <p><strong>CSV format:</strong> Named landmark columns (<code>snout_X, snout_Y, snout_Z</code>) or DLC-indexed (<code>Fish1_P1_x, Fish1_P1_y</code>). Z columns optional. One row per frame. The <strong>Fin/Tail Vector</strong> tab requires named 3D data.</p>
   </div>
 
   <div class="tool-ui">
-    <!-- Left panel: inputs -->
+    <!-- Left panel -->
     <div class="tool-panel">
-      <h4>Input</h4>
-
+      <div class="tool-panel-label">Input</div>
       <div class="form-group">
-        <label class="form-label">CSV File</label>
-        <input type="file" accept=".csv" class="form-input" id="csvFile" style="padding:.4rem .5rem;font-size:.78rem;"/>
+        <label class="form-label">Sample Dataset</label>
+        <select class="form-select" id="sampleSelect" onchange="loadSample()">
+          <option value="">-- Upload your own --</option>
+          <option value="polypterus_poly1_data.csv">Polypterus poly1 (3D, 41 frames)</option>
+          <option value="polypterus_poly2_data.csv">Polypterus poly2 (3D, 81 frames)</option>
+          <option value="polypterus_poly4_data.csv">Polypterus poly4 (3D, 98 frames)</option>
+        </select>
       </div>
-
+      <div class="form-group">
+        <label class="form-label">Or Upload CSV</label>
+        <input type="file" accept=".csv" class="form-input" id="csvFile" style="font-size:0.72rem;padding:0.4rem 0.5rem;" onchange="onFileUpload()"/>
+      </div>
       <div class="form-group">
         <label class="form-label">Frames per second</label>
-        <input type="number" class="form-input" id="fps" value="100" min="1" max="10000" step="1"/>
+        <input type="number" class="form-input" id="fps" value="100" min="1" max="10000"/>
       </div>
-
       <div class="form-group">
         <label class="form-label">Min frequency (Hz)</label>
         <input type="number" class="form-input" id="minFreq" value="0.5" min="0" max="1000" step="0.1"/>
       </div>
-
       <div class="form-group" id="animalSelectGroup" style="display:none;">
         <label class="form-label">Animal</label>
-        <select class="form-select" id="animalSelect"></select>
+        <select class="form-select" id="animalSelect" onchange="onAnimalChange()"></select>
       </div>
+      <button class="btn-run" onclick="runAnalysis()">Run Analysis</button>
+      <div class="tool-status" id="statusMsg">Choose a sample or upload a CSV.</div>
+      <div class="format-hint">
+        <div class="format-hint-label">Named format (3D):</div>
+        <div class="format-code">snout_X,snout_Y,snout_Z,...<br>-2.09,4.97,-7.97,...</div>
+        <div class="format-hint-label" style="margin-top:0.6rem;">DLC indexed:</div>
+        <div class="format-code">frame,Fish1_P1_x,Fish1_P1_y,...<br>0,312.4,187.2,...</div>
+      </div>
+    </div>
 
-      <button class="btn-run" id="runBtn" onclick="runAnalysis()">Load &amp; Analyse</button>
-      <div class="tool-status" id="statusMsg">Load a CSV file to begin.</div>
-
-      <div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--rule);">
-        <div style="font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;">Example CSV format</div>
-        <div style="font-family:'DM Mono',monospace;font-size:.7rem;color:#6a5f55;background:var(--bg);padding:.6rem;border-radius:2px;line-height:1.7;overflow-x:auto;">
-          frame,Fish1_P1_x,Fish1_P1_y,...<br>
-          0,312.4,187.2,...<br>
-          1,313.1,188.0,...
+    <!-- Right: tabbed -->
+    <div>
+      <div class="tab-wrap">
+        <div class="tab-bar">
+          <button class="tab-btn active" onclick="switchTab('kine',this)">Kinematics</button>
+          <button class="tab-btn" onclick="switchTab('fin',this)">Fin / Tail Vector</button>
         </div>
-        <div style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted);margin-top:.5rem;">or named: snout_X, snout_Y, eye_X, eye_Y, ...</div>
-      </div>
-    </div>
-
-    <!-- Right panel: results -->
-    <div id="resultsArea">
-      <div class="tool-placeholder">Upload a CSV and click "Load &amp; Analyse" to see results here.</div>
-    </div>
-  </div>
-</section>
-
-<hr class="divider"/>
-
-<!-- ===================== FULL RESEARCH SECTION ===================== -->
-<section>
-  <div class="section-label">Full Research Detail</div>
-  <div class="research-content">
-    <div class="prose">
-      <h2>Abstract</h2>
-      <p>
-        Fish that swim in schools make rapid decisions: when to join, where to position themselves, and how to respond to their neighbors' movement. These decisions are thought to be driven by a combination of visual and hydrodynamic cues. However, ocean acidification, caused by rising atmospheric CO2 dissolving into seawater, is known to impair sensory processing and behavior in fish. Whether elevated CO2 disrupts the decision-making that underlies collective schooling is poorly understood.
-      </p>
-      <p>
-        This summer, I will investigate how CO2-exposed silversides (<em>Menidia</em> sp.) make schooling decisions in a controlled flow tank setting. Rather than using live schools, which introduce uncontrolled variability, we use flapping foils that mimic the hydrodynamic signatures of schoolmates, creating a stable, repeatable artificial school. This allows us to isolate and observe the behavior of a single focal fish as it navigates and responds to its simulated neighbors.
-      </p>
-      <p>
-        Results will improve our understanding of how ocean acidification disrupts the sensory and behavioral mechanisms that allow fish to school effectively. As CO2 levels continue to rise, determining whether collective behavior in fish is vulnerable to climate change is critical for predicting ecological consequences for marine ecosystems that depend on schooling species.
-      </p>
-
-      <h2>Analysis Pipeline</h2>
-      <p>
-        To support this research, I built a MATLAB toolkit for extracting swimming kinematics from high-speed video tracking data. Key contributions include:
-      </p>
-      <ul class="pipeline-list">
-        <li><strong>Midline alignment</strong> — implemented a least-squares rotation algorithm that re-orients each frame so the fish's swimming axis is parallel to X and the snout sits at the origin, enabling frame-by-frame comparison regardless of heading</li>
-        <li><strong>FFT interpolation</strong> — upsampled sparse midlines (5 to 10 tracked landmarks) to 200 continuous body positions per frame using zero-padded FFT, producing smooth waveform profiles without landmark-spacing artifacts</li>
-        <li><strong>Tail-beat frequency</strong> — extracted dominant beat frequency at the head and tail independently via temporal FFT of position time series</li>
-        <li><strong>Amplitude envelope</strong> — computed mean lateral half-amplitude at each body position, yielding a full head-to-tail amplitude profile and summary metrics (head/tail ratio, min/max locations)</li>
-        <li><strong>Propulsive wavelength</strong> — estimated from a spatial FFT of the amplitude profile</li>
-        <li><strong>Body curvature</strong> — computed three-point geometric curvature at each of the 200 body positions and averaged across frames</li>
-        <li><strong>3-D support</strong> — extended the pipeline to handle Z-coordinate data, enabling dorso-ventral amplitude and curvature analysis for fin motion capture</li>
-        <li><strong>Interactive GUI</strong> — built an interactive MATLAB app (and the browser tool above) so any researcher can analyze their CSV without editing code directly</li>
-      </ul>
-
-      <h2>Personal Statement</h2>
-      <p>
-        I am drawn to systems that are hard to measure. Whether it is a fish swimming in a flow tank, a hand making a gesture, or a robot reacting to a track, the interesting engineering problems all share the same structure: you have a physical system generating a messy, continuous signal, and you want to extract something meaningful and repeatable from it.
-      </p>
-      <p>
-        My background in electrical engineering has given me the mathematical foundation to approach these problems rigorously. Coursework in signal processing (ECE 45) and statistics (ECE 109) taught me to think carefully about noise, sampling, and what it actually means for an algorithm to generalize. That foundation shapes every project I work on. I do not just want something that works in demo conditions. I want to understand why it works, and what would make it fail.
-      </p>
-      <p>
-        <strong>What connects these projects is iteration.</strong> None of them worked on the first try. Each required diagnosing what was actually failing and fixing it at the right level of abstraction. That process of building, debugging, and redesigning is where I have learned the most, and it is what I want to keep doing.
-      </p>
-    </div>
-    <div class="sidebar">
-      <div class="sidebar-card">
-        <h4>Project Details</h4>
-        <div class="sitem"><div class="sicon">🐟</div><div class="stext"><strong>Study organism</strong>Atlantic silverside (Menidia menidia)</div></div>
-        <div class="sitem"><div class="sicon">🌊</div><div class="stext"><strong>Experimental setup</strong>Flapping foil array in a recirculating flow tank</div></div>
-        <div class="sitem"><div class="sicon">🎥</div><div class="stext"><strong>Data collection</strong>High-speed video, 3-D body tracking</div></div>
-        <div class="sitem"><div class="sicon">⚙️</div><div class="stext"><strong>Analysis tools</strong>MATLAB pipeline: FFT interpolation, kinematics extraction</div></div>
-        <div class="sitem"><div class="sicon">🏆</div><div class="stext"><strong>Funding</strong>URS David Marc Belkin Memorial Research Scholarship for Environment and Ecology</div></div>
-        <a class="btn btn-primary" href="https://github.com/WillHovel/schooling-vs-CO2" target="_blank">View on GitHub ↗</a>
+        <div class="tab-panel active" id="tab-kine">
+          <div class="results-grid" id="kineResults">
+            <div class="placeholder-box">Run analysis to see kinematic results.</div>
+          </div>
+        </div>
+        <div class="tab-panel" id="tab-fin">
+          <div style="margin-bottom:1rem;">
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <div class="form-label" style="margin-bottom:0.6rem;">Select Root and Tip (named 3D data required)</div>
+              <div class="fin-sel-row">
+                <div class="form-group"><label class="form-label">Root</label><select class="form-select" id="finRoot"></select></div>
+                <div class="form-group"><label class="form-label">Tip</label><select class="form-select" id="finTip"></select></div>
+              </div>
+              <button class="btn-run" onclick="runFinAnalysis()" style="margin-top:0;">Compute Fin/Tail Vector</button>
+            </div>
+          </div>
+          <div class="results-grid" id="finResults">
+            <div class="placeholder-box">Run kinematics first, then select root and tip points.</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</section>
+</div>
+
+<!-- ── RESEARCH ── -->
+<div class="research-section">
+  <div class="prose">
+    <h2>Abstract</h2>
+    <p>Fish that swim in schools make rapid decisions: when to join, where to position themselves, and how to respond to their neighbors' movement. These decisions are driven by visual and hydrodynamic cues. Ocean acidification, caused by rising atmospheric CO2 dissolving into seawater, is known to impair sensory processing in fish. Whether elevated CO2 disrupts the decision-making underlying collective schooling is poorly understood.</p>
+    <p>I will investigate how CO2-exposed silversides (<em>Menidia</em> sp.) make schooling decisions in a controlled flow tank setting. Rather than using live schools, we use flapping foils that mimic the hydrodynamic signatures of schoolmates, creating a repeatable artificial school. This allows us to isolate the behavior of a single focal fish responding to its simulated neighbors.</p>
+
+    <h2>Analysis Pipeline</h2>
+    <ul class="prose-list">
+      <li><strong>Midline alignment</strong> — least-squares rotation re-orients each frame so the swimming axis is parallel to X and the snout sits at origin, enabling frame-by-frame comparison regardless of heading</li>
+      <li><strong>FFT interpolation</strong> — upsamples sparse midlines (5 to 10 tracked landmarks) to 200 continuous body positions per frame using zero-padded FFT, producing smooth waveform profiles without landmark-spacing artifacts</li>
+      <li><strong>Tail-beat frequency</strong> — dominant beat frequency extracted at head and tail independently via temporal FFT of position time series</li>
+      <li><strong>Amplitude envelope</strong> — mean lateral half-amplitude at each body position, yielding a full head-to-tail profile and summary metrics</li>
+      <li><strong>Propulsive wavelength</strong> — estimated from a spatial FFT of the amplitude profile</li>
+      <li><strong>Body curvature</strong> — three-point geometric curvature at each of the 200 body positions, averaged across frames</li>
+      <li><strong>Fin/tail vector analysis</strong> — for any pair of named landmarks, computes pitch, yaw, roll angles, tip trajectory, cumulative tip distance, and angular velocity; animated with a live 3D canvas</li>
+    </ul>
+
+    <h2>Personal Statement</h2>
+    <p>I am drawn to systems that are hard to measure. Whether it is a fish swimming in a flow tank, a hand making a gesture, or a robot reacting to a track, the interesting engineering problems share the same structure: a physical system generating a messy, continuous signal, and the goal of extracting something meaningful and repeatable from it.</p>
+    <p><strong>What connects these projects is iteration.</strong> None of them worked on the first try. Each required diagnosing what was actually failing and fixing it at the right level of abstraction. That process of building, debugging, and redesigning is where I have learned the most.</p>
+  </div>
+
+  <div class="sidebar">
+    <div class="sidebar-block">
+      <h4>Project Details</h4>
+      <div class="sitem"><div class="sicon">🐟</div><div class="stext"><strong>Study organism</strong>Atlantic silverside (Menidia menidia)</div></div>
+      <div class="sitem"><div class="sicon">🌊</div><div class="stext"><strong>Setup</strong>Flapping foil array in a recirculating flow tank</div></div>
+      <div class="sitem"><div class="sicon">🎥</div><div class="stext"><strong>Data</strong>High-speed video, 3D body tracking</div></div>
+      <div class="sitem"><div class="sicon">⚙️</div><div class="stext"><strong>Tools</strong>MATLAB: FFT interpolation, kinematics, fin vector animation</div></div>
+      <div class="sitem"><div class="sicon">⏳</div><div class="stext"><strong>Funding</strong>URS Belkin Memorial Research Scholarship (pending)</div></div>
+    </div>
+    <div style="margin-top:2px;">
+      <a class="btn-primary" href="https://github.com/WillHovel/schooling-vs-CO2" target="_blank" style="width:100%;justify-content:center;">View on GitHub ↗</a>
+    </div>
+  </div>
+</div>
 
 <footer>
   <p>Will Hovel · UC San Diego · Electrical Engineering</p>
   <p><a href="https://github.com/WillHovel" target="_blank">github.com/WillHovel</a></p>
 </footer>
 
-<!-- ===================== CHART.JS ===================== -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
-// ============================================================
-//  Fish Kinematics Analysis — JS port of the MATLAB toolkit
-// ============================================================
+const SAMPLE_DATA = {"polypterus_poly1_data.csv": "eye_X,eye_Y,eye_Z,snout_X,snout_Y,snout_Z,peduncle_X,peduncle_Y,peduncle_Z,dorsaltip_X,dorsaltip_Y,dorsaltip_Z,analtip_X,analtip_Y,analtip_Z,caudaltip_X,caudaltip_Y,caudaltip_Z,Rpecttip_X,Rpecttip_Y,Rpecttip_Z,Rpectbase_X,Rpectbase_Y,Rpectbase_Z,Lpectbase_X,Lpectbase_Y,Lpectbase_Z,Lpecttip_X,Lpecttip_Y,Lpecttip_Z,Rpelvictip_X,Rpelvictip_Y,Rpelvictip_Z,Rpelvicbase_X,Rpelvicbase_Y,Rpelvicbase_Z,Lpelvictip_X,Lpelvictip_Y,Lpelvictip_Z,Lpelvicbase_X,Lpelvicbase_Y,Lpelvicbase_Z\n-1.232628,5.089383,-7.966761,-2.087865,4.965259,-7.969328,5.456882,3.744442,-3.702478,6.220345,4.149077,-4.432539,7.350517,2.444845,-3.252391,NaN,NaN,NaN,0.153444,4.419888,-5.810194,-0.708175,4.750896,-6.699743,-1.240846,3.63469,-7.33792,-0.757149,2.476336,-6.157302,2.829292,3.797051,-3.180404,2.681449,3.390943,-3.991132,2.777572,2.868638,-3.275026,2.628177,3.197661,-4.035049\n-1.23611,5.084835,-7.985849,-2.103567,4.964876,-7.982275,5.462974,3.745007,-3.708024,6.207483,4.176955,-4.428114,7.34315,2.572714,-3.240481,7.372376,2.66404,-3.210321,0.177064,4.431853,-5.92712,-0.701291,4.743469,-6.717992,NaN,NaN,NaN,-0.950355,2.471137,-6.13103,2.695517,3.775948,-3.262086,2.586782,3.352487,-3.991348,2.716342,2.87704,-3.318281,2.589924,3.158866,-4.046792\n-1.2529,5.079701,-7.99954,-2.132126,4.974836,-7.980096,5.448947,3.816918,-3.707841,6.18167,4.231781,-4.442741,7.347492,2.642155,-3.268821,7.398321,2.786342,-3.204719,0.316745,4.529425,-6.042472,-0.749023,4.780883,-6.724783,-1.135926,3.741472,-6.774804,-0.990707,2.467157,-6.122528,2.731073,3.721119,-3.347118,2.628983,3.362164,-4.035069,2.596675,2.831921,-3.360863,2.506927,3.075417,-4.039493\n-1.258745,5.081039,-8.015098,-2.17239,5.005525,-7.981775,5.440181,3.818245,-3.723894,6.135931,4.242025,-4.462208,7.37157,2.69855,-3.267667,7.306033,2.830944,-3.198481,0.404945,4.789705,-6.113543,-0.749023,4.780883,-6.724783,-1.117803,3.754481,-6.776745,-1.066292,2.48161,-6.141564,2.730091,3.699473,-3.349329,2.619352,3.334682,-4.084718,2.558901,2.805818,-3.384252,2.506927,3.075417,-4.039493\n-1.265853,5.082485,-8.028532,-2.180063,5.006893,-7.989538,5.431595,3.830629,-3.740966,6.124771,4.298432,-4.47904,7.389877,2.710742,-3.278751,7.311847,2.853212,-3.193739,0.458113,4.829498,-6.223188,-0.758769,4.807436,-6.724912,-1.133968,3.779578,-6.769474,-1.180344,2.478204,-6.119181,2.74013,3.673429,-3.354331,2.612913,3.317794,-4.085397,2.532763,2.795918,-3.407203,2.506927,3.075417,-4.039493\n-1.273252,5.08393,-8.040668,-2.188549,5.00857,-8.003377,5.417159,3.842574,-3.757012,6.099966,4.298635,-4.50014,7.382084,2.722279,-3.27727,7.290091,2.870739,-3.172211,0.446047,5.056739,-6.299297,-0.766114,4.857107,-6.734613,-1.135202,3.796887,-6.766595,-1.272281,2.485875,-6.251842,2.742546,3.647462,-3.369666,2.612913,3.317794,-4.085397,2.52895,2.795778,-3.436481,2.506927,3.075417,-4.039493\n-1.332067,5.112738,-8.036954,-2.196022,5.009929,-8.011593,5.40688,3.849694,-3.77659,6.08296,4.354549,-4.514503,7.373949,2.756925,-3.287825,7.292149,2.980503,-3.159196,0.391902,5.16051,-6.33208,-0.790949,4.878414,-6.755115,-1.145743,3.818905,-6.760994,-1.34999,2.500027,-6.261867,2.732032,3.669983,-3.396935,2.594356,3.283509,-4.085653,2.528818,2.784999,-3.443676,2.506927,3.075417,-4.039493\n-1.461881,5.138801,-8.017982,-2.204606,5.011632,-8.025587,5.371042,3.881667,-3.786194,6.029057,4.352261,-4.525664,7.364191,2.85122,-3.278147,7.343682,3.202855,-3.145315,0.385952,5.248382,-6.336515,-0.784471,4.878307,-6.795602,-1.114986,3.798842,-6.770656,-1.512925,2.497858,-6.286054,2.729844,3.636541,-3.41814,2.540972,3.229792,-4.081056,2.512385,2.778268,-3.45299,2.506927,3.075417,-4.039493\n-1.487626,5.138267,-8.027841,-2.211779,5.012968,-8.034332,5.349062,3.89324,-3.798553,5.967468,4.30514,-4.537117,7.367625,2.988634,-3.264863,7.36938,3.319515,-3.137857,0.382576,5.349911,-6.377978,-0.79346,4.896854,-6.812359,-1.140083,3.81432,-6.807553,-1.697077,2.599034,-6.41929,2.735352,3.595042,-3.423941,2.492485,3.209609,-4.106156,2.466047,2.747311,-3.446636,2.506927,3.075417,-4.039493\n-1.50707,5.155255,-8.034577,-2.255785,5.010215,-8.036217,5.340659,3.921956,-3.808433,5.964733,4.306921,-4.553269,7.358108,3.23152,-3.245142,7.421729,3.324078,-3.202924,0.33941,5.390544,-6.430195,-0.79855,4.897727,-6.818745,-1.14186,3.85454,-6.840479,-1.766276,2.558529,-6.555803,2.72781,3.55774,-3.427621,2.417555,3.193605,-4.120339,2.454525,2.740931,-3.444901,2.494818,3.058045,-4.039027\n-1.504059,5.163985,-8.049711,-2.268901,5.010847,-8.04405,5.331146,3.978284,-3.81529,5.949141,4.268883,-4.567712,7.322716,3.391876,-3.226206,7.369082,3.401311,-3.192304,0.175547,5.449243,-6.492901,-0.803318,4.898979,-6.837722,-1.152916,3.8537,-6.863635,-1.920269,2.650883,-6.611452,2.719187,3.518914,-3.468198,2.40703,3.172362,-4.127816,2.438083,2.734203,-3.454188,2.459487,3.012538,-4.044192\n-1.513327,5.165732,-8.063146,-2.276727,5.006651,-8.053961,5.3202,3.996153,-3.823385,5.923791,4.263063,-4.5765,7.273796,3.49975,-3.207833,7.219962,3.477434,-3.188367,0.157256,5.524504,-6.490279,-0.818271,4.901987,-6.869478,-1.172323,3.862437,-6.898879,-2.010197,2.693626,-6.658913,2.720514,3.559582,-3.469881,2.405656,3.166483,-4.128232,2.434591,2.734113,-3.489574,2.387277,2.959256,-4.067347\n-1.564017,5.162573,-8.068347,-2.351516,4.977949,-8.054083,5.253646,4.014525,-3.81661,5.910533,4.230336,-4.589581,7.248235,3.542357,-3.199299,7.187476,3.53545,-3.17633,0.092385,5.698299,-6.450588,-0.843776,4.930628,-6.869846,-1.232768,3.878047,-6.947464,-2.083446,2.762355,-6.653552,2.573847,3.422344,-3.454641,2.402228,3.145901,-4.129972,2.419814,2.734963,-3.512698,2.334656,2.940479,-4.108744\n-1.573399,5.164261,-8.079574,-2.360618,4.979719,-8.067811,5.231255,4.014778,-3.819465,5.868732,4.206239,-4.5932,7.194629,3.659092,-3.177384,7.195866,3.702077,-3.169956,-0.037401,5.84446,-6.432314,-0.860076,4.954569,-6.871597,-1.277552,3.89062,-7.002324,-2.174007,2.921049,-6.662001,2.534602,3.331706,-3.50896,2.355367,3.114201,-4.14863,2.402713,2.706583,-3.530333,2.301672,2.924482,-4.119209\n-1.599611,5.175067,-8.087165,-2.369587,4.981479,-8.081766,5.144178,3.976882,-3.810473,5.849749,4.195008,-4.596564,7.177354,3.811299,-3.171845,7.264058,3.874332,-3.156444,-0.137543,5.93007,-6.331078,-0.963762,5.010177,-6.843158,-1.301641,3.902798,-7.024675,-2.117544,2.935774,-6.69216,2.518556,3.311844,-3.523136,2.317446,3.084823,-4.168825,2.339018,2.65893,-3.523226,2.276631,2.873334,-4.12009\n-1.626162,5.180213,-8.09392,-2.389985,4.964819,-8.096012,5.12372,3.922889,-3.817463,5.84069,4.1958,-4.596722,7.169886,3.942077,-3.161525,7.233159,4.031941,-3.145079,-0.214311,5.965409,-6.250316,-1.066144,5.032097,-6.842998,-1.309243,3.914648,-7.059466,-2.134198,3.061665,-6.694674,2.50669,3.28944,-3.52428,2.279955,3.010729,-4.170045,2.29773,2.601453,-3.532908,2.256747,2.811774,-4.123264\n-1.639049,5.197853,-8.102644,-2.416406,4.947433,-8.108425,5.098417,3.884827,-3.821302,5.818774,4.194969,-4.598053,7.162619,4.061992,-3.156716,7.143315,4.30958,-3.097575,-0.320657,6.000691,-6.143369,-1.14315,5.052118,-6.83547,-1.317386,3.927365,-7.068524,-2.045526,2.923942,-6.762049,2.4637,3.268542,-3.527454,2.237573,2.952513,-4.168358,2.285795,2.578852,-3.538927,2.237122,2.755675,-4.125839\n-1.658262,5.220449,-8.107997,-2.431025,4.948271,-8.11562,5.073218,3.874165,-3.819658,5.784273,4.17094,-4.595702,7.110373,4.211344,-3.135921,7.123303,4.467404,-3.081167,-0.379019,6.00354,-6.069833,-0.994702,5.019475,-6.87318,-1.325539,3.939486,-7.084041,-2.02924,2.730774,-6.797093,2.436407,3.26476,-3.520501,2.237573,2.952513,-4.168358,2.280444,2.562256,-3.557762,2.218273,2.715958,-4.126626\n-1.666745,5.222063,-8.120282,-2.451725,4.948402,-8.12113,4.990184,3.809388,-3.812954,5.747763,4.130334,-4.59238,7.01886,4.390364,-3.100031,7.098106,4.520644,-3.07153,-0.47417,6.010906,-6.061494,-0.999797,5.020365,-6.879572,-1.345017,3.959622,-7.095905,-1.908551,2.645201,-6.834995,2.431707,3.255218,-3.520603,2.237573,2.952513,-4.168358,2.278692,2.524252,-3.561707,2.218273,2.715958,-4.126626\n-1.674514,5.223498,-8.130175,-2.466351,4.943593,-8.128939,4.976766,3.799526,-3.809783,5.704765,4.094794,-4.584902,6.992524,4.464817,-3.087317,6.998167,4.589698,-3.045186,-0.4578,6.009728,-6.109332,-1.009692,5.022541,-6.904949,-1.349386,3.978689,-7.11752,-1.769094,2.659717,-6.819762,2.426566,3.246318,-3.520542,2.237573,2.952513,-4.168358,2.288226,2.487183,-3.567987,2.218273,2.715958,-4.126626\n-1.681832,5.224858,-8.139675,-2.479303,4.944178,-8.135947,4.95826,3.772745,-3.810225,5.657767,3.986816,-4.590335,6.982077,4.475275,-3.059309,6.875187,4.640674,-3.015845,-0.332945,5.958531,-6.191393,-1.017448,5.026035,-6.918,-1.344496,3.960093,-7.121438,-1.762604,2.740116,-7.220182,2.435138,3.237652,-3.523305,2.237573,2.952513,-4.168358,2.288226,2.487183,-3.567987,2.22395,2.716456,-4.127749\n-1.695971,5.225621,-8.147428,-2.503822,4.943271,-8.140266,4.934935,3.761807,-3.804846,5.615623,3.903165,-4.590184,6.879761,4.511121,-3.005759,6.869812,4.651171,-3.013711,-0.366433,5.974987,-6.458136,-0.98602,5.011761,-6.927019,-1.341956,3.951525,-7.136056,-1.646784,2.839078,-7.350557,2.435138,3.237652,-3.523305,2.231895,2.951999,-4.167264,2.286723,2.454599,-3.571369,2.224322,2.717537,-4.128797\n-1.71371,5.242327,-8.15237,-2.522363,4.943083,-8.146042,4.911837,3.734405,-3.802507,5.599667,3.83695,-4.596197,6.754796,4.573857,-2.959175,6.827408,4.647598,-2.986441,-0.338993,5.926714,-6.492546,-0.97473,5.007571,-6.930107,-1.342433,3.945911,-7.15726,-1.529759,2.947731,-7.38674,2.435138,3.237652,-3.523305,2.22721,2.94724,-4.166876,2.271376,2.445472,-3.590755,2.204149,2.72006,-4.146947\n-1.721006,5.243607,-8.159415,-2.528718,4.944286,-8.154189,4.88861,3.707024,-3.800233,5.58362,3.819766,-4.5958,6.612887,4.749977,-2.873469,6.687974,4.610812,-2.981342,-0.331921,5.885109,-6.584917,-0.971729,5.003482,-6.965535,-1.374877,3.944464,-7.185177,-1.451941,3.122713,-7.37172,2.32262,3.232979,-3.500286,2.20456,2.971261,-4.159401,2.235337,2.449389,-3.608868,2.188234,2.721835,-4.1467\n-1.729567,5.245033,-8.165333,-2.534407,4.956692,-8.161015,4.877957,3.707877,-3.794349,5.567164,3.687894,-4.610065,6.508926,4.891861,-2.813291,6.623303,4.648974,-2.938809,-0.303012,5.822201,-6.636382,-0.98487,4.999254,-6.975957,-1.386437,3.940053,-7.206419,-1.282847,3.266239,-7.186227,2.301589,3.235205,-3.500024,2.199147,2.976205,-4.157707,2.220137,2.451121,-3.620985,2.141187,2.727359,-4.158205\n-1.737233,5.246353,-8.171767,-2.546639,4.957186,-8.168551,4.865969,3.708919,-3.790132,5.566052,3.654665,-4.613753,6.502393,4.891084,-2.803378,6.517622,4.806451,-2.928618,-0.247878,5.722607,-6.697802,-0.994603,4.992806,-6.974849,-1.382446,3.932265,-7.208469,-1.143755,3.375189,-6.933847,2.228079,3.241642,-3.494828,2.187792,2.975175,-4.155507,2.199982,2.453463,-3.639172,2.086228,2.725741,-4.162506\n-1.746281,5.247868,-8.177995,-2.558569,4.963292,-8.17562,4.85437,3.709904,-3.785061,5.505046,3.584437,-4.603211,6.502842,4.907381,-2.801825,6.457925,4.932644,-2.878715,-0.217278,5.625109,-6.746735,-1.005307,4.985306,-6.979996,-1.378625,3.92399,-7.210558,-0.986903,3.516593,-6.738421,2.2099,3.241362,-3.49106,2.16071,2.978286,-4.167829,2.174509,2.475998,-3.64671,1.986043,2.750454,-4.139943\n-1.755569,5.249469,-8.185606,-2.581233,4.979078,-8.178832,4.836423,3.710466,-3.778437,5.471739,3.433156,-4.601694,6.463738,4.956318,-2.793147,6.418726,4.960993,-2.898987,-0.125216,5.486506,-6.835756,-1.024019,4.984258,-6.990049,-1.374736,3.915333,-7.212719,-0.922605,3.55242,-6.607512,2.192097,3.239598,-3.487531,2.095877,2.977987,-4.184225,2.142797,2.492579,-3.647546,1.930437,2.761804,-4.133085\n-1.76496,5.251079,-8.192907,-2.586751,4.991485,-8.186346,4.780328,3.626086,-3.772164,5.441294,3.410612,-4.595942,6.289047,4.91774,-2.76703,6.394466,4.960943,-2.870036,-0.232198,5.35957,-6.806556,-1.047272,4.983515,-6.994099,-1.466047,4.039844,-7.174042,-0.880172,3.583462,-6.50715,2.249019,3.240876,-3.499281,2.052027,2.992465,-4.175618,2.138016,2.504005,-3.646364,1.913684,2.765737,-4.129106\n-1.774272,5.252712,-8.201049,-2.592963,4.992846,-8.200265,4.769604,3.510239,-3.784418,5.43287,3.343611,-4.597661,6.081657,4.786085,-2.741973,6.376481,4.963635,-2.906747,-0.147266,5.202414,-6.800602,-1.086095,4.984972,-7.011052,-1.494092,4.05319,-7.165977,-0.878379,3.582736,-6.482299,2.119689,3.234563,-3.472852,2.029852,3.00131,-4.169984,2.122978,2.515606,-3.656227,1.908922,2.777238,-4.127857\n-1.812961,5.250723,-8.203345,-2.633325,4.989637,-8.207275,4.692669,3.327905,-3.78478,5.382465,3.301344,-4.585166,6.047547,4.704693,-2.754775,6.258597,4.921926,-2.883031,-0.180154,5.053028,-6.904104,-1.035582,5.009362,-7.028388,-1.533592,4.081712,-7.153069,-0.830498,3.571513,-6.416237,2.095368,3.27095,-3.470265,2.02483,3.007367,-4.169307,2.101803,2.517877,-3.656018,1.898987,2.778551,-4.140041\n-1.845097,5.249366,-8.206997,-2.659789,4.978049,-8.22452,4.665678,3.2513,-3.781032,5.353938,3.225173,-4.591825,6.030516,4.689006,-2.763742,6.100369,4.877782,-2.87819,-0.254835,4.972052,-6.885557,-1.068865,5.004331,-7.038574,-1.526862,4.082536,-7.154388,-0.925272,3.370142,-6.403148,2.06978,3.294377,-3.466639,1.976101,3.023551,-4.161642,2.09651,2.518449,-3.655962,1.89402,2.779209,-4.146133\n-1.902256,5.234036,-8.20803,-2.686754,4.977794,-8.238774,4.621037,3.184357,-3.772316,5.357098,3.077858,-4.619497,5.909463,4.673497,-2.754783,6.003313,4.844635,-2.871141,-0.189721,4.886271,-6.762873,-1.163489,4.971234,-7.023364,-1.535836,4.088056,-7.1516,-0.949029,3.296201,-6.391245,2.048007,3.309873,-3.48163,1.960121,3.029697,-4.159774,2.080968,2.520218,-3.661911,1.89402,2.779209,-4.146133\n-1.953394,5.219407,-8.210111,-2.720244,4.959866,-8.251287,4.548545,3.087726,-3.766803,5.314348,3.024398,-4.590922,5.790911,4.705243,-2.751169,5.805257,4.759016,-2.837217,-0.203421,4.907553,-6.672729,-1.237328,4.96677,-7.018388,-1.551229,4.087,-7.156159,-0.96048,3.235792,-6.362156,2.019996,3.325635,-3.502389,1.949161,3.029784,-4.158583,2.070382,2.521375,-3.661789,1.884083,2.780529,-4.158314\n-1.968453,5.220284,-8.216905,-2.747649,4.948304,-8.264797,4.453342,2.989348,-3.759236,5.282125,3.027367,-4.589494,5.731673,4.70864,-2.762029,5.794054,4.758171,-2.835108,-0.275743,4.969393,-6.524306,-1.252667,4.969502,-7.037602,-1.562705,4.080641,-7.154678,-0.974469,3.195844,-6.364998,1.997553,3.343816,-3.522945,1.91796,3.057388,-4.158173,2.048493,2.520532,-3.664448,1.884411,2.78059,-4.164471\n-1.977191,5.221828,-8.224992,-2.756604,4.950104,-8.279589,4.4374,2.984406,-3.758582,5.240628,2.956686,-4.620967,5.667575,4.679965,-2.759134,5.794535,4.758173,-2.835748,-0.328168,5.098172,-6.297109,-1.263989,4.95953,-7.0367,-1.575748,4.074181,-7.152872,-1.047788,3.059144,-6.459478,1.989506,3.357639,-3.519686,1.869573,3.0931,-4.146074,1.992325,2.502552,-3.658023,1.868252,2.79003,-4.16606\n-1.985379,5.223283,-8.232682,-2.769516,4.950706,-8.287243,4.427342,2.963435,-3.761353,5.207133,2.884189,-4.606822,5.59209,4.445583,-2.76669,5.563511,4.74245,-2.780716,-0.426095,5.247127,-6.237064,-1.280691,4.94748,-7.048931,-1.589103,4.066047,-7.164011,-1.102206,2.905154,-6.527692,1.971797,3.373535,-3.528377,1.869573,3.0931,-4.146074,1.971157,2.504888,-3.657787,1.852034,2.804863,-4.160888\n-1.993836,5.224763,-8.239837,-2.817275,4.952455,-8.286342,4.401512,2.930018,-3.764222,5.187726,2.843942,-4.598786,5.546554,4.370894,-2.766334,5.545597,4.673063,-2.787061,-0.494543,5.357846,-6.196449,-1.331365,4.966317,-7.051672,-1.602875,4.064354,-7.167675,-1.157097,2.766581,-6.574559,1.95936,3.384141,-3.530575,1.865216,3.099323,-4.15768,1.955944,2.506742,-3.669849,1.831172,2.820416,-4.167961\n-2.001333,5.226128,-8.247663,-2.852764,4.955626,-8.288883,4.391918,2.870603,-3.774517,5.138588,2.789061,-4.599701,5.523619,4.322803,-2.76939,5.506737,4.574928,-2.771399,-0.528244,5.443796,-6.315865,-1.358544,4.967917,-7.0622,-1.61654,4.066204,-7.177184,-1.143374,2.829477,-6.643562,1.949948,3.420973,-3.524392,1.843729,3.114708,-4.15248,1.928783,2.507533,-3.667392,1.831979,2.836779,-4.166168\n-2.026028,5.225233,-8.25167,-2.859145,4.956846,-8.297224,4.383934,2.854993,-3.779922,5.113245,2.74508,-4.604597,5.509341,4.247777,-2.776228,5.466435,4.532473,-2.741476,-0.590903,5.577864,-6.425778,-1.385636,4.972891,-7.065901,-1.629834,4.067794,-7.174051,-1.401053,2.708814,-6.700458,1.940093,3.448263,-3.519203,1.811891,3.135703,-4.151635,1.91785,2.507633,-3.666197,1.812474,2.860071,-4.180939\n-2.128124,5.286892,-8.228412,-2.862037,5.00837,-8.29764,4.371619,2.810213,-3.804537,NaN,NaN,NaN,5.726741,4.504648,-2.939392,5.695515,4.26714,-2.855848,-0.520215,5.725089,-6.608961,-1.452016,4.968482,-7.096868,-1.636889,4.075339,-7.193812,-1.613578,2.662703,-6.892751,1.88942,3.511389,-3.523772,1.815307,3.214498,-4.176548,1.762867,2.732585,-3.626469,1.734323,3.05709,-4.221816\n", "polypterus_poly2_data.csv": "eye_X,eye_Y,eye_Z,snout_X,snout_Y,snout_Z,peduncle_X,peduncle_Y,peduncle_Z,dorsaltip_X,dorsaltip_Y,dorsaltip_Z,analtip_X,analtip_Y,analtip_Z,caudaltip_X,caudaltip_Y,caudaltip_Z,Rpecttip_X,Rpecttip_Y,Rpecttip_Z,Rpectbase_X,Rpectbase_Y,Rpectbase_Z,Lpectbase_X,Lpectbase_Y,Lpectbase_Z,Lpecttip_X,Lpecttip_Y,Lpecttip_Z,Rpelvictip_X,Rpelvictip_Y,Rpelvictip_Z,Rpelvicbase_X,Rpelvicbase_Y,Rpelvicbase_Z,Lpelvictip_X,Lpelvictip_Y,Lpelvictip_Z,Lpelvicbase_X,Lpelvicbase_Y,Lpelvicbase_Z\n0.00384,5.954911,5.321026,-0.311482,6.342874,5.355081,7.055649,5.443993,1.703624,7.062223,5.421401,2.617248,7.106566,5.70385,1.197082,9.193717,4.890116,1.464345,1.682083,5.300977,3.463579,0.921036,5.899682,4.28109,1.064919,6.602012,4.356328,1501.452381,798.082888,NaN,5.250318,5.91017,1.256771,4.686123,5.961723,1.795974,5.460572,6.236423,1.348064,4.675258,6.221689,1.829656\n0.001655,5.953831,5.323566,-0.309916,6.344547,5.355036,7.053708,5.441362,1.707323,7.060219,5.437757,2.618321,7.095637,5.68488,1.198706,9.195504,4.889511,1.461759,1.635101,5.264941,3.479765,0.905885,5.881302,4.29176,1.049808,6.5839,4.366963,1500.0671,782.907705,NaN,5.253765,5.891572,1.250297,4.668635,5.942476,1.809054,5.442958,6.217145,1.360803,4.657798,6.202533,1.842725\n0.000934,5.9506,5.32327,-0.310937,6.344129,5.358166,7.052186,5.441252,1.708148,7.049846,5.419062,2.618711,7.095276,5.684888,1.198539,9.19533,4.889925,1.458997,1.686298,5.20028,3.501103,0.905885,5.881302,4.29176,1.049808,6.5839,4.366963,1476.517316,773.662119,NaN,5.213963,5.890554,1.264618,4.668635,5.942476,1.809054,5.430397,6.214454,1.402096,4.657798,6.202533,1.842725\n-0.009874,5.954494,5.323777,-0.310978,6.343794,5.358156,7.048936,5.440861,1.710346,7.047844,5.41556,2.62035,7.094981,5.684896,1.198374,9.194582,4.888521,1.45641,1.697848,5.166328,3.525976,0.905885,5.881302,4.29176,1.049808,6.5839,4.366963,1458.508658,750.548154,NaN,5.21403,5.89017,1.271421,4.668635,5.942476,1.809054,5.430397,6.214454,1.402096,4.657798,6.202533,1.842725\n-0.01164,5.954319,5.32419,-0.310652,6.342946,5.358104,7.048446,5.440308,1.711287,7.046474,5.414711,2.621753,7.089226,5.684905,1.198586,9.193717,4.886085,1.455061,1.699264,5.123634,3.561112,0.905885,5.881302,4.29176,1.049808,6.5839,4.366963,1455.738095,736.679775,NaN,5.21403,5.89017,1.271421,4.668635,5.942476,1.809054,5.430397,6.214454,1.402096,4.657798,6.202533,1.842725\n-0.01765,5.956955,5.324848,-0.310236,6.343634,5.358101,7.049101,5.439688,1.712098,7.047488,5.414715,2.62298,7.078478,5.6683,1.197685,9.192569,4.882749,1.453224,1.671196,5.087439,3.640915,0.905885,5.881302,4.29176,1.049808,6.5839,4.366963,1450.19697,720.5,NaN,5.21403,5.89017,1.271421,4.668635,5.942476,1.809054,5.430397,6.214454,1.402096,4.657798,6.202533,1.842725\n-0.018396,5.956246,5.325816,-0.310008,6.34289,5.366761,7.049647,5.43986,1.712893,7.04547,5.414736,2.624069,7.078214,5.668296,1.197748,9.193055,4.876474,1.448781,1.632911,5.037759,3.669921,0.905885,5.881302,4.29176,1.049808,6.5839,4.366963,1446.041126,705.475923,NaN,5.21403,5.89017,1.271421,4.668635,5.942476,1.809054,5.430397,6.214454,1.402096,4.652565,6.186089,1.841854\n-0.022097,5.960379,5.326983,-0.310136,6.341389,5.37248,7.047494,5.439913,1.713382,7.045174,5.41443,2.6245,7.075841,5.668284,1.19786,9.192036,4.870234,1.446811,1.585584,5.005099,3.674808,0.900648,5.881081,4.292073,1.049808,6.5839,4.366963,1440.5,699.697432,NaN,5.21403,5.89017,1.271421,4.668635,5.942476,1.809054,5.430448,6.214045,1.408861,4.652664,6.17791,1.84131\n-0.021905,5.960249,5.329283,-0.308147,6.341967,5.375305,7.044555,5.438378,1.714071,7.044521,5.413118,2.625175,7.075643,5.668284,1.197851,9.190776,4.866351,1.445679,1.580329,5.005349,3.674414,0.900648,5.881081,4.292073,1.047233,6.584036,4.366779,1430.80303,688.140449,NaN,5.21403,5.89017,1.271421,4.668635,5.942476,1.809054,5.430551,6.213229,1.422389,4.652664,6.17791,1.84131\n-0.02513,5.963328,5.334277,-0.307538,6.341037,5.376699,7.043927,5.440165,1.714251,7.044141,5.414403,2.626429,7.073073,5.668267,1.198029,9.190118,4.864442,1.442739,1.529871,5.009816,3.607074,0.900648,5.881081,4.292073,1.045175,6.583525,4.376395,1429.417749,677.739165,NaN,5.21403,5.89017,1.271421,4.668635,5.942476,1.809054,5.430706,6.212004,1.442677,4.652664,6.17791,1.84131\n-0.024901,5.965153,5.340574,-0.308253,6.341361,5.380944,7.041111,5.440308,1.71438,7.044693,5.413507,2.627253,7.072909,5.668271,1.197946,9.189663,4.862269,1.439338,1.507994,5.004748,3.537084,0.900648,5.881081,4.292073,1.042601,6.583661,4.376212,1429.417749,674.272071,NaN,5.21403,5.89017,1.271421,4.668635,5.942476,1.809054,5.430579,6.220242,1.443255,4.652664,6.17791,1.84131\n-0.024079,5.966134,5.346472,-0.307124,6.341488,5.386527,7.04809,5.443441,1.714453,7.049375,5.418569,2.628233,7.072713,5.668284,1.19771,9.188675,4.860953,1.437955,1.469759,5.007995,3.4576,0.900648,5.881081,4.292073,1.042601,6.583661,4.376212,1429.417749,674.272071,NaN,5.210686,5.889073,1.291624,4.668635,5.942476,1.809054,5.43063,6.219833,1.450015,4.652664,6.17791,1.84131\n-0.023288,5.967382,5.353266,-0.307572,6.342425,5.390777,7.046727,5.441009,1.714306,7.048389,5.415206,2.628507,7.072515,5.668284,1.197701,9.18712,4.85403,1.436368,1.437934,4.991053,3.458719,0.890815,5.881097,4.30121,1.037452,6.583934,4.375847,1429.417749,674.272071,NaN,5.210686,5.889073,1.291624,4.668738,5.942088,1.815811,5.43063,6.219833,1.450015,4.652978,6.176694,1.861524\n-0.022107,5.968281,5.359377,-0.307831,6.340315,5.393546,7.044488,5.440653,1.714387,7.046974,5.414493,2.628636,7.072318,5.668284,1.197691,9.187253,4.84764,1.432733,1.400212,4.991817,3.443699,0.88438,5.880123,4.32535,1.037452,6.583934,4.375847,1451.582251,683.517657,NaN,5.203731,5.888418,1.304821,4.668944,5.941314,1.829322,5.430377,6.236308,1.45117,4.653398,6.175072,1.888466\n-0.020074,5.971025,5.365195,-0.307496,6.334714,5.394791,7.04292,5.440581,1.714468,7.045436,5.414346,2.628812,7.072088,5.668288,1.197605,9.187086,4.839394,1.430024,1.312015,4.985142,3.42301,0.877412,5.879718,4.339613,1.037452,6.583934,4.375847,1465.435065,706.631621,NaN,5.203731,5.888418,1.304821,4.669254,5.940153,1.849584,5.42987,6.269255,1.453478,4.656825,6.190951,1.896494\n-0.017796,5.971903,5.368835,-0.307494,6.329228,5.396063,7.042623,5.440371,1.714356,7.045294,5.413988,2.628867,7.071924,5.668296,1.197446,9.186491,4.833976,1.428772,1.276016,4.98848,3.385067,0.870177,5.879598,4.34894,1.037452,6.583934,4.375847,1468.205628,719.344302,NaN,5.200187,5.888475,1.30462,4.669357,5.939766,1.856336,5.42949,6.293963,1.45521,4.673014,6.214916,1.910917\n-0.016515,5.973882,5.375452,-0.308643,6.322788,5.408795,7.041541,5.436089,1.713869,7.045047,5.410098,2.628571,7.071629,5.6683,1.197357,9.186761,4.827123,1.427449,1.216705,4.942409,3.36154,0.870177,5.879598,4.34894,1.037452,6.583934,4.375847,1470.97619,723.967095,NaN,5.199474,5.937971,1.308148,4.66946,5.939379,1.863088,5.431146,6.317952,1.470092,4.678341,6.223175,1.91124\n-0.01554,5.97629,5.381578,-0.307975,6.315946,5.41427,7.04157,5.434516,1.713739,7.045293,5.408913,2.628132,7.06929,5.668292,1.197396,9.185967,4.822452,1.4247,1.206101,4.942045,3.36218,0.870714,5.879032,4.358813,1.037452,6.583934,4.375847,1470.97619,727.434189,NaN,5.204587,5.962781,1.309727,4.663933,5.947476,1.863835,5.431146,6.317952,1.470092,4.689093,6.231522,1.91135\n-0.014344,5.978148,5.387973,-0.307163,6.309812,5.422588,7.044643,5.443476,1.713859,7.049176,5.41855,2.628595,7.066686,5.668281,1.197498,9.185377,4.820418,1.423201,1.160499,4.94462,3.344328,0.870982,5.87875,4.363748,1.037452,6.583934,4.375847,1470.97619,734.368379,NaN,5.204587,5.962781,1.309727,4.663739,5.963838,1.864918,5.431071,6.32577,1.477419,4.689093,6.231522,1.91135\n-0.013872,5.980976,5.390227,-0.304559,6.302237,5.438291,7.045281,5.440539,1.713635,7.048825,5.418605,2.627546,7.064315,5.668277,1.197461,9.184537,4.819756,1.421949,1.154848,4.962203,3.333266,0.871519,5.878185,4.373618,1.037452,6.583934,4.375847,1470.97619,737.835474,NaN,5.204587,5.962781,1.309727,4.658213,5.971934,1.865666,5.425612,6.325704,1.477588,4.689093,6.231522,1.91135\n-0.011608,5.983058,5.391928,-0.300126,6.294417,5.457121,7.044119,5.443493,1.713537,7.047506,5.415,2.625641,7.064118,5.668282,1.197376,9.183736,4.817923,1.420599,1.112733,4.965001,3.329486,0.872325,5.877338,4.388421,1.037452,6.583934,4.375847,1469.590909,742.458266,NaN,5.204587,5.962781,1.309727,4.658213,5.971934,1.865666,5.409234,6.325509,1.478104,4.689093,6.231522,1.91135\n-0.01111,5.984351,5.394397,-0.29664,6.28705,5.461357,7.04312,5.44108,1.713004,7.045743,5.415161,2.623955,7.058497,5.668302,1.197369,9.195622,4.766049,1.416684,1.110511,4.989259,3.334941,0.872325,5.877338,4.388421,1.038228,6.582964,4.390545,1468.205628,745.925361,NaN,5.204587,5.962781,1.309727,4.658213,5.971934,1.865666,5.393289,6.300202,1.483658,4.688895,6.247868,1.912427\n0.012716,5.965598,5.3982,-0.296055,6.28047,5.462555,7.042833,5.440969,1.712396,7.045737,5.415038,2.623582,7.058367,5.668314,1.197136,9.183139,4.791356,1.418033,1.135849,5.013556,3.359167,0.875183,5.876907,4.393536,1.042093,6.58121,4.415218,1468.205628,751.703852,NaN,5.204349,5.979277,1.310903,4.658213,5.971934,1.865666,5.382372,6.300073,1.484016,4.68337,6.255952,1.91318\n0.015512,5.965059,5.404932,-0.292159,6.273301,5.471172,7.042294,5.441009,1.711632,7.045702,5.414943,2.62269,7.058236,5.668318,1.197055,9.177045,4.791494,1.417119,1.144715,5.02979,3.373758,0.875183,5.876907,4.393536,1.04261,6.580563,4.425011,1468.205628,760.949438,NaN,5.204349,5.979277,1.310903,4.658213,5.971934,1.865666,5.382372,6.300073,1.484016,4.68337,6.255952,1.91318\n0.02304,5.96072,5.411115,-0.288639,6.267034,5.480988,7.041189,5.441131,1.710688,7.045776,5.415119,2.622033,7.047092,5.668356,1.197124,9.172953,4.787546,1.416211,1.136549,5.028804,3.417799,0.875183,5.876907,4.393536,1.04261,6.580563,4.425011,1468.205628,765.572231,NaN,5.204349,5.979277,1.310903,4.657923,5.996474,1.86729,5.382372,6.300073,1.484016,4.68337,6.255952,1.91318\n0.030785,5.956975,5.41744,-0.282489,6.258001,5.495041,7.040973,5.441263,1.708133,7.045775,5.415274,2.620415,7.047027,5.668364,1.19697,9.1664,4.787256,1.413773,1.164668,5.044269,3.447521,0.877773,5.876758,4.393717,1.04261,6.580563,4.425011,1479.287879,764.416533,NaN,5.203993,6.00402,1.312667,4.646775,6.020842,1.869331,5.382497,6.291841,1.483441,4.677945,6.255865,1.913395\n0.035466,5.956996,5.423471,-0.274353,6.251662,5.504764,7.040507,5.441307,1.707295,7.045599,5.415268,2.619157,7.046864,5.668372,1.196812,9.158436,4.784948,1.412851,1.176203,5.048968,3.518335,0.877773,5.876758,4.393717,1.042648,6.588387,4.425353,1488.984848,766.727929,NaN,5.20406,6.003628,1.319458,4.646678,6.02902,1.869873,5.382497,6.291841,1.483441,4.677748,6.272208,1.914473\n0.023077,5.96317,5.431009,-0.268243,6.246699,5.508911,7.041513,5.443851,1.706682,7.045588,5.415248,2.618186,7.046766,5.668376,1.196731,9.147901,4.795474,1.411885,1.221334,5.062811,3.573573,0.877773,5.876758,4.393717,1.042648,6.588387,4.425353,1491.755411,772.506421,NaN,5.200519,6.003684,1.319259,4.646678,6.02902,1.869873,5.377039,6.291777,1.483622,4.677748,6.272208,1.914473\n0.016104,5.971635,5.437513,-0.256571,6.242405,5.51418,7.041125,5.443891,1.705917,7.045697,5.415517,2.617091,7.046668,5.668384,1.196576,9.173733,4.791757,1.410091,1.272274,5.09291,3.591067,0.883221,5.87618,4.399014,1.042648,6.588387,4.425353,1491.755411,772.506421,NaN,5.200519,6.003684,1.319259,4.646678,6.02902,1.869873,5.377039,6.291777,1.483622,4.672323,6.27212,1.914689\n0.024807,5.962583,5.439807,-0.246034,6.236546,5.526908,7.040867,5.443926,1.705231,7.045558,5.415627,2.616355,7.046506,5.6684,1.196267,9.150915,4.792175,1.409954,1.301672,5.147003,3.600164,0.886346,5.875467,4.409061,1.042648,6.588387,4.425353,1500.0671,777.129213,NaN,5.200587,6.003292,1.32605,4.646485,6.045377,1.870955,5.37158,6.291713,1.483805,4.672323,6.27212,1.914689\n0.032798,5.955989,5.441129,-0.231821,6.280399,5.533666,7.035091,5.444003,1.70408,7.045701,5.415669,2.615532,7.04641,5.668417,1.195961,9.137897,4.795879,1.406412,1.354548,5.194057,3.602938,0.886346,5.875467,4.409061,1.042648,6.588387,4.425353,1512.534632,778.284912,NaN,5.200587,6.003292,1.32605,4.646388,6.053555,1.871497,5.37158,6.291713,1.483805,4.672323,6.27212,1.914689\n0.042327,5.949741,5.44397,-0.227111,6.314647,5.543321,7.034782,5.441878,1.702069,7.045377,5.416286,2.614602,7.046182,5.668433,1.195648,9.149139,4.792376,1.404778,1.40446,5.233112,3.60074,0.891793,5.874891,4.414358,1.042648,6.588387,4.425353,1512.534632,778.284912,NaN,5.200587,6.003292,1.32605,4.646195,6.069911,1.87258,5.37158,6.291713,1.483805,4.675838,6.272056,1.9149\n0.050768,5.94527,5.449313,-0.216024,6.347314,5.553965,7.033049,5.444189,1.700546,7.04542,5.415873,2.614343,7.045987,5.668453,1.195262,9.148496,4.791059,1.402662,1.453054,5.257097,3.573303,0.891793,5.874891,4.414358,1.042944,6.595886,4.43059,1513.919913,773.662119,NaN,5.200587,6.003292,1.32605,4.646195,6.069911,1.87258,5.37158,6.291713,1.483805,4.686385,6.271868,1.915537\n0.030989,5.961233,5.457603,-0.230177,6.278851,5.558408,7.032661,5.444236,1.69963,7.045264,5.41616,2.614288,7.045925,5.668478,1.194807,9.148088,4.786322,1.40054,1.515584,5.29604,3.561997,0.891793,5.874891,4.414358,1.042944,6.595886,4.43059,1516.690476,771.350722,NaN,5.195118,6.003227,1.326235,4.646098,6.078089,1.873121,5.360538,6.299816,1.484749,4.686488,6.271456,1.922262\n0.047312,5.946188,5.462407,-0.215568,6.23487,5.558996,7.032008,5.444262,1.699153,7.045233,5.416176,2.613978,7.045663,5.668486,1.194643,9.149665,4.779913,1.396414,1.581623,5.312632,3.561527,0.891793,5.874891,4.414358,1.046108,6.610745,4.441243,1518.075758,763.260835,NaN,5.195118,6.003227,1.326235,4.646098,6.078089,1.873121,5.360287,6.316277,1.485898,4.686488,6.271456,1.922262\n0.042913,5.945541,5.469113,-0.200539,6.188476,5.564091,7.020972,5.425425,1.697914,7.045077,5.416219,2.613158,7.045174,5.668523,1.193942,9.148132,4.772423,1.394322,1.621034,5.326933,3.564355,0.892328,5.874326,4.42422,1.046624,6.610095,4.45103,1518.075758,755.170947,NaN,5.194881,6.019719,1.327408,4.646098,6.078089,1.873121,5.365619,6.324573,1.486288,4.693519,6.271332,1.922688\n0.043483,5.94606,5.475819,-0.181845,6.141931,5.566027,7.019609,5.427428,1.697619,7.044525,5.416318,2.612636,7.043296,5.668739,1.189857,9.145785,4.763296,1.39239,1.721537,5.407566,3.566248,0.892328,5.874326,4.42422,1.046662,6.617916,4.45137,1495.911255,755.170947,NaN,5.194881,6.019719,1.327408,4.646098,6.078089,1.873121,5.365619,6.324573,1.486288,4.693519,6.271332,1.922688\n0.046011,5.947538,5.482861,-0.223554,6.277291,5.5777,7.008121,5.425494,1.697286,7.028321,5.419478,2.611782,7.040526,5.677019,1.19101,9.140809,4.758438,1.389859,1.778095,5.428421,3.599251,0.892596,5.874044,4.42915,1.047178,6.617265,4.461155,1491.755411,758.638042,NaN,5.183708,6.036079,1.328955,4.646098,6.078089,1.873121,5.3707,6.349329,1.487828,4.693519,6.271332,1.922688\n0.048122,5.94908,5.48991,-0.222974,6.276745,5.586427,7.006413,5.427406,1.697421,7.02669,5.416258,2.610644,7.038019,5.676991,1.191417,9.137256,4.756709,1.387105,1.837544,5.481104,3.638364,0.892596,5.874044,4.42915,1.047178,6.617265,4.461155,1491.755411,760.949438,NaN,5.183708,6.036079,1.328955,4.645905,6.094444,1.874204,5.386823,6.365986,1.488434,4.693519,6.271332,1.922688\n0.048952,5.949627,5.49622,-0.224408,6.297087,5.590136,7.006026,5.427618,1.697488,7.024557,5.416196,2.609144,7.037658,5.677,1.191249,9.130955,4.75661,1.385823,1.880634,5.535747,3.660751,0.892596,5.874044,4.42915,1.047178,6.617265,4.461155,1487.599567,765.572231,NaN,5.183708,6.036079,1.328955,4.645905,6.094444,1.874204,5.392281,6.366052,1.488256,4.693519,6.271332,1.922688\n0.049794,5.949989,5.502237,-0.222298,6.276108,5.596608,7.005607,5.427759,1.697536,7.024479,5.416248,2.609504,7.037429,5.677008,1.191088,9.12609,4.753396,1.38402,1.898295,5.581759,3.702167,0.892864,5.873762,4.434081,1.047951,6.616289,4.475829,1483.443723,766.727929,NaN,5.183708,6.036079,1.328955,4.645905,6.094444,1.874204,5.403052,6.381802,1.502544,4.693519,6.271332,1.922688\n0.050048,5.950401,5.504405,-0.221896,6.276613,5.606843,7.004386,5.427692,1.697468,7.024429,5.416103,2.609563,7.037134,5.67702,1.190847,9.12115,4.750111,1.382456,1.915796,5.611017,3.743996,0.892864,5.873762,4.434081,1.048209,6.615964,4.48072,1486.214286,752.859551,NaN,5.183708,6.036079,1.328955,4.645905,6.094444,1.874204,5.403052,6.381802,1.502544,4.693519,6.271332,1.922688\n0.050223,5.950974,5.50601,-0.220347,6.275088,5.61265,7.004214,5.427689,1.697512,7.024413,5.416088,2.60985,7.036938,5.677032,1.190612,9.116139,4.751374,1.379444,1.949917,5.639284,3.805445,0.893399,5.873197,4.44394,1.048982,6.614988,4.495391,1486.214286,747.081059,NaN,5.183353,6.060813,1.330715,4.645905,6.094444,1.874204,5.403052,6.381802,1.502544,4.693519,6.271332,1.922688\n0.05056,5.951748,5.508637,-0.218533,6.273009,5.618314,7.003216,5.427617,1.697558,7.024271,5.416219,2.610077,7.03671,5.677045,1.190375,9.110919,4.750841,1.37839,1.961853,5.636906,3.840933,0.893399,5.873197,4.44394,1.042044,6.614423,4.509515,1486.214286,741.302568,NaN,5.176179,6.076616,1.345056,4.645905,6.094444,1.874204,5.403052,6.381802,1.502544,4.693519,6.271332,1.922688\n0.050895,5.952412,5.514354,-0.215286,6.272735,5.62123,7.001677,5.42754,1.697697,7.023969,5.416126,2.610508,7.036447,5.677053,1.190212,9.107434,4.750749,1.377452,1.891251,5.559588,3.91549,0.893399,5.873197,4.44394,1.042302,6.614098,4.514403,1459.893939,725.122793,NaN,5.165519,6.08463,1.351827,4.645905,6.094444,1.874204,5.403052,6.381802,1.502544,4.700346,6.272037,1.909669\n0.051069,5.954511,5.520424,-0.215242,6.273468,5.621252,7.000952,5.427813,1.697996,7.023727,5.416163,2.611171,7.030793,5.677073,1.190204,9.104366,4.751682,1.376283,1.87065,5.550856,3.92559,0.893399,5.873197,4.44394,1.042302,6.614098,4.514403,1459.893939,723.967095,NaN,5.154675,6.101286,1.352404,4.645905,6.094444,1.874204,5.403052,6.381802,1.502544,4.707378,6.271918,1.9101\n0.051886,5.954715,5.527199,-0.214242,6.27794,5.621442,7.000246,5.4278,1.698258,7.023565,5.416207,2.611684,7.019286,5.677104,1.190333,9.102634,4.751304,1.374709,1.810816,5.525341,3.941201,0.893666,5.872915,4.448869,1.037161,6.614372,4.514043,1458.508658,715.877207,NaN,5.151279,6.100545,1.365772,4.645905,6.094444,1.874204,5.403052,6.381802,1.502544,4.707378,6.271918,1.9101\n0.052283,5.955539,5.533701,-0.213087,6.283349,5.62301,6.997978,5.427808,1.698175,7.023262,5.416072,2.612925,7.013304,5.685438,1.190921,9.101692,4.751536,1.37243,1.742617,5.491979,3.947375,0.893666,5.872915,4.448869,1.037677,6.613722,4.523819,1458.508658,705.475923,NaN,5.151163,6.108785,1.366356,4.645905,6.094444,1.874204,5.403052,6.381802,1.502544,4.707378,6.271918,1.9101\n0.052846,5.958043,5.539973,-0.210356,6.288327,5.627598,6.997724,5.425466,1.698118,7.022961,5.416188,2.61344,7.010602,5.685422,1.191091,9.101195,4.751143,1.370928,1.724192,5.444554,3.945188,0.893666,5.872915,4.448869,1.037677,6.613722,4.523819,1458.508658,702.008828,NaN,5.151163,6.108785,1.366356,4.645905,6.094444,1.874204,5.396058,6.38148,1.508913,4.707378,6.271918,1.9101\n0.053275,5.960565,5.546973,-0.208504,6.294364,5.642303,6.995115,5.427307,1.69825,7.022648,5.416024,2.613871,7.007932,5.685403,1.191338,9.099671,4.749644,1.369626,1.70047,5.412348,3.94478,0.893666,5.872915,4.448869,1.048122,6.614191,4.523203,1458.508658,693.918941,NaN,5.151163,6.108785,1.366356,4.645905,6.094444,1.874204,5.396166,6.380638,1.522402,4.707378,6.271918,1.9101\n0.053951,5.963818,5.553111,-0.207224,6.300314,5.646804,6.994454,5.427739,1.698248,7.020295,5.416097,2.612527,7.005195,5.685371,1.191808,9.097764,4.751873,1.368311,1.689946,5.388696,3.94359,0.89679,5.872204,4.458909,1.048122,6.614191,4.523203,1454.352814,690.451846,NaN,5.151163,6.108785,1.366356,4.646115,6.093646,1.887685,5.39071,6.380571,1.522576,4.696527,6.271748,1.910555\n0.053577,5.968117,5.555994,-0.205521,6.30546,5.652711,6.993273,5.428248,1.698166,7.017454,5.419534,2.610987,7.002295,5.685357,1.19197,9.095813,4.752595,1.366428,1.676756,5.356845,3.942541,0.897057,5.871922,4.463836,1.04838,6.613866,4.528091,1452.967532,685.829053,NaN,5.151163,6.108785,1.366356,4.646115,6.093646,1.887685,5.381786,6.380133,1.529307,4.696527,6.271748,1.910555\n0.053852,5.97394,5.558867,-0.203949,6.305664,5.662847,6.992105,5.425508,1.697506,7.014852,5.419604,2.609702,6.999756,5.685326,1.19245,9.095699,4.750887,1.362838,1.642463,5.27728,3.93983,0.897592,5.871357,4.473691,1.04838,6.613866,4.528091,1448.811688,678.894864,NaN,5.151163,6.108785,1.366356,4.646219,6.093247,1.894424,5.381786,6.380133,1.529307,4.696527,6.271748,1.910555\n0.054702,5.978131,5.567124,-0.203383,6.306403,5.671499,6.991253,5.425527,1.69717,7.012251,5.419679,2.608344,6.999165,5.685342,1.192121,9.099439,4.749162,1.361469,1.60747,5.229665,3.92441,0.897859,5.871075,4.478618,1.05352,6.613591,4.528448,1446.041126,674.272071,NaN,5.147698,6.108444,1.372941,4.646219,6.093247,1.894424,5.381786,6.380133,1.529307,4.696527,6.271748,1.910555\n0.055342,5.98433,5.574767,-0.202858,6.307226,5.672847,6.989083,5.425532,1.697154,7.011693,5.419662,2.608692,6.998804,5.685351,1.191952,9.086406,4.727484,1.358346,1.560518,5.175659,3.878613,0.900448,5.870929,4.478801,1.05866,6.613316,4.528807,1446.041126,669.649278,NaN,5.140768,6.107763,1.386111,4.646123,6.101422,1.894964,5.381786,6.380133,1.529307,4.696527,6.271748,1.910555\n0.05633,5.989165,5.586317,-0.204383,6.306941,5.682641,6.988162,5.425536,1.697115,7.011301,5.419663,2.608677,6.998412,5.685371,1.191557,9.08504,4.727611,1.354985,1.481804,5.16225,3.874039,0.900715,5.870647,4.483727,1.058917,6.612991,4.533694,1452.967532,662.715088,NaN,5.137233,6.107824,1.385918,4.640406,6.12586,1.896793,5.381786,6.380133,1.529307,4.691102,6.271664,1.910784\n0.057832,5.993572,5.598545,-0.20229,6.30713,5.689711,6.98734,5.425539,1.697081,6.99474,5.419664,2.609558,6.99815,5.685384,1.191318,9.084036,4.727904,1.354574,1.434391,5.130308,3.873304,0.901249,5.870083,4.493579,1.061487,6.612855,4.533874,1458.508658,656.936597,NaN,5.130233,6.107547,1.392311,4.64052,6.13323,1.910805,5.374795,6.379812,1.535674,4.691102,6.271664,1.910784\n0.05816,5.967965,5.605597,-0.199616,6.306795,5.701109,6.985104,5.425541,1.697137,6.995285,5.416007,2.609906,6.997856,5.685396,1.191078,9.083221,4.729167,1.352925,1.420222,5.107744,3.851897,0.901516,5.869801,4.498505,1.061487,6.612855,4.533874,1462.664502,653.469502,NaN,5.129848,6.140088,1.401413,4.64052,6.13323,1.910805,5.374795,6.379812,1.535674,4.680253,6.271494,1.911246\n0.059282,5.972742,5.6137,-0.194668,6.306349,5.709537,6.983325,5.425525,1.697513,6.994646,5.415963,2.610787,7.008313,5.693696,1.191285,9.081027,4.730135,1.352036,1.405257,5.07754,3.815811,0.907226,5.868944,4.50872,1.07442,6.612679,4.534104,1466.820346,651.158106,NaN,5.126086,6.156619,1.402383,4.640327,6.149576,1.911882,5.374905,6.378971,1.549158,4.680253,6.271494,1.911246\n0.061892,5.978476,5.621806,-0.191932,6.306121,5.721035,6.9823,5.425491,1.69822,6.994956,5.415905,2.611899,7.007985,5.693704,1.191118,9.079862,4.728028,1.351619,1.384585,5.056388,3.768918,0.907493,5.868663,4.513644,1.07699,6.612543,4.534284,1466.820346,651.158106,NaN,5.126116,6.164044,1.416512,4.640327,6.149576,1.911882,5.363997,6.378835,1.549509,4.680253,6.271494,1.911246\n0.064411,5.983792,5.630187,-0.187244,6.305509,5.729784,6.981472,5.425449,1.699085,6.994821,5.416076,2.612717,7.007458,5.693701,1.191169,9.076584,4.727677,1.351022,1.375877,5.033292,3.752848,0.907493,5.868663,4.513644,1.082212,6.612776,4.533973,1464.049784,675.427769,NaN,5.122428,6.180166,1.424252,4.640327,6.149576,1.911882,5.358294,6.395214,1.550826,4.680253,6.271494,1.911246\n0.065686,5.989828,5.639056,-0.181787,6.305065,5.735568,6.980672,5.425383,1.700402,6.994704,5.415959,2.613588,7.004755,5.693683,1.191417,9.07291,4.728638,1.351209,1.350361,5.011025,3.716968,0.908027,5.868099,4.523491,1.087352,6.612505,4.534334,1462.664502,696.230337,NaN,5.122458,6.187585,1.438372,4.640432,6.149173,1.918615,5.358294,6.395214,1.550826,4.676737,6.271552,1.911025\n0.067216,5.995366,5.651854,-0.173185,6.304416,5.744476,6.978879,5.425272,1.702652,6.994467,5.416021,2.615151,7.002085,5.693661,1.191743,9.067938,4.727747,1.350932,1.337861,5.013411,3.676024,0.908027,5.868099,4.523491,1.097797,6.61297,4.533713,1462.664502,711.254414,NaN,5.122458,6.187585,1.438372,4.636913,6.149242,1.918409,5.35817,6.403437,1.551395,4.669705,6.271669,1.910586\n0.068626,5.999663,5.664796,-0.157795,6.301997,5.759555,6.97831,5.425201,1.704053,6.994273,5.41627,2.615834,6.99925,5.693636,1.192137,9.064174,4.727321,1.351165,1.310281,5.015005,3.650372,0.908294,5.867817,4.528414,1.097797,6.61297,4.533713,1462.664502,711.254414,NaN,5.122458,6.187585,1.438372,4.637124,6.148436,1.931874,5.352716,6.403369,1.551574,4.669604,6.279841,1.911125\n0.071631,6.005581,5.677299,-0.151206,6.301059,5.763995,6.97751,5.425131,1.705444,6.994287,5.416228,2.616654,6.99648,5.693607,1.192609,9.058591,4.726201,1.351392,1.225769,4.987757,3.590914,0.909094,5.866971,4.543182,1.097797,6.61297,4.533713,1455.738095,719.344302,NaN,5.116997,6.187511,1.438547,4.631603,6.156518,1.932622,5.349003,6.419439,1.559261,4.662573,6.279959,1.910688\n0.074374,6.010594,5.685896,-0.148053,6.301625,5.763808,6.9757,5.425128,1.705594,6.994696,5.416016,2.617969,6.993774,5.69357,1.193236,9.04528,4.72793,1.352126,1.185219,4.989367,3.569966,0.912748,5.865698,4.563049,1.100877,6.612184,4.543664,1455.738095,719.344302,NaN,5.062701,6.169911,1.44598,4.624672,6.156254,1.938941,5.349003,6.419439,1.559261,4.653434,6.296275,1.911777\n0.075583,6.015258,5.694072,-0.144676,6.301416,5.765144,6.975164,5.425061,1.706922,6.994525,5.416033,2.619028,6.993048,5.693322,1.197799,9.036669,4.72745,1.352596,1.125602,5.002038,3.530857,0.913814,5.864572,4.582727,1.110114,6.609829,4.573509,1455.738095,719.344302,NaN,5.046324,6.169692,1.446551,4.624778,6.15585,1.945672,5.34553,6.426437,1.579852,4.646509,6.295981,1.918065\n0.077343,6.018262,5.702252,-0.139213,6.301507,5.769585,6.974909,5.424893,1.710211,6.994628,5.415622,2.620105,6.992188,5.693053,1.202732,9.024691,4.727876,1.352839,1.085426,5.020311,3.514395,0.915146,5.863164,4.607318,1.112938,6.60937,4.578572,1457.123377,729.745586,NaN,5.046324,6.169692,1.446551,4.62126,6.155921,1.945466,5.34553,6.426437,1.579852,4.646509,6.295981,1.918065\n0.121331,6.062854,5.708726,-0.132769,6.300912,5.772377,6.974174,5.424819,1.71168,6.994664,5.41552,2.620692,6.991926,5.693066,1.202494,9.022398,4.728119,1.353092,1.077339,5.030785,3.659271,0.915679,5.862601,4.617152,1.112938,6.60937,4.578572,1457.123377,735.524077,NaN,5.046593,6.160655,1.459516,4.621473,6.155114,1.958926,5.345645,6.425588,1.593322,4.646509,6.295981,1.918065\n0.124137,6.062228,5.716841,-0.13025,6.301113,5.772219,6.972234,5.424821,1.71175,6.993735,5.419057,2.621279,6.991664,5.693075,1.202331,9.016419,4.726147,1.353021,1.096594,5.030523,3.673655,0.916478,5.861756,4.631899,1.118077,6.609102,4.578933,1466.820346,742.458266,NaN,5.046593,6.160655,1.459516,4.621473,6.155114,1.958926,5.338605,6.425689,1.592946,4.642994,6.296042,1.917848\n0.109922,6.060948,5.725742,-0.12564,6.300388,5.777939,6.966174,5.424757,1.713282,6.99476,5.415998,2.62242,6.991499,5.693075,1.202323,9.00942,4.719372,1.352742,1.119539,5.03709,3.708696,0.917011,5.861193,4.64173,1.118077,6.609102,4.578933,1482.058442,749.392456,NaN,5.046671,6.16025,1.466287,4.605206,6.154846,1.959561,5.338663,6.425265,1.59968,4.6431,6.295628,1.924572\n0.111034,6.060451,5.733376,-0.122147,6.29991,5.788114,6.959808,5.424622,1.716227,6.994505,5.4157,2.622702,6.991303,5.693088,1.202088,9.014458,4.728019,1.353211,1.178301,5.058092,3.774332,0.917277,5.860912,4.646644,1.118077,6.609102,4.578933,1498.681818,758.638042,NaN,5.046671,6.16025,1.466287,4.588941,6.154578,1.960207,5.338663,6.425265,1.59968,4.6431,6.295628,1.924572\n0.111975,6.059949,5.741281,-0.117244,6.299068,5.79381,6.958283,5.42454,1.717888,6.994296,5.415976,2.622874,6.985489,5.693129,1.201615,9.009414,4.627678,1.346743,1.233084,5.08215,3.921665,0.918342,5.859787,4.666299,1.11884,6.608127,4.593579,1504.222944,765.572231,NaN,5.046748,6.159846,1.473056,4.588941,6.154578,1.960207,5.338663,6.425265,1.59968,4.6431,6.295628,1.924572\n0.113376,6.059148,5.753992,-0.111555,6.299458,5.800847,6.957415,5.424452,1.719651,6.9934,5.435275,2.625047,6.983188,5.693394,1.196684,9.005678,4.627615,1.347226,1.278508,5.103321,3.986733,0.919141,5.858943,4.681036,1.119094,6.607803,4.59846,1508.378788,766.727929,NaN,5.046748,6.159846,1.473056,4.589049,6.154174,1.966937,5.322927,6.383968,1.597387,4.636071,6.295751,1.92414\n0.116899,6.063807,5.766979,-0.108336,6.298251,5.806432,6.956754,5.424432,1.720074,6.994022,5.437229,2.625209,6.975167,5.693676,1.191736,9.001094,4.611752,1.346659,1.411023,5.109484,4.079033,0.919939,5.858099,4.69577,1.119857,6.606828,4.613103,1509.764069,766.727929,NaN,5.046748,6.159846,1.473056,4.589049,6.154174,1.966937,5.312148,6.375612,1.597185,4.621923,6.294807,1.93782\n0.120275,6.067988,5.780327,-0.104718,6.298077,5.82077,6.943695,5.424386,1.721603,6.993981,5.437226,2.625271,6.972144,5.710282,1.193261,8.997526,4.600362,1.345776,1.471573,5.142934,4.077371,0.921003,5.856975,4.71541,1.120365,6.606179,4.622862,1516.690476,762.105136,NaN,5.039686,6.159963,1.472652,4.589267,6.153368,1.980394,5.306821,6.367325,1.596803,4.600836,6.27807,1.943272\n0.123476,6.073212,5.793397,-0.100009,6.297516,5.836788,6.940353,5.465704,1.724713,6.993688,5.437176,2.626245,6.969343,5.710262,1.193581,8.995402,4.627392,1.349842,1.574628,5.188329,4.095541,0.921801,5.856132,4.730137,1.120619,6.605855,4.627741,1518.075758,756.326645,NaN,5.039686,6.159963,1.472652,4.589376,6.152964,1.987122,5.306821,6.367325,1.596803,4.590185,6.261558,1.942653\n0.126031,6.078432,5.802145,-0.09569,6.297179,5.845447,6.944784,5.465657,1.725436,6.993456,5.437346,2.627072,6.96869,5.718584,1.194007,8.964047,4.619427,1.350779,1.63562,5.282576,4.109349,0.922333,5.85557,4.739953,1.121381,6.604881,4.642377,1519.461039,748.236758,NaN,5.039842,6.159155,1.48619,4.589485,6.152561,1.993848,5.306821,6.367325,1.596803,4.58667,6.261621,1.942435\n0.127237,6.083805,5.810393,-0.090168,6.296923,5.857148,6.949238,5.473739,1.729343,6.993085,5.43513,2.627844,6.968432,5.718617,1.193392,8.960091,4.619332,1.352008,1.651477,5.322565,4.110278,0.922333,5.85557,4.739953,1.121635,6.604556,4.647255,1519.461039,748.236758,NaN,5.040066,6.142706,1.485042,4.589485,6.152561,1.993848,5.306821,6.367325,1.596803,4.581248,6.261532,1.942664\n0.127826,6.047031,5.817325,-0.085791,6.295696,5.878982,6.953316,5.481947,1.730839,6.993751,5.436746,2.629035,6.967808,5.718631,1.193137,8.949868,4.619588,1.35395,1.702105,5.32829,4.131895,0.922599,5.855289,4.74486,1.122143,6.603907,4.65701,1487.599567,748.236758,NaN,5.03687,6.118092,1.483119,4.589485,6.152561,1.993848,5.30336,6.366955,1.603349,4.581248,6.261532,1.942664\n0.128635,6.044224,5.825206,-0.096395,6.431762,5.920657,6.954643,5.556267,1.736848,6.96599,5.443245,2.631024,6.967416,5.718652,1.192742,8.95141,4.619073,1.355955,1.801509,5.403122,4.191351,0.952666,5.84935,4.825138,1.118759,6.598798,4.739335,1473.746753,741.302568,NaN,5.046989,6.108547,1.514488,4.631046,6.135221,1.877124,5.260703,6.325607,1.601057,4.613753,6.25769,1.998422\n", "polypterus_poly4_data.csv": "eye_X,eye_Y,eye_Z,snout_X,snout_Y,snout_Z,peduncle_X,peduncle_Y,peduncle_Z,dorsaltip_X,dorsaltip_Y,dorsaltip_Z,analtip_X,analtip_Y,analtip_Z,caudaltip_X,caudaltip_Y,caudaltip_Z,Rpecttip_X,Rpecttip_Y,Rpecttip_Z,Rpectbase_X,Rpectbase_Y,Rpectbase_Z,Lpectbase_X,Lpectbase_Y,Lpectbase_Z,Lpecttip_X,Lpecttip_Y,Lpecttip_Z,Rpelvictip_X,Rpelvictip_Y,Rpelvictip_Z,Rpelvicbase_X,Rpelvicbase_Y,Rpelvicbase_Z,Lpelvictip_X,Lpelvictip_Y,Lpelvictip_Z,Lpelvicbase_X,Lpelvicbase_Y,Lpelvicbase_Z\n0.444075,5.36623,4.410918,0.115511,5.860935,4.502071,7.576475,5.050979,1.78615,7.56972,4.934014,2.536974,7.9074,5.549025,1.38827,9.085061,6.231691,1.774212,1.013462,4.447922,2.581352,1.172592,5.140451,3.583987,1.36224,5.690601,3.598753,1.72479,6.531626,2.823521,5.777337,4.616563,1.464052,5.2979,4.535857,1.781518,5.905351,5.028978,1.376667,5.335076,4.905798,1.791059\n0.423518,5.364657,4.426033,0.106261,5.833422,4.546007,7.506913,5.046116,1.785592,7.529046,4.827867,2.521921,7.903476,5.550212,1.386899,9.056793,6.313291,1.784993,1.002565,4.443085,2.608861,1.167661,5.115177,3.594505,1.342585,5.698371,3.611779,1.667423,6.510306,2.784313,5.756936,4.589737,1.473926,5.277554,4.509113,1.791602,5.884908,5.002284,1.386297,5.314751,4.879196,1.801109\n0.441795,5.372109,4.444137,0.116182,5.862357,4.61004,7.467594,5.024832,1.786182,7.529046,4.827867,2.521921,7.883501,5.525844,1.384547,8.961326,6.416107,1.81973,1.050317,4.442092,2.60122,1.163007,5.114714,3.609746,1.250026,5.767973,3.611415,1.660052,6.565751,2.802522,5.759242,4.578158,1.472407,5.277554,4.509113,1.791602,5.877837,4.967381,1.384104,5.269469,4.798254,1.796946\n0.444743,5.433619,4.464624,0.116278,5.873295,4.610502,7.463533,5.024935,1.78384,7.529046,4.827867,2.521921,7.878004,5.527172,1.384513,8.911733,6.334544,1.819081,1.022734,4.427409,2.581191,1.155583,5.114449,3.6102,1.25012,5.790215,3.612544,1.634407,6.568323,2.774325,5.774599,4.578161,1.471711,5.277554,4.509113,1.791602,5.877837,4.967381,1.384104,5.277472,4.775192,1.795075\n0.437471,5.398612,4.48381,0.116278,5.873295,4.610502,7.451951,5.025013,1.783273,7.529046,4.827867,2.521921,7.86111,5.515089,1.383899,8.85428,6.309633,1.818584,0.995892,4.584341,2.587426,1.152854,5.114591,3.609991,1.258774,5.7892,3.623484,1.603356,6.593596,2.747003,5.774599,4.578161,1.471711,5.277554,4.509113,1.791602,5.87015,4.967354,1.384348,5.277472,4.775192,1.795075\n0.440206,5.436768,4.501504,0.116278,5.873295,4.610502,7.448867,5.025814,1.782156,7.526487,4.828097,2.516879,7.85072,5.514097,1.3842,8.831835,6.367454,1.826495,0.947053,4.626899,2.594955,1.153123,5.114342,3.61521,1.264455,5.788621,3.629049,1.632835,6.530605,2.711681,5.774599,4.578161,1.471711,5.277554,4.509113,1.791602,5.87015,4.967354,1.384348,5.271911,4.775262,1.794723\n0.449574,5.435817,4.520594,0.119337,5.947631,4.651971,7.406256,5.025332,1.782381,7.502088,4.82909,2.496661,7.83609,5.505866,1.384386,8.81405,6.366014,1.843267,0.909761,4.682004,2.600847,1.153123,5.114342,3.61521,1.267426,5.788188,3.634425,1.595529,6.500158,2.703389,5.774599,4.578161,1.471711,5.277554,4.509113,1.791602,5.872934,4.967318,1.384494,5.271911,4.775262,1.794723\n0.453047,5.434864,4.536168,0.120116,6.010497,4.703594,7.402384,5.025273,1.783495,7.467041,4.806319,2.493321,7.845022,5.476418,1.382649,8.795725,6.363213,1.881884,0.900269,4.681243,2.602366,1.153123,5.114342,3.61521,1.270137,5.788044,3.634615,1.54826,6.488355,2.75935,5.774599,4.578161,1.471711,5.277554,4.509113,1.791602,5.872934,4.967318,1.384494,5.269131,4.775298,1.794547\n0.456477,5.433898,4.5521,0.122598,6.019166,4.74221,7.420333,5.025071,1.788626,7.452993,4.760243,2.490942,7.843101,5.476377,1.38325,8.780208,6.361702,1.900946,0.923939,4.76018,2.606832,1.15366,5.113845,3.625647,1.270137,5.788044,3.634615,1.532947,6.453757,2.791609,5.775022,4.554924,1.470111,5.277554,4.509113,1.791602,5.872934,4.967318,1.384494,5.266351,4.775334,1.794372\n0.459624,5.456407,4.568399,0.140689,6.052121,4.748257,7.415784,5.02507,1.788416,7.445391,4.760291,2.491123,7.840775,5.477341,1.383942,8.721837,6.360709,1.918598,0.935891,4.770228,2.624457,1.148562,5.136135,3.631572,1.263492,5.786887,3.650578,1.536604,6.436983,2.907798,5.782701,4.554925,1.469767,5.258047,4.509402,1.790407,5.872934,4.967318,1.384494,5.266351,4.775334,1.794372\n0.467708,5.479164,4.584042,0.148635,6.07165,4.782264,7.392501,5.024371,1.802458,7.446258,4.725662,2.489073,7.837354,5.477384,1.384198,8.672272,6.382685,1.937158,0.895357,4.789822,2.646454,1.156073,5.158655,3.632244,1.254984,5.818496,3.669021,1.554915,6.354482,2.965959,5.79038,4.554926,1.469425,5.239256,4.509536,1.790054,5.858176,4.932388,1.382557,5.260791,4.775408,1.794023\n0.481063,5.486564,4.597829,0.187558,6.113183,4.82177,7.378509,5.026804,1.769419,7.430028,4.71422,2.488714,7.834661,5.4773,1.385608,8.650492,6.404007,1.966722,1.040306,4.781244,2.654385,1.156968,5.18015,3.649009,1.255244,5.818205,3.674201,1.560234,6.328382,3.022118,5.782213,4.543371,1.468092,5.216498,4.49787,1.790274,5.850694,4.920737,1.381999,5.260791,4.775408,1.794023\n0.48278,5.48583,4.61077,0.190507,6.123916,4.822428,7.366263,5.025151,1.793908,7.423459,4.714242,2.488481,7.808546,5.452937,1.385314,8.627659,6.421681,2.004806,1.087824,4.735465,2.672403,1.157236,5.179897,3.654222,1.257954,5.818064,3.674395,1.553423,6.282049,3.050228,5.789218,4.543227,1.472242,5.195984,4.474772,1.789071,5.843417,4.89746,1.380631,5.258189,4.763894,1.793085\n0.484119,5.485195,4.622152,0.191181,6.123259,4.833302,7.36381,5.026186,1.799387,7.41686,4.714157,2.490733,7.805117,5.452918,1.385329,8.609681,6.412002,2.024095,1.128682,4.668284,2.682103,1.157236,5.179897,3.654222,1.258474,5.817481,3.684754,1.61047,6.214625,3.037373,5.78985,4.508366,1.469843,5.193197,4.474814,1.788897,5.843417,4.89746,1.380631,5.252681,4.763739,1.798053\n0.490194,5.500616,4.629876,0.194711,6.122427,4.844394,7.361729,5.024336,1.800742,7.414746,4.690867,2.49424,7.800297,5.4547,1.379948,8.602216,6.415778,2.035161,1.154655,4.634411,2.694826,1.157236,5.179897,3.654222,1.256475,5.81691,3.685566,1.676195,6.183149,2.989745,5.792362,4.485176,1.46757,5.193544,4.451704,1.787373,5.828001,4.897889,1.370484,5.229055,4.763769,1.798204\n0.490473,5.508109,4.636184,0.202858,6.143931,4.855653,7.357557,5.024529,1.796687,7.392227,4.679469,2.494116,7.794827,5.455894,1.37639,8.592932,6.425422,2.042127,1.215397,4.601863,2.705,1.157772,5.179392,3.664646,1.256519,5.828021,3.686124,1.736407,6.099079,2.890723,5.786773,4.485227,1.467226,5.190756,4.451747,1.7872,5.817731,4.886272,1.369783,5.218984,4.740668,1.796842\n0.490718,5.507781,4.642531,0.203284,6.154504,4.861521,7.352546,5.024817,1.790638,7.392227,4.679469,2.494116,7.791471,5.456189,1.373102,8.585828,6.435169,2.044819,1.222261,4.600498,2.732015,1.158039,5.17914,3.669858,1.256519,5.828021,3.686124,1.734977,6.059791,2.770103,5.778389,4.485305,1.466713,5.190756,4.451747,1.7872,5.794667,4.8862,1.370587,5.202999,4.740741,1.796656\n0.490773,5.507436,4.649445,0.209176,6.175962,4.862829,7.348241,5.025161,1.783414,7.378515,4.668637,2.478486,7.787789,5.456094,1.371825,8.569248,6.3294,2.038306,1.224404,4.598754,2.77449,1.158575,5.178635,3.68028,1.256607,5.850242,3.687239,1.775925,6.004935,2.712471,5.775595,4.485332,1.466542,5.185179,4.451833,1.786856,5.776889,4.863171,1.364017,5.179546,4.729224,1.796046\n0.490679,5.507118,4.655985,0.213037,6.174793,4.87934,7.321774,5.002358,1.775265,7.367741,4.646352,2.459773,7.784603,5.455773,1.370778,8.569984,6.306176,2.036815,1.150626,4.627364,2.856182,1.158843,5.178382,3.68549,1.256607,5.850242,3.687239,1.758711,5.913842,2.708819,5.764417,4.485443,1.465864,5.176702,4.452389,1.775676,5.769201,4.863147,1.364294,5.171905,4.729181,1.796388\n0.49039,5.50684,4.661927,0.213707,6.174129,4.890199,7.32692,4.99347,1.799212,7.365197,4.646679,2.452222,7.777996,5.44201,1.368718,8.565301,6.270988,2.034702,1.07258,4.688777,2.802843,1.156566,5.222743,3.692716,1.254678,5.849503,3.702573,1.798925,5.844831,2.72159,5.747856,4.473998,1.464056,5.171069,4.452691,1.770001,5.756141,4.851563,1.363443,5.154013,4.717586,1.796138\n0.489125,5.506769,4.664815,0.219752,6.173452,4.896067,7.30229,4.955164,1.791078,7.345096,4.635564,2.444269,7.759388,5.418708,1.36763,8.554378,6.237306,2.026055,0.959651,4.743884,2.773035,1.157236,5.255579,3.704794,1.237182,5.860171,3.703785,1.845789,5.773867,2.775684,5.736623,4.474549,1.452695,5.156956,4.453557,1.75315,5.732402,4.851614,1.363528,5.145896,4.695062,1.783438\n0.488918,5.506473,4.671054,0.219752,6.173452,4.896067,7.281651,4.94397,1.783107,7.330166,4.612547,2.442798,7.756487,5.406948,1.367888,8.549971,6.272279,2.016778,0.824887,4.743578,2.749147,1.148039,5.288015,3.722311,1.237487,5.870983,3.709516,1.861441,5.680384,2.833334,5.722824,4.463302,1.44572,5.14859,4.453699,1.752645,5.726827,4.851681,1.36321,5.137662,4.68386,1.776821\n0.499076,5.506622,4.676848,0.220087,6.17312,4.901495,7.276705,4.940998,1.776014,7.326503,4.601015,2.441966,7.745423,5.407005,1.367694,8.545496,6.272611,2.010051,0.650272,4.719096,2.73668,1.148084,5.299126,3.722863,1.237576,5.893194,3.710627,1.855327,5.630425,2.910634,5.698989,4.464016,1.429775,5.130617,4.442315,1.747013,5.726827,4.851681,1.36321,5.137662,4.68386,1.776821\n0.499055,5.506318,4.683027,0.215205,6.150678,4.916481,7.270864,4.938376,1.770826,7.320036,4.601462,2.431777,7.740201,5.405349,1.367876,8.546375,6.276642,2.003644,0.610511,4.79685,2.767625,1.140941,5.298594,3.728519,1.238098,5.892603,3.720973,1.860148,5.628033,2.943342,5.688796,4.441636,1.406889,5.122969,4.442274,1.747335,5.726827,4.851681,1.36321,5.134762,4.684353,1.766\n0.498364,5.506133,4.687557,0.207041,6.117855,4.925398,7.270861,4.935012,1.795835,7.297064,4.602112,2.419432,7.735,5.405312,1.368512,8.547993,6.277973,1.996976,0.561216,4.842728,2.813795,1.140941,5.298594,3.728519,1.244859,5.901946,3.747777,1.871318,5.590338,3.010111,5.685794,4.44315,1.36923,5.105221,4.419122,1.746283,5.726827,4.851681,1.36321,5.135104,4.66125,1.764468\n0.4973,5.50599,4.691695,0.206861,6.096063,4.924542,7.255432,4.909385,1.776622,7.284607,4.591152,2.406297,7.736463,5.38352,1.367334,8.548064,6.279713,1.988111,0.646638,4.855216,2.88728,1.141209,5.298334,3.73372,1.268929,5.920366,3.796966,1.858643,5.564621,3.062059,5.685706,4.443785,1.353155,5.09946,4.419845,1.729923,5.719487,4.828876,1.351185,5.129537,4.661333,1.764116\n0.496584,5.505882,4.694696,0.206861,6.096063,4.924542,7.25158,4.909849,1.766436,7.280713,4.591379,2.401174,7.718104,5.371933,1.366639,8.54837,6.279825,1.972495,0.701982,4.854931,2.937496,1.141209,5.298334,3.73372,1.288642,5.918525,3.813859,1.859567,5.563511,3.082974,5.685618,4.44442,1.337076,5.090969,4.420408,1.718729,5.698705,4.817502,1.345276,5.126694,4.661599,1.758616\n0.495021,5.505705,4.700107,0.206771,6.085167,4.924114,7.255691,4.910521,1.751566,7.272897,4.59173,2.393417,7.712688,5.369407,1.365373,8.551677,6.281178,1.959357,0.723348,4.874955,3.001664,1.141837,5.320031,3.745222,1.294349,5.929052,3.81997,1.891087,5.562523,3.117765,5.679903,4.445335,1.3153,5.074764,4.42114,1.702516,5.682591,4.818047,1.334394,5.118343,4.661727,1.758091\n0.494542,5.505465,4.705523,0.206771,6.085167,4.924114,7.252156,4.905804,1.744846,7.266423,4.592181,2.38322,7.709859,5.36385,1.36502,8.556328,6.281758,1.954904,0.814901,4.87991,3.02468,1.141882,5.331138,3.745772,1.294349,5.929052,3.81997,1.952955,5.606799,3.163754,5.671418,4.446074,1.298714,5.048174,4.421668,1.691791,5.66025,4.818563,1.327771,5.107209,4.661901,1.757397\n0.488306,5.505063,4.710572,0.206771,6.085167,4.924114,7.249674,4.901272,1.741788,7.256179,4.592238,2.383311,7.707759,5.356415,1.36452,8.538249,6.217977,1.946917,0.862349,4.912561,3.002829,1.142286,5.364195,3.75262,1.286945,5.928766,3.820417,1.985323,5.649517,3.22188,5.652633,4.435196,1.281435,5.037895,4.410109,1.691171,5.635148,4.818904,1.326357,5.101642,4.66199,1.757052\n0.481328,5.504793,4.713823,0.191925,6.084365,4.940236,7.266344,4.910951,1.741984,7.21764,4.557804,2.382148,7.697937,5.37197,1.36616,8.526803,6.169424,1.939762,0.912741,4.944902,2.971784,1.142286,5.364195,3.75262,1.286983,5.939858,3.820962,1.988011,5.727323,3.255574,5.626404,4.412237,1.274353,5.032185,4.410627,1.680138,5.6114,4.818958,1.326428,5.075923,4.66189,1.757874\n0.468609,5.504374,4.716419,0.188978,6.073648,4.939593,7.266344,4.910951,1.741984,7.186196,4.529272,2.381291,7.694807,5.371977,1.365811,8.512336,6.11956,1.941313,0.946907,4.955599,2.958302,1.142867,5.374772,3.76356,1.286983,5.939858,3.820962,1.962978,5.916771,3.281469,5.620804,4.412312,1.274022,5.023748,4.410988,1.674279,5.6114,4.818958,1.326428,5.067573,4.662024,1.757351\n0.466553,5.488769,4.718474,0.174226,6.05116,4.939706,7.245733,4.911048,1.742166,7.21764,4.557804,2.382148,7.690996,5.365895,1.364953,8.498687,6.066758,1.96251,0.845099,4.90645,2.943726,1.142958,5.39698,3.764658,1.287061,5.962042,3.82205,1.963069,6.062252,3.289291,5.613107,4.412296,1.274316,5.020956,4.411039,1.674108,5.60371,4.818925,1.3267,5.067573,4.662024,1.757351\n0.465448,5.488612,4.722972,0.174134,6.040266,4.93928,7.242612,4.911078,1.741508,7.21764,4.557804,2.382148,7.689723,5.37195,1.365988,8.540612,6.1456,1.986157,0.817152,4.948639,2.902965,1.143271,5.407817,3.770399,1.290023,5.961609,3.827413,1.964675,6.138387,3.329775,5.607507,4.412371,1.273985,5.013303,4.410992,1.674428,5.596212,4.807267,1.326157,5.067573,4.662024,1.757351\n0.464165,5.488401,4.728765,0.173952,6.018478,4.938427,7.24023,4.911059,1.741933,7.21764,4.557804,2.382148,7.679346,5.360372,1.363934,8.558108,6.075694,1.981274,0.895985,4.995045,2.868656,1.143897,5.429487,3.781878,1.295947,5.960743,3.838139,1.965591,6.181856,3.352874,5.586514,4.412413,1.274243,5.013303,4.410992,1.674428,5.596212,4.807267,1.326157,5.067573,4.662024,1.757351\n0.464007,5.489833,4.734342,0.173861,6.007584,4.938001,7.215366,4.905252,1.740594,7.213716,4.557926,2.379507,7.671709,5.348891,1.362328,8.558108,6.075694,1.981274,1.009044,5.020749,2.848853,1.143897,5.429487,3.781878,1.296061,5.994012,3.839767,1.945716,6.233464,3.413983,5.583908,4.400809,1.273255,4.997997,4.410899,1.675077,5.580833,4.807204,1.326714,5.067573,4.662024,1.757351\n0.461142,5.488014,4.740171,0.173861,6.007584,4.938001,7.212287,4.899534,1.739989,7.212449,4.558139,2.374474,7.665851,5.335683,1.362549,8.558108,6.075694,1.981274,1.12499,5.04624,2.844226,1.143942,5.440587,3.782425,1.29162,5.993291,3.845582,1.898392,6.343647,3.422234,5.569905,4.401003,1.272428,4.997997,4.410899,1.675077,5.580833,4.807204,1.326714,5.067449,4.662473,1.746698\n0.460734,5.487846,4.744064,0.173925,5.974582,4.942157,7.216719,4.911123,1.740946,7.206419,4.535065,2.372835,7.660482,5.319237,1.359503,8.557809,6.074913,1.994396,1.291411,5.073061,2.822987,1.143988,5.451688,3.782972,1.29162,5.993291,3.845582,1.843137,6.438742,3.324848,5.556644,4.400854,1.277759,4.990345,4.410852,1.675406,5.562056,4.806858,1.337044,5.06454,4.662968,1.73587\n0.46085,5.479719,4.750446,0.169131,5.963088,4.957603,7.216719,4.911123,1.740946,7.19749,4.535116,2.372983,7.655452,5.304529,1.356361,8.55746,6.074003,2.009703,1.403434,5.097561,2.806036,1.143988,5.451688,3.782972,1.29162,5.993291,3.845582,1.811273,6.474158,3.281918,5.548242,4.400975,1.277266,4.981971,4.411003,1.674884,5.546714,4.806558,1.342954,5.058682,4.675062,1.725637\n0.455874,5.47921,4.75624,0.169469,5.96277,4.963037,7.214111,4.900958,1.740255,7.197465,4.535013,2.375475,7.647058,5.337382,1.357434,8.569347,6.07198,2.047344,1.506643,5.086772,2.804304,1.143988,5.451688,3.782972,1.291658,6.004379,3.846124,1.743306,6.551267,3.269636,5.534946,4.401036,1.277227,4.970805,4.411208,1.674193,5.539027,4.806525,1.343241,5.058682,4.675062,1.725637\n0.453111,5.484019,4.762029,0.169469,5.96277,4.963037,7.203911,4.893553,1.734295,7.194341,4.500373,2.373241,7.646112,5.326041,1.349561,8.653038,6.046891,2.074075,1.552558,5.062619,2.80548,1.143988,5.451688,3.782972,1.292175,6.003773,3.856436,1.664704,6.62887,3.247508,5.534946,4.401036,1.277227,4.968014,4.41126,1.674021,5.539027,4.806525,1.343241,5.058682,4.675062,1.725637\n0.448305,5.487539,4.765217,0.170647,5.959322,4.995216,7.200942,4.911405,1.735281,7.190915,4.477185,2.374195,7.64863,5.319876,1.347276,8.695886,6.023335,2.074478,1.568892,4.994282,2.802828,1.144255,5.451419,3.788161,1.292175,6.003773,3.856436,1.619543,6.672581,3.242634,5.519556,4.400994,1.277811,4.944335,4.411318,1.674151,5.531339,4.806492,1.34353,5.055836,4.675334,1.720135\n0.444018,5.492776,4.767179,0.171697,5.958236,5.011502,7.200294,4.902379,1.734704,7.187512,4.454098,2.372657,7.631953,5.220932,1.34208,8.718124,6.023252,2.074374,1.520059,4.955664,2.824286,1.144255,5.451419,3.788161,1.29225,6.025946,3.857518,1.618115,6.696996,3.212872,5.51186,4.400973,1.278107,4.935961,4.411477,1.673634,5.531339,4.806492,1.34353,5.050268,4.675426,1.71979\n0.449656,5.462808,4.769241,0.172331,5.958066,5.011453,7.199699,4.853255,1.731316,7.187787,4.442543,2.371963,7.632369,5.185813,1.340352,8.72329,6.012088,2.067246,1.468227,4.946251,2.982317,1.13909,5.45143,3.792938,1.29225,6.025946,3.857518,1.541129,6.731214,3.168253,5.51186,4.400973,1.278107,4.935961,4.411477,1.673634,5.531339,4.806492,1.34353,5.0447,4.67552,1.719447\n0.452963,5.457459,4.771834,0.172326,5.957529,5.011432,7.177249,4.830103,1.730349,7.203012,4.442454,2.371579,7.632353,5.185758,1.341483,8.737659,5.954462,2.054786,1.402723,4.942238,3.052892,1.139626,5.450892,3.803315,1.29225,6.025946,3.857518,1.51832,6.734335,3.117122,5.51186,4.400973,1.278107,4.935961,4.411477,1.673634,5.512985,4.818084,1.344767,5.03078,4.675761,1.718593\n0.449001,5.46244,4.777547,0.173675,5.957795,5.011351,7.17329,4.830118,1.730185,7.20488,4.419333,2.370237,7.634158,5.173409,1.344712,8.746167,5.928839,2.04221,1.364235,4.962055,3.102599,1.139717,5.473086,3.804404,1.29225,6.025946,3.857518,1.492228,6.734991,3.09779,5.496471,4.400932,1.278708,4.935961,4.411477,1.673634,5.507106,4.840925,1.356753,5.019644,4.675959,1.717917\n0.447349,5.460024,4.779447,0.175134,5.957464,5.016705,7.167269,4.807004,1.726222,7.20488,4.419333,2.370237,7.637466,5.159893,1.345663,8.754197,5.908976,2.034391,1.303131,4.954283,3.242704,1.139985,5.472816,3.809591,1.292287,6.037032,3.858059,1.492393,6.846801,3.104113,5.496471,4.400932,1.278708,4.930378,4.411585,1.673292,5.504129,4.852579,1.357403,5.019644,4.675959,1.717917\n0.446541,5.459373,4.783702,0.176516,5.956394,5.027499,7.160559,4.789429,1.726377,7.198043,4.384511,2.373334,7.641485,5.146724,1.348277,8.778275,5.87379,2.031646,1.264235,4.963318,3.28121,1.14003,5.483912,3.810135,1.292287,6.037032,3.858059,1.501804,6.895975,3.05754,5.496091,4.424206,1.280349,4.922726,4.411532,1.673612,5.503752,4.875812,1.359031,5.016861,4.676009,1.717749\n0.446895,5.456479,4.787456,0.177283,5.953886,5.032814,7.140554,4.795377,1.728019,7.189062,4.384369,2.37847,7.645295,5.13038,1.347696,8.802763,5.861876,2.030453,1.118792,4.972525,3.172644,1.137315,5.484052,3.80993,1.292325,6.048117,3.8586,1.558495,6.935387,3.02583,5.493292,4.424245,1.28018,4.922726,4.411532,1.673612,5.498178,4.875888,1.358703,5.016861,4.676009,1.717749\n0.44741,5.452157,4.7938,0.178106,5.948968,5.038032,7.138555,4.795485,1.72565,7.189288,4.372617,2.382767,7.649671,5.111687,1.346366,8.818818,5.838411,2.028651,1.049626,4.980919,3.051505,1.137315,5.484052,3.80993,1.292325,6.048117,3.8586,1.527582,6.928389,3.04899,5.493292,4.424245,1.28018,4.915074,4.41148,1.673935,5.498178,4.875888,1.358703,5.0167,4.687562,1.71852\n0.448188,5.44799,4.801028,0.177462,5.93902,5.037691,7.138474,4.772195,1.724682,7.189288,4.372617,2.382767,7.630763,5.162058,1.346165,8.844886,5.826597,2.030132,0.982247,5.005704,2.976136,1.137851,5.483511,3.820301,1.292325,6.048117,3.8586,1.542134,6.89444,3.112427,5.493292,4.424245,1.28018,4.912283,4.411534,1.673763,5.498217,4.87565,1.364044,5.016379,4.710666,1.720062\n0.448802,5.445659,4.807422,0.177008,5.92955,5.037355,7.138743,4.763269,1.724966,7.18919,4.372226,2.392749,7.631219,5.138694,1.343991,8.87354,5.756399,2.027519,0.952529,5.009028,2.931587,1.137851,5.483511,3.820301,1.292325,6.048117,3.8586,1.539696,6.871083,3.154563,5.490492,4.424284,1.280012,4.912283,4.411534,1.673763,5.49543,4.875688,1.36388,5.016218,4.722218,1.720833\n0.4492,5.439812,4.814446,0.176639,5.916734,5.036884,7.138801,4.751621,1.725054,7.189464,4.360671,2.392056,7.631458,5.123314,1.342009,8.893314,5.732581,2.03282,0.883374,5.015161,2.853288,1.137851,5.483511,3.820301,1.292325,6.048117,3.8586,1.554397,6.848997,3.185921,5.490492,4.424284,1.280012,4.912283,4.411534,1.673763,5.49543,4.875688,1.36388,5.016218,4.722218,1.720833\n0.450642,5.434165,4.821769,0.176387,5.904526,5.036428,7.138448,4.74985,1.726138,7.189464,4.360671,2.392056,7.633712,5.106372,1.340698,8.906494,5.708837,2.039111,0.758391,5.017847,2.805302,1.132688,5.483521,3.825077,1.284221,6.048511,3.857987,1.528942,6.792058,3.217214,5.490492,4.424284,1.280012,4.912283,4.411534,1.673763,5.49543,4.875688,1.36388,5.016218,4.722218,1.720833\n0.45241,5.428458,4.829078,0.175643,5.891557,5.035977,7.131271,4.735428,1.726031,7.186008,4.337393,2.395517,7.634969,5.090343,1.34017,8.920663,5.687633,2.043629,0.676412,5.02166,2.770155,1.132688,5.483521,3.825077,1.279596,6.047859,3.87304,1.52038,6.733321,3.265119,5.490492,4.424284,1.280012,4.912283,4.411534,1.673763,5.495507,4.875212,1.37456,5.019001,4.722168,1.721001\n0.454227,5.422127,4.836251,0.176249,5.878129,5.04635,7.128979,4.725525,1.725349,7.183345,4.337313,2.397916,7.637582,5.077968,1.338703,8.93597,5.669428,2.044726,0.546213,5.024521,2.741649,1.132688,5.483521,3.825077,1.276895,6.047992,3.872837,1.484382,6.685064,3.295504,5.490492,4.424284,1.280012,4.912283,4.411534,1.673763,5.495319,4.886826,1.375372,5.019001,4.722168,1.721001\n0.454943,5.415529,4.842989,0.17638,5.86655,5.051361,7.130006,4.723646,1.727718,7.180707,4.337331,2.397818,7.639684,5.06173,1.336545,8.938635,5.692824,2.127633,0.432851,5.035067,2.743655,1.132688,5.483521,3.825077,1.277154,6.047687,3.877989,1.495297,6.636209,3.331644,5.490303,4.43592,1.280833,4.909491,4.411588,1.67359,5.487635,4.886788,1.375663,5.024405,4.733621,1.72211\n0.455896,5.408203,4.850022,0.177381,5.860247,5.061984,7.127814,4.716276,1.727113,7.180707,4.337331,2.397818,7.640316,5.04553,1.333506,8.940512,5.674576,2.139861,0.388153,5.066947,2.748416,1.132688,5.483521,3.825077,1.271753,6.047953,3.877585,1.563408,6.55382,3.338309,5.489736,4.470826,1.283295,4.909491,4.411588,1.67359,5.487299,4.909773,1.382625,5.024405,4.733621,1.72211\n0.456601,5.399153,4.856273,0.178107,5.856219,5.078177,7.124507,4.712278,1.731795,7.176726,4.33726,2.400169,7.640859,5.033623,1.331676,8.939928,5.666617,2.148333,0.267796,5.074816,2.803758,1.129973,5.483663,3.824872,1.271753,6.047953,3.877585,1.586763,6.464416,3.319766,5.489547,4.482461,1.284116,4.909491,4.411588,1.67359,5.492909,4.909458,1.38829,5.024405,4.733621,1.72211\n0.456756,5.388171,4.861385,0.179368,5.854612,5.083495,7.112807,4.678648,1.73161,7.160187,4.33736,2.400507,7.647119,5.01277,1.331531,8.953461,5.643664,2.151087,0.19586,5.072977,2.890484,1.13051,5.483121,3.835242,1.271753,6.047953,3.877585,1.619089,6.38826,3.261206,5.496863,4.505753,1.285458,4.909491,4.411588,1.67359,5.495695,4.909421,1.388455,5.024082,4.756723,1.723652\n0.460611,5.457388,4.867247,0.180931,5.852501,5.0997,7.111882,4.678708,1.730292,7.14862,4.337432,2.400555,7.652947,5.009028,1.336499,8.960856,5.630168,2.150105,0.162389,5.067483,3.046549,1.125349,5.483134,3.840019,1.271753,6.047953,3.877585,1.651338,6.382552,3.168081,5.496863,4.505753,1.285458,4.909491,4.411588,1.67359,5.503939,4.920442,1.400433,5.026864,4.756674,1.723821\n0.461952,5.449988,4.873263,0.187714,5.84979,5.105429,7.11188,4.65551,1.727144,7.144664,4.337458,2.400407,7.66051,5.002854,1.334278,8.978505,5.656884,2.142999,0.158873,5.028847,3.170427,1.125349,5.483134,3.840019,1.271753,6.047953,3.877585,1.662173,6.34077,3.109546,5.496863,4.505753,1.285458,4.909491,4.411588,1.67359,5.509509,4.920371,1.400765,5.026864,4.756674,1.723821\n0.461961,5.448894,4.879955,0.189828,5.842609,5.115938,7.110392,4.644006,1.723433,7.144664,4.337458,2.400407,7.665189,4.99239,1.332997,9.001072,5.611626,2.118439,0.162471,4.958859,3.235303,1.122634,5.483276,3.839815,1.272012,6.047647,3.882737,1.660372,6.275835,3.069421,5.496863,4.505753,1.285458,4.909491,4.411588,1.67359,5.509509,4.920371,1.400765,5.026864,4.756674,1.723821\n0.463496,5.447715,4.886159,0.190081,5.837063,5.11571,7.109639,4.643662,1.731651,7.144664,4.337458,2.400407,7.667232,4.981788,1.330477,9.007181,5.612305,2.107679,0.189568,4.955761,3.288867,1.122634,5.483276,3.839815,1.27279,6.046732,3.898191,1.658873,6.244139,3.036328,5.496673,4.517387,1.286278,4.909491,4.411588,1.67359,5.509509,4.920371,1.400765,5.026864,4.756674,1.723821\n0.46529,5.444106,4.892581,0.189631,5.827935,5.115394,7.110458,4.608758,1.72934,7.144345,4.348816,2.40609,7.636531,4.893231,1.323736,9.028265,5.589576,2.092909,0.286623,4.942686,3.285603,1.122634,5.483276,3.839815,1.255818,6.045672,3.909192,1.701976,6.180727,2.99354,5.496673,4.517387,1.286278,4.909491,4.411588,1.67359,5.509509,4.920371,1.400765,5.026864,4.756674,1.723821\n0.46648,5.43688,4.895224,0.188272,5.817157,5.115078,7.110458,4.608758,1.72934,7.144049,4.360269,2.409276,7.637151,4.869837,1.321792,9.040935,5.555295,2.077511,0.319888,4.942535,3.261071,1.122634,5.483276,3.839815,1.256078,6.045367,3.914342,1.734494,6.103172,2.98764,5.491079,4.517466,1.285944,4.917144,4.41164,1.673269,5.509509,4.920371,1.400765,5.026864,4.756674,1.723821\n0.46832,5.430474,4.89885,0.187719,5.804476,5.114634,7.11073,4.597123,1.72857,7.144049,4.360269,2.409276,7.637637,4.858173,1.320071,9.058753,5.520494,2.06846,0.369023,4.946303,3.171633,1.122902,5.483006,3.845,1.253378,6.0455,3.91414,1.844599,6.022996,3.000142,5.480588,4.51748,1.286074,4.917144,4.41164,1.673269,5.509509,4.920371,1.400765,5.026864,4.756674,1.723821\n0.470298,5.424858,4.904003,0.190102,5.791496,5.119859,7.110852,4.597299,1.724325,7.142731,4.360278,2.409227,7.638146,4.834845,1.316532,9.069944,5.497926,2.051558,0.448563,4.951066,3.100193,1.122902,5.483006,3.845,1.253899,6.04489,3.924439,1.870218,6.00918,3.027372,5.480588,4.51748,1.286074,4.932137,4.434868,1.674185,5.509509,4.920371,1.400765,5.026864,4.756674,1.723821\n0.471527,5.41708,4.909338,0.190491,5.778362,5.135728,7.119214,4.573805,1.727352,7.140094,4.360296,2.409129,7.639144,4.823223,1.313847,9.073878,5.463819,2.034047,0.534507,4.977378,3.041058,1.122902,5.483006,3.845,1.253859,6.033815,3.923905,1.863577,5.940685,3.030253,5.480588,4.51748,1.286074,4.931982,4.446429,1.67496,5.509509,4.920371,1.400765,5.026864,4.756674,1.723821\n0.47516,5.409226,4.915121,0.190348,5.765635,5.135258,7.119214,4.573805,1.727352,7.139822,4.371846,2.409819,7.656343,4.788042,1.309401,9.085347,5.429345,2.02077,0.566927,4.989458,3.010646,1.120188,5.483148,3.844797,1.253999,6.000285,3.927456,1.870549,5.848889,3.047533,5.480588,4.51748,1.286074,4.931808,4.469123,1.687197,5.509509,4.920371,1.400765,5.026864,4.756674,1.723821\n0.481022,5.397728,4.91972,0.188673,5.752701,5.134884,7.119214,4.573805,1.727352,7.138457,4.371659,2.41476,7.656702,4.785959,1.308924,9.104268,5.394598,2.009895,0.629804,5.013378,2.974899,1.120725,5.482607,3.855164,1.254259,5.999983,3.932607,1.871182,5.780682,3.05942,5.480588,4.51748,1.286074,4.939459,4.469178,1.686883,5.509509,4.920371,1.400765,5.026864,4.756674,1.723821\n0.485125,5.388864,4.922338,0.187782,5.73967,5.134453,7.12348,4.562249,1.724228,7.138457,4.371659,2.41476,7.656991,4.776459,1.305715,9.117794,5.38341,1.999009,0.708487,5.071012,2.950752,1.120725,5.482607,3.855164,1.254259,5.999983,3.932607,1.889594,5.777376,3.107617,5.472895,4.517455,1.286373,4.939459,4.469178,1.686883,5.509509,4.920371,1.400765,5.026864,4.756674,1.723821\n0.463267,5.422118,4.927351,0.187795,5.732239,5.134171,7.14059,4.563041,1.712299,7.138457,4.371659,2.41476,7.657506,4.767417,1.303085,9.138653,5.348689,1.98772,0.791061,5.104663,2.898306,1.120994,5.482336,3.860347,1.254259,5.999983,3.932607,1.817921,5.850183,3.155205,5.457508,4.517404,1.286979,4.939459,4.469178,1.686883,5.509509,4.920371,1.400765,5.034511,4.756731,1.723504\n0.46431,5.42183,4.932068,0.189725,5.73079,5.133985,7.152774,4.562934,1.705311,7.138457,4.371659,2.41476,7.658044,4.729673,1.301131,9.144471,5.26743,1.975738,0.884393,5.172043,2.852957,1.120899,5.460159,3.859271,1.254259,5.999983,3.932607,1.801393,6.046981,3.235538,5.444221,4.517455,1.286944,4.939303,4.480736,1.687657,5.524873,4.920442,1.40017,5.034511,4.756731,1.723504\n0.46587,5.421661,4.933705,0.190142,5.731613,5.133988,7.167888,4.53959,1.704387,7.138481,4.371757,2.412265,7.659523,4.725709,1.305209,9.150928,5.209567,1.963798,0.979851,5.253786,2.769556,1.115469,5.460446,3.858867,1.25478,5.999379,3.942907,1.832244,6.203378,3.262906,5.42077,4.540638,1.289516,4.939303,4.480736,1.687657,5.524873,4.920442,1.40017,5.040075,4.756634,1.723842\n0.466091,5.420147,4.934853,0.191369,5.730934,5.133878,7.168807,4.539736,1.700774,7.138481,4.371757,2.412265,7.639142,4.706452,1.294258,9.15466,5.186624,1.955096,1.011839,5.255429,2.727977,1.115469,5.460446,3.858867,1.25496,5.97693,3.946996,1.833234,6.291172,3.302885,5.42077,4.540638,1.289516,4.939148,4.492294,1.68843,5.524873,4.920442,1.40017,5.040075,4.756634,1.723842\n0.466541,5.413291,4.93562,0.19256,5.730521,5.133782,7.169052,4.528087,1.70015,7.130872,4.3718,2.41246,7.640556,4.694675,1.294969,9.142938,5.164207,1.930522,1.069217,5.255247,2.713728,1.116007,5.459907,3.869234,1.255481,5.976329,3.957296,1.851168,6.354532,3.372779,5.420726,4.540856,1.284153,4.939148,4.492294,1.68843,5.524835,4.920683,1.394835,5.040075,4.756634,1.723842\n0.467089,5.408607,4.938595,0.193332,5.729084,5.133675,7.169217,4.528083,1.700233,7.130895,4.371898,2.409965,7.641803,4.692547,1.294969,9.146962,5.129444,1.923721,1.171374,5.254573,2.705205,1.116276,5.459638,3.874417,1.255701,5.964957,3.961917,1.857533,6.386116,3.41004,5.420726,4.540856,1.284153,4.954138,4.515521,1.689358,5.524835,4.920683,1.394835,5.040075,4.756634,1.723842\n0.46802,5.402353,4.938548,0.193588,5.728427,5.133633,7.190705,4.516303,1.700743,7.108069,4.372028,2.410565,7.642228,4.687572,1.294658,9.138211,5.095242,1.906283,1.211919,5.219145,2.749515,1.116228,5.448551,3.873881,1.255701,5.964957,3.961917,1.836162,6.431292,3.415883,5.420726,4.540856,1.284153,4.953982,4.527079,1.690132,5.524798,4.920924,1.3895,5.04756,4.768242,1.724297\n0.468372,5.396632,4.938195,0.19423,5.724707,5.133449,7.191267,4.493014,1.699197,7.108069,4.372028,2.410565,7.644065,4.659534,1.292604,9.131522,5.072335,1.898287,1.295913,5.170694,2.815635,1.116228,5.448551,3.873881,1.256222,5.964356,3.972216,1.729097,6.47218,3.433821,5.420726,4.540856,1.284153,4.948096,4.550304,1.691347,5.524798,4.920924,1.3895,5.04756,4.768242,1.724297\n0.467788,5.398007,4.937303,0.194379,5.720161,5.133267,7.176654,4.492867,1.703607,7.086055,4.337514,2.409119,7.646953,4.648752,1.291692,9.12656,5.043655,1.896529,1.3591,5.133673,2.86294,1.116228,5.448551,3.873881,1.256482,5.964056,3.977365,1.697291,6.473267,3.41799,5.417929,4.540894,1.283979,4.945308,4.550359,1.691182,5.524798,4.920924,1.3895,5.04756,4.768242,1.724297\n0.468604,5.390227,4.936124,0.193723,5.7131,5.133045,7.17511,4.490544,1.705564,7.086055,4.337514,2.409119,7.646225,4.659538,1.292538,9.120545,5.049399,1.894957,1.404975,5.062148,2.919592,1.116228,5.448551,3.873881,1.256482,5.964056,3.977365,1.68941,6.507121,3.409933,5.417929,4.540894,1.283979,4.945308,4.550359,1.691182,5.524798,4.920924,1.3895,5.04756,4.768242,1.724297\n0.468336,5.390436,4.932116,0.193034,5.701952,5.132671,7.15994,4.486751,1.705073,7.084533,4.332244,2.408849,7.649752,4.656527,1.292643,9.144649,5.034175,1.881474,1.46116,5.024389,2.992522,1.116228,5.448551,3.873881,1.256482,5.964056,3.977365,1.633331,6.542642,3.393904,5.417929,4.540894,1.283979,4.945153,4.561915,1.691955,5.524798,4.920924,1.3895,5.047235,4.791343,1.725839\n0.468354,5.374934,4.930434,0.192898,5.68996,5.132228,7.160855,4.485453,1.704875,7.084141,4.328974,2.408667,7.65434,4.650931,1.292457,9.153493,5.039161,1.880193,1.485399,5.009869,3.055724,1.116228,5.448551,3.873881,1.256482,5.964056,3.977365,1.61424,6.577205,3.389011,5.417929,4.540894,1.283979,4.945153,4.561915,1.691955,5.524798,4.920924,1.3895,5.047235,4.791343,1.725839\n0.468527,5.367247,4.928046,0.191974,5.677529,5.131822,7.158793,4.484182,1.709625,7.083593,4.325635,2.408485,7.656674,4.644412,1.292513,9.162087,5.016588,1.870526,1.501291,4.950733,3.13028,1.116228,5.448551,3.873881,1.256482,5.964056,3.977365,1.598102,6.611327,3.389508,5.417929,4.540894,1.283979,4.945153,4.561915,1.691955,5.52476,4.921164,1.384164,5.047235,4.791343,1.725839\n0.468156,5.359721,4.922933,0.189851,5.664639,5.13148,7.155642,4.477816,1.70902,7.083053,4.32201,2.408285,7.658473,4.630991,1.291444,9.17549,5.005317,1.865799,1.494335,4.936177,3.212835,1.138817,5.415598,3.881314,1.256403,5.941917,3.97631,1.595424,6.62259,3.389889,5.417929,4.540894,1.283979,4.945153,4.561915,1.691955,5.52476,4.921164,1.384164,5.047235,4.791343,1.725839\n0.468102,5.344356,4.918415,0.189946,5.653528,5.131054,7.152726,4.471809,1.708609,7.083272,4.317263,2.413002,7.662078,4.628863,1.291591,9.183173,4.987647,1.862742,1.477825,4.889632,3.266599,1.146168,5.40479,3.880341,1.256403,5.941917,3.97631,1.563763,6.656771,3.390221,5.417929,4.540894,1.283979,4.945153,4.561915,1.691955,5.52476,4.921164,1.384164,5.047235,4.791343,1.725839\n0.462859,5.32089,4.915966,0.189666,5.646751,5.130817,7.15431,4.469863,1.708442,7.084108,4.313275,2.412743,7.655057,4.63605,1.292511,9.188564,4.969509,1.861723,1.464364,4.865182,3.327055,1.146168,5.40479,3.880341,1.256403,5.941917,3.97631,1.541457,6.667048,3.392201,5.417929,4.540894,1.283979,4.945153,4.561915,1.691955,5.52476,4.921164,1.384164,5.047235,4.791343,1.725839\n0.463098,5.313169,4.914161,0.190194,5.642892,5.130635,7.156022,4.469136,1.708351,7.084094,4.307229,2.412387,7.658324,4.63336,1.292913,9.196599,4.950684,1.860736,1.423835,4.864431,3.347932,1.161233,5.405085,3.884657,1.256403,5.941917,3.97631,1.48062,6.665985,3.393719,5.417929,4.540894,1.283979,4.945153,4.561915,1.691955,5.532444,4.9212,1.383871,5.047235,4.791343,1.725839\n0.46301,5.289929,4.911297,0.190727,5.639568,5.130474,7.158559,4.463599,1.707925,7.082986,4.305077,2.414792,7.659673,4.63126,1.29307,9.201225,4.931326,1.855228,1.37329,4.865711,3.331411,1.161233,5.405085,3.884657,1.256403,5.941917,3.97631,1.473178,6.665693,3.394194,5.417929,4.540894,1.283979,4.945153,4.561915,1.691955,5.540127,4.921236,1.38358,5.047235,4.791343,1.725839\n0.463199,5.290122,4.906956,0.191685,5.637938,5.130347,7.158051,4.480997,1.709081,7.083768,4.298386,2.414375,7.658947,4.624317,1.292212,9.214387,4.915626,1.852386,1.299183,4.858289,3.28101,1.161233,5.405085,3.884657,1.256403,5.941917,3.97631,1.460674,6.664783,3.234238,5.417929,4.540894,1.283979,4.945153,4.561915,1.691955,5.540127,4.921236,1.38358,5.047235,4.791343,1.725839\n0.463478,5.290162,4.905742,0.19216,5.636755,5.13027,7.15956,4.477863,1.708838,7.08369,4.295043,2.41418,7.660751,4.620904,1.291742,9.227713,4.896728,1.851556,1.215379,4.861538,3.241935,1.161233,5.405085,3.884657,1.256403,5.941917,3.97631,1.453065,6.642567,3.219132,5.417929,4.540894,1.283979,4.945153,4.561915,1.691955,5.555495,4.921308,1.383007,5.047235,4.791343,1.725839\n0.464992,5.290138,4.904402,0.192229,5.636022,5.130238,7.165504,4.477186,1.708997,7.085836,4.292683,2.41416,7.660883,4.624345,1.291608,9.205441,4.972021,1.85714,1.162867,4.853311,3.202614,1.161233,5.405085,3.884657,1.256403,5.941917,3.97631,1.462524,6.599155,3.191701,5.417929,4.540894,1.283979,4.945153,4.561915,1.691955,5.555495,4.921308,1.383007,5.047235,4.791343,1.725839\n0.465215,5.282555,4.899617,0.19274,5.634639,5.130151,7.164689,4.478266,1.709088,7.08638,4.291186,2.414056,7.664871,4.619604,1.291728,9.210177,4.937017,1.854995,1.064755,4.855458,3.150774,1.161233,5.405085,3.884657,1.256403,5.941917,3.97631,1.469658,6.566264,3.18418,5.417929,4.540894,1.283979,4.945153,4.561915,1.691955,5.555495,4.921308,1.383007,5.047235,4.791343,1.725839\n0.465368,5.267005,4.898593,0.192908,5.63237,5.130054,7.163347,4.480969,1.709299,7.086388,4.287487,2.413838,7.665871,4.615566,1.291698,9.210586,4.925326,1.854235,1.051846,4.857668,3.113012,1.161233,5.405085,3.884657,1.256403,5.941917,3.97631,1.495389,6.492991,3.171255,5.417929,4.540894,1.283979,4.945153,4.561915,1.691955,5.555495,4.921308,1.383007,5.047235,4.791343,1.725839\n0.465664,5.267031,4.897671,0.193978,5.626191,5.129748,7.164734,4.476402,1.708964,7.087119,4.283001,2.413553,7.666788,4.624324,1.292303,9.227572,4.878242,1.850796,0.933368,4.857158,3.089974,1.161233,5.405085,3.884657,1.256363,5.930846,3.975783,1.49321,6.472612,3.17616,5.417929,4.540894,1.283979,4.945153,4.561915,1.691955,5.555495,4.921308,1.383007,5.047235,4.791343,1.725839\n0.486373,5.270138,4.896116,0.197808,5.582944,5.127858,7.162793,4.504254,1.710843,7.08971,4.291014,2.413954,7.666427,4.659471,1.294718,9.237701,4.807916,1.846038,0.919066,4.858351,3.0783,1.161233,5.405085,3.884657,1.256363,5.930846,3.975783,1.461542,6.461667,3.203226,5.417929,4.540894,1.283979,4.964864,4.560877,1.70913,5.555495,4.921308,1.383007,5.047072,4.802894,1.726609\n0.492804,5.332498,4.898344,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,1.168632,5.405366,3.884226,1.267168,5.930311,3.976591,8.15604,4.984209,3.876363,5.517383,4.576153,1.282596,NaN,NaN,NaN,5.585268,4.932667,1.384825,5.291529,4.827926,1.719415\n"};
 
-let parsedData = null;  // { fishes: [{name, frames, X, Y, has_z, Z}] }
-let charts = {};
+// ── State ──
+let parsedData=null,kineResults=null,charts={},animState={running:false,frame:0,raf:null};
 
-// ---- CSV Parsing ----
-function parseCSV(text) {
-  const lines = text.trim().split(/\r?\n/);
-  const header = lines[0].split(',').map(s => s.trim());
-  const rows = lines.slice(1).map(l => l.split(',').map(s => parseFloat(s.trim())));
-  const nFrames = rows.length;
-
-  // Detect format
-  const dlcPat = /^(Fish\d+)_(P\d+)_([xyz])$/i;
-  const namedPat = /^(.+)_([XYZ])$/;
-
-  const dlcCols = header.map(h => h.match(dlcPat));
-  const isDLC = dlcCols.some(m => m !== null);
-
-  if (isDLC) {
-    return parseDLC(header, rows, dlcCols, nFrames);
-  } else {
-    return parseNamed(header, rows, namedPat, nFrames);
-  }
+function switchTab(id,el){
+  document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
 }
 
-function parseDLC(header, rows, dlcCols, nFrames) {
-  const fishMap = {};
-  header.forEach((h, ci) => {
-    const m = dlcCols[ci];
-    if (!m) return;
-    const [, fishName, ptName, dim] = m;
-    if (!fishMap[fishName]) fishMap[fishName] = {};
-    if (!fishMap[fishName][ptName]) fishMap[fishName][ptName] = {};
-    fishMap[fishName][ptName][dim.toLowerCase()] = ci;
-  });
-
-  const fishes = [];
-  for (const fishName of Object.keys(fishMap)) {
-    const pts = Object.keys(fishMap[fishName]).sort((a,b) => {
-      const na = parseInt(a.replace(/\D/g,''));
-      const nb = parseInt(b.replace(/\D/g,''));
-      return na - nb;
-    });
-    const nPoints = pts.length;
-    const has_z = pts.some(p => fishMap[fishName][p].z !== undefined);
-
-    const Xr = [], Yr = [], Zr = [];
-    for (let f = 0; f < nFrames; f++) {
-      const xrow = [], yrow = [], zrow = [];
-      for (const pt of pts) {
-        const xi = fishMap[fishName][pt].x;
-        const yi = fishMap[fishName][pt].y;
-        const zi = fishMap[fishName][pt].z;
-        xrow.push(xi !== undefined ? rows[f][xi] : NaN);
-        yrow.push(yi !== undefined ? rows[f][yi] : NaN);
-        if (has_z) zrow.push(zi !== undefined ? rows[f][zi] : NaN);
-      }
-      Xr.push(xrow); Yr.push(yrow);
-      if (has_z) Zr.push(zrow);
-    }
-    fishes.push({ name: fishName, nPoints, nFrames, has_z, Xraw: Xr, Yraw: Yr, Zraw: has_z ? Zr : null });
+function loadSample(){
+  const sel=document.getElementById('sampleSelect').value;
+  if(!sel){parsedData=null;setStatus('Upload a CSV or choose a sample.','');return;}
+  document.getElementById('csvFile').value='';
+  processCSV(SAMPLE_DATA[sel],sel);
+}
+function onFileUpload(){
+  document.getElementById('sampleSelect').value='';
+  const f=document.getElementById('csvFile').files[0];
+  if(!f)return;
+  const r=new FileReader();r.onload=e=>processCSV(e.target.result,f.name);r.readAsText(f);
+}
+function processCSV(text,name){
+  try{
+    parsedData=parseCSV(text);
+    const f=parsedData.fishes[0];
+    setStatus(`Loaded: ${name} — ${parsedData.format}, ${parsedData.fishes.length} animal(s), ${f.nFrames} frames, ${f.nPoints} points${f.has_z?', 3D':''}.`,'ok');
+    const sel=document.getElementById('animalSelect');sel.innerHTML='';
+    parsedData.fishes.forEach((fi,i)=>{const o=document.createElement('option');o.value=i;o.textContent=fi.name;sel.appendChild(o);});
+    document.getElementById('animalSelectGroup').style.display=parsedData.fishes.length>1?'':'none';
+    populateFin();
+  }catch(e){setStatus('Parse error: '+e.message,'error');}
+}
+function populateFin(){
+  const r=document.getElementById('finRoot'),t=document.getElementById('finTip');
+  r.innerHTML='';t.innerHTML='';
+  if(!parsedData||parsedData.format!=='Named'||!parsedData.fishes[0].has_z){
+    r.innerHTML='<option>(named 3D required)</option>';t.innerHTML='<option>(named 3D required)</option>';return;
   }
-  return { fishes, format: 'DLC' };
+  const lms=parsedData.fishes[0].landmarkNames||[];
+  lms.forEach(lm=>{r.innerHTML+=`<option value="${lm}">${lm}</option>`;t.innerHTML+=`<option value="${lm}">${lm}</option>`;});
+  if(lms.length>=2){r.value=lms[0];t.value=lms[lms.length-1];}
 }
 
-function parseNamed(header, rows, namedPat, nFrames) {
-  const landmarkMap = {};
-  header.forEach((h, ci) => {
-    const m = h.match(/^(.+)_([XYZxyz])$/);
-    if (!m) return;
-    const [, name, dim] = m;
-    if (!landmarkMap[name]) landmarkMap[name] = {};
-    landmarkMap[name][dim.toUpperCase()] = ci;
-  });
-
-  const landmarks = Object.keys(landmarkMap);
-  if (landmarks.length < 3) throw new Error('Need at least 3 named landmarks (e.g. snout_X, snout_Y, ...)');
-  const has_z = landmarks.some(l => landmarkMap[l].Z !== undefined);
-
-  const Xr = [], Yr = [], Zr = [];
-  for (let f = 0; f < nFrames; f++) {
-    const xrow = [], yrow = [], zrow = [];
-    for (const lm of landmarks) {
-      const xi = landmarkMap[lm].X;
-      const yi = landmarkMap[lm].Y;
-      const zi = landmarkMap[lm].Z;
-      xrow.push(xi !== undefined ? rows[f][xi] : NaN);
-      yrow.push(yi !== undefined ? rows[f][yi] : NaN);
-      if (has_z) zrow.push(zi !== undefined ? rows[f][zi] : NaN);
-    }
-    Xr.push(xrow); Yr.push(yrow);
-    if (has_z) Zr.push(zrow);
-  }
-  return {
-    fishes: [{ name: 'Fish1', nPoints: landmarks.length, nFrames, has_z, Xraw: Xr, Yraw: Yr, Zraw: has_z ? Zr : null }],
-    format: 'Named'
-  };
+// ── Parsing ──
+function parseCSV(text){
+  const lines=text.trim().split(/\r?\n/);
+  const header=lines[0].split(',').map(s=>s.trim());
+  const rows=lines.slice(1).map(l=>l.split(',').map(s=>{const v=parseFloat(s.trim());return isNaN(v)?NaN:v;}));
+  const nFrames=rows.length;
+  const isDLC=header.some(h=>/^Fish\d+_P\d+_[xyz]$/i.test(h));
+  return isDLC?parseDLC(header,rows,nFrames):parseNamed(header,rows,nFrames);
+}
+function parseDLC(header,rows,nFrames){
+  const pat=/^(Fish\d+)_(P\d+)_([xyz])$/i,fishMap={};
+  header.forEach((h,ci)=>{const m=h.match(pat);if(!m)return;const[,fn,pn,dim]=m;if(!fishMap[fn])fishMap[fn]={};if(!fishMap[fn][pn])fishMap[fn][pn]={};fishMap[fn][pn][dim.toLowerCase()]=ci;});
+  return{fishes:Object.keys(fishMap).map(fn=>{
+    const pts=Object.keys(fishMap[fn]).sort((a,b)=>parseInt(a.replace(/\D/g,''))-parseInt(b.replace(/\D/g,'')));
+    const has_z=pts.some(p=>fishMap[fn][p].z!==undefined);
+    const Xraw=[],Yraw=[],Zraw=[];
+    for(let f=0;f<nFrames;f++){const xr=[],yr=[],zr=[];pts.forEach(p=>{xr.push(rows[f][fishMap[fn][p].x??-1]??NaN);yr.push(rows[f][fishMap[fn][p].y??-1]??NaN);if(has_z)zr.push(rows[f][fishMap[fn][p].z??-1]??NaN);});Xraw.push(xr);Yraw.push(yr);if(has_z)Zraw.push(zr);}
+    return{name:fn,nPoints:pts.length,nFrames,has_z,Xraw,Yraw,Zraw:has_z?Zraw:null};
+  }),format:'DLC'};
+}
+function parseNamed(header,rows,nFrames){
+  const lmMap={};
+  header.forEach((h,ci)=>{const m=h.match(/^(.+)_([XYZxyz])$/);if(!m)return;const[,name,dim]=m;if(!lmMap[name])lmMap[name]={};lmMap[name][dim.toUpperCase()]=ci;});
+  const lms=Object.keys(lmMap);if(lms.length<3)throw new Error('Need at least 3 named landmarks.');
+  const has_z=lms.some(l=>lmMap[l].Z!==undefined);
+  const Xraw=[],Yraw=[],Zraw=[];
+  for(let f=0;f<nFrames;f++){const xr=[],yr=[],zr=[];lms.forEach(lm=>{xr.push(lmMap[lm].X!==undefined?rows[f][lmMap[lm].X]:NaN);yr.push(lmMap[lm].Y!==undefined?rows[f][lmMap[lm].Y]:NaN);if(has_z)zr.push(lmMap[lm].Z!==undefined?rows[f][lmMap[lm].Z]:NaN);});Xraw.push(xr);Yraw.push(yr);if(has_z)Zraw.push(zr);}
+  return{fishes:[{name:'Fish1',nPoints:lms.length,nFrames,has_z,Xraw,Yraw,Zraw:has_z?Zraw:null,landmarkNames:lms}],format:'Named'};
 }
 
-// ---- Transform (midline alignment) ----
-function transformFish(fish) {
-  const { nFrames, nPoints, Xraw, Yraw } = fish;
-  const X = [], Y = [];
+// ── Math helpers ──
+function nanmean(arr){const v=arr.filter(x=>!isNaN(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length:NaN;}
+function nanstd(arr){if(arr.length<2)return NaN;const m=nanmean(arr);return Math.sqrt(arr.reduce((s,v)=>s+(v-m)**2,0)/(arr.length-1));}
+function nanrange(arr){const v=arr.filter(x=>!isNaN(x));return v.length?Math.max(...v)-Math.min(...v):NaN;}
+function linspace(a,b,n){return Array.from({length:n},(_,i)=>a+(b-a)*i/(n-1));}
+function fillNaN(arr){const out=[...arr];const good=arr.map((v,i)=>[i,v]).filter(([,v])=>!isNaN(v));if(good.length<2)return out.fill(0);for(let i=0;i<out.length;i++){if(!isNaN(out[i]))continue;const bef=good.filter(([j])=>j<=i).pop(),aft=good.find(([j])=>j>=i);if(bef&&aft){const[bi,bv]=bef,[ai,av]=aft;out[i]=bi===ai?bv:bv+(av-bv)*(i-bi)/(ai-bi);}else if(bef)out[i]=bef[1];else if(aft)out[i]=aft[1];}return out;}
+function polyfit1(xs,ys){const n=xs.length;let sx=0,sy=0,sxy=0,sx2=0;for(let i=0;i<n;i++){sx+=xs[i];sy+=ys[i];sxy+=xs[i]*ys[i];sx2+=xs[i]*xs[i];}const d=n*sx2-sx*sx;if(Math.abs(d)<1e-12)return[0,sy/n];const b=(n*sxy-sx*sy)/d;return[b,(sy-b*sx)/n];}
+function dft(x){const N=x.length,re=[],im=[];for(let k=0;k<N;k++){let r=0,i=0;for(let n=0;n<N;n++){const a=-2*Math.PI*k*n/N;r+=x[n]*Math.cos(a);i+=x[n]*Math.sin(a);}re.push(r);im.push(i);}return{re,im};}
+function idft(Yr,Yi,N){const out=[];for(let n=0;n<N;n++){let r=0;for(let k=0;k<N;k++){const a=2*Math.PI*k*n/N;r+=Yr[k]*Math.cos(a)-Yi[k]*Math.sin(a);}out.push(r/N);}return out;}
+function fftInterp(yIn,Nout){const Nin=yIn.length;if(Nin>=Nout)return linspace(0,1,Nout).map(t=>{const p=t*(Nin-1),lo=Math.floor(p),hi=Math.min(lo+1,Nin-1);return yIn[lo]*(1-(p-lo))+yIn[hi]*(p-lo);});const Y=dft(yIn),half=Math.floor(Nin/2);const Yr=new Array(Nout).fill(0),Yi=new Array(Nout).fill(0);for(let i=0;i<=half;i++){Yr[i]=Y.re[i];Yi[i]=Y.im[i];}const src=half+1,dst=Nout-(Nin-half-1);for(let i=0;i<Nin-half-1;i++){Yr[dst+i]=Y.re[src+i];Yi[dst+i]=Y.im[src+i];}return idft(Yr,Yi,Nout).map(v=>v*(Nout/Nin));}
+function dominantFreq(y,fs,minFreq){const N=y.length,ym=nanmean(y),yc=y.map(v=>v-ym),freqs=[],power=[];for(let k=0;k<=Math.floor(N/2);k++){let re=0,im=0;for(let n=0;n<N;n++){const a=-2*Math.PI*k*n/N;re+=yc[n]*Math.cos(a);im+=yc[n]*Math.sin(a);}freqs.push(fs*k/N);power.push((2/N)*(re*re+im*im));}const vi=freqs.map((f,i)=>f>=minFreq?i:-1).filter(i=>i>=0);if(!vi.length)return{freq:freqs,power,dominant:NaN};const bi=vi.reduce((b,i)=>power[i]>power[b]?i:b,vi[0]);return{freq:freqs,power,dominant:freqs[bi]};}
+function spatialWavelength(amp,sNorm){const N=amp.length,ds=sNorm[1]-sNorm[0],m=nanmean(amp),yc=amp.map(v=>v-m),sf=[],pw=[];for(let k=0;k<=Math.floor(N/2);k++){let re=0,im=0;for(let n=0;n<N;n++){const a=-2*Math.PI*k*n/N;re+=yc[n]*Math.cos(a);im+=yc[n]*Math.sin(a);}sf.push(k/(N*ds));pw.push((2/N)*(re*re+im*im));}const vi=sf.map((f,i)=>f>0?i:-1).filter(i=>i>=0);if(!vi.length)return{wavelength:NaN};const bi=vi.reduce((b,i)=>pw[i]>pw[b]?i:b,vi[0]);return{wavelength:sf[bi]>0?1/sf[bi]:NaN};}
 
-  for (let f = 0; f < nFrames; f++) {
-    const xall = Xraw[f];
-    const yall = Yraw[f];
-
-    // Middle points only (exclude head & tail)
-    const midX = xall.slice(1, nPoints - 1);
-    const midY = yall.slice(1, nPoints - 1);
-
-    if (midX.some(isNaN) || midY.some(isNaN)) { X.push(xall.map(()=>NaN)); Y.push(yall.map(()=>NaN)); continue; }
-
-    // Polyfit degree 1 (least squares line)
-    const [b, a] = polyfit1(midX, midY);
-    const alpha = Math.atan(b);
-    const theta = 2 * Math.PI - alpha;
-    const cosT = Math.cos(theta), sinT = Math.sin(theta);
-
-    const xr = xall.map((x, i) => x * cosT - (yall[i] - a) * sinT);
-    const yr = xall.map((x, i) => x * sinT + (yall[i] - a) * cosT + a);
-
-    const minX = Math.min(...xr);
-    X.push(xr.map(v => v - minX));
-    Y.push(yr);
+// ── Transform ──
+function transformFish(fish){
+  const{nFrames,nPoints,Xraw,Yraw}=fish;const X=[],Y=[];
+  for(let f=0;f<nFrames;f++){
+    const xa=Xraw[f],ya=Yraw[f];
+    const mx=xa.slice(1,nPoints-1),my=ya.slice(1,nPoints-1);
+    if(mx.some(isNaN)||my.some(isNaN)){X.push(xa.map(()=>NaN));Y.push(ya.map(()=>NaN));continue;}
+    const[b,a]=polyfit1(mx,my);const theta=2*Math.PI-Math.atan(b);const C=Math.cos(theta),S=Math.sin(theta);
+    const xr=xa.map((x,i)=>x*C-(ya[i]-a)*S);const yr=xa.map((x,i)=>x*S+(ya[i]-a)*C+a);
+    const minX=Math.min(...xr);X.push(xr.map(v=>v-minX));Y.push(yr);
   }
-  return { ...fish, X, Y };
+  return{...fish,X,Y};
 }
 
-function polyfit1(xs, ys) {
-  // Returns [slope, intercept] for y = slope*x + intercept
-  const n = xs.length;
-  let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
-  for (let i = 0; i < n; i++) { sumX += xs[i]; sumY += ys[i]; sumXY += xs[i]*ys[i]; sumX2 += xs[i]*xs[i]; }
-  const denom = n * sumX2 - sumX * sumX;
-  if (Math.abs(denom) < 1e-12) return [0, sumY / n];
-  const b = (n * sumXY - sumX * sumY) / denom;
-  const a = (sumY - b * sumX) / n;
-  return [b, a];
+// ── Kinematics ──
+function computeKinematics(fish,fps,minFreq){
+  const NOUT=200,{nFrames,nPoints,X,Y}=fish;const sNorm=linspace(0,1,NOUT);
+  const Xinterp=[],Yinterp=[];
+  for(let f=0;f<nFrames;f++){if(X[f].some(isNaN)||Y[f].some(isNaN)){Xinterp.push(new Array(NOUT).fill(NaN));Yinterp.push(new Array(NOUT).fill(NaN));continue;}Xinterp.push(linspace(0,X[f][nPoints-1],NOUT));Yinterp.push(fftInterp(Y[f],NOUT));}
+  const aS=new Array(NOUT).fill(0),aN=new Array(NOUT).fill(0);
+  for(let f=0;f<nFrames;f++){if(Yinterp[f].some(isNaN))continue;for(let i=0;i<NOUT;i++){aS[i]+=Math.abs(Yinterp[f][i]);aN[i]++;}}
+  const ampMean=aS.map((s,i)=>aN[i]?s/aN[i]:0);
+  const headAmp=nanmean(ampMean.filter((_,i)=>sNorm[i]<=0.05));
+  const tailAmp=nanmean(ampMean.filter((_,i)=>sNorm[i]>=0.95));
+  const minAmp=Math.min(...ampMean),maxAmp=Math.max(...ampMean);
+  const headY=fillNaN(Y.map(r=>r[0])),tailY=fillNaN(Y.map(r=>r[nPoints-1]));
+  const{freq:hF,power:hP,dominant:headTBF}=dominantFreq(headY,fps,minFreq);
+  const{freq:tF,power:tP,dominant:tailTBF}=dominantFreq(tailY,fps,minFreq);
+  const{wavelength}=spatialWavelength(ampMean,sNorm);
+  const lag=Math.max(1,Math.round(NOUT/40));
+  const cS=new Array(NOUT).fill(0),cN=new Array(NOUT).fill(0);
+  for(let f=0;f<nFrames;f++){if(Xinterp[f].some(isNaN))continue;for(let k=lag;k<NOUT-lag;k++){const[x1,y1]=[Xinterp[f][k-lag],Yinterp[f][k-lag]],[x2,y2]=[Xinterp[f][k],Yinterp[f][k]],[x3,y3]=[Xinterp[f][k+lag],Yinterp[f][k+lag]];const A=Math.hypot(x2-x1,y2-y1),B=Math.hypot(x3-x2,y3-y2),C=Math.hypot(x3-x1,y3-y1);const s=(A+B+C)/2,d=4*Math.sqrt(Math.max(s*(s-A)*(s-B)*(s-C),0));if(d>0){cS[k]+=d/(A*B*C);cN[k]++;}}}
+  const curvMean=cS.map((s,i)=>cN[i]?s/cN[i]:NaN);
+  const vcurv=curvMean.filter(v=>!isNaN(v));const maxCurv=Math.max(...vcurv);const maxCurvLoc=sNorm[curvMean.indexOf(maxCurv)];
+  const step=Math.max(1,Math.floor(nFrames/20));const midlines=[];
+  for(let f=0;f<nFrames;f+=step){if(!Xinterp[f].some(isNaN))midlines.push({x:Xinterp[f],y:Yinterp[f]});}
+  return{headTBF,tailTBF,headFreq:hF,headPower:hP,tailFreq:tF,tailPower:tP,ampMean,sNorm,curvMean,headAmp,tailAmp,minAmp,maxAmp,minAmpLoc:sNorm[ampMean.indexOf(minAmp)],maxAmpLoc:sNorm[ampMean.indexOf(maxAmp)],wavelength,maxCurv,maxCurvLoc,headTailAmpRatio:headAmp/tailAmp,midlines,nFrames,nValid:cN[Math.round(NOUT/2)]};
 }
 
-// ---- FFT Interpolation ----
-function fftInterp(yIn, Nout) {
-  const Nin = yIn.length;
-  if (Nin >= Nout) return cubicSpline(yIn, Nout);
-
-  // Zero-pad FFT
-  const Y = fft(yIn);
-  const half = Math.floor(Nin / 2);
-  const Ypad = new Array(Nout * 2).fill(0);  // interleaved real/imag
-
-  // Copy lower half
-  for (let i = 0; i <= half; i++) {
-    Ypad[i*2]   = Y[i*2];
-    Ypad[i*2+1] = Y[i*2+1];
-  }
-  // Copy upper half (negative frequencies)
-  const srcStart = half + 1;
-  const dstStart = Nout - (Nin - half - 1);
-  for (let i = 0; i < Nin - half - 1; i++) {
-    Ypad[(dstStart + i)*2]   = Y[(srcStart + i)*2];
-    Ypad[(dstStart + i)*2+1] = Y[(srcStart + i)*2+1];
-  }
-
-  const yOut = ifft(Ypad, Nout);
-  const scale = Nout / Nin;
-  return yOut.map(v => v * scale);
+// ── Fin Vector ──
+function computeFinVector(fish,rootName,tipName,fps){
+  const lms=fish.landmarkNames,ri=lms.indexOf(rootName),ti=lms.indexOf(tipName);
+  if(ri<0||ti<0)throw new Error('Landmark not found.');
+  if(!fish.Zraw)throw new Error('3D Z data required.');
+  const{nFrames,Xraw,Yraw,Zraw}=fish;
+  const vx=[],vy=[],vz=[],valid=[];
+  for(let f=0;f<nFrames;f++){const rx=Xraw[f][ri],ry=Yraw[f][ri],rz=Zraw[f][ri],tx=Xraw[f][ti],ty=Yraw[f][ti],tz=Zraw[f][ti];if([rx,ry,rz,tx,ty,tz].some(isNaN)){vx.push(NaN);vy.push(NaN);vz.push(NaN);valid.push(false);continue;}vx.push(tx-rx);vy.push(ty-ry);vz.push(tz-rz);valid.push(true);}
+  const R2D=180/Math.PI;
+  const pitch=vx.map((_,i)=>valid[i]?Math.atan2(vz[i],Math.hypot(vx[i],vy[i]))*R2D:NaN);
+  const yaw=vx.map((_,i)=>valid[i]?Math.atan2(vy[i],vx[i])*R2D:NaN);
+  const roll=vx.map((_,i)=>valid[i]?Math.atan2(vz[i],vy[i])*R2D:NaN);
+  const length=vx.map((_,i)=>valid[i]?Math.sqrt(vx[i]**2+vy[i]**2+vz[i]**2):NaN);
+  const tipXYZ=vx.map((_,i)=>valid[i]?[Xraw[i][ti],Yraw[i][ti],Zraw[i][ti]]:[NaN,NaN,NaN]);
+  let dist=0;let prevI=-1;const cum_dist=new Array(nFrames).fill(NaN);
+  for(let f=0;f<nFrames;f++){if(!valid[f])continue;if(prevI>=0){const[px,py,pz]=tipXYZ[prevI],[cx,cy,cz]=tipXYZ[f];dist+=Math.sqrt((cx-px)**2+(cy-py)**2+(cz-pz)**2);}cum_dist[f]=dist;prevI=f;}
+  const ang_vel=new Array(nFrames).fill(NaN);
+  for(let f=1;f<nFrames;f++){if(!valid[f]||!valid[f-1])continue;ang_vel[f]=Math.sqrt((pitch[f]-pitch[f-1])**2+(yaw[f]-yaw[f-1])**2+(roll[f]-roll[f-1])**2)*fps;}
+  const vp=pitch.filter(v=>!isNaN(v)),vy2=yaw.filter(v=>!isNaN(v)),vr=roll.filter(v=>!isNaN(v));
+  return{vx,vy,vz,valid,pitch,yaw,roll,length,tipXYZ,cum_dist,ang_vel,total_dist:dist,n_valid:valid.filter(Boolean).length,n_frames:nFrames,pct_valid:100*valid.filter(Boolean).length/nFrames,mean_length:nanmean(length.filter(v=>!isNaN(v))),std_length:nanstd(length.filter(v=>!isNaN(v))),mean_pitch:nanmean(vp),std_pitch:nanstd(vp),range_pitch:nanrange(pitch),mean_yaw:nanmean(vy2),std_yaw:nanstd(vy2),range_yaw:nanrange(yaw),mean_roll:nanmean(vr),std_roll:nanstd(vr),range_roll:nanrange(roll),mean_speed:nanmean(ang_vel.filter(v=>!isNaN(v))),std_speed:nanstd(ang_vel.filter(v=>!isNaN(v))),peak_speed:Math.max(...ang_vel.filter(v=>!isNaN(v))),rootName,tipName};
 }
 
-// Simple DFT (small N only, acceptable for 5-20 points -> 200)
-function fft(x) {
-  const N = x.length;
-  const out = new Array(N * 2).fill(0); // interleaved real/imag
-  for (let k = 0; k < N; k++) {
-    let re = 0, im = 0;
-    for (let n = 0; n < N; n++) {
-      const angle = -2 * Math.PI * k * n / N;
-      re += x[n] * Math.cos(angle);
-      im += x[n] * Math.sin(angle);
-    }
-    out[k*2] = re; out[k*2+1] = im;
-  }
-  return out;
+// ── Actions ──
+function runAnalysis(){
+  if(!parsedData){setStatus('Choose a sample or upload a CSV first.','error');return;}
+  const fps=parseFloat(document.getElementById('fps').value);
+  const minFreq=parseFloat(document.getElementById('minFreq').value);
+  const selIdx=parseInt(document.getElementById('animalSelect').value)||0;
+  const fish=parsedData.fishes[selIdx];
+  setStatus('Aligning midlines...','');
+  let t;try{t=transformFish(fish);}catch(e){setStatus('Transform error: '+e.message,'error');return;}
+  setStatus('Running FFT analysis...','');
+  try{kineResults=computeKinematics(t,fps,minFreq);}catch(e){setStatus('Analysis error: '+e.message,'error');return;}
+  setStatus(`Done — ${kineResults.nValid} valid frames. Head TBF: ${fmt(kineResults.headTBF,2)} Hz · Tail TBF: ${fmt(kineResults.tailTBF,2)} Hz.`,'ok');
+  renderKinematics(kineResults);
+}
+function onAnimalChange(){if(parsedData)runAnalysis();}
+function runFinAnalysis(){
+  if(!parsedData){setStatus('Load a file first.','error');return;}
+  if(parsedData.format!=='Named'){setStatus('Named 3D data required.','error');return;}
+  const fish=parsedData.fishes[0];if(!fish.has_z){setStatus('Z columns required.','error');return;}
+  const root=document.getElementById('finRoot').value,tip=document.getElementById('finTip').value;
+  if(!root||!tip||root===tip){setStatus('Select two different landmark points.','error');return;}
+  const fps=parseFloat(document.getElementById('fps').value);
+  setStatus('Computing fin/tail vector...','');
+  let fd;try{fd=computeFinVector(fish,root,tip,fps);}catch(e){setStatus('Fin error: '+e.message,'error');return;}
+  setStatus(`Done — ${fd.n_valid}/${fd.n_frames} valid frames. Yaw: ${fmt(fd.mean_yaw,1)}° · Pitch: ${fmt(fd.mean_pitch,1)}°.`,'ok');
+  renderFin(fd);document.querySelectorAll('.tab-btn')[1].click();
+}
+function setStatus(msg,type){const el=document.getElementById('statusMsg');el.textContent=msg;el.className='tool-status'+(type?' '+type:'');}
+function fmt(v,dec=3){return isNaN(v)?'N/A':v.toFixed(dec);}
+
+// ── Chart options (dark theme) ──
+function cOpts(xl,yl,legend=false){
+  const tick={color:'#6B6860',font:{family:"'Space Mono'",size:8}};
+  return{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:legend,labels:{color:'#A0998E',font:{family:"'Space Mono'",size:8}}},tooltip:{enabled:true}},scales:{x:{title:{display:true,text:xl,color:'#6B6860',font:{family:"'Space Mono'",size:8}},ticks:{...tick,maxTicksLimit:5},grid:{color:'rgba(240,237,230,0.05)'}},y:{title:{display:true,text:yl,color:'#6B6860',font:{family:"'Space Mono'",size:8}},ticks:{...tick,maxTicksLimit:4},grid:{color:'rgba(240,237,230,0.05)'}}}};
 }
 
-function ifft(Xpad, N) {
-  const out = new Array(N).fill(0);
-  for (let n = 0; n < N; n++) {
-    let re = 0;
-    for (let k = 0; k < N; k++) {
-      const angle = 2 * Math.PI * k * n / N;
-      re += Xpad[k*2] * Math.cos(angle) - Xpad[k*2+1] * Math.sin(angle);
-    }
-    out[n] = re / N;
-  }
-  return out;
-}
-
-function cubicSpline(y, Nout) {
-  // Simple linear interpolation fallback (sufficient for N >= 200)
-  const Nin = y.length;
-  const out = [];
-  for (let i = 0; i < Nout; i++) {
-    const t = i / (Nout - 1) * (Nin - 1);
-    const lo = Math.floor(t), hi = Math.min(lo + 1, Nin - 1);
-    const frac = t - lo;
-    out.push(y[lo] * (1 - frac) + y[hi] * frac);
-  }
-  return out;
-}
-
-function linspace(a, b, n) {
-  if (n === 1) return [a];
-  return Array.from({length: n}, (_, i) => a + (b - a) * i / (n - 1));
-}
-
-// ---- Compute kinematics ----
-function computeKinematics(fish, fps, minFreq) {
-  const NOUT = 200;
-  const { nFrames, nPoints, X, Y } = fish;
-  const sNorm = linspace(0, 1, NOUT);
-
-  // 1. FFT interpolation per frame
-  const Xinterp = [], Yinterp = [];
-  for (let f = 0; f < nFrames; f++) {
-    if (X[f].some(isNaN) || Y[f].some(isNaN)) {
-      Xinterp.push(new Array(NOUT).fill(NaN));
-      Yinterp.push(new Array(NOUT).fill(NaN));
-      continue;
-    }
-    const xTail = X[f][nPoints - 1];
-    Xinterp.push(linspace(0, xTail, NOUT));
-    Yinterp.push(fftInterp(Y[f], NOUT));
-  }
-
-  // 2. Amplitude envelope
-  const ampMean = new Array(NOUT).fill(0);
-  const ampCount = new Array(NOUT).fill(0);
-  for (let f = 0; f < nFrames; f++) {
-    if (Yinterp[f].some(isNaN)) continue;
-    for (let i = 0; i < NOUT; i++) {
-      ampMean[i] += Math.abs(Yinterp[f][i]);
-      ampCount[i]++;
-    }
-  }
-  for (let i = 0; i < NOUT; i++) ampMean[i] /= (ampCount[i] || 1);
-
-  const headAmp = mean(ampMean.filter((_, i) => sNorm[i] <= 0.05));
-  const tailAmp = mean(ampMean.filter((_, i) => sNorm[i] >= 0.95));
-  const minAmp = Math.min(...ampMean);
-  const maxAmp = Math.max(...ampMean);
-  const minAmpLoc = sNorm[ampMean.indexOf(minAmp)];
-  const maxAmpLoc = sNorm[ampMean.indexOf(maxAmp)];
-
-  // 3. Beat frequency from temporal FFT of first and last point Y
-  const headY = fillNaN(Y.map(row => row[0]));
-  const tailY = fillNaN(Y.map(row => row[nPoints - 1]));
-  const { freq: headFreq, power: headPower, dominant: headTBF } = dominantFreq(headY, fps, minFreq);
-  const { freq: tailFreq, power: tailPower, dominant: tailTBF } = dominantFreq(tailY, fps, minFreq);
-
-  // 4. Propulsive wavelength
-  const { wavelength } = spatialWavelength(ampMean, sNorm);
-
-  // 5. Curvature
-  const curvAll = [];
-  const lag = Math.max(1, Math.round(NOUT / 40));
-  for (let f = 0; f < nFrames; f++) {
-    if (Xinterp[f].some(isNaN) || Yinterp[f].some(isNaN)) { curvAll.push(new Array(NOUT).fill(NaN)); continue; }
-    const row = new Array(NOUT).fill(NaN);
-    for (let k = lag; k < NOUT - lag; k++) {
-      const [x1,y1] = [Xinterp[f][k-lag], Yinterp[f][k-lag]];
-      const [x2,y2] = [Xinterp[f][k], Yinterp[f][k]];
-      const [x3,y3] = [Xinterp[f][k+lag], Yinterp[f][k+lag]];
-      const A = Math.sqrt((x2-x1)**2+(y2-y1)**2);
-      const B = Math.sqrt((x3-x2)**2+(y3-y2)**2);
-      const C = Math.sqrt((x3-x1)**2+(y3-y1)**2);
-      const s = (A+B+C)/2;
-      const denom = 4 * Math.sqrt(Math.max(s*(s-A)*(s-B)*(s-C), 0));
-      if (denom > 0) row[k] = 1 / ((A*B*C)/denom);
-    }
-    curvAll.push(row);
-  }
-  const curvMean = new Array(NOUT).fill(0);
-  const curvCount = new Array(NOUT).fill(0);
-  for (let f = 0; f < nFrames; f++) {
-    for (let i = 0; i < NOUT; i++) {
-      if (!isNaN(curvAll[f][i])) { curvMean[i] += curvAll[f][i]; curvCount[i]++; }
-    }
-  }
-  for (let i = 0; i < NOUT; i++) curvMean[i] /= (curvCount[i] || 1);
-  const maxCurv = Math.max(...curvMean.filter(v => !isNaN(v)));
-  const maxCurvLoc = sNorm[curvMean.indexOf(maxCurv)];
-
-  // Select up to 20 midlines evenly spaced for display
-  const step = Math.max(1, Math.floor(nFrames / 20));
-  const midlines = [];
-  for (let f = 0; f < nFrames; f += step) {
-    if (!Xinterp[f].some(isNaN)) midlines.push({ x: Xinterp[f], y: Yinterp[f] });
-  }
-
-  return {
-    headTBF, tailTBF, headFreq, headPower, tailFreq, tailPower,
-    ampMean, sNorm, curvMean,
-    headAmp, tailAmp, minAmp, maxAmp, minAmpLoc, maxAmpLoc,
-    wavelength, maxCurv, maxCurvLoc,
-    headTailAmpRatio: headAmp / tailAmp,
-    midlines, nFrames, nValidFrames: curvCount[Math.round(NOUT/2)]
-  };
-}
-
-function mean(arr) {
-  const valid = arr.filter(v => !isNaN(v));
-  if (!valid.length) return NaN;
-  return valid.reduce((a,b) => a+b, 0) / valid.length;
-}
-
-function fillNaN(arr) {
-  const out = [...arr];
-  const good = arr.map((v, i) => [i, v]).filter(([,v]) => !isNaN(v));
-  if (good.length < 2) return out.fill(0);
-  for (let i = 0; i < out.length; i++) {
-    if (isNaN(out[i])) {
-      const before = good.filter(([j]) => j <= i).pop();
-      const after = good.find(([j]) => j >= i);
-      if (before && after) {
-        const [bi, bv] = before, [ai, av] = after;
-        out[i] = bi === ai ? bv : bv + (av - bv) * (i - bi) / (ai - bi);
-      } else if (before) out[i] = before[1];
-      else if (after) out[i] = after[1];
-    }
-  }
-  return out;
-}
-
-function dominantFreq(y, fs, minFreq) {
-  const N = y.length;
-  const ymean = mean(y);
-  const yc = y.map(v => v - ymean);
-  const freqs = [], power = [];
-  for (let k = 0; k <= Math.floor(N/2); k++) {
-    let re = 0, im = 0;
-    for (let n = 0; n < N; n++) { re += yc[n] * Math.cos(2*Math.PI*k*n/N); im -= yc[n] * Math.sin(2*Math.PI*k*n/N); }
-    freqs.push(fs * k / N);
-    power.push((2/N) * (re*re + im*im));
-  }
-  const validIdx = freqs.map((f, i) => f >= minFreq ? i : -1).filter(i => i >= 0);
-  if (!validIdx.length) return { freq: freqs, power, dominant: NaN };
-  const bestI = validIdx.reduce((best, i) => power[i] > power[best] ? i : best, validIdx[0]);
-  return { freq: freqs, power, dominant: freqs[bestI] };
-}
-
-function spatialWavelength(ampProfile, sNorm) {
-  const N = ampProfile.length;
-  const ds = sNorm[1] - sNorm[0];
-  const m = mean(ampProfile);
-  const yc = ampProfile.map(v => v - m);
-  const sfreqs = [], power = [];
-  for (let k = 0; k <= Math.floor(N/2); k++) {
-    let re = 0, im = 0;
-    for (let n = 0; n < N; n++) { re += yc[n]*Math.cos(2*Math.PI*k*n/N); im -= yc[n]*Math.sin(2*Math.PI*k*n/N); }
-    sfreqs.push(k / (N * ds));
-    power.push((2/N)*(re*re+im*im));
-  }
-  const validIdx = sfreqs.map((f, i) => f > 0 ? i : -1).filter(i => i >= 0);
-  if (!validIdx.length) return { wavelength: NaN };
-  const bestI = validIdx.reduce((best, i) => power[i] > power[best] ? i : best, validIdx[0]);
-  return { wavelength: sfreqs[bestI] > 0 ? 1 / sfreqs[bestI] : NaN };
-}
-
-// ---- UI ----
-async function runAnalysis() {
-  const fileInput = document.getElementById('csvFile');
-  const fps = parseFloat(document.getElementById('fps').value);
-  const minFreq = parseFloat(document.getElementById('minFreq').value);
-  const status = document.getElementById('statusMsg');
-
-  if (!fileInput.files.length) { setStatus('Please select a CSV file.', 'error'); return; }
-
-  setStatus('Reading file...', '');
-  const text = await fileInput.files[0].text();
-
-  let data;
-  try {
-    data = parseCSV(text);
-    parsedData = data;
-  } catch(e) {
-    setStatus('Parse error: ' + e.message, 'error');
-    return;
-  }
-
-  setStatus(`Loaded: ${data.format} format, ${data.fishes.length} animal(s), ${data.fishes[0].nFrames} frames, ${data.fishes[0].nPoints} points.`, 'ok');
-
-  // Populate animal selector
-  const sel = document.getElementById('animalSelect');
-  sel.innerHTML = '';
-  data.fishes.forEach((f, i) => { const o = document.createElement('option'); o.value = i; o.textContent = f.name; sel.appendChild(o); });
-  document.getElementById('animalSelectGroup').style.display = data.fishes.length > 1 ? '' : 'none';
-
-  analyzeSelected(fps, minFreq);
-}
-
-function analyzeSelected(fps, minFreq) {
-  fps = fps || parseFloat(document.getElementById('fps').value);
-  minFreq = minFreq || parseFloat(document.getElementById('minFreq').value);
-  const status = document.getElementById('statusMsg');
-  const selIdx = parseInt(document.getElementById('animalSelect').value) || 0;
-  const fish = parsedData.fishes[selIdx];
-
-  setStatus('Aligning midlines...', '');
-  let transformed;
-  try {
-    transformed = transformFish(fish);
-  } catch(e) {
-    setStatus('Transform error: ' + e.message, 'error');
-    return;
-  }
-
-  setStatus('Running FFT analysis...', '');
-  let kine;
-  try {
-    kine = computeKinematics(transformed, fps, minFreq);
-  } catch(e) {
-    setStatus('Analysis error: ' + e.message, 'error');
-    return;
-  }
-
-  setStatus(`Done. ${kine.nValidFrames} valid frames analyzed. Head TBF: ${kine.headTBF.toFixed(2)} Hz, Tail TBF: ${kine.tailTBF.toFixed(2)} Hz.`, 'ok');
-  renderResults(kine);
-}
-
-document.getElementById('animalSelect').addEventListener('change', () => analyzeSelected());
-
-function setStatus(msg, type) {
-  const el = document.getElementById('statusMsg');
-  el.textContent = msg;
-  el.className = 'tool-status' + (type ? ' ' + type : '');
-}
-
-function fmt(v, dec=3) { return isNaN(v) ? 'N/A' : v.toFixed(dec); }
-
-function renderResults(kine) {
-  // Destroy old charts
-  Object.values(charts).forEach(c => { try { c.destroy(); } catch(e){} });
-  charts = {};
-
-  const area = document.getElementById('resultsArea');
-  area.innerHTML = `
-    <div class="tool-results">
-      <div class="metrics-box">
-        <h5>Kinematic Values</h5>
-        <div class="metrics-grid" id="metricsGrid"></div>
-      </div>
-      <div class="chart-box">
-        <h5>Midlines (FFT interpolated)</h5>
-        <canvas id="chartMidlines"></canvas>
-      </div>
-      <div class="chart-box">
-        <h5>Amplitude Envelope</h5>
-        <canvas id="chartAmp"></canvas>
-      </div>
-      <div class="chart-box">
-        <h5>Curvature Profile</h5>
-        <canvas id="chartCurv"></canvas>
-      </div>
-      <div class="chart-box">
-        <h5>Beat Frequency Spectrum (Tail)</h5>
-        <canvas id="chartFFT"></canvas>
-      </div>
-    </div>`;
-
-  // Metrics
-  const metrics = [
-    { label: 'Head TBF', value: fmt(kine.headTBF, 2), unit: 'Hz' },
-    { label: 'Tail TBF', value: fmt(kine.tailTBF, 2), unit: 'Hz' },
-    { label: 'Head Amplitude', value: fmt(kine.headAmp, 4), unit: 'BL' },
-    { label: 'Tail Amplitude', value: fmt(kine.tailAmp, 4), unit: 'BL' },
-    { label: 'Head/Tail Ratio', value: fmt(kine.headTailAmpRatio, 3), unit: '' },
-    { label: 'Min Amplitude', value: fmt(kine.minAmp, 4) + ' @ ' + fmt(kine.minAmpLoc, 2), unit: 'BL' },
-    { label: 'Max Amplitude', value: fmt(kine.maxAmp, 4) + ' @ ' + fmt(kine.maxAmpLoc, 2), unit: 'BL' },
-    { label: 'Wavelength', value: fmt(kine.wavelength, 3), unit: 'BL' },
-    { label: 'Max Curvature', value: fmt(kine.maxCurv, 3) + ' @ ' + fmt(kine.maxCurvLoc, 2), unit: '1/BL' },
-    { label: 'Frames analyzed', value: kine.nFrames.toString(), unit: '' },
+// ── Render Kinematics ──
+function renderKinematics(k){
+  Object.values(charts).forEach(c=>{try{c.destroy();}catch(e){}});charts={};
+  const area=document.getElementById('kineResults');
+  area.innerHTML=`
+  <div class="metrics-box"><h5>Kinematic Values</h5><div class="metrics-grid" id="mGrid"></div></div>
+  <div class="chart-box"><h5>Midlines (FFT interpolated)</h5><canvas id="cMid"></canvas></div>
+  <div class="chart-box"><h5>Amplitude Envelope</h5><canvas id="cAmp"></canvas></div>
+  <div class="chart-box"><h5>Curvature Profile</h5><canvas id="cCurv"></canvas></div>
+  <div class="chart-box"><h5>Beat Frequency Spectrum (Tail)</h5><canvas id="cFFT"></canvas></div>`;
+  const metrics=[
+    {l:'Head TBF',v:fmt(k.headTBF,2),u:'Hz'},{l:'Tail TBF',v:fmt(k.tailTBF,2),u:'Hz'},
+    {l:'Head Amplitude',v:fmt(k.headAmp,4),u:'BL'},{l:'Tail Amplitude',v:fmt(k.tailAmp,4),u:'BL'},
+    {l:'H/T Ratio',v:fmt(k.headTailAmpRatio,3),u:''},{l:'Min Amp Loc',v:fmt(k.minAmpLoc,2),u:'BL'},
+    {l:'Max Amp Loc',v:fmt(k.maxAmpLoc,2),u:'BL'},{l:'Wavelength',v:fmt(k.wavelength,3),u:'BL'},
+    {l:'Max Curvature',v:fmt(k.maxCurv,3),u:'1/BL'},{l:'Frames',v:k.nFrames.toString(),u:''},
   ];
-  const grid = document.getElementById('metricsGrid');
-  metrics.forEach(m => {
-    grid.innerHTML += `<div class="metric"><div class="metric-label">${m.label}</div><div class="metric-value">${m.value}<span class="metric-unit">${m.unit}</span></div></div>`;
-  });
-
-  // Colors for midlines
-  const nMid = kine.midlines.length;
-  const colors = kine.midlines.map((_, i) => `hsl(${200 + 160 * i / Math.max(nMid-1,1)}, 65%, 55%)`);
-
-  // Chart 1: Midlines
-  charts.midlines = new Chart(document.getElementById('chartMidlines'), {
-    type: 'scatter',
-    data: {
-      datasets: kine.midlines.map((ml, i) => ({
-        label: '', showLine: true, pointRadius: 0,
-        borderColor: colors[i], borderWidth: 1.2,
-        data: ml.x.map((x, j) => ({ x, y: ml.y[j] }))
-      }))
-    },
-    options: chartOpts('X (BL)', 'Y (BL)', false)
-  });
-
-  // Chart 2: Amplitude envelope
-  charts.amp = new Chart(document.getElementById('chartAmp'), {
-    type: 'line',
-    data: { labels: kine.sNorm.map(v => v.toFixed(2)), datasets: [{
-      label: 'Amplitude', data: kine.ampMean,
-      borderColor: 'var(--accent2)', backgroundColor: 'rgba(58,143,163,0.1)',
-      borderWidth: 2, pointRadius: 0, fill: true
-    }]},
-    options: chartOpts('Body position (0=head, 1=tail)', 'Half-amp (BL)')
-  });
-
-  // Chart 3: Curvature
-  charts.curv = new Chart(document.getElementById('chartCurv'), {
-    type: 'line',
-    data: { labels: kine.sNorm.map(v => v.toFixed(2)), datasets: [{
-      label: 'Curvature', data: kine.curvMean,
-      borderColor: '#b5651d', backgroundColor: 'rgba(181,101,29,0.1)',
-      borderWidth: 2, pointRadius: 0, fill: true
-    }]},
-    options: chartOpts('Body position (0=head, 1=tail)', 'Curvature (1/BL)')
-  });
-
-  // Chart 4: FFT spectrum (tail)
-  charts.fft = new Chart(document.getElementById('chartFFT'), {
-    type: 'line',
-    data: { labels: kine.tailFreq.map(v => v.toFixed(2)), datasets: [{
-      label: 'Power', data: kine.tailPower,
-      borderColor: 'var(--accent)', backgroundColor: 'rgba(30,77,107,0.1)',
-      borderWidth: 2, pointRadius: 0, fill: true
-    }]},
-    options: chartOpts('Frequency (Hz)', 'Power')
-  });
+  const g=document.getElementById('mGrid');
+  metrics.forEach(m=>{g.innerHTML+=`<div class="metric"><div class="metric-label">${m.l}</div><div class="metric-value">${m.v}<span class="metric-unit">${m.u}</span></div></div>`;});
+  const nM=k.midlines.length;
+  charts.mid=new Chart(document.getElementById('cMid'),{type:'scatter',data:{datasets:k.midlines.map((ml,i)=>({label:'',showLine:true,pointRadius:0,borderColor:`hsl(${170+80*i/Math.max(nM-1,1)},70%,55%)`,borderWidth:1.2,data:ml.x.map((x,j)=>({x,y:ml.y[j]}))}))},options:cOpts('X (BL)','Y (BL)',false)});
+  charts.amp=new Chart(document.getElementById('cAmp'),{type:'line',data:{labels:k.sNorm.map(v=>v.toFixed(2)),datasets:[{label:'Amplitude',data:k.ampMean,borderColor:'#00E5C4',backgroundColor:'rgba(0,229,196,0.08)',borderWidth:2,pointRadius:0,fill:true}]},options:cOpts('Body pos','Half-amp')});
+  charts.curv=new Chart(document.getElementById('cCurv'),{type:'line',data:{labels:k.sNorm.map(v=>v.toFixed(2)),datasets:[{label:'Curvature',data:k.curvMean,borderColor:'#FF8C42',backgroundColor:'rgba(255,140,66,0.08)',borderWidth:2,pointRadius:0,fill:true}]},options:cOpts('Body pos','Curvature')});
+  charts.fft=new Chart(document.getElementById('cFFT'),{type:'line',data:{labels:k.tailFreq.map(v=>v.toFixed(2)),datasets:[{label:'Power',data:k.tailPower,borderColor:'#F0C040',backgroundColor:'rgba(240,192,64,0.08)',borderWidth:2,pointRadius:0,fill:true}]},options:cOpts('Hz','Power')});
 }
 
-function chartOpts(xlabel, ylabel, legend=false) {
-  return {
-    responsive: true, maintainAspectRatio: false,
-    animation: false,
-    plugins: { legend: { display: legend }, tooltip: { enabled: true } },
-    scales: {
-      x: { title: { display: true, text: xlabel, font: { family: "'DM Mono'", size: 10 } }, ticks: { font: { family: "'DM Mono'", size: 9 }, maxTicksLimit: 6 } },
-      y: { title: { display: true, text: ylabel, font: { family: "'DM Mono'", size: 10 } }, ticks: { font: { family: "'DM Mono'", size: 9 }, maxTicksLimit: 5 } }
-    }
-  };
+// ── Render Fin ──
+let fd_global=null;
+function renderFin(fd){
+  fd_global=fd;animState.running=false;animState.frame=0;if(animState.raf){cancelAnimationFrame(animState.raf);animState.raf=null;}
+  Object.keys(charts).filter(k=>k.startsWith('fin')).forEach(k=>{try{charts[k].destroy();}catch(e){}});
+  const vF=[...Array(fd.n_frames).keys()].filter(i=>fd.valid[i]);
+  const area=document.getElementById('finResults');
+  area.innerHTML=`
+  <div class="metrics-box"><h5>Fin/Tail Vector — ${fd.rootName} → ${fd.tipName}</h5>
+    <div class="fin-metrics" id="finMet"></div></div>
+  <div class="chart-box"><h5>Pitch / Yaw / Roll over time</h5><canvas id="fA"></canvas></div>
+  <div class="chart-box"><h5>Cumulative Tip Distance</h5><canvas id="fD"></canvas></div>
+  <div class="chart-box"><h5>Tip XY Trajectory</h5><canvas id="fXY"></canvas></div>
+  <div class="anim-wrap">
+    <canvas id="fAnim"></canvas>
+    <div class="anim-controls">
+      <button class="anim-btn-sm" id="animBtn" onclick="toggleAnim()">▶ Play</button>
+      <button class="anim-btn-sm" onclick="resetAnim()">↺ Reset</button>
+      <div class="anim-speed"><label>Speed</label><input type="range" id="animSpd" min="0.1" max="6" step="0.1" value="1" oninput="document.getElementById('animSpdVal').textContent=parseFloat(this.value).toFixed(1)+'x'"/><span id="animSpdVal">1.0x</span></div>
+    </div>
+  </div>`;
+  document.getElementById('finMet').textContent=[
+    `Fin length:        ${fmt(fd.mean_length,4)} ± ${fmt(fd.std_length,4)}`,
+    `Total tip dist:    ${fmt(fd.total_dist,4)}`,
+    `─────────────────────────────────────────`,
+    `Yaw   — mean: ${fmt(fd.mean_yaw,2)}°  SD: ${fmt(fd.std_yaw,2)}  range: ${fmt(fd.range_yaw,2)}°`,
+    `Pitch — mean: ${fmt(fd.mean_pitch,2)}°  SD: ${fmt(fd.std_pitch,2)}  range: ${fmt(fd.range_pitch,2)}°`,
+    `Roll  — mean: ${fmt(fd.mean_roll,2)}°  SD: ${fmt(fd.std_roll,2)}  range: ${fmt(fd.range_roll,2)}°`,
+    `─────────────────────────────────────────`,
+    `Mean ang velocity: ${fmt(fd.mean_speed,2)} deg/frame`,
+    `Peak ang velocity: ${fmt(fd.peak_speed,2)} deg/frame`,
+    `Valid frames: ${fd.n_valid}/${fd.n_frames} (${fmt(fd.pct_valid,1)}%)`,
+  ].join('\n');
+  charts.finA=new Chart(document.getElementById('fA'),{type:'line',data:{labels:vF,datasets:[{label:'Pitch',data:vF.map(i=>fd.pitch[i]),borderColor:'#00E5C4',pointRadius:0,borderWidth:1.8},{label:'Yaw',data:vF.map(i=>fd.yaw[i]),borderColor:'#FF3B3B',pointRadius:0,borderWidth:1.8},{label:'Roll',data:vF.map(i=>fd.roll[i]),borderColor:'#F0C040',pointRadius:0,borderWidth:1.8}]},options:cOpts('Frame','Angle (deg)',true)});
+  charts.finD=new Chart(document.getElementById('fD'),{type:'line',data:{labels:vF,datasets:[{label:'Cum. dist',data:vF.map(i=>fd.cum_dist[i]),borderColor:'#00E5C4',backgroundColor:'rgba(0,229,196,0.08)',pointRadius:0,borderWidth:2,fill:true}]},options:cOpts('Frame','Distance')});
+  const tv=vF.map(i=>fd.tipXYZ[i]);
+  charts.finXY=new Chart(document.getElementById('fXY'),{type:'scatter',data:{datasets:[{label:'Tip',showLine:true,data:tv.map(p=>({x:p[0],y:p[1]})),borderColor:vF.map((_,i)=>`hsl(${180+120*i/Math.max(vF.length-1,1)},70%,55%)`),pointRadius:0,borderWidth:2,segment:{borderColor:ctx=>`hsl(${180+120*ctx.p0DataIndex/Math.max(vF.length-1,1)},70%,55%)`}}]},options:cOpts('X','Y',false)});
+  drawAnimFrame(0);
+}
+
+function toggleAnim(){
+  const btn=document.getElementById('animBtn');
+  animState.running=!animState.running;
+  if(animState.running){btn.textContent='⏸ Pause';btn.classList.add('playing');loopAnim();}
+  else{btn.textContent='▶ Play';btn.classList.remove('playing');if(animState.raf){cancelAnimationFrame(animState.raf);animState.raf=null;}}
+}
+function resetAnim(){
+  animState.running=false;animState.frame=0;
+  const btn=document.getElementById('animBtn');if(btn){btn.textContent='▶ Play';btn.classList.remove('playing');}
+  if(animState.raf){cancelAnimationFrame(animState.raf);animState.raf=null;}
+  drawAnimFrame(0);
+}
+let lastT=0;
+function loopAnim(){
+  if(!animState.running)return;
+  const spd=parseFloat(document.getElementById('animSpd')?.value||1);
+  const fd=fd_global;if(!fd)return;
+  const vF=[...Array(fd.n_frames).keys()].filter(i=>fd.valid[i]);
+  const now=performance.now();
+  if(now-lastT>=1000/(25*spd)){lastT=now;drawAnimFrame(animState.frame);animState.frame=(animState.frame+1)%vF.length;}
+  animState.raf=requestAnimationFrame(loopAnim);
+}
+function drawAnimFrame(fi){
+  const fd=fd_global;const cnv=document.getElementById('fAnim');if(!cnv||!fd)return;
+  const vF=[...Array(fd.n_frames).keys()].filter(i=>fd.valid[i]);
+  const ctx=cnv.getContext('2d');const W=cnv.offsetWidth,H=300;cnv.width=W;cnv.height=H;
+  const cy=Math.PI/6,cx_r=Math.PI/5;const cosx=Math.cos(cx_r),sinx=Math.sin(cx_r),cosy=Math.cos(cy),siny=Math.sin(cy);
+  const vxF=vF.map(i=>fd.vx[i]),vyF=vF.map(i=>fd.vy[i]),vzF=vF.map(i=>fd.vz[i]);
+  const rng=Math.max(nanrange(vxF)||1,nanrange(vyF)||1,nanrange(vzF)||1,0.01);
+  const scl=Math.min(W,H)*0.34/rng;
+  function proj(x,y,z){const x2=x*cosy+z*siny,z2=-x*siny+z*cosy,y2=y*cosx-z2*sinx;return[W/2+x2*scl,H/2-y2*scl];}
+  ctx.fillStyle='#05050f';ctx.fillRect(0,0,W,H);
+  // Axes
+  [[[rng*1.2,0,0],'rgba(255,80,80,0.3)'],[[0,rng*1.2,0],'rgba(80,200,80,0.3)'],[[0,0,rng*1.2],'rgba(80,80,255,0.3)']].forEach(([pt,col])=>{const[px,py]=proj(...pt);ctx.strokeStyle=col;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(...proj(0,0,0));ctx.lineTo(px,py);ctx.stroke();});
+  // Ghost
+  ctx.strokeStyle='rgba(100,120,180,0.1)';ctx.lineWidth=1;ctx.beginPath();vF.forEach((f,i)=>{const[px,py]=proj(fd.vx[f],fd.vy[f],fd.vz[f]);i===0?ctx.moveTo(px,py):ctx.lineTo(px,py);});ctx.stroke();
+  // Trail
+  const tl=Math.min(fi+1,vF.length);
+  for(let i=1;i<tl;i++){const alpha=0.25+0.75*i/tl;ctx.strokeStyle=`hsla(${170+100*i/Math.max(vF.length-1,1)},70%,60%,${alpha})`;ctx.lineWidth=2;ctx.beginPath();const[x1,y1]=proj(fd.vx[vF[i-1]],fd.vy[vF[i-1]],fd.vz[vF[i-1]]);const[x2,y2]=proj(fd.vx[vF[i]],fd.vy[vF[i]],fd.vz[vF[i]]);ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();}
+  // Root
+  const[ox,oy]=proj(0,0,0);ctx.beginPath();ctx.arc(ox,oy,6,0,2*Math.PI);ctx.fillStyle='#4caf50';ctx.fill();ctx.strokeStyle='white';ctx.lineWidth=1.5;ctx.stroke();
+  // Current vector
+  if(fi<vF.length){const f=vF[fi];const[tx,ty]=proj(fd.vx[f],fd.vy[f],fd.vz[f]);ctx.strokeStyle='rgba(255,255,255,0.85)';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(tx,ty);ctx.stroke();ctx.beginPath();ctx.arc(tx,ty,7,0,2*Math.PI);ctx.fillStyle='#00E5C4';ctx.fill();ctx.strokeStyle='white';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,0.85)';ctx.font=`bold 11px 'Space Mono',monospace`;ctx.fillText(`Frame ${f+1}/${fd.n_frames}`,12,20);ctx.fillStyle='rgba(0,229,196,0.85)';ctx.font=`10px 'Space Mono',monospace`;ctx.fillText(`Yaw:${fmt(fd.yaw[f],1)}° Pitch:${fmt(fd.pitch[f],1)}° Roll:${fmt(fd.roll[f],1)}°`,12,38);}
 }
 </script>
 </body>
