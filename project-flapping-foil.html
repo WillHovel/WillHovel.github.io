@@ -792,12 +792,18 @@ function drawAnimFrame(fi){
   const ctx=cnv.getContext('2d');const W=cnv.offsetWidth,H=300;cnv.width=W;cnv.height=H;
   const cy=Math.PI/6,cx_r=Math.PI/5;const cosx=Math.cos(cx_r),sinx=Math.sin(cx_r),cosy=Math.cos(cy),siny=Math.sin(cy);
   const vxF=vF.map(i=>fd.vx[i]),vyF=vF.map(i=>fd.vy[i]),vzF=vF.map(i=>fd.vz[i]);
-  const rng=Math.max(nanrange(vxF)||1,nanrange(vyF)||1,nanrange(vzF)||1,0.01);
-  const scl=Math.min(W,H)*0.34/rng;
+  // Scale from max absolute tip extent (origin-to-tip), not just range, so the full vector always fits
+  const maxAbsComp=Math.max(
+    Math.max(...vxF.map(Math.abs).filter(isFinite)),
+    Math.max(...vyF.map(Math.abs).filter(isFinite)),
+    Math.max(...vzF.map(Math.abs).filter(isFinite)),
+    0.01
+  );
+  const scl=Math.min(W,H)*0.38/maxAbsComp;
   function proj(x,y,z){const x2=x*cosy+z*siny,z2=-x*siny+z*cosy,y2=y*cosx-z2*sinx;return[W/2+x2*scl,H/2-y2*scl];}
   ctx.fillStyle='#05050f';ctx.fillRect(0,0,W,H);
   // Axes
-  [[[rng*1.2,0,0],'rgba(255,80,80,0.3)'],[[0,rng*1.2,0],'rgba(80,200,80,0.3)'],[[0,0,rng*1.2],'rgba(80,80,255,0.3)']].forEach(([pt,col])=>{const[px,py]=proj(...pt);ctx.strokeStyle=col;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(...proj(0,0,0));ctx.lineTo(px,py);ctx.stroke();});
+  [[[maxAbsComp*1.2,0,0],'rgba(255,80,80,0.3)'],[[0,maxAbsComp*1.2,0],'rgba(80,200,80,0.3)'],[[0,0,maxAbsComp*1.2],'rgba(80,80,255,0.3)']].forEach(([pt,col])=>{const[px,py]=proj(...pt);ctx.strokeStyle=col;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(...proj(0,0,0));ctx.lineTo(px,py);ctx.stroke();});
   // Ghost
   ctx.strokeStyle='rgba(100,120,180,0.1)';ctx.lineWidth=1;ctx.beginPath();vF.forEach((f,i)=>{const[px,py]=proj(fd.vx[f],fd.vy[f],fd.vz[f]);i===0?ctx.moveTo(px,py):ctx.lineTo(px,py);});ctx.stroke();
   // Trail
