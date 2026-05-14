@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minecraft Server Plugins — Will Hovel</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700;800;900&family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
   <style>
 /* Will Hovel Portfolio — Dark Technical Design System */
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
@@ -252,7 +252,186 @@ footer a { color: var(--teal); text-decoration: none; }
   .sidebar{padding:20px;border-top:1px solid var(--border);}
   .page-hero{padding:120px 20px 40px;}
 }
-  </style>
+  
+  /* ── GLOBAL FIXES (injected) ── */
+
+  /* League Spartan for all titles */
+  .page-title, .project-title, h1, h2.project-title {
+    font-family: "League Spartan", "Syne", sans-serif !important;
+  }
+
+
+  /* 1. Title max-width so it never stretches edge-to-edge */
+  .page-title, .project-title {
+    max-width: 760px;
+  }
+
+  /* 2. Better body text and caption readability */
+  .prose p, .prose-list li { color: #C8C2B8 !important; font-size: 0.92rem !important; }
+  .img-cap, .video-label, .code-label, .spec-label, .result-place,
+  .sidebar-block h4, .stext, .eyebrow, .tag, .nav-links a,
+  .back-link, .project-number, .section-label { 
+    color: #8A8478 !important;
+    font-size: 0.72rem !important;
+  }
+  .img-cap { 
+    font-size: 0.73rem !important; 
+    color: #9A9088 !important;
+    line-height: 1.6 !important;
+    padding: 0.6rem 0 !important;
+  }
+  .stext { font-size: 0.82rem !important; color: #9A9088 !important; }
+  .stext strong { color: var(--off-white) !important; }
+
+  /* 3. Images: contain + zoom on hover, never crop */
+  .img-block img {
+    object-fit: contain !important;
+    background: #0d0d0d !important;
+    max-height: none !important;
+    cursor: zoom-in;
+    transition: transform 0.2s ease;
+  }
+  .img-block img:hover { transform: scale(1.02); }
+  .img-block.half img {
+    height: auto !important;
+    max-height: 480px !important;
+    object-fit: contain !important;
+    background: #0d0d0d !important;
+  }
+  /* Full-size lightbox on click */
+  .img-zoom-overlay {
+    display: none; position: fixed; inset: 0; z-index: 10000;
+    background: rgba(0,0,0,0.92); cursor: zoom-out;
+    align-items: center; justify-content: center;
+  }
+  .img-zoom-overlay.active { display: flex; }
+  .img-zoom-overlay img { max-width: 92vw; max-height: 92vh; object-fit: contain; }
+
+  /* 4. Shorts: 9:16 ratio in a side-by-side layout */
+  .short-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 2rem;
+    align-items: start;
+    margin-bottom: 1.5rem;
+  }
+  .short-video-wrap {
+    position: relative;
+    width: 200px;
+    padding-bottom: 355px; /* 200px * 16/9 */
+    height: 0;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .short-video-wrap iframe {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%; border: none;
+  }
+  .short-text { padding-top: 0.5rem; }
+  .short-text h4 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: 1rem; margin-bottom: 0.6rem; color: var(--off-white);
+  }
+  .short-text p { font-size: 0.88rem; color: #C8C2B8; line-height: 1.8; }
+
+  @media(max-width:700px) {
+    .short-row { grid-template-columns: 1fr; }
+    .short-video-wrap { width: 100%; padding-bottom: 177%; }
+  }
+
+  /* ── TEXT SIZE + READABILITY PATCH ── */
+  body { background: #111111 !important; font-size: 17px !important; }
+  .prose p, .prose-list li { font-size: 0.97rem !important; color: #D0CAC0 !important; line-height: 1.9 !important; }
+  .prose h2 { font-size: 1.5rem !important; color: var(--off-white) !important; }
+  .prose h3 { font-size: 1.15rem !important; }
+  .img-cap { font-size: 0.8rem !important; color: #A8A098 !important; line-height: 1.65 !important; padding: 0.65rem 0 !important; }
+  .video-label { font-size: 0.75rem !important; color: #A0998E !important; margin-bottom: 0.6rem !important; }
+  .code-label { font-size: 0.72rem !important; color: #A0998E !important; }
+  .spec-label { font-size: 0.67rem !important; color: #A0998E !important; }
+  .spec-value { font-size: 1rem !important; }
+  .result-event { font-size: 1.15rem !important; }
+  .result-stat { font-size: 0.85rem !important; }
+  .stext { font-size: 0.88rem !important; color: #B0A8A0 !important; }
+  .stext strong { font-size: 0.9rem !important; color: var(--off-white) !important; }
+  .sidebar-block h4 { font-size: 0.68rem !important; color: #908880 !important; }
+  .tag { font-size: 0.68rem !important; }
+  .eyebrow { font-size: 0.72rem !important; letter-spacing: 0.14em !important; }
+  .page-subtitle { font-size: 1.05rem !important; color: #C8C2B8 !important; line-height: 1.8 !important; }
+  nav { background: rgba(17,17,17,0.9) !important; }
+  /* ── END TEXT PATCH ── */
+
+  /* ── END GLOBAL FIXES ── */
+
+  
+  /* ── READABILITY BOOST v2 ── */
+  :root {
+    --muted: #9A9088 !important;
+  }
+  body { font-size: 18px !important; }
+  /* All gray/muted text -> much lighter */
+  .prose p, .prose-list li { font-size: 1rem !important; color: #D8D2C8 !important; line-height: 1.95 !important; }
+  .img-cap { font-size: 0.82rem !important; color: #B8B0A6 !important; line-height: 1.7 !important; padding: 0.7rem 0 !important; }
+  .video-label { font-size: 0.78rem !important; color: #B0A89E !important; }
+  .code-label { font-size: 0.75rem !important; color: #B0A89E !important; }
+  .spec-label { font-size: 0.7rem !important; color: #B0A89E !important; }
+  .spec-value { font-size: 1.05rem !important; color: var(--off-white) !important; }
+  .stext { font-size: 0.92rem !important; color: #C0B8B0 !important; line-height: 1.6 !important; }
+  .stext strong { font-size: 0.95rem !important; color: var(--off-white) !important; }
+  .sidebar-block h4 { font-size: 0.7rem !important; color: #A09890 !important; letter-spacing: 0.15em !important; }
+  /* Tags - bigger and lighter */
+  .tag { font-size: 0.72rem !important; color: #B0A8A0 !important; padding: 0.3rem 0.75rem !important; letter-spacing: 0.06em !important; }
+  .tag-teal { color: var(--teal) !important; }
+  .tag-gold { color: var(--gold) !important; }
+  .tag-purple { color: var(--purple) !important; }
+  /* Eyebrow labels */
+  .eyebrow { font-size: 0.74rem !important; color: var(--teal) !important; letter-spacing: 0.16em !important; }
+  .project-number { font-size: 0.72rem !important; color: #A09890 !important; }
+  /* Nav links */
+  .nav-links a { font-size: 0.72rem !important; color: #B0A8A0 !important; }
+  .back-link { font-size: 0.7rem !important; color: #B0A8A0 !important; }
+  /* Result cards */
+  .result-place { font-size: 0.66rem !important; color: #B0A8A0 !important; }
+  .result-event { font-size: 1.2rem !important; }
+  .result-stat { font-size: 0.88rem !important; }
+  /* PID cells */
+  .pid-desc { font-size: 0.82rem !important; color: #C0B8B0 !important; }
+  .pid-name { font-size: 0.95rem !important; }
+  .pid-val { font-size: 0.78rem !important; }
+  /* Page subtitle */
+  .page-subtitle { font-size: 1.08rem !important; color: #D0CAC0 !important; line-height: 1.8 !important; }
+  /* Section labels */
+  .section-label { font-size: 0.68rem !important; color: #A8A098 !important; }
+  /* prose h2/h3 */
+  .prose h2 { font-size: 1.55rem !important; margin-top: 3.5rem !important; }
+  .prose h3 { font-size: 1.2rem !important; color: var(--off-white) !important; }
+  /* Trophy bar */
+  .trophy-text p { font-size: 0.9rem !important; color: #C0B8B0 !important; }
+  /* Short-text */
+  .short-text p { font-size: 0.92rem !important; color: #D0CAC0 !important; }
+  .short-text h4 { font-size: 1.05rem !important; }
+  /* ── END READABILITY BOOST v2 ── */
+
+
+  /* ── GLOBAL IMAGE FIX ── */
+  .img-block img {
+    object-fit: contain !important;
+    background: #0e0e0e !important;
+    max-height: none !important;
+    width: 100% !important;
+    display: block !important;
+  }
+  /* Half grid: show full image, auto height */
+  .img-block.half { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+  .img-block.half > div { display: flex; flex-direction: column; }
+  .img-block.half img { height: auto !important; max-height: 460px !important; min-height: 150px !important; object-fit: contain !important; }
+  /* Full-width images: reasonable max height */
+  .img-block.full img, .img-block:not(.half) img { max-height: 420px !important; object-fit: contain !important; }
+  /* Photo strip for glove */
+  .photo-strip img { height: auto !important; max-height: 360px !important; min-height: 160px !important; object-fit: contain !important; background: #0e0e0e !important; }
+  /* ── END GLOBAL IMAGE FIX ── */
+
+</style>
 </head>
 <body>
 <nav>
