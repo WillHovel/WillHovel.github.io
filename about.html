@@ -366,9 +366,99 @@ footer a { color: var(--teal); text-decoration: none; }
     .short-row { grid-template-columns: 1fr; }
     .short-video-wrap { width: 100%; padding-bottom: 177%; }
   }
+
+  /* ── TEXT SIZE + READABILITY PATCH ── */
+  body { background: #111111 !important; font-size: 17px !important; }
+  .prose p, .prose-list li { font-size: 0.97rem !important; color: #D0CAC0 !important; line-height: 1.9 !important; }
+  .prose h2 { font-size: 1.5rem !important; color: var(--off-white) !important; }
+  .prose h3 { font-size: 1.15rem !important; }
+  .img-cap { font-size: 0.8rem !important; color: #A8A098 !important; line-height: 1.65 !important; padding: 0.65rem 0 !important; }
+  .video-label { font-size: 0.75rem !important; color: #A0998E !important; margin-bottom: 0.6rem !important; }
+  .code-label { font-size: 0.72rem !important; color: #A0998E !important; }
+  .spec-label { font-size: 0.67rem !important; color: #A0998E !important; }
+  .spec-value { font-size: 1rem !important; }
+  .result-event { font-size: 1.15rem !important; }
+  .result-stat { font-size: 0.85rem !important; }
+  .stext { font-size: 0.88rem !important; color: #B0A8A0 !important; }
+  .stext strong { font-size: 0.9rem !important; color: var(--off-white) !important; }
+  .sidebar-block h4 { font-size: 0.68rem !important; color: #908880 !important; }
+  .tag { font-size: 0.68rem !important; }
+  .eyebrow { font-size: 0.72rem !important; letter-spacing: 0.14em !important; }
+  .page-subtitle { font-size: 1.05rem !important; color: #C8C2B8 !important; line-height: 1.8 !important; }
+  nav { background: rgba(17,17,17,0.9) !important; }
+  /* ── END TEXT PATCH ── */
+
   /* ── END GLOBAL FIXES ── */
 
-  </style>
+  
+  /* ── READABILITY BOOST v2 ── */
+  :root {
+    --muted: #9A9088 !important;
+  }
+  body { font-size: 18px !important; }
+  /* All gray/muted text -> much lighter */
+  .prose p, .prose-list li { font-size: 1rem !important; color: #D8D2C8 !important; line-height: 1.95 !important; }
+  .img-cap { font-size: 0.82rem !important; color: #B8B0A6 !important; line-height: 1.7 !important; padding: 0.7rem 0 !important; }
+  .video-label { font-size: 0.78rem !important; color: #B0A89E !important; }
+  .code-label { font-size: 0.75rem !important; color: #B0A89E !important; }
+  .spec-label { font-size: 0.7rem !important; color: #B0A89E !important; }
+  .spec-value { font-size: 1.05rem !important; color: var(--off-white) !important; }
+  .stext { font-size: 0.92rem !important; color: #C0B8B0 !important; line-height: 1.6 !important; }
+  .stext strong { font-size: 0.95rem !important; color: var(--off-white) !important; }
+  .sidebar-block h4 { font-size: 0.7rem !important; color: #A09890 !important; letter-spacing: 0.15em !important; }
+  /* Tags - bigger and lighter */
+  .tag { font-size: 0.72rem !important; color: #B0A8A0 !important; padding: 0.3rem 0.75rem !important; letter-spacing: 0.06em !important; }
+  .tag-teal { color: var(--teal) !important; }
+  .tag-gold { color: var(--gold) !important; }
+  .tag-purple { color: var(--purple) !important; }
+  /* Eyebrow labels */
+  .eyebrow { font-size: 0.74rem !important; color: var(--teal) !important; letter-spacing: 0.16em !important; }
+  .project-number { font-size: 0.72rem !important; color: #A09890 !important; }
+  /* Nav links */
+  .nav-links a { font-size: 0.72rem !important; color: #B0A8A0 !important; }
+  .back-link { font-size: 0.7rem !important; color: #B0A8A0 !important; }
+  /* Result cards */
+  .result-place { font-size: 0.66rem !important; color: #B0A8A0 !important; }
+  .result-event { font-size: 1.2rem !important; }
+  .result-stat { font-size: 0.88rem !important; }
+  /* PID cells */
+  .pid-desc { font-size: 0.82rem !important; color: #C0B8B0 !important; }
+  .pid-name { font-size: 0.95rem !important; }
+  .pid-val { font-size: 0.78rem !important; }
+  /* Page subtitle */
+  .page-subtitle { font-size: 1.08rem !important; color: #D0CAC0 !important; line-height: 1.8 !important; }
+  /* Section labels */
+  .section-label { font-size: 0.68rem !important; color: #A8A098 !important; }
+  /* prose h2/h3 */
+  .prose h2 { font-size: 1.55rem !important; margin-top: 3.5rem !important; }
+  .prose h3 { font-size: 1.2rem !important; color: var(--off-white) !important; }
+  /* Trophy bar */
+  .trophy-text p { font-size: 0.9rem !important; color: #C0B8B0 !important; }
+  /* Short-text */
+  .short-text p { font-size: 0.92rem !important; color: #D0CAC0 !important; }
+  .short-text h4 { font-size: 1.05rem !important; }
+  /* ── END READABILITY BOOST v2 ── */
+
+
+  /* ── GLOBAL IMAGE FIX ── */
+  .img-block img {
+    object-fit: contain !important;
+    background: #0e0e0e !important;
+    max-height: none !important;
+    width: 100% !important;
+    display: block !important;
+  }
+  /* Half grid: show full image, auto height */
+  .img-block.half { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+  .img-block.half > div { display: flex; flex-direction: column; }
+  .img-block.half img { height: auto !important; max-height: 460px !important; min-height: 150px !important; object-fit: contain !important; }
+  /* Full-width images: reasonable max height */
+  .img-block.full img, .img-block:not(.half) img { max-height: 420px !important; object-fit: contain !important; }
+  /* Photo strip for glove */
+  .photo-strip img { height: auto !important; max-height: 360px !important; min-height: 160px !important; object-fit: contain !important; background: #0e0e0e !important; }
+  /* ── END GLOBAL IMAGE FIX ── */
+
+</style>
 </head>
 <body>
 <nav>

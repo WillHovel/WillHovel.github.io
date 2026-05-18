@@ -6,12 +6,12 @@
   <title>PID Line-Following Robot — Will Hovel</title>
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700;800;900&family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
   <style>
-    :root{--black:#080808;--off-white:#F0EDE6;--muted:#6B6860;--teal:#00E5C4;--teal-dim:rgba(0,229,196,0.12);--border:rgba(240,237,230,0.10);--border-bright:rgba(240,237,230,0.22);--card:rgba(240,237,230,0.04);--card-hover:rgba(240,237,230,0.07);--gold:#F0C040;--gold-dim:rgba(240,192,64,0.06);}
+    :root{--black:#111111;--off-white:#F0EDE6;--muted:#6B6860;--teal:#00E5C4;--teal-dim:rgba(0,229,196,0.12);--border:rgba(240,237,230,0.10);--border-bright:rgba(240,237,230,0.22);--card:rgba(240,237,230,0.04);--card-hover:rgba(240,237,230,0.07);--gold:#F0C040;--gold-dim:rgba(240,192,64,0.06);}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     html{scroll-behavior:smooth;}
     body{background:var(--black);color:var(--off-white);font-family:"DM Sans",sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
     body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.032;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px;}
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;border-bottom:1px solid var(--border);background:rgba(8,8,8,0.88);backdrop-filter:blur(16px);}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;border-bottom:1px solid var(--border);background:rgba(17,17,17,0.9);backdrop-filter:blur(16px);}
     .nav-logo{font-family:"Syne",sans-serif;font-weight:800;font-size:1rem;color:var(--off-white);text-decoration:none;}
     .nav-links{display:flex;gap:2rem;align-items:center;}
     .nav-links a{font-family:"Space Mono",monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
@@ -174,9 +174,115 @@
     .short-row { grid-template-columns: 1fr; }
     .short-video-wrap { width: 100%; padding-bottom: 177%; }
   }
+
+  /* ── TEXT SIZE + READABILITY PATCH ── */
+  body { background: #111111 !important; font-size: 17px !important; }
+  .prose p, .prose-list li { font-size: 0.97rem !important; color: #D0CAC0 !important; line-height: 1.9 !important; }
+  .prose h2 { font-size: 1.5rem !important; color: var(--off-white) !important; }
+  .prose h3 { font-size: 1.15rem !important; }
+  .img-cap { font-size: 0.8rem !important; color: #A8A098 !important; line-height: 1.65 !important; padding: 0.65rem 0 !important; }
+  .video-label { font-size: 0.75rem !important; color: #A0998E !important; margin-bottom: 0.6rem !important; }
+  .code-label { font-size: 0.72rem !important; color: #A0998E !important; }
+  .spec-label { font-size: 0.67rem !important; color: #A0998E !important; }
+  .spec-value { font-size: 1rem !important; }
+  .result-event { font-size: 1.15rem !important; }
+  .result-stat { font-size: 0.85rem !important; }
+  .stext { font-size: 0.88rem !important; color: #B0A8A0 !important; }
+  .stext strong { font-size: 0.9rem !important; color: var(--off-white) !important; }
+  .sidebar-block h4 { font-size: 0.68rem !important; color: #908880 !important; }
+  .tag { font-size: 0.68rem !important; }
+  .eyebrow { font-size: 0.72rem !important; letter-spacing: 0.14em !important; }
+  .page-subtitle { font-size: 1.05rem !important; color: #C8C2B8 !important; line-height: 1.8 !important; }
+  nav { background: rgba(17,17,17,0.9) !important; }
+
+  /* Robot page: compact images/videos - max 1/4 page */
+  .img-block.full img { max-height: 280px !important; object-fit: cover !important; }
+  .img-block.half img { max-height: 220px !important; height: 220px !important; object-fit: cover !important; }
+  .video-wrap { max-width: 480px !important; }
+  .video-grid-2 { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .video-grid-2 .video-wrap { max-width: 100% !important; }
+
+  /* ── END TEXT PATCH ── */
+
   /* ── END GLOBAL FIXES ── */
 
-  </style>
+  
+  /* ── READABILITY BOOST v2 ── */
+  :root {
+    --muted: #9A9088 !important;
+  }
+  body { font-size: 18px !important; }
+  /* All gray/muted text -> much lighter */
+  .prose p, .prose-list li { font-size: 1rem !important; color: #D8D2C8 !important; line-height: 1.95 !important; }
+  .img-cap { font-size: 0.82rem !important; color: #B8B0A6 !important; line-height: 1.7 !important; padding: 0.7rem 0 !important; }
+  .video-label { font-size: 0.78rem !important; color: #B0A89E !important; }
+  .code-label { font-size: 0.75rem !important; color: #B0A89E !important; }
+  .spec-label { font-size: 0.7rem !important; color: #B0A89E !important; }
+  .spec-value { font-size: 1.05rem !important; color: var(--off-white) !important; }
+  .stext { font-size: 0.92rem !important; color: #C0B8B0 !important; line-height: 1.6 !important; }
+  .stext strong { font-size: 0.95rem !important; color: var(--off-white) !important; }
+  .sidebar-block h4 { font-size: 0.7rem !important; color: #A09890 !important; letter-spacing: 0.15em !important; }
+  /* Tags - bigger and lighter */
+  .tag { font-size: 0.72rem !important; color: #B0A8A0 !important; padding: 0.3rem 0.75rem !important; letter-spacing: 0.06em !important; }
+  .tag-teal { color: var(--teal) !important; }
+  .tag-gold { color: var(--gold) !important; }
+  .tag-purple { color: var(--purple) !important; }
+  /* Eyebrow labels */
+  .eyebrow { font-size: 0.74rem !important; color: var(--teal) !important; letter-spacing: 0.16em !important; }
+  .project-number { font-size: 0.72rem !important; color: #A09890 !important; }
+  /* Nav links */
+  .nav-links a { font-size: 0.72rem !important; color: #B0A8A0 !important; }
+  .back-link { font-size: 0.7rem !important; color: #B0A8A0 !important; }
+  /* Result cards */
+  .result-place { font-size: 0.66rem !important; color: #B0A8A0 !important; }
+  .result-event { font-size: 1.2rem !important; }
+  .result-stat { font-size: 0.88rem !important; }
+  /* PID cells */
+  .pid-desc { font-size: 0.82rem !important; color: #C0B8B0 !important; }
+  .pid-name { font-size: 0.95rem !important; }
+  .pid-val { font-size: 0.78rem !important; }
+  /* Page subtitle */
+  .page-subtitle { font-size: 1.08rem !important; color: #D0CAC0 !important; line-height: 1.8 !important; }
+  /* Section labels */
+  .section-label { font-size: 0.68rem !important; color: #A8A098 !important; }
+  /* prose h2/h3 */
+  .prose h2 { font-size: 1.55rem !important; margin-top: 3.5rem !important; }
+  .prose h3 { font-size: 1.2rem !important; color: var(--off-white) !important; }
+  /* Trophy bar */
+  .trophy-text p { font-size: 0.9rem !important; color: #C0B8B0 !important; }
+  /* Short-text */
+  .short-text p { font-size: 0.92rem !important; color: #D0CAC0 !important; }
+  .short-text h4 { font-size: 1.05rem !important; }
+  /* ── END READABILITY BOOST v2 ── */
+
+
+  /* ── GLOBAL IMAGE FIX ── */
+  .img-block img {
+    object-fit: contain !important;
+    background: #0e0e0e !important;
+    max-height: none !important;
+    width: 100% !important;
+    display: block !important;
+  }
+  /* Half grid: show full image, auto height */
+  .img-block.half { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+  .img-block.half > div { display: flex; flex-direction: column; }
+  .img-block.half img { height: auto !important; max-height: 460px !important; min-height: 150px !important; object-fit: contain !important; }
+  /* Full-width images: reasonable max height */
+  .img-block.full img, .img-block:not(.half) img { max-height: 420px !important; object-fit: contain !important; }
+  /* Photo strip for glove */
+  .photo-strip img { height: auto !important; max-height: 360px !important; min-height: 160px !important; object-fit: contain !important; background: #0e0e0e !important; }
+  /* ── END GLOBAL IMAGE FIX ── */
+
+
+  /* ── ROBOT: compact images keep aspect ratio ── */
+  .img-block.full img { max-height: 320px !important; }
+  .img-block.half img { max-height: 260px !important; }
+  .video-wrap { max-width: 520px !important; }
+  .video-grid-2 .video-wrap { max-width: 100% !important; }
+  /* ── END ROBOT ── */
+
+</style>
 </head>
 <body>
 <nav>
