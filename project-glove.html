@@ -12,6 +12,7 @@
   --teal:#00D4B4;--teal-glow:rgba(0,212,180,0.12);
   --v1:#8B78FF;--v1-bg:rgba(139,120,255,0.08);--v1-border:rgba(139,120,255,0.25);
   --v2:#00D4B4;--v2-bg:rgba(0,212,180,0.08);--v2-border:rgba(0,212,180,0.25);
+  --v3:#FFB454;--v3-bg:rgba(255,180,84,0.08);--v3-border:rgba(255,180,84,0.25);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -49,9 +50,11 @@ h1{font-family:'League Spartan',sans-serif;font-weight:900;font-size:clamp(48px,
 .vtab:hover{color:var(--off-white)}
 .vtab.v1.active{color:var(--v1);border-bottom-color:var(--v1)}
 .vtab.v2.active{color:var(--v2);border-bottom-color:var(--v2)}
+.vtab.v3.active{color:var(--v3);border-bottom-color:var(--v3)}
 .vtab-pill{font-size:9px;padding:2px 7px;border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:600;letter-spacing:0.03em}
 .vtab.v1 .vtab-pill{background:var(--v1-bg);color:var(--v1);border:1px solid var(--v1-border)}
 .vtab.v2 .vtab-pill{background:var(--v2-bg);color:var(--v2);border:1px solid var(--v2-border)}
+.vtab.v3 .vtab-pill{background:var(--v3-bg);color:var(--v3);border:1px solid var(--v3-border)}
 
 .vpanel{display:none}
 .vpanel.active{display:block}
@@ -67,16 +70,23 @@ p{color:rgba(238,233,224,0.68);margin-bottom:14px;line-height:1.72}
 .vnum{font-family:'League Spartan',sans-serif;font-weight:900;font-size:56px;line-height:0.88;letter-spacing:-0.04em;flex-shrink:0}
 .v1panel .vnum{color:var(--v1)}
 .v2panel .vnum{color:var(--v2)}
+.v3panel .vnum{color:var(--v3)}
 .vheader-text h3{font-family:'League Spartan',sans-serif;font-weight:700;font-size:22px;letter-spacing:-0.02em;margin-bottom:6px}
 .vheader-text p{color:var(--muted2);font-size:14px;margin:0}
 .vstatus{margin-left:auto;flex-shrink:0;font-family:'Syne Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:4px 10px;border-radius:2px}
 .v1panel .vstatus{background:var(--v1-bg);color:var(--v1);border:1px solid var(--v1-border)}
 .v2panel .vstatus{background:var(--v2-bg);color:var(--v2);border:1px solid var(--v2-border)}
+.v3panel .vstatus{background:var(--v3-bg);color:var(--v3);border:1px solid var(--v3-border)}
 
 .img-block{margin:32px 0;background:rgba(0,0,0,0.45);border:1px solid var(--border);overflow:hidden}
 .img-block img{width:100%;height:auto;display:block;object-fit:contain;cursor:zoom-in;transition:opacity 0.18s}
 .img-block img:hover{opacity:0.88}
 .img-cap{padding:10px 14px;font-family:'Syne Mono',monospace;font-size:10px;letter-spacing:0.04em;color:rgba(238,233,224,0.72);border-top:1px solid var(--border);line-height:1.55}
+
+.video-block{margin:32px 0}
+.video-wrap{position:relative;aspect-ratio:16/9;background:rgba(0,0,0,0.45);border:1px solid var(--border);overflow:hidden}
+.video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+code{font-family:'Syne Mono',monospace;font-size:12px;color:var(--teal);background:rgba(0,212,180,0.06);padding:1px 5px;border-radius:2px}
 
 /* two-image grid for schematic + layout side by side */
 .img-pair{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0}
@@ -86,6 +96,7 @@ p{color:rgba(238,233,224,0.68);margin-bottom:14px;line-height:1.72}
 .scard{background:var(--surface);border:1px solid var(--border);padding:22px;margin-bottom:12px}
 .v1panel .scard{border-left:2px solid var(--v1)}
 .v2panel .scard{border-left:2px solid var(--v2)}
+.v3panel .scard{border-left:2px solid var(--v3)}
 .scard-title{font-family:'Syne Mono',monospace;font-size:10px;letter-spacing:0.13em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
 .srow{display:flex;gap:12px;margin-bottom:16px;align-items:flex-start}
 .srow:last-child{margin-bottom:0}
@@ -116,12 +127,12 @@ footer a:hover{color:var(--teal)}
 <body>
 
 <nav>
-  <a href="#" class="nav-logo">Will Hovel</a>
-  <ul class="nav-links">
-    <li><a href="#">Home</a></li>
-    <li><a href="#" class="active">Projects</a></li>
-    <li><a href="#">About</a></li>
-  </ul>
+  <a class="nav-logo" href="index.html">WH</a>
+  <div class="nav-links">
+    <a href="index.html#projects">Projects</a>
+    <a href="about.html">About</a>
+    <a href="https://github.com/WillHovel" target="_blank">GitHub ↗</a>
+  </div>
 </nav>
 
 <div class="hero">
@@ -139,6 +150,7 @@ footer a:hover{color:var(--teal)}
     <span class="chip">USB-C</span>
     <span class="chip">AP2112K LDO</span>
     <span class="chip">On-device ML</span>
+    <span class="chip">TinyML</span>
   </div>
 
   <div class="hero-overview">
@@ -151,7 +163,7 @@ footer a:hover{color:var(--teal)}
       <li><strong>Custom PCB</strong> — a circular board designed in KiCad, housing the ESP32-S3-Mini-1, a USB-C receptacle with proper CC resistors for power negotiation, an AP2112K 3.3 V LDO regulator, decoupling capacitors, dual status LEDs, two pushbuttons (including a BOOT button for flashing), I2C and JTAG headers, and five analog input channels for the flex sensors</li>
       <li><strong>Flex sensor interface</strong> — each flex sensor is wired as a voltage divider with a 10 kΩ pull-up resistor, giving a continuous analog bend-angle signal per finger on a dedicated GPIO/ADC pin</li>
       <li><strong>Schematic and layout</strong> — full KiCad schematic with ERC-clean netlist, routed PCB with antenna keepout, USB differential pair routing, and ground plane on both layers</li>
-      <li><strong>Signal classification</strong> — collected training data across gesture classes and implemented a classification algorithm in Python to identify distinct hand poses from the five-dimensional sensor readings</li>
+      <li><strong>On-device ML classification</strong> — a compact feedforward network (ReLU hidden layers → softmax output) trained in NumPy, exported to a C header, and run in real time on the ESP32-S3 to distinguish five gestures near-perfectly</li>
       <li><strong>Firmware</strong> — embedded code on the ESP32-S3 to sample the ADC channels, package sensor data, and handle USB communication</li>
     </ul>
   </div>
@@ -161,6 +173,9 @@ footer a:hover{color:var(--teal)}
     </button>
     <button class="vtab v2" onclick="showPanel('v2')">
       Version 2 <span class="vtab-pill">Built &amp; Tested</span>
+    </button>
+    <button class="vtab v3" onclick="showPanel('v3')">
+      Prototype <span class="vtab-pill">Working</span>
     </button>
   </div>
 </div>
@@ -277,7 +292,7 @@ footer a:hover{color:var(--teal)}
       </div>
 
       <h2>Signal Processing</h2>
-      <p>With hardware assembled, the focus shifts to firmware: reading five ADC channels at 100 Hz, applying a lightweight low-pass filter per channel, then feeding the feature vector into a gesture classifier. BLE HID descriptors map recognized gestures to keycodes, so the glove presents as a wireless keyboard to any host device.</p>
+      <p>With hardware assembled, the focus shifts to firmware: sampling the five ADC channels at 50 Hz with 8× oversampling per reading, then feeding the normalized feature vector into an on-device gesture classifier. The full pipeline — data collection, training, and live inference — is detailed in the Prototype tab.</p>
     </div>
 
     <div class="sidebar">
@@ -294,7 +309,82 @@ footer a:hover{color:var(--teal)}
         <div class="srow"><div class="sicon">✅</div><div class="sinfo"><strong>Schematic</strong><span>Complete, ERC clean</span></div></div>
         <div class="srow"><div class="sicon">✅</div><div class="sinfo"><strong>PCB Layout</strong><span>Rectangular, DRC clean</span></div></div>
         <div class="srow"><div class="sicon">✅</div><div class="sinfo"><strong>Fabrication</strong><span>Board received and assembled</span></div></div>
-        <div class="srow"><div class="sicon">🔧</div><div class="sinfo"><strong>Firmware</strong><span>BLE HID + classifier in development</span></div></div>
+        <div class="srow"><div class="sicon">✅</div><div class="sinfo"><strong>Firmware</strong><span>On-device ML classifier + OLED output</span></div></div>
+      </div>
+      <a class="btn" href="https://github.com/WillHovel/sensorized" target="_blank">View on GitHub ↗</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ V3 PANEL ═══════════════════ -->
+<div id="panel-v3" class="vpanel v3panel">
+  <div class="two-col">
+    <div>
+      <div class="vheader">
+        <div class="vnum">V3</div>
+        <div class="vheader-text">
+          <h3>Working Prototype — Live Gesture Recognition</h3>
+          <p>Full pipeline prototyped end-to-end: collect, train, and classify five gestures in real time on-device.</p>
+        </div>
+        <span class="vstatus">Prototyped</span>
+      </div>
+
+      <h2>Demonstration</h2>
+      <p>Three milestones, captured on video — the first working sensor prototype, the data-collection workflow, and the final prototype running the trained model live on the ESP32-S3.</p>
+
+      <div class="video-block">
+        <div class="video-wrap">
+          <iframe src="https://www.youtube.com/embed/pqg59IWbfZE" title="Prototype 1" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="img-cap">Prototype 1 — first working flex-sensor prototype streaming live readings</div>
+      </div>
+
+      <div class="video-block">
+        <div class="video-wrap">
+          <iframe src="https://www.youtube.com/embed/uYAHdwXuAww" title="Data Collection Demo" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="img-cap">Data Collection Demo — labeled flex-sensor samples streamed over USB Serial to build the training set</div>
+      </div>
+
+      <div class="video-block">
+        <div class="video-wrap">
+          <iframe src="https://www.youtube.com/embed/-ks6zLvgwHw" title="Prototype 2" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="img-cap">Prototype 2 — trained model deployed on the ESP32-S3, classifying five gestures near-perfectly</div>
+      </div>
+
+      <h2>Gesture Recognition Pipeline</h2>
+      <p>A three-stage pipeline moves from raw analog signals to a trained on-device classifier, using 3,200+ labeled samples across five gesture classes.</p>
+      <ul class="overview-list">
+        <li><strong>1 · Data collection</strong> — an Arduino sketch on the ESP32-S3 reads five flex sensors on GPIO1–5 (ADC1 channels 0–4) through the 12-bit ADC (0–4095) at 50 Hz with 8× oversampling per sample, and streams labeled CSV rows (<code>label,ch0,ch1,ch2,ch3,ch4</code>) over USB Serial at 115200 baud to build the dataset.</li>
+        <li><strong>2 · Training</strong> — a Python script trains a compact feedforward network from scratch in NumPy (no TensorFlow/PyTorch): a 5 → 16 → 12 → 5 MLP with ReLU hidden activations and a softmax output layer, optimized with Adam (Xavier/Glorot initialization, categorical cross-entropy loss, min–max normalization, 80/20 train/validation split). The trained weights and normalization constants are exported as a C header (<code>model_weights.h</code>).</li>
+        <li><strong>3 · Inference</strong> — a second Arduino sketch imports that header onto the ESP32-S3: it normalizes each sample, runs the forward pass in float32, smooths predictions with a 5-sample majority vote, and gates output behind a 0.6 confidence threshold. The recognized gesture and its confidence render on a 0.96″ 128×64 SSD1306 OLED over I2C — distinguishing five gestures (fist, knife_hand, middle_finger, thumbs_up, triton) near-perfectly.</li>
+      </ul>
+
+      <h2>Source Code</h2>
+      <p>The complete implementation — the three programs plus the shared <code>GestureShared</code>, <code>GestureModel</code>, and <code>GestureDisplay</code> Arduino libraries — lives in the <code>Code-example/</code> folder.</p>
+    </div>
+
+    <div class="sidebar">
+      <div class="scard">
+        <div class="scard-title">Model Architecture</div>
+        <div class="srow"><div class="sicon">🔢</div><div class="sinfo"><strong>5 → 16 → 12 → 5 MLP</strong><span>Two ReLU hidden layers, softmax output</span></div></div>
+        <div class="srow"><div class="sicon">📈</div><div class="sinfo"><strong>Adam Optimizer</strong><span>Xavier init, cross-entropy loss</span></div></div>
+        <div class="srow"><div class="sicon">🐍</div><div class="sinfo"><strong>NumPy only</strong><span>Trained from scratch, exported to C</span></div></div>
+        <div class="srow"><div class="sicon">🎯</div><div class="sinfo"><strong>5 Gesture Classes</strong><span>fist · knife_hand · middle_finger · thumbs_up · triton</span></div></div>
+      </div>
+      <div class="scard">
+        <div class="scard-title">Signal Chain</div>
+        <div class="srow"><div class="sicon">🎚</div><div class="sinfo"><strong>12-bit ADC @ 50 Hz</strong><span>8× oversampling, GPIO1–5 (ADC1)</span></div></div>
+        <div class="srow"><div class="sicon">🗳</div><div class="sinfo"><strong>Majority-vote smoothing</strong><span>5-sample window, 0.6 confidence gate</span></div></div>
+        <div class="srow"><div class="sicon">🖥</div><div class="sinfo"><strong>0.96″ SSD1306 OLED</strong><span>128×64, I2C (SDA GPIO8 · SCL GPIO9)</span></div></div>
+      </div>
+      <div class="scard">
+        <div class="scard-title">V3 Status</div>
+        <div class="srow"><div class="sicon">✅</div><div class="sinfo"><strong>Data collection</strong><span>Labeled CSV @ 115200 baud</span></div></div>
+        <div class="srow"><div class="sicon">✅</div><div class="sinfo"><strong>Training</strong><span>5-class MLP in NumPy</span></div></div>
+        <div class="srow"><div class="sicon">✅</div><div class="sinfo"><strong>Inference</strong><span>Live on ESP32-S3</span></div></div>
+        <div class="srow"><div class="sicon">✅</div><div class="sinfo"><strong>Accuracy</strong><span>Near-perfect on 5 gestures</span></div></div>
       </div>
       <a class="btn" href="https://github.com/WillHovel/sensorized" target="_blank">View on GitHub ↗</a>
     </div>
@@ -314,7 +404,7 @@ footer a:hover{color:var(--teal)}
 
 <script>
 function showPanel(v) {
-  ['v1','v2'].forEach(id => {
+  ['v1','v2','v3'].forEach(id => {
     document.getElementById('panel-'+id).classList.toggle('active', id===v);
     document.querySelectorAll('.vtab.'+id).forEach(t => t.classList.toggle('active', id===v));
   });

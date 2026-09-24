@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(awk { if \\(length\\($0\\) < 600\\) print NR\": \"$0 } *)",
+      "Bash(awk '{ if \\(length\\($0\\) < 700\\) print NR\": \"$0 }' project-glove.html)",
+      "Bash(gh api *)",
+      "Bash(curl -s -o /dev/null -w '%{http_code}' https://github.com/WillHovel/__TRACKED_VAR__)",
+      "Bash(curl -s \"https://api.github.com/repos/WillHovel/sensorized\")",
+      "Bash(awk '{ if \\(length\\($0\\) < 300\\) print NR\": \"$0 }' project-minecraft.html)",
+      "Bash(awk '{ if \\(length\\($0\\) < 300\\) print NR\": \"$0 }' project-glove.html)",
+      "Bash(awk NR>=128 && NR<=136 { print NR\": \"$0 } *)"
+    ]
+  }
+}
