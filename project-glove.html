@@ -139,7 +139,7 @@ footer a:hover{color:var(--teal)}
   <div class="hero-eyebrow">
     <span class="tag">Hardware · ML · BLE</span>
     <div class="hero-line"></div>
-    <span class="hero-yr">2024</span>
+    <span class="hero-yr">2026</span>
   </div>
   <h1>Sensorized<br/>Gesture Glove</h1>
   <div class="chips">
@@ -155,16 +155,16 @@ footer a:hover{color:var(--teal)}
 
   <div class="hero-overview">
     <h2 class="overview-heading">Overview</h2>
-    <p class="overview-body">A custom-designed wearable PCB and firmware system for recognizing hand gestures from flex sensor data. Five flex sensors on the fingers produce analog resistance signals that vary with bend angle; these signals are read through the ESP32-S3's ADC channels, processed, and classified into distinct gestures using a trained classification algorithm.</p>
-    <p class="overview-body">The project spans the full hardware and software stack: schematic capture, PCB layout, component selection, firmware, data collection, and signal classification — all designed and built from scratch.</p>
+    <p class="overview-body">I designed a wearable PCB and firmware system that recognizes hand gestures from flex sensor data. Five flex sensors on the fingers produce analog resistance signals that vary with bend angle; I read those signals through the ESP32-S3's ADC channels, process them, and classify them into distinct gestures with a trained algorithm.</p>
+    <p class="overview-body">I built the full hardware and software stack from scratch: schematic capture, PCB layout, component selection, firmware, data collection, and signal classification.</p>
 
     <h2 class="overview-heading">What I Built</h2>
     <ul class="overview-list">
-      <li><strong>Custom PCB</strong> — a circular board designed in KiCad, housing the ESP32-S3-Mini-1, a USB-C receptacle with proper CC resistors for power negotiation, an AP2112K 3.3 V LDO regulator, decoupling capacitors, dual status LEDs, two pushbuttons (including a BOOT button for flashing), I2C and JTAG headers, and five analog input channels for the flex sensors</li>
-      <li><strong>Flex sensor interface</strong> — each flex sensor is wired as a voltage divider with a 10 kΩ pull-up resistor, giving a continuous analog bend-angle signal per finger on a dedicated GPIO/ADC pin</li>
-      <li><strong>Schematic and layout</strong> — full KiCad schematic with ERC-clean netlist, routed PCB with antenna keepout, USB differential pair routing, and ground plane on both layers</li>
-      <li><strong>On-device ML classification</strong> — a compact feedforward network (ReLU hidden layers → softmax output) trained in NumPy, exported to a C header, and run in real time on the ESP32-S3 to distinguish five gestures near-perfectly</li>
-      <li><strong>Firmware</strong> — embedded code on the ESP32-S3 to sample the ADC channels, package sensor data, and handle USB communication</li>
+      <li><strong>Custom PCB</strong> — I designed a circular board in KiCad that houses the ESP32-S3-Mini-1, a USB-C receptacle with proper CC resistors for power negotiation, an AP2112K 3.3 V LDO regulator, decoupling capacitors, dual status LEDs, two pushbuttons (including a BOOT button for flashing), I2C and JTAG headers, and five analog input channels for the flex sensors</li>
+      <li><strong>Flex sensor interface</strong> — I wired each flex sensor as a voltage divider with a 10 kΩ pull-up resistor, giving a continuous analog bend-angle signal per finger on a dedicated GPIO/ADC pin</li>
+      <li><strong>Schematic and layout</strong> — I produced a full KiCad schematic with an ERC-clean netlist, routed the PCB with antenna keepout and USB differential pairs, and poured a ground plane on both layers</li>
+      <li><strong>On-device ML classification</strong> — I trained a compact feedforward network (ReLU hidden layers → softmax output) in NumPy, exported it to a C header, and ran it in real time on the ESP32-S3 to distinguish five gestures near-perfectly</li>
+      <li><strong>Firmware</strong> — I wrote embedded code on the ESP32-S3 to sample the ADC channels, package sensor data, and handle USB communication</li>
     </ul>
   </div>
   <div class="version-tabs">
@@ -196,7 +196,7 @@ footer a:hover{color:var(--teal)}
       </div>
 
       <h2>Assembled Board</h2>
-      <p>The V1 board is a circular PCB designed to sit flush on the back of the hand. The ESP32-S3-Mini-1 module sits centrally, with the power LED glowing red confirming the 3.3 V rail is live. The USB-C receptacle at the left edge provides power and programming access. Flex sensor cables and a USB cable are visible, connecting the five sensor channels to the board.</p>
+      <p>My V1 board is a circular PCB I designed to sit flush on the back of the hand. The ESP32-S3-Mini-1 module sits centrally, with the power LED glowing red confirming the 3.3 V rail is live. The USB-C receptacle at the left edge provides power and programming access. Flex sensor cables and a USB cable are visible, connecting the five sensor channels to the board.</p>
 
       <div class="img-block">
         <img
@@ -220,7 +220,7 @@ footer a:hover{color:var(--teal)}
       </div>
 
       <h2>Signal Processing</h2>
-      <p>Each flex sensor produces a noisy, slowly-varying analog signal. The core challenge is extracting reliable gesture classifications from five channels of correlated, non-stationary data. Iterating on the sensor interface, data collection protocol, and classifier architecture taught a careful discipline around noise sources, feature representation, and generalization.</p>
+      <p>Each flex sensor produces a noisy, slowly-varying analog signal. My core challenge was pulling reliable gesture classifications out of five channels of correlated, non-stationary data. Iterating on the sensor interface, data collection protocol, and classifier architecture taught me to think carefully about noise sources, feature representation, and generalization.</p>
     </div>
 
     <div class="sidebar">
@@ -258,7 +258,7 @@ footer a:hover{color:var(--teal)}
       </div>
 
       <h2>Assembled Hardware</h2>
-      <p>Version 2 uses a rectangular form factor to simplify bench testing and firmware development before committing to a final wearable shape. The ESP32-S3-Mini-1 is socketed at center, with the USB-C receptacle providing power and programming. Multiple header connectors expose the five flex-sensor inputs, power rails, and GPIO breakouts for rapid iteration.</p>
+      <p>I built Version 2 in a rectangular form factor to simplify bench testing and firmware development before committing to a final wearable shape. The ESP32-S3-Mini-1 is socketed at center, with the USB-C receptacle providing power and programming. Multiple header connectors expose the five flex-sensor inputs, power rails, and GPIO breakouts for rapid iteration.</p>
 
       <div class="img-block">
         <img
@@ -270,7 +270,7 @@ footer a:hover{color:var(--teal)}
       </div>
 
       <h2>Schematic &amp; Layout</h2>
-      <p>The V2 schematic retains the full V1 signal chain — USB-C with 5.1 kΩ CC pull-downs, AP2112K LDO, five independent flex-sensor voltage dividers, power LEDs, and programming/reset buttons — and refines the passives and routing for the rectangular form factor. All ERC and DRC checks pass clean.</p>
+      <p>My V2 schematic keeps the full V1 signal chain — USB-C with 5.1 kΩ CC pull-downs, AP2112K LDO, five independent flex-sensor voltage dividers, power LEDs, and programming/reset buttons — and refines the passives and routing for the rectangular form factor. All ERC and DRC checks pass clean.</p>
 
       <div class="img-pair">
         <div class="img-block">
@@ -292,7 +292,7 @@ footer a:hover{color:var(--teal)}
       </div>
 
       <h2>Signal Processing</h2>
-      <p>With hardware assembled, the focus shifts to firmware: sampling the five ADC channels at 50 Hz with 8× oversampling per reading, then feeding the normalized feature vector into an on-device gesture classifier. The full pipeline — data collection, training, and live inference — is detailed in the Prototype tab.</p>
+      <p>With the hardware assembled, I shifted focus to firmware: I sample the five ADC channels at 50 Hz with 8× oversampling per reading, then feed the normalized feature vector into an on-device gesture classifier. The full pipeline — data collection, training, and live inference — is detailed in the Prototype tab.</p>
     </div>
 
     <div class="sidebar">
@@ -330,7 +330,7 @@ footer a:hover{color:var(--teal)}
       </div>
 
       <h2>Demonstration</h2>
-      <p>Three milestones, captured on video — the first working sensor prototype, the data-collection workflow, and the final prototype running the trained model live on the ESP32-S3.</p>
+      <p>Three milestones I captured on video — the first working sensor prototype, the data-collection workflow, and the final prototype running the trained model live on the ESP32-S3.</p>
 
       <div class="video-block">
         <div class="video-wrap">
@@ -354,15 +354,15 @@ footer a:hover{color:var(--teal)}
       </div>
 
       <h2>Gesture Recognition Pipeline</h2>
-      <p>A three-stage pipeline moves from raw analog signals to a trained on-device classifier, using 3,200+ labeled samples across five gesture classes.</p>
+      <p>My three-stage pipeline moves from raw analog signals to a trained on-device classifier, using 3,200+ labeled samples across five gesture classes.</p>
       <ul class="overview-list">
-        <li><strong>1 · Data collection</strong> — an Arduino sketch on the ESP32-S3 reads five flex sensors on GPIO1–5 (ADC1 channels 0–4) through the 12-bit ADC (0–4095) at 50 Hz with 8× oversampling per sample, and streams labeled CSV rows (<code>label,ch0,ch1,ch2,ch3,ch4</code>) over USB Serial at 115200 baud to build the dataset.</li>
-        <li><strong>2 · Training</strong> — a Python script trains a compact feedforward network from scratch in NumPy (no TensorFlow/PyTorch): a 5 → 16 → 12 → 5 MLP with ReLU hidden activations and a softmax output layer, optimized with Adam (Xavier/Glorot initialization, categorical cross-entropy loss, min–max normalization, 80/20 train/validation split). The trained weights and normalization constants are exported as a C header (<code>model_weights.h</code>).</li>
-        <li><strong>3 · Inference</strong> — a second Arduino sketch imports that header onto the ESP32-S3: it normalizes each sample, runs the forward pass in float32, smooths predictions with a 5-sample majority vote, and gates output behind a 0.6 confidence threshold. The recognized gesture and its confidence render on a 0.96″ 128×64 SSD1306 OLED over I2C — distinguishing five gestures (fist, knife_hand, middle_finger, thumbs_up, triton) near-perfectly.</li>
+        <li><strong>1 · Data collection</strong> — I wrote an Arduino sketch that reads five flex sensors on GPIO1–5 (ADC1 channels 0–4) through the 12-bit ADC (0–4095) at 50 Hz with 8× oversampling per sample, and streams labeled CSV rows (<code>label,ch0,ch1,ch2,ch3,ch4</code>) over USB Serial at 115200 baud to build the dataset.</li>
+        <li><strong>2 · Training</strong> — I wrote a Python script that trains a compact feedforward network from scratch in NumPy (no TensorFlow/PyTorch): a 5 → 16 → 12 → 5 MLP with ReLU hidden activations and a softmax output layer, optimized with Adam (Xavier/Glorot initialization, categorical cross-entropy loss, min–max normalization, 80/20 train/validation split). I export the trained weights and normalization constants as a C header (<code>model_weights.h</code>).</li>
+        <li><strong>3 · Inference</strong> — my second Arduino sketch imports that header onto the ESP32-S3: it normalizes each sample, runs the forward pass in float32, smooths predictions with a 5-sample majority vote, and gates output behind a 0.6 confidence threshold. The recognized gesture and its confidence render on a 0.96″ 128×64 SSD1306 OLED over I2C — distinguishing five gestures (fist, knife_hand, middle_finger, thumbs_up, triton) near-perfectly.</li>
       </ul>
 
       <h2>Source Code</h2>
-      <p>The complete implementation — the three programs plus the shared <code>GestureShared</code>, <code>GestureModel</code>, and <code>GestureDisplay</code> Arduino libraries — lives in the <code>Code-example/</code> folder.</p>
+      <p>My complete implementation — the three programs plus the shared <code>GestureShared</code>, <code>GestureModel</code>, and <code>GestureDisplay</code> Arduino libraries — lives in the <code>Code-example/</code> folder.</p>
     </div>
 
     <div class="sidebar">

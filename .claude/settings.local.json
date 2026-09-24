@@ -8,7 +8,14 @@
       "Bash(curl -s \"https://api.github.com/repos/WillHovel/sensorized\")",
       "Bash(awk '{ if \\(length\\($0\\) < 300\\) print NR\": \"$0 }' project-minecraft.html)",
       "Bash(awk '{ if \\(length\\($0\\) < 300\\) print NR\": \"$0 }' project-glove.html)",
-      "Bash(awk NR>=128 && NR<=136 { print NR\": \"$0 } *)"
+      "Bash(awk NR>=128 && NR<=136 { print NR\": \"$0 } *)",
+      "Bash(python -c \"import sys; print\\(sys.version\\)\")",
+      "Bash(python -c \"import pypdf; print\\('pypdf ok'\\)\")",
+      "Bash(python -c \"import fitz; print\\('pymupdf ok'\\)\")",
+      "Bash(python -c \"import pdfplumber; print\\('pdfplumber ok'\\)\")",
+      "Bash(pdftotext -layout \"Hovel_Final Research Paper_DOC 3_B12 \\(2\\).pdf\" -)",
+      "Bash(grep -v '^[[:space:]]*$')",
+      "Bash(python -c ' *)"
     ]
   }
 }

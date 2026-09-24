@@ -811,9 +811,9 @@ code { font-family:'Space Mono',monospace;font-size:0.82em;background:rgba(0,229
   <div class="summary-col">
     <div class="summary-col-label">The Experiment</div>
     <div class="sbullets">
-      <div class="sbullet"><div class="sbullet-key">Q</div><div class="sbullet-text">Does elevated CO2 disrupt schooling behavior? Ocean acidification impairs sensory processing; we test whether it disrupts the collective movement decisions that underlie schooling.</div></div>
-      <div class="sbullet"><div class="sbullet-key">Setup</div><div class="sbullet-text"><strong>Flapping foil array</strong> in a recirculating flow tank mimics the hydrodynamic signature of schoolmates, letting us observe one focal fish responding to a controlled artificial school.</div></div>
-      <div class="sbullet"><div class="sbullet-key">Data</div><div class="sbullet-text"><strong>High-speed video</strong> captures each trial. Landmark coordinates along the fish midline are digitized and fed into the analysis pipeline.</div></div>
+      <div class="sbullet"><div class="sbullet-key">Q</div><div class="sbullet-text">Does elevated CO2 disrupt schooling behavior? Ocean acidification impairs sensory processing, and I'm testing whether it disrupts the collective movement decisions that underlie schooling.</div></div>
+      <div class="sbullet"><div class="sbullet-key">Setup</div><div class="sbullet-text"><strong>Flapping foil array</strong> in a recirculating flow tank mimics the hydrodynamic signature of schoolmates, letting me observe one focal fish responding to a controlled artificial school.</div></div>
+      <div class="sbullet"><div class="sbullet-key">Data</div><div class="sbullet-text"><strong>High-speed video</strong> captures each trial. I digitize landmark coordinates along the fish midline and feed them into my analysis pipeline.</div></div>
     </div>
   </div>
   <div class="summary-col">
@@ -846,7 +846,7 @@ code { font-family:'Space Mono',monospace;font-size:0.82em;background:rgba(0,229
         The sample dataset is a fabricated <em>Polypterus</em>-style swimming sequence with realistic landmark positions and natural body motion — not a mathematical waveform. It includes a full landmark set (midline, paired pectoral and pelvic fins) similar in structure to real tracking data, with some NaN frames as expected from occlusion. All coordinate values are synthetic. This is also a rudimentary browser port of the MATLAB pipeline &mdash; results should be treated as illustrative only.
       </div>
     </div>
-    <p>A browser port of the MATLAB kinematics toolkit built for the Di Santo Lab. Upload your own CSV to run the full pipeline: midline alignment, FFT interpolation, kinematic metrics, and tail vector animation.</p>
+    <p>I built a browser port of my MATLAB kinematics toolkit for the Di Santo Lab. Upload your own CSV to run the full pipeline: midline alignment, FFT interpolation, kinematic metrics, and tail vector animation.</p>
     <p><strong>CSV format:</strong> Named landmark columns (<code>snout_X, snout_Y, snout_Z</code>) or DLC-indexed (<code>Fish1_P1_x, Fish1_P1_y</code>). Z columns optional. One row per frame.</p>
   </div>
 
@@ -953,21 +953,21 @@ code { font-family:'Space Mono',monospace;font-size:0.82em;background:rgba(0,229
     <h2>Abstract</h2>
 
     <p>Fish that swim in schools make rapid decisions: when to join, where to position themselves, and how to respond to their neighbors' movement. These decisions are driven by visual and hydrodynamic cues. Ocean acidification, caused by rising atmospheric CO2 dissolving into seawater, is known to impair sensory processing in fish. Whether elevated CO2 disrupts the decision-making underlying collective schooling is poorly understood.</p>
-    <p>I will investigate how CO2-exposed silversides (<em>Menidia</em> sp.) make schooling decisions in a controlled flow tank setting. Rather than using live schools, we use flapping foils that mimic the hydrodynamic signatures of schoolmates, creating a repeatable artificial school. This allows us to isolate the behavior of a single focal fish responding to its simulated neighbors.</p>
+    <p>I'm investigating how CO2-exposed silversides (<em>Menidia</em> sp.) make schooling decisions in a controlled flow tank setting. Rather than using live schools, I use flapping foils that mimic the hydrodynamic signatures of schoolmates, creating a repeatable artificial school. This lets me isolate the behavior of a single focal fish responding to its simulated neighbors.</p>
 
     <h2>Analysis Pipeline</h2>
     <ul class="prose-list">
-      <li><strong>Midline alignment</strong> — least-squares rotation re-orients each frame so the swimming axis is parallel to X and the snout sits at origin, enabling frame-by-frame comparison regardless of heading</li>
-      <li><strong>FFT interpolation</strong> — upsamples sparse midlines (5 to 10 tracked landmarks) to 200 continuous body positions per frame using zero-padded FFT, producing smooth waveform profiles without landmark-spacing artifacts</li>
-      <li><strong>Tail-beat frequency</strong> — dominant beat frequency extracted at head and tail independently via temporal FFT of position time series</li>
-      <li><strong>Amplitude envelope</strong> — mean lateral half-amplitude at each body position, yielding a full head-to-tail profile and summary metrics</li>
-      <li><strong>Propulsive wavelength</strong> — estimated from a spatial FFT of the amplitude profile</li>
-      <li><strong>Body curvature</strong> — three-point geometric curvature at each of the 200 body positions, averaged across frames</li>
-      <li><strong>Fin/tail vector analysis</strong> — for any pair of named landmarks, computes pitch, yaw, roll angles, tip trajectory, cumulative tip distance, and angular velocity; animated with a live 3D canvas</li>
+      <li><strong>Midline alignment</strong> — I re-orient each frame with a least-squares rotation so the swimming axis runs parallel to X and the snout sits at the origin, which lets me compare frames regardless of heading</li>
+      <li><strong>FFT interpolation</strong> — I upsample sparse midlines (5 to 10 tracked landmarks) to 200 continuous body positions per frame using zero-padded FFT, giving smooth waveform profiles without landmark-spacing artifacts</li>
+      <li><strong>Tail-beat frequency</strong> — I extract the dominant beat frequency at the head and tail independently via a temporal FFT of the position time series</li>
+      <li><strong>Amplitude envelope</strong> — I compute the mean lateral half-amplitude at each body position, giving a full head-to-tail profile and summary metrics</li>
+      <li><strong>Propulsive wavelength</strong> — I estimate it from a spatial FFT of the amplitude profile</li>
+      <li><strong>Body curvature</strong> — I compute three-point geometric curvature at each of the 200 body positions and average it across frames</li>
+      <li><strong>Fin/tail vector analysis</strong> — for any pair of named landmarks, I compute pitch, yaw, and roll angles, tip trajectory, cumulative tip distance, and angular velocity, animated with a live 3D canvas</li>
     </ul>
 
     <h2>Personal Statement</h2>
-    <p>I am drawn to systems that are hard to measure. Whether it is a fish swimming in a flow tank, a hand making a gesture, or a robot reacting to a track, the interesting engineering problems share the same structure: a physical system generating a messy, continuous signal, and the goal of extracting something meaningful and repeatable from it.</p>
+    <p>I am drawn to systems that are hard to measure. Whether it is a fish swimming in a flow tank, a hand making a gesture, or a robot reacting to a track, the interesting engineering problems share the same structure: a physical system generating a continuous, noisy signal, and the goal of pulling something meaningful and repeatable out of it.</p>
     <p><strong>What connects these projects is iteration.</strong> None of them worked on the first try. Each required diagnosing what was actually failing and fixing it at the right level of abstraction. That process of building, debugging, and redesigning is where I have learned the most.</p>
   </div>
 

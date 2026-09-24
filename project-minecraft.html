@@ -457,33 +457,33 @@ footer a { color: var(--teal); text-decoration: none; }
   <div class="plugin-card">
     <div class="plugin-badge">Flagship</div>
     <div class="plugin-name">Manhunt</div>
-    <div class="plugin-desc">Real-time compass tracking via <code style="font-family:'Space Mono',monospace;font-size:0.8em;background:rgba(0,229,196,0.08);color:var(--teal);padding:0.1em 0.3em;">PlayerMoveEvent</code>. Hunter compasses continuously update to point at the speedrunner's live position across dimensions. Team management, respawn logic, and win conditions all handled server-side.</div>
+    <div class="plugin-desc">I track the speedrunner in real time via <code style="font-family:'Space Mono',monospace;font-size:0.8em;background:rgba(0,229,196,0.08);color:var(--teal);padding:0.1em 0.3em;">PlayerMoveEvent</code>. Hunter compasses continuously update to point at the speedrunner's live position across dimensions. I handle team management, respawn logic, and win conditions server-side.</div>
   </div>
   <div class="plugin-card">
     <div class="plugin-badge">Game</div>
     <div class="plugin-name">Endfight</div>
-    <div class="plugin-desc">Custom boss fight mechanics for the Ender Dragon encounter. Adds configurable phases, modified attack patterns, and player-facing events not present in vanilla Minecraft.</div>
+    <div class="plugin-desc">I wrote custom boss fight mechanics for the Ender Dragon encounter — configurable phases, modified attack patterns, and player-facing events that don't exist in vanilla Minecraft.</div>
   </div>
   <div class="plugin-card">
     <div class="plugin-badge">Game</div>
     <div class="plugin-name">Turtle Run</div>
-    <div class="plugin-desc">Obstacle course with bounding box checkpoint system. Each checkpoint is defined as an axis-aligned bounding box in world coordinates; crossing triggers a server-side state update and advancement.</div>
+    <div class="plugin-desc">I built an obstacle course with a bounding box checkpoint system. Each checkpoint is an axis-aligned bounding box in world coordinates; crossing one triggers a server-side state update and advancement.</div>
   </div>
   <div class="plugin-card">
     <div class="plugin-badge">Utility</div>
     <div class="plugin-name">Server Utilities (11 plugins)</div>
-    <div class="plugin-desc">A collection of server management and quality-of-life plugins: custom spawn handlers, permission utilities, chat formatting, and game rule overrides. All compile cleanly with Maven and run on Paper/Spigot 1.20+.</div>
+    <div class="plugin-desc">I wrote a collection of server management and quality-of-life plugins: custom spawn handlers, permission utilities, chat formatting, and game rule overrides. All compile cleanly with Maven and run on Paper/Spigot 1.20+.</div>
   </div>
 </div>
 
 <div class="project-content">
   <div class="prose">
     <h2>Overview</h2>
-    <p>A suite of 14 custom Spigot plugins written in Java for a private Minecraft server. The most complex — Manhunt — required real-time position tracking across multiple players, dimension-aware compass updates, and event-driven state management for an indefinite session.</p>
-    <p>These projects were built for personal use, but they required the same engineering discipline as anything else: clear interfaces between components, predictable behavior under edge cases, and a build system that actually works.</p>
+    <p>I wrote a suite of 14 custom Spigot plugins in Java for a private Minecraft server. The most complex — Manhunt — required real-time position tracking across multiple players, dimension-aware compass updates, and event-driven state management for an indefinite session.</p>
+    <p>I built these for my own use, but they demanded the same engineering discipline as anything else: clear interfaces between components, predictable behavior under edge cases, and a build system that actually works.</p>
 
     <h2>Technical Approach</h2>
-    <p>All plugins are structured around Spigot's event system. Handlers register for specific server events, process them, and mutate game state accordingly. The key challenge in Manhunt was keeping compass bearings accurate at low latency across many simultaneous player movements.</p>
+    <p>I structured all the plugins around Spigot's event system: handlers register for specific server events, process them, and mutate game state. The key challenge in Manhunt was keeping compass bearings accurate at low latency across many simultaneous player movements.</p>
     <div class="code-block">// Compass update on PlayerMoveEvent
 @EventHandler
 public void onPlayerMove(PlayerMoveEvent e) {
@@ -491,10 +491,10 @@ public void onPlayerMove(PlayerMoveEvent e) {
     Location target = speedrunner.getLocation();
     updateCompassBearing(e.getPlayer(), target);
 }</div>
-    <p>Turtle Run introduced a different challenge: arbitrary bounding box intersection testing in 3D world space. Each checkpoint stores its AABB in world coordinates; every tick checks whether the runner's position falls inside any registered box, triggering checkpoint progression.</p>
+    <p>Turtle Run introduced a different challenge: arbitrary bounding box intersection testing in 3D world space. I store each checkpoint's AABB in world coordinates, and every tick I check whether the runner's position falls inside any registered box, triggering checkpoint progression.</p>
 
     <h2>Build System</h2>
-    <p>All plugins compile with Maven, using the Spigot API as a provided dependency. The build produces a standalone JAR dropped into a server's plugins directory, with no additional runtime dependencies. Plugin metadata is declared in <code style="font-family:'Space Mono',monospace;font-size:0.82em;background:rgba(0,229,196,0.08);color:var(--teal);padding:0.1em 0.35em;">plugin.yml</code>, including version, main class, permissions, and command registrations.</p>
+    <p>I compile all the plugins with Maven, using the Spigot API as a provided dependency. The build produces a standalone JAR I drop into a server's plugins directory, with no additional runtime dependencies. I declare plugin metadata in <code style="font-family:'Space Mono',monospace;font-size:0.82em;background:rgba(0,229,196,0.08);color:var(--teal);padding:0.1em 0.35em;">plugin.yml</code> — version, main class, permissions, and command registrations.</p>
 
     <h2>What I Learned</h2>
     <p>These plugins were my first serious work with an event-driven architecture. Debugging race conditions in server-tick-driven state — where two events can fire in the same tick and leave state inconsistent — pushed me to think more carefully about ordering guarantees and idempotency. The Spigot API also exposed me to a real-world Java codebase with an enormous surface area, which taught me to navigate unfamiliar APIs efficiently.</p>
