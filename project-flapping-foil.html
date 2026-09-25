@@ -768,6 +768,16 @@ code { font-family:'Space Mono',monospace;font-size:0.82em;background:rgba(0,229
   }
   /* ── END LAB GALLERY ── */
 
+  /* ── PRESENTATION (SRC) + TUTORIAL VIDEO ── */
+  .video-wrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid var(--border); margin: 1.5rem 0; }
+  .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+  .present-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 1.5rem 0; max-width: 640px; }
+  .present-row figure { margin: 0; }
+  .present-row img { width: 100%; height: auto; display: block; object-fit: contain; border: 1px solid var(--border); background: #0d0d0d; cursor: zoom-in; transition: opacity 0.18s ease; }
+  .present-row img:hover { opacity: 0.88; }
+  .present-row figcaption { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--muted); letter-spacing: 0.04em; line-height: 1.5; margin-top: 0.45rem; }
+  @media(max-width: 560px) { .present-row { grid-template-columns: 1fr; } }
+
 </style>
 </head>
 <body>
@@ -969,6 +979,25 @@ code { font-family:'Space Mono',monospace;font-size:0.82em;background:rgba(0,229
     <h2>Personal Statement</h2>
     <p>I am drawn to systems that are hard to measure. Whether it is a fish swimming in a flow tank, a hand making a gesture, or a robot reacting to a track, the interesting engineering problems share the same structure: a physical system generating a continuous, noisy signal, and the goal of pulling something meaningful and repeatable out of it.</p>
     <p><strong>What connects these projects is iteration.</strong> None of them worked on the first try. Each required diagnosing what was actually failing and fixing it at the right level of abstraction. That process of building, debugging, and redesigning is where I have learned the most.</p>
+
+    <h2>Summer Research Conference</h2>
+    <p>I presented this research at the UC San Diego <strong>Summer Research Conference (SRC)</strong> on August 13, 2026.</p>
+
+    <div class="present-row">
+      <figure>
+        <img src="pictures/src-presenting-1.jpg" alt="Will Hovel presenting ocean acidification and fish kinematics research at the Summer Research Conference" />
+        <figcaption>Presenting at the SRC &mdash; August 13, 2026</figcaption>
+      </figure>
+      <figure>
+        <img src="pictures/src-presenting-2.jpg" alt="Will Hovel presenting ocean acidification and fish kinematics research at the Summer Research Conference" />
+        <figcaption>Presenting at the SRC &mdash; August 13, 2026</figcaption>
+      </figure>
+    </div>
+
+    <p>For a closer look at the experiment and the analysis pipeline, here's a short tutorial walkthrough:</p>
+    <div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/F1wXE9hw2gc" title="Ocean Acidification &amp; Fish Kinematics — tutorial" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
   </div>
 
   <div class="sidebar">
@@ -1329,7 +1358,7 @@ function drawAnimFrame(fi){
 (function(){
   const overlay = document.getElementById('imgOverlay');
   const oImg = document.getElementById('imgOverlayImg');
-  document.querySelectorAll('.img-block img, .input-demo-item img, .lab-gallery-item img').forEach(img => {
+  document.querySelectorAll('.img-block img, .input-demo-item img, .lab-gallery-item img, .present-row img').forEach(img => {
     img.addEventListener('click', () => {
       oImg.src = img.src;
       oImg.alt = img.alt;

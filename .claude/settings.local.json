@@ -15,7 +15,17 @@
       "Bash(python -c \"import pdfplumber; print\\('pdfplumber ok'\\)\")",
       "Bash(pdftotext -layout \"Hovel_Final Research Paper_DOC 3_B12 \\(2\\).pdf\" -)",
       "Bash(grep -v '^[[:space:]]*$')",
-      "Bash(python -c ' *)"
+      "Bash(python -c ' *)",
+      "Read(//c/Users/willh/Downloads/**)",
+      "Bash(awk '{ if \\(length\\($0\\) < 400\\) print NR\": \"$0 }' project-flapping-foil.html)",
+      "Bash(sed -n '405,432p' project-flapping-foil.html)",
+      "Bash(sed -n '700,770p' project-flapping-foil.html)",
+      "Bash(grep -nA4 '\\\\.video-wrap' project-mini.html)",
+      "Bash(PowerShell -NoProfile -Command 'Add-Type -AssemblyName System.Drawing; $i = New-Object System.Drawing.Bitmap\\('\\\\''C:/Users/willh/Downloads/__TRACKED_VAR__'\\\\''\\); Write-Output \\($i.Width.ToString\\(\\) + '\\\\'' x '\\\\'' + $i.Height.ToString\\(\\)\\); $i.Dispose\\(\\)')",
+      "Bash(sed -n '370,390p' project-flapping-foil.html)",
+      "Bash(sed -n '500,525p' project-flapping-foil.html)",
+      "Bash(git check-ignore *)",
+      "Bash(git add *)"
     ]
   }
 }
