@@ -4,538 +4,479 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>About — Will Hovel</title>
-  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700;800;900&family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
   <style>
-/* Will Hovel Portfolio — Dark Technical Design System */
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
-
 :root {
-  --black:  #080808;
-  --off-white: #F0EDE6;
-  --muted:  #6B6860;
-  --teal:   #00E5C4;
-  --teal-dim: rgba(0,229,196,0.12);
-  --border: rgba(240,237,230,0.10);
-  --border-bright: rgba(240,237,230,0.22);
-  --card:   rgba(240,237,230,0.04);
-  --card-hover: rgba(240,237,230,0.07);
-  --red:    #FF3B3B;
-  --gold:   #F0C040;
+  --bg-primary: #0c1610;
+  --bg-card: #142019;
+  --text-main: #e2e8f0;
+  --text-muted: #94a3b8;
+  --text-light: #64748b;
+  --accent-forest: #38a169;
+  --accent-sage: #48bb78;
+  --accent-sage-light: rgba(56,161,105,0.10);
+  --border-light: rgba(255,255,255,0.08);
+  --border-hover: rgba(255,255,255,0.16);
+  --gold: #d4a843;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 6px;
+  --border: 1px solid var(--border-light);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-
 body {
-  background: var(--black);
-  color: var(--off-white);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 16px;
+  background: var(--bg-primary);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 15px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
 }
-
-/* Grain overlay */
 body::before {
   content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.032;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px 256px;
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0; opacity: 0.4;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 0.5px, transparent 0.5px);
+  background-size: 24px 24px;
 }
 
 /* NAV */
 nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 40px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(8,8,8,0.88);
-  backdrop-filter: blur(16px);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 56px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 clamp(20px, 4vw, 48px);
+  border-bottom: var(--border);
+  background: rgba(12,22,16,0.92);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
 }
 .nav-logo {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: 1rem;
-  letter-spacing: 0.02em;
-  color: var(--off-white);
-  text-decoration: none;
+  font-family: var(--font-sans); font-weight: 700; font-size: 0.95rem;
+  color: #f1f5f9; text-decoration: none; letter-spacing: -0.01em;
+  display: inline-flex; align-items: center;
 }
-.nav-links { display: flex; gap: 2rem; align-items: center; }
+.easter-egg {
+  font-size: 0.44rem;
+  letter-spacing: 0;
+  color: rgba(72, 187, 120, 0.22);
+  vertical-align: super;
+  user-select: none;
+  font-weight: 400;
+  cursor: default;
+  transition: color 0.3s ease;
+  font-family: var(--font-sans);
+  margin-left: 3px;
+}
+.easter-egg:hover {
+  color: rgba(72, 187, 120, 0.7);
+}
+.nav-links { display: flex; gap: 1.8rem; align-items: center; }
 .nav-links a {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-  text-decoration: none;
-  transition: color 0.2s;
+  font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.04em;
+  text-transform: uppercase; color: var(--text-muted); text-decoration: none; transition: color 0.15s;
 }
-.nav-links a:hover { color: var(--teal); }
-.nav-links a.active { color: var(--off-white); }
+.nav-links a:hover { color: var(--accent-sage); }
+.nav-links a.active { color: var(--accent-sage); font-weight: 600; }
 
-/* TYPOGRAPHY */
-.display {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-}
-.mono {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+.container {
+  max-width: 1120px; margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 48px);
+  position: relative; z-index: 1;
 }
 
-/* BUTTONS */
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1.5rem;
-  background: var(--teal);
-  color: var(--black);
-  font-family: 'Space Mono', monospace;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
+.section {
+  padding: 56px 0;
+  border-bottom: var(--border);
 }
-.btn-primary:hover { background: #00fff5; transform: translateY(-1px); }
-
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1.5rem;
-  background: transparent;
-  color: var(--off-white);
-  font-family: 'Space Mono', monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-decoration: none;
-  border: 1px solid var(--border-bright);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
-
-/* TAGS */
-.tag {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.25rem 0.6rem;
-  border: 1px solid var(--border-bright);
-  color: var(--muted);
-}
-.tag-teal { border-color: rgba(0,229,196,0.4); color: var(--teal); }
-.tag-gold { border-color: rgba(240,192,64,0.4); color: var(--gold); }
-.tag-red  { border-color: rgba(255,59,59,0.4);  color: var(--red);  }
-
-/* SECTION LABEL */
 .section-label {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 3rem;
+  font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #94a3b8; margin-bottom: 24px;
+  display: flex; align-items: center; gap: 10px;
 }
 .section-label::before {
-  content: '';
-  width: 32px;
-  height: 1px;
-  background: var(--teal);
-  flex-shrink: 0;
+  content: ''; width: 20px; height: 2px; background: var(--accent-sage); flex-shrink: 0;
 }
 
-/* DIVIDERS */
-hr.rule { border: none; border-top: 1px solid var(--border); }
+.tag {
+  font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.03em;
+  padding: 3px 8px; border: var(--border); border-radius: 3px;
+  color: #cbd5e1; white-space: nowrap; background: var(--bg-card);
+}
+.tag-green {
+  border-color: rgba(56,161,105,0.3); color: var(--accent-sage); background: var(--accent-sage-light);
+}
 
-/* FOOTER */
 footer {
-  border-top: 1px solid var(--border);
-  padding: 2rem 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
+  border-top: var(--border); padding: 20px clamp(20px, 4vw, 48px);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px; position: relative; z-index: 1;
 }
-footer p {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-}
-footer a { color: var(--teal); text-decoration: none; }
+footer p { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.04em; color: #94a3b8; }
+footer a { color: var(--accent-sage); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
 
-/* ANIMATIONS */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-.fade-up { animation: fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both; }
-.fade-up-d1 { animation-delay: 0.1s; }
-.fade-up-d2 { animation-delay: 0.2s; }
-.fade-up-d3 { animation-delay: 0.3s; }
-.fade-up-d4 { animation-delay: 0.4s; }
+.fade-up { animation: fadeUp 0.5s ease both; }
+.fade-d1 { animation-delay: 0.08s; }
+.fade-d2 { animation-delay: 0.16s; }
 
-@media (max-width: 768px) {
-  nav { padding: 0 20px; }
-  .nav-links { gap: 1.2rem; }
-  footer { padding: 1.5rem 20px; }
-}
-
+/* PAGE HERO */
 .page-hero {
-  padding: 160px 40px 80px;
-  border-bottom: 1px solid var(--border);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: end;
+  padding: calc(56px + 60px) 0 56px;
+  border-bottom: var(--border);
 }
 .page-hero h1 {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: clamp(3rem, 7vw, 6rem);
-  line-height: 0.92;
-  letter-spacing: -0.04em;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700; letter-spacing: -0.02em;
+  color: #f1f5f9;
+  margin-bottom: 14px; line-height: 1.1;
 }
-.page-hero h1 em { font-style: normal; color: var(--teal); }
-.page-hero-right { padding-bottom: 0.5rem; }
-.page-hero-right p { font-size: 1rem; color: var(--muted); line-height: 1.8; }
+.page-hero h1 em { font-style: normal; color: var(--accent-sage); }
+.page-hero .subtitle {
+  font-size: 1rem; color: #cbd5e1; max-width: 640px; line-height: 1.75;
+}
+.page-hero .eyebrow {
+  font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--accent-sage); margin-bottom: 14px;
+}
 
-/* Statement */
-.statement-section {
-  padding: 80px 40px;
-  border-bottom: 1px solid var(--border);
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 4rem;
+/* EXP GRID */
+.exp-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.exp-card {
+  background: var(--bg-card); border: var(--border); border-radius: var(--radius);
+  padding: 24px; transition: border-color 0.15s;
 }
-.statement-section p {
-  font-size: 0.95rem;
-  color: #A0998E;
-  line-height: 1.9;
-  margin-bottom: 1.2rem;
+.exp-card:hover { border-color: var(--border-hover); }
+.exp-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 2px; color: #f1f5f9; }
+.exp-org { font-size: 0.85rem; color: var(--accent-sage); margin-bottom: 2px; }
+.exp-date { font-family: var(--font-mono); font-size: 0.65rem; color: #94a3b8; margin-bottom: 10px; }
+.exp-desc { font-size: 0.88rem; color: #cbd5e1; line-height: 1.65; }
+.exp-award {
+  display: inline-block; margin-top: 8px;
+  font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.04em;
+  padding: 3px 8px; border-radius: 3px;
+  border: 1px solid rgba(212,168,67,0.3); color: var(--gold); background: rgba(212,168,67,0.1);
 }
-.statement-section p:last-child { margin-bottom: 0; }
-.statement-section strong { color: var(--off-white); font-weight: 500; }
 
-/* Background grid */
-.bg-section {
-  padding: 80px 40px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2px;
+/* SKILLS */
+.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.skill-card {
+  background: var(--bg-card); border: var(--border); border-radius: var(--radius);
+  padding: 20px; border-left: 3px solid var(--accent-sage);
 }
-.bg-block {
-  border: 1px solid var(--border);
-  padding: 2rem;
+.skill-card h3 { font-size: 0.85rem; font-weight: 600; margin-bottom: 10px; color: #f1f5f9; }
+.skill-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.skill-list li {
+  font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;
+  padding-left: 14px; position: relative;
 }
-.bg-block h3 {
-  font-family: 'Syne', sans-serif;
-  font-weight: 700;
-  font-size: 1rem;
-  letter-spacing: -0.01em;
-  margin-bottom: 1rem;
-  color: var(--off-white);
+.skill-list li::before {
+  content: ''; position: absolute; left: 0; top: 7px;
+  width: 4px; height: 4px; border-radius: 50%; background: var(--accent-sage);
 }
-.bg-block p { font-size: 0.85rem; color: var(--muted); line-height: 1.75; margin-bottom: 0.6rem; }
-.bg-block p:last-child { margin-bottom: 0; }
-.course-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem; }
-.skill-list { display: flex; flex-direction: column; gap: 0.55rem; margin-top: 0.5rem; }
-.skill-item { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.83rem; color: var(--muted); line-height: 1.5; }
-.skill-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--teal); margin-top: 0.55rem; flex-shrink: 0; }
+
+/* EDUCATION */
+.edu-header {
+  background: var(--bg-card); border: var(--border); border-radius: var(--radius);
+  padding: 24px; display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px; margin-bottom: 16px;
+}
+.edu-header h3 { font-size: 1rem; font-weight: 600; color: #f1f5f9; }
+.edu-header .gpa {
+  font-family: var(--font-mono); font-size: 1.4rem; font-weight: 700; color: var(--accent-sage);
+}
+.edu-header .gpa span {
+  font-size: 0.6rem; font-weight: 400; color: #94a3b8; display: block; letter-spacing: 0.06em;
+}
+.edu-meta { font-size: 0.85rem; color: #94a3b8; margin-top: 2px; }
+.course-list { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* STATEMENT */
+.statement-grid {
+  display: grid; grid-template-columns: 180px 1fr; gap: 40px;
+}
+.statement-sidebar {
+  font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #94a3b8;
+  writing-mode: vertical-lr; transform: rotate(180deg);
+  justify-self: center; align-self: start; padding-top: 8px;
+}
+.statement-body p {
+  font-size: 0.93rem; color: #cbd5e1; line-height: 1.85; margin-bottom: 16px;
+}
+.statement-body p:last-child { margin-bottom: 0; }
+.statement-body strong { color: #f1f5f9; font-weight: 600; }
+
+/* INTERESTS */
+.interests-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.interest-item {
+  background: var(--bg-card); border: var(--border); border-radius: var(--radius);
+  padding: 16px 20px; font-size: 0.88rem; color: #cbd5e1;
+  border-left: 3px solid var(--accent-sage);
+}
 
 @media (max-width: 900px) {
-  .page-hero { grid-template-columns: 1fr; gap: 2rem; padding: 120px 20px 60px; }
-  .statement-section { grid-template-columns: 1fr; gap: 2rem; padding: 60px 20px; }
-  .bg-section { grid-template-columns: 1fr; padding: 40px 20px; }
+  .exp-grid { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: 1fr; }
+  .statement-grid { grid-template-columns: 1fr; }
+  .statement-sidebar { writing-mode: horizontal-tb; transform: none; }
+  .interests-grid { grid-template-columns: 1fr; }
 }
-  
-  /* ── GLOBAL FIXES (injected) ── */
-
-  /* League Spartan for all titles */
-  .page-title, .project-title, h1, h2.project-title {
-    font-family: "League Spartan", "Syne", sans-serif !important;
-  }
-
-
-  /* 1. Title max-width so it never stretches edge-to-edge */
-  .page-title, .project-title {
-    max-width: 760px;
-  }
-
-  /* 2. Better body text and caption readability */
-  .prose p, .prose-list li { color: #C8C2B8 !important; font-size: 0.92rem !important; }
-  .img-cap, .video-label, .code-label, .spec-label, .result-place,
-  .sidebar-block h4, .stext, .eyebrow, .tag, .nav-links a,
-  .back-link, .project-number, .section-label { 
-    color: #8A8478 !important;
-    font-size: 0.72rem !important;
-  }
-  .img-cap { 
-    font-size: 0.73rem !important; 
-    color: #9A9088 !important;
-    line-height: 1.6 !important;
-    padding: 0.6rem 0 !important;
-  }
-  .stext { font-size: 0.82rem !important; color: #9A9088 !important; }
-  .stext strong { color: var(--off-white) !important; }
-
-  /* 3. Images: contain + zoom on hover, never crop */
-  .img-block img {
-    object-fit: contain !important;
-    background: #0d0d0d !important;
-    max-height: none !important;
-    cursor: zoom-in;
-    transition: transform 0.2s ease;
-  }
-  .img-block img:hover { transform: scale(1.02); }
-  .img-block.half img {
-    height: auto !important;
-    max-height: 480px !important;
-    object-fit: contain !important;
-    background: #0d0d0d !important;
-  }
-  /* Full-size lightbox on click */
-  .img-zoom-overlay {
-    display: none; position: fixed; inset: 0; z-index: 10000;
-    background: rgba(0,0,0,0.92); cursor: zoom-out;
-    align-items: center; justify-content: center;
-  }
-  .img-zoom-overlay.active { display: flex; }
-  .img-zoom-overlay img { max-width: 92vw; max-height: 92vh; object-fit: contain; }
-
-  /* 4. Shorts: 9:16 ratio in a side-by-side layout */
-  .short-row {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 2rem;
-    align-items: start;
-    margin-bottom: 1.5rem;
-  }
-  .short-video-wrap {
-    position: relative;
-    width: 200px;
-    padding-bottom: 355px; /* 200px * 16/9 */
-    height: 0;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-  .short-video-wrap iframe {
-    position: absolute; top: 0; left: 0;
-    width: 100%; height: 100%; border: none;
-  }
-  .short-text { padding-top: 0.5rem; }
-  .short-text h4 {
-    font-family: "Syne", sans-serif; font-weight: 700;
-    font-size: 1rem; margin-bottom: 0.6rem; color: var(--off-white);
-  }
-  .short-text p { font-size: 0.88rem; color: #C8C2B8; line-height: 1.8; }
-
-  @media(max-width:700px) {
-    .short-row { grid-template-columns: 1fr; }
-    .short-video-wrap { width: 100%; padding-bottom: 177%; }
-  }
-
-  /* ── TEXT SIZE + READABILITY PATCH ── */
-  body { background: #111111 !important; font-size: 17px !important; }
-  .prose p, .prose-list li { font-size: 0.97rem !important; color: #D0CAC0 !important; line-height: 1.9 !important; }
-  .prose h2 { font-size: 1.5rem !important; color: var(--off-white) !important; }
-  .prose h3 { font-size: 1.15rem !important; }
-  .img-cap { font-size: 0.8rem !important; color: #A8A098 !important; line-height: 1.65 !important; padding: 0.65rem 0 !important; }
-  .video-label { font-size: 0.75rem !important; color: #A0998E !important; margin-bottom: 0.6rem !important; }
-  .code-label { font-size: 0.72rem !important; color: #A0998E !important; }
-  .spec-label { font-size: 0.67rem !important; color: #A0998E !important; }
-  .spec-value { font-size: 1rem !important; }
-  .result-event { font-size: 1.15rem !important; }
-  .result-stat { font-size: 0.85rem !important; }
-  .stext { font-size: 0.88rem !important; color: #B0A8A0 !important; }
-  .stext strong { font-size: 0.9rem !important; color: var(--off-white) !important; }
-  .sidebar-block h4 { font-size: 0.68rem !important; color: #908880 !important; }
-  .tag { font-size: 0.68rem !important; }
-  .eyebrow { font-size: 0.72rem !important; letter-spacing: 0.14em !important; }
-  .page-subtitle { font-size: 1.05rem !important; color: #C8C2B8 !important; line-height: 1.8 !important; }
-  nav { background: rgba(17,17,17,0.9) !important; }
-  /* ── END TEXT PATCH ── */
-
-  /* ── END GLOBAL FIXES ── */
-
-  
-  /* ── READABILITY BOOST v2 ── */
-  :root {
-    --muted: #9A9088 !important;
-  }
-  body { font-size: 18px !important; }
-  /* All gray/muted text -> much lighter */
-  .prose p, .prose-list li { font-size: 1rem !important; color: #D8D2C8 !important; line-height: 1.95 !important; }
-  .img-cap { font-size: 0.82rem !important; color: #B8B0A6 !important; line-height: 1.7 !important; padding: 0.7rem 0 !important; }
-  .video-label { font-size: 0.78rem !important; color: #B0A89E !important; }
-  .code-label { font-size: 0.75rem !important; color: #B0A89E !important; }
-  .spec-label { font-size: 0.7rem !important; color: #B0A89E !important; }
-  .spec-value { font-size: 1.05rem !important; color: var(--off-white) !important; }
-  .stext { font-size: 0.92rem !important; color: #C0B8B0 !important; line-height: 1.6 !important; }
-  .stext strong { font-size: 0.95rem !important; color: var(--off-white) !important; }
-  .sidebar-block h4 { font-size: 0.7rem !important; color: #A09890 !important; letter-spacing: 0.15em !important; }
-  /* Tags - bigger and lighter */
-  .tag { font-size: 0.72rem !important; color: #B0A8A0 !important; padding: 0.3rem 0.75rem !important; letter-spacing: 0.06em !important; }
-  .tag-teal { color: var(--teal) !important; }
-  .tag-gold { color: var(--gold) !important; }
-  .tag-purple { color: var(--purple) !important; }
-  /* Eyebrow labels */
-  .eyebrow { font-size: 0.74rem !important; color: var(--teal) !important; letter-spacing: 0.16em !important; }
-  .project-number { font-size: 0.72rem !important; color: #A09890 !important; }
-  /* Nav links */
-  .nav-links a { font-size: 0.72rem !important; color: #B0A8A0 !important; }
-  .back-link { font-size: 0.7rem !important; color: #B0A8A0 !important; }
-  /* Result cards */
-  .result-place { font-size: 0.66rem !important; color: #B0A8A0 !important; }
-  .result-event { font-size: 1.2rem !important; }
-  .result-stat { font-size: 0.88rem !important; }
-  /* PID cells */
-  .pid-desc { font-size: 0.82rem !important; color: #C0B8B0 !important; }
-  .pid-name { font-size: 0.95rem !important; }
-  .pid-val { font-size: 0.78rem !important; }
-  /* Page subtitle */
-  .page-subtitle { font-size: 1.08rem !important; color: #D0CAC0 !important; line-height: 1.8 !important; }
-  /* Section labels */
-  .section-label { font-size: 0.68rem !important; color: #A8A098 !important; }
-  /* prose h2/h3 */
-  .prose h2 { font-size: 1.55rem !important; margin-top: 3.5rem !important; }
-  .prose h3 { font-size: 1.2rem !important; color: var(--off-white) !important; }
-  /* Trophy bar */
-  .trophy-text p { font-size: 0.9rem !important; color: #C0B8B0 !important; }
-  /* Short-text */
-  .short-text p { font-size: 0.92rem !important; color: #D0CAC0 !important; }
-  .short-text h4 { font-size: 1.05rem !important; }
-  /* ── END READABILITY BOOST v2 ── */
-
-
-  /* ── GLOBAL IMAGE FIX ── */
-  .img-block img {
-    object-fit: contain !important;
-    background: #0e0e0e !important;
-    max-height: none !important;
-    width: 100% !important;
-    display: block !important;
-  }
-  /* Half grid: show full image, auto height */
-  .img-block.half { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
-  .img-block.half > div { display: flex; flex-direction: column; }
-  .img-block.half img { height: auto !important; max-height: 460px !important; min-height: 150px !important; object-fit: contain !important; }
-  /* Full-width images: reasonable max height */
-  .img-block.full img, .img-block:not(.half) img { max-height: 420px !important; object-fit: contain !important; }
-  /* Photo strip for glove */
-  .photo-strip img { height: auto !important; max-height: 360px !important; min-height: 160px !important; object-fit: contain !important; background: #0e0e0e !important; }
-  /* ── END GLOBAL IMAGE FIX ── */
-
-</style>
+@media (max-width: 480px) {
+  .page-hero h1 { font-size: 1.8rem; }
+  .nav-links { gap: 1rem; }
+}
+  </style>
 </head>
 <body>
+
 <nav>
-  <a class="nav-logo" href="index.html">WH</a>
+  <a class="nav-logo" href="index.html">Will Hovel<span class="easter-egg" title="漪鸥">漪鸥</span></a>
   <div class="nav-links">
     <a href="index.html#projects">Projects</a>
     <a href="about.html" class="active">About</a>
-    <a href="https://github.com/WillHovel" target="_blank">GitHub ↗</a>
+    <a href="https://github.com/WillHovel" target="_blank">GitHub</a>
   </div>
 </nav>
 
-<div class="page-hero">
-  <div class="fade-up">
-    <div style="font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--teal);margin-bottom:1.5rem;">About</div>
-    <h1>Engineering tools for <em>hard-to-measure systems</em></h1>
+<!-- HERO -->
+<section class="page-hero">
+  <div class="container fade-up">
+    <div class="eyebrow">About</div>
+    <h1>I build tools for systems that are <em>hard to measure</em></h1>
+    <p class="subtitle">
+      I'm an Electrical Engineering student at UC San Diego with a 4.0 GPA. My coursework 
+      is in circuits, signal processing, and control theory. My research is in environmental 
+      sensing — specifically, how ocean acidification disrupts fish schooling behavior.
+    </p>
   </div>
-  <div class="page-hero-right fade-up fade-up-d1">
-    <p>I'm an Electrical Engineering student at UC San Diego with a 4.0 GPA. I build things that pull structure out of dynamic data — whether that's a signal from a fish's body, a sensor on a glove, or a robot chasing a line.</p>
-  </div>
-</div>
+</section>
 
-<div class="statement-section">
-  <div class="section-label" style="writing-mode:vertical-lr;transform:rotate(180deg);margin-bottom:0;margin-right:0;flex-direction:row-reverse;">Personal Statement</div>
-  <div>
-    <p>I am drawn to systems that are hard to measure. Whether it is a fish swimming in a flow tank, a hand making a gesture, or a robot reacting to a track, the interesting engineering problems all share the same structure: you have a physical system generating a continuous, noisy signal, and you want to pull something meaningful and repeatable out of it.</p>
-    <p>My background in electrical engineering has given me the mathematical foundation to approach these problems rigorously. Coursework in signal processing (ECE 45) and statistics (ECE 109) taught me to think carefully about noise, sampling, and what it actually means for an algorithm to generalize. That foundation shapes every project I work on. I do not just want something that works in demo conditions. I want to understand why it works, and what would make it fail.</p>
-    <p>The projects on this site reflect that. The fish kinematics pipeline started as a data cleaning problem and turned into a full signal processing system. The sensorized glove required designing a PCB, routing USB differential pairs, reading noisy analog signals, and then figuring out a classification approach that was actually reliable. The line-following robot was an exercise in the feedback loop between algorithm and physical system: even a well-tuned PID controller fails if the mechanical platform behaves inconsistently.</p>
-    <p><strong>What connects these projects is iteration.</strong> None of them worked on the first try. Each required diagnosing what was actually failing and fixing it at the right level of abstraction. That process of building, debugging, and redesigning is where I have learned the most, and it is what I want to keep doing.</p>
-    <p>Long-term, I want to apply engineering to problems that span fields: bio-inspired robotics, environmental sensing, and tools that make complex data usable by researchers who aren't engineers. I plan to pursue graduate study and eventually run my own research.</p>
+<!-- EXPERIENCE -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Experience &amp; Research</div>
+    <div class="exp-grid">
+      <div class="exp-card fade-up">
+        <h3>Research Engineer</h3>
+        <div class="exp-org">Di Santo Research Lab · UC San Diego</div>
+        <div class="exp-date">Jan 2026 – Present</div>
+        <p class="exp-desc">
+          I build tools to research the relationship between ocean acidification and fish 
+          schooling ability. I built a flapping foil array to simulate schoolmates and a GUI 
+          to control frequency and position. I programmed a MATLAB pipeline to acquire, 
+          validate, and visualize kinematic data from high-speed video. I analyze curvature, 
+          frequency, and amplitude to determine how pH conditions affect swimming behavior.
+        </p>
+        <span class="exp-award">$6,500 Belkin Research Scholarship</span>
+      </div>
+      <div class="exp-card fade-up fade-d1">
+        <h3>Summer Researcher (ECE)</h3>
+        <div class="exp-org">Tools of Imagination · UC San Diego</div>
+        <div class="exp-date">Jun 2026 – Present</div>
+        <p class="exp-desc">
+          Paid research position under Profs. Karcher Morris and Robert Twomey, prototyping 
+          and documenting hardware for imagination-focused STEAM education. I built and maintain 
+          a public documentation website for the EnVision ESP32-S3 dev board. I authored 
+          hands-on build guides for sensors, motors, and live-data integrations, and prototyped 
+          a wearable wristband using the dev board.
+        </p>
+      </div>
+      <div class="exp-card fade-up fade-d2">
+        <h3>Electrical Lead — Humanoid Robot</h3>
+        <div class="exp-org">Triton Droids · UC San Diego</div>
+        <div class="exp-date">Oct 2025 – Present</div>
+        <p class="exp-desc">
+          I lead electrical design for a full-scale humanoid robot being built to kick a soccer 
+          ball by January 2027. I designed and validated a 48V power distribution PCB in Altium 
+          from schematic through layout, supporting 15 high-current motors. I performed PCBA 
+          bring-up, board-level rework, and continuity/power-up/rails testing. I led board and 
+          hardware verification using oscilloscopes, multimeters, and signal injection.
+        </p>
+      </div>
+      <div class="exp-card fade-up">
+        <h3>Programming &amp; Electrical Lead</h3>
+        <div class="exp-org">Team Spyder · FIRST Robotics</div>
+        <div class="exp-date">Apr 2021 – Jun 2023</div>
+        <p class="exp-desc">
+          I led programming and electrical for an FRC team that competed at the World 
+          Championship. I developed PID and feedforward control algorithms in Java for a 
+          multi-DOF robotic arm. I integrated sensors and vision systems for localization 
+          and object detection.
+        </p>
+        <span class="exp-award">Innovation in Control Award · 2023</span>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 
-<div class="bg-section">
-  <div class="bg-block">
-    <h3>Education</h3>
-    <p><strong style="color:var(--off-white)">UC San Diego</strong> — B.S. Electrical Engineering</p>
-    <p>GPA: 4.0</p>
-    <div class="course-list">
-      <span class="tag">ECE 45 — Circuits &amp; Systems</span>
-      <span class="tag">ECE 109 — Engineering Probability</span>
-      <span class="tag">ECE 35 — Circuit Analysis</span>
-      <span class="tag">ECE 65 — Electronics</span>
-      <span class="tag">MATH 20D — ODEs</span>
+<!-- SKILLS -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Technical Skills</div>
+    <div class="skills-grid">
+      <div class="skill-card fade-up">
+        <h3>Test &amp; Measurement</h3>
+        <ul class="skill-list">
+          <li>Oscilloscopes</li>
+          <li>Multimeters</li>
+          <li>Function generators</li>
+          <li>Power supplies</li>
+        </ul>
+      </div>
+      <div class="skill-card fade-up fade-d1">
+        <h3>Hardware</h3>
+        <ul class="skill-list">
+          <li>Schematic capture (Altium, KiCad)</li>
+          <li>PCBA bring-up &amp; verification</li>
+          <li>Hand-soldering (THT/SMD), rework</li>
+          <li>Power integrity validation</li>
+        </ul>
+      </div>
+      <div class="skill-card fade-up fade-d2">
+        <h3>Analog</h3>
+        <ul class="skill-list">
+          <li>Op-amp circuits, active filters</li>
+          <li>BJT/MOSFET amplifiers</li>
+          <li>48V power distribution</li>
+          <li>LTSpice</li>
+        </ul>
+      </div>
+      <div class="skill-card fade-up">
+        <h3>Embedded Systems</h3>
+        <ul class="skill-list">
+          <li>ESP32, Arduino, Raspberry Pi</li>
+          <li>ADC interfacing</li>
+          <li>UART / I2C / SPI, GPIO</li>
+          <li>Sensor integration</li>
+        </ul>
+      </div>
+      <div class="skill-card fade-up fade-d1">
+        <h3>Languages &amp; Tools</h3>
+        <ul class="skill-list">
+          <li>Python, MATLAB</li>
+          <li>C, C++, Java, Verilog</li>
+          <li>Git, Maven</li>
+        </ul>
+      </div>
+      <div class="skill-card fade-up fade-d2">
+        <h3>Engineering</h3>
+        <ul class="skill-list">
+          <li>Test procedure development</li>
+          <li>System validation</li>
+          <li>PID &amp; root locus control</li>
+          <li>Data logging</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Education &amp; Coursework</div>
+    <div class="edu-header fade-up">
+      <div>
+        <h3>UC San Diego — B.S. Electrical Engineering</h3>
+        <div class="edu-meta">Expected Class of 2028</div>
+      </div>
+      <div class="gpa">4.00<span>GPA</span></div>
+    </div>
+    <div class="course-list fade-up fade-d1">
+      <span class="tag tag-green">ECE 35 — Circuit Analysis</span>
+      <span class="tag tag-green">ECE 45 — Fourier/Laplace Analysis</span>
+      <span class="tag tag-green">ECE 65 — Electronics</span>
+      <span class="tag tag-green">ECE 100 — Circuit Design</span>
+      <span class="tag tag-green">ECE 102 — Amplifier Design</span>
+      <span class="tag tag-green">ECE 109 — Probability &amp; Statistics</span>
+      <span class="tag tag-green">ECE 171A — Root Locus / Compensator Design</span>
+      <span class="tag tag-green">ECE 174 — Least Squares Optimization</span>
+      <span class="tag">ECE 5 — Intro to EE</span>
+      <span class="tag">ECE 15 — C Programming</span>
+      <span class="tag">ECE 25 — Digital Logic / Verilog</span>
+      <span class="tag">MATH 20D — Differential Equations</span>
       <span class="tag">MATH 18 — Linear Algebra</span>
     </div>
   </div>
-  <div class="bg-block">
-    <h3>Research</h3>
-    <p><strong style="color:var(--off-white)">Di Santo Lab, UC San Diego</strong></p>
-    <p>I study how ocean acidification affects schooling behavior in silversides using flapping foil arrays and high-speed video. I'm funded by the URS David Marc Belkin Memorial Research Scholarship for Environment and Ecology ($6,500).</p>
-  </div>
-  <div class="bg-block">
-    <h3>Technical Skills</h3>
-    <div class="skill-list">
-      <div class="skill-item"><div class="skill-dot"></div>MATLAB — signal processing, FFT analysis, App Building</div>
-      <div class="skill-item"><div class="skill-dot"></div>Java — Spigot plugin development, event-driven systems</div>
-      <div class="skill-item"><div class="skill-dot"></div>Python — data analysis, classification, Jupyter notebooks</div>
-      <div class="skill-item"><div class="skill-dot"></div>KiCad — schematic capture, PCB layout, DRC/ERC</div>
-      <div class="skill-item"><div class="skill-dot"></div>C / Embedded — microcontroller firmware, ADC interfacing</div>
-      <div class="skill-item"><div class="skill-dot"></div>Git — version control, Maven build system</div>
-    </div>
-  </div>
-  <div class="bg-block">
-    <h3>Interests</h3>
-    <div class="skill-list">
-      <div class="skill-item"><div class="skill-dot"></div>Bio-inspired robotics and locomotion</div>
-      <div class="skill-item"><div class="skill-dot"></div>Signal processing for biological systems</div>
-      <div class="skill-item"><div class="skill-dot"></div>Climate sensing and environmental instrumentation</div>
-      <div class="skill-item"><div class="skill-dot"></div>Hardware design and embedded systems</div>
-      <div class="skill-item"><div class="skill-dot"></div>Graduate research in intelligent systems</div>
-    </div>
-  </div>
-</div>
+</section>
 
+<!-- PERSONAL STATEMENT -->
+<section class="section">
+  <div class="container">
+    <div class="statement-grid fade-up">
+      <div class="statement-sidebar">What Drives Me</div>
+      <div class="statement-body">
+        <p>
+          I am drawn to systems that are hard to measure. Whether it is a fish swimming in a 
+          flow tank, a hand making a gesture, or a robot reacting to a track, the interesting 
+          engineering problems all share the same structure: you have a physical system generating 
+          a continuous, noisy signal, and you want to pull something meaningful and repeatable 
+          out of it.
+        </p>
+        <p>
+          My background in electrical engineering has given me the mathematical foundation 
+          to approach these problems rigorously. Coursework in signal processing (ECE 45) and 
+          statistics (ECE 109) taught me to think carefully about noise, sampling, and what it 
+          actually means for an algorithm to generalize. That foundation shapes every project 
+          I work on. I do not just want something that works in demo conditions. I want to 
+          understand why it works, and what would make it fail.
+        </p>
+        <p>
+          The projects on this site reflect that. The fish kinematics pipeline started as a 
+          data cleaning problem and turned into a full signal processing system. The sensorized 
+          glove required designing a PCB, routing USB differential pairs, reading noisy analog 
+          signals, and then figuring out a classification approach that was actually reliable. 
+          The line-following robot was an exercise in the feedback loop between algorithm and 
+          physical system: even a well-tuned PID controller fails if the mechanical platform 
+          behaves inconsistently.
+        </p>
+        <p>
+          <strong>What connects these projects is iteration.</strong> None of them worked on 
+          the first try. Each required diagnosing what was actually failing and fixing it at 
+          the right level of abstraction. That process of building, debugging, and redesigning 
+          is where I have learned the most, and it is what I want to keep doing.
+        </p>
+        <p>
+          Long-term, I want to apply engineering to problems that span fields: bio-inspired 
+          robotics, environmental sensing, and tools that make complex data usable by researchers 
+          who aren't engineers. I plan to pursue graduate study and eventually run my own research.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERESTS -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Interests</div>
+    <div class="interests-grid fade-up">
+      <div class="interest-item">Environmental sensing &amp; ocean monitoring</div>
+      <div class="interest-item">Bio-inspired robotics and locomotion</div>
+      <div class="interest-item">Signal processing for biological systems</div>
+      <div class="interest-item">Climate instrumentation</div>
+      <div class="interest-item">Hardware design &amp; embedded systems</div>
+      <div class="interest-item">Graduate research in intelligent systems</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
   <p>Will Hovel · UC San Diego · Electrical Engineering</p>
-  <p><a href="https://github.com/WillHovel" target="_blank">github.com/WillHovel</a></p>
+  <p>
+    <a href="mailto:will.hovel@gmail.com">will.hovel@gmail.com</a> ·
+    <a href="https://github.com/WillHovel" target="_blank">GitHub</a> ·
+    <a href="https://www.linkedin.com/in/will-hovel-24824a379" target="_blank">LinkedIn</a>
+  </p>
 </footer>
+
 </body>
 </html>

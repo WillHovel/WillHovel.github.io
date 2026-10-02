@@ -1,0 +1,25 @@
+# AGENT BEHAVIOR RULES
+
+## 1. Bulk Edits & Execution Limits
+- NEVER open and edit HTML/CSS files individually if updating 2+ files.
+- ALWAYS write a single Python script (using regex or string replacement) to apply edits across all `.html` files in one batch.
+- Execute the script using Bash/PowerShell, verify the file outputs, and delete the script when finished.
+- DO NOT spawn background subagents (`Agent(...)` or `DefineSubagent`) unless explicitly instructed. Perform all tasks directly in the main thread.
+
+## 2. Token & Quota Management
+- Stop and ask before reading files greater than 100 lines if only minor variable/CSS tweaks are needed.
+- Clear context after completing major structural milestones.
+
+## 3. Design System ("Technical Flora" - Dark Mode)
+- Primary BG: `#0A120D` (Deep Dark Green)
+- Card BG: `#132217` (Slightly Lighter Dark Green)
+- Text Main: `#E2E8F0` (Light Slate)
+- Text Muted: `#94A3B8`
+- Accents: `#38A169` (Forest Sage), `#4ADE80` (Active Green)
+- Borders: `#1E3F20` (1px solid)
+- Typography: Inter (body), JetBrains Mono (tech spec tags)
+
+## 4. Writing Style
+- Tone: Genuine, technical, concise, first-person ("I").
+- Avoid AI buzzwords, promotional fluff, or sentences formatted as "From [X] to [Y], [Z]".
+- Focus on hardware specs, concrete deliverables, measurements, and engineering tradeoffs.
