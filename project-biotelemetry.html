@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fish Health Monitor: Wireless ECG Through Tank Water — Will Hovel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+/* Will Hovel Portfolio — Dark Technical Design System */
+:root {
+  --black: #0c1610;
+  --off-white: #e2e8f0;
+  --muted: #94a3b8;
+  --muted2: #cbd5e1;
+  --teal: #48bb78;
+  --teal-dim: rgba(56,161,105,0.12);
+  --teal-border: rgba(46,139,87,0.3);
+  --border: rgba(255,255,255,0.08);
+  --border-bright: rgba(255,255,255,0.15);
+  --card: #142019;
+  --gold: #d4a843;
+  --gold-bg: rgba(212,168,67,0.08);
+  --gold-border: rgba(212,168,67,0.28);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--off-white);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Dot grid overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 0.5px, transparent 0.5px);
+  background-size: 24px 24px;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(12,22,16,0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.nav-logo {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #f1f5f9;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-links a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.18s;
+}
+.nav-links a:hover { color: var(--teal); }
+
+/* HERO */
+.hero {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 104px 40px 0;
+  position: relative;
+  z-index: 1;
+}
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  background: var(--teal-dim);
+  border: 1px solid var(--teal-border);
+  padding: 3px 10px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+.tag-gold {
+  color: var(--gold);
+  background: var(--gold-bg);
+  border-color: var(--gold-border);
+}
+.hero-line { flex: 1; height: 1px; background: var(--border); }
+.hero-yr {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--muted);
+}
+.hero h1 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: clamp(42px, 7vw, 82px);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  margin-bottom: 22px;
+}
+.hero-sub {
+  font-size: 1rem;
+  color: var(--muted2);
+  max-width: 540px;
+  line-height: 1.75;
+  margin-bottom: 28px;
+}
+.chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 48px; }
+.chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--off-white);
+  border: 1px solid var(--border-bright);
+  padding: 4px 11px;
+  border-radius: 2px;
+}
+
+/* OVERVIEW SECTION */
+.hero-overview { max-width: 760px; margin-bottom: 52px; }
+.overview-heading {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+  color: var(--off-white);
+  margin: 28px 0 12px;
+}
+.overview-heading:first-child { margin-top: 0; }
+.overview-body { font-size: 0.93rem; color: var(--muted2); line-height: 1.78; margin-bottom: 12px; }
+.overview-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.overview-list li {
+  font-size: 0.88rem;
+  color: var(--muted2);
+  line-height: 1.72;
+  padding-left: 20px;
+  position: relative;
+}
+.overview-list li::before { content: '—'; position: absolute; left: 0; color: var(--teal); font-weight: 700; }
+.overview-list li strong { color: var(--off-white); font-weight: 600; }
+
+/* BODY */
+.body-wrap {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 40px 80px;
+  position: relative;
+  z-index: 1;
+}
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 60px;
+  margin-top: 48px;
+  align-items: start;
+}
+
+/* SECTION LABEL */
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+  padding-top: 48px;
+  border-top: 1px solid var(--border);
+}
+.section-label::before {
+  content: '';
+  width: 20px;
+  height: 2px;
+  background: var(--teal);
+  flex-shrink: 0;
+}
+.section-label:first-child { border-top: none; padding-top: 0; }
+
+h2 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+  color: var(--off-white);
+  margin: 36px 0 12px;
+}
+h2:first-child { margin-top: 0; }
+p { color: var(--muted2); margin-bottom: 14px; line-height: 1.75; font-size: 0.93rem; }
+
+/* CALLOUT BOXES */
+.callout {
+  border-left: 3px solid var(--teal);
+  background: var(--teal-dim);
+  border-radius: 0 4px 4px 0;
+  padding: 16px 20px;
+  margin: 24px 0;
+}
+.callout.gold { border-left-color: var(--gold); background: var(--gold-bg); }
+.callout p { margin: 0; font-size: 0.88rem; }
+.callout strong { color: var(--off-white); }
+
+/* SPEC TABLE */
+.spec-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.86rem; }
+.spec-table th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border-bright);
+  padding: 8px 12px;
+  text-align: left;
+  font-weight: 500;
+}
+.spec-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted2);
+  vertical-align: top;
+}
+.spec-table td:first-child { color: var(--off-white); font-weight: 500; white-space: nowrap; }
+.spec-table tr:last-child td { border-bottom: none; }
+.spec-table code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--teal);
+  background: var(--teal-dim);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+
+/* SCHEMATIC IMAGE */
+.img-block {
+  margin: 28px 0;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  border-radius: 3px;
+}
+.img-block img {
+  width: 100%;
+  height: auto;
+  display: block;
+  cursor: zoom-in;
+  transition: opacity 0.18s;
+}
+.img-block img:hover { opacity: 0.9; }
+.img-cap {
+  padding: 10px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  line-height: 1.55;
+}
+
+/* FILTER SPEC ROW */
+.filter-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 20px 0;
+}
+.filter-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 18px 20px;
+}
+.filter-card .fc-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.filter-card .fc-freq {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--teal);
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.filter-card .fc-desc { font-size: 0.82rem; color: var(--muted2); line-height: 1.6; }
+
+/* SIDEBAR */
+.sidebar { position: sticky; top: 74px; }
+.scard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--teal);
+  padding: 20px;
+  margin-bottom: 10px;
+  border-radius: 0 4px 4px 0;
+}
+.scard.gold-card { border-left-color: var(--gold); }
+.scard-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.srow { display: flex; gap: 10px; margin-bottom: 14px; align-items: flex-start; }
+.srow:last-child { margin-bottom: 0; }
+.sicon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.sinfo strong { display: block; font-size: 0.82rem; font-weight: 600; color: var(--off-white); margin-bottom: 2px; }
+.sinfo span { font-size: 0.76rem; color: var(--muted2); line-height: 1.5; }
+.skill-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.skill-list li {
+  font-size: 0.8rem;
+  color: var(--muted2);
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.5;
+}
+.skill-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 7px;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--teal);
+}
+.skill-list li strong { color: var(--off-white); font-weight: 600; }
+
+/* ZOOM LIGHTBOX */
+.zoom-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0,0,0,0.95);
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  cursor: zoom-out;
+}
+.zoom-overlay.open { display: flex; }
+.zoom-overlay img { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 8px 80px rgba(0,0,0,0.8); }
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 40px;
+  max-width: 1160px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--muted);
+  position: relative;
+  z-index: 1;
+}
+footer a { color: var(--muted); text-decoration: none; transition: color 0.18s; }
+footer a:hover { color: var(--teal); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .two-col { grid-template-columns: 1fr; gap: 40px; }
+  .filter-row { grid-template-columns: 1fr; }
+  .hero, .body-wrap, nav { padding-left: 20px; padding-right: 20px; }
+  footer { padding: 24px 20px; flex-direction: column; text-align: center; }
+  .sidebar { position: static; }
+  .hero h1 { font-size: 46px; }
+}
+  
+.sicon{font-family:'JetBrains Mono','Inter Mono',monospace!important;font-size:0.5rem!important;letter-spacing:0;font-weight:600;color:#48bb78;min-width:30px;text-align:center}
+.sch-img{background:#fff!important;object-fit:contain}
+.dl-pdf{display:block;padding:8px 14px;font-family:'JetBrains Mono','Inter Mono',monospace;font-size:0.62rem;letter-spacing:0.05em;color:#48bb78;text-decoration:none;border-top:1px solid rgba(255,255,255,0.08)}
+.dl-pdf:hover{text-decoration:underline}
+.diagram-block{margin:24px 0;background:#142019;border:1px solid rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
+.diagram-block img{width:100%;height:auto;display:block;cursor:zoom-in}
+.diagram-block .dcap{padding:10px 14px;font-family:'JetBrains Mono','Inter Mono',monospace;font-size:0.6rem;color:#94a3b8;border-top:1px solid rgba(255,255,255,0.08);line-height:1.55}
+.status-badge{display:inline-block;margin:0 0 18px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.06em;text-transform:uppercase;color:#d4a843;background:rgba(212,168,67,0.08);border:1px solid rgba(212,168,67,0.28);padding:4px 10px;border-radius:2px}
+.featured-viewer{margin-top:40px;border:1px solid rgba(255,255,255,0.08);background:#142019;border-radius:3px}
+.featured-viewer .img-block{margin:0;border:none;border-radius:0}
+.fv-tabs{display:flex;gap:0;border-bottom:1px solid rgba(255,255,255,0.08)}
+.fv-tab{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#94a3b8;background:none;border:none;border-bottom:2px solid transparent;padding:12px 18px;cursor:pointer}
+.fv-tab:hover{color:#48bb78}.fv-tab.active{color:#48bb78;border-bottom-color:#48bb78}
+.fv-panel{display:none}.fv-panel.active{display:block}
+.thread-table td:nth-child(n+2){font-family:'JetBrains Mono',monospace;font-size:0.78rem}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">WH<span style="font-size:0.44rem;letter-spacing:0;color:rgba(72,187,120,0.22);vertical-align:super;user-select:none;font-weight:400;margin-left:3px;" title="漪鸥">漪鸥</span></a>
+  <div class="nav-links">
+    <a href="index.html#projects">Projects</a>
+    <a href="about.html">About</a>
+    <a href="https://github.com/WillHovel" target="_blank">GitHub ↗</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div class="hero-eyebrow">
+    <span class="tag">PCB Design · DSP · Bio-Sensing</span>
+    <div class="hero-line"></div>
+    <span class="hero-yr">2026</span>
+  </div>
+  <div class="status-badge">Design complete · firmware written · board not yet fabricated</div>
+  <h1>Fish Health<br/>Monitor</h1>
+  <p class="hero-sub"><strong>Wireless ECG and ventilation sensing through tank water.</strong> A custom 4-layer mixed-signal PCB designed to monitor fish cardiac and ventilation rates non-invasively through water conductivity, with wireless telemetry over Bluetooth 5. No contact with the subject is required by design.</p>
+
+  <div class="chips">
+    <span class="chip">nRF52840</span>
+    <span class="chip">AD8232</span>
+    <span class="chip">4-Layer PCB</span>
+    <span class="chip">KiCad 10</span>
+    <span class="chip">Mixed-Signal</span>
+    <span class="chip">DSP / IIR&amp;FIR</span>
+    <span class="chip">Sallen-Key LPF</span>
+    <span class="chip">ARM Cortex-M4F</span>
+    <span class="chip">BLE 5.0</span>
+    <span class="chip">Zephyr RTOS</span>
+    <span class="chip">CR2032</span>
+    <span class="chip">JLCPCB DFM</span>
+  </div>
+
+  <div class="hero-overview">
+    <h2 class="overview-heading">Overview</h2>
+    <p class="overview-body">I designed a coin-cell-powered wireless bio-sensing platform for non-invasive aquatic biometric monitoring. With electrodes submerged in the tank water, the system is designed to measure biological action potentials through water conductivity alone and pick up fish ECG and gill-ventilation rates without contact with the animal — no implants or restraints.</p>
+    <p class="overview-body">Originally conceived as a plant action-potential recorder, the architecture was pivoted via hardware-software co-design so the same board can serve as an aquatic monitor, with the species-specific changes made in firmware. The analog front-end stays wide; all species-specific signal extraction is handled in firmware.</p>
+
+    <h2 class="overview-heading">What I Built</h2>
+    <ul class="overview-list">
+      <li><strong>Custom 4-layer mixed-signal PCB</strong> — KiCad schematic, full layout with separated analog/digital domains, RF keepout zone, and Gerbers prepared for JLCPCB SMT assembly</li>
+      <li><strong>Wideband analog front-end</strong> — AD8232 biopotential amplifier with a 0.15 Hz HPF (DC block) and 40.8 Hz Sallen-Key LPF, avoiding rigid brick-wall filters to allow software-defined signal extraction</li>
+      <li><strong>Active noise cancellation</strong> — Right Leg Drive electrode submerged in tank water is designed to inject an inverted common-mode signal, intended to cancel 60 Hz EMI at the source</li>
+      <li><strong>ARM Cortex-M4F DSP firmware</strong> — IIR/FIR digital bandpass and notch filters running on the nRF52840's hardware FPU; filter coefficients reconfigurable per fish species in software</li>
+      <li><strong>RF layout</strong> — strict copper keepout beneath the MDBT50Q-1MV2's ceramic antenna across all four layers to maximize Bluetooth range</li>
+    </ul>
+  </div>
+</div><!-- /hero -->
+
+<!-- ═══ BODY ═══ -->
+<div class="body-wrap">
+<!-- FEATURED: LAYOUT / SCHEMATIC VIEWER -->
+<div class="featured-viewer">
+  <div class="fv-tabs" role="tablist">
+    <button class="fv-tab active" data-fv="unfilled" role="tab">Layout · unfilled</button>
+    <button class="fv-tab" data-fv="filled" role="tab">Layout · filled</button>
+    <button class="fv-tab" data-fv="schematic" role="tab">Schematic</button>
+  </div>
+  <div class="img-block fv-panel active" id="fv-unfilled">
+    <img src="pictures/fish_monitor/plant_layout_unfilled.png" alt="KiCad PCB layout, copper zones unfilled" onclick="openZoom(this.src)"/>
+    <div class="img-cap">KiCad PCB layout, zones unfilled — routed traces and ratsnest visible. 4-layer board with the MDBT50Q-1MV2 antenna keepout at top right.</div>
+  </div>
+  <div class="img-block fv-panel" id="fv-filled">
+    <img src="pictures/fish_monitor/fish_layout.png" alt="KiCad PCB layout, copper zones filled" onclick="openZoom(this.src)"/>
+    <div class="img-cap">KiCad PCB layout, copper zones filled.</div>
+  </div>
+  <div class="img-block fv-panel" id="fv-schematic">
+    <img class="sch-img" src="pictures/fish_monitor/fish_schematic.png" alt="KiCad schematic — full system" id="schematic-img" onclick="openZoom(this.src)"/>
+    <div class="img-cap">KiCad E.D.A. 10.0.1 — Full system schematic (plant_stressor.kicad_sch). Subsystems: AD8232 analog front-end, Sallen-Key LPF, MDBT50Q-1MV2 nRF52840 SoC, CR2032 battery circuit, SWD programming header, reference voltage divider, and test point array.</div>
+  </div>
+  <a class="dl-pdf" href="#">Download PDF</a><!-- TODO(pdf): link exported schematic/layout PDF -->
+</div>
+<div class="two-col">
+
+  <!-- MAIN CONTENT -->
+  <div>
+
+    <div class="section-label">System Overview</div>
+<div class="diagram-block">
+  <img src="pictures/diagrams/system-block.svg" alt="System block diagram" onclick="openZoom(this.src)"/>
+  <div class="dcap">System block diagram: electrodes → AD8232 → Sallen-Key LPF → nRF52840 SAADC → DSP → BLE / NVS; CR2032 → 3 V rail.</div>
+</div>
+
+    <div class="section-label">The Engineering Challenge</div>
+    <p>Lab aquatic environments are electrically hostile. 60 Hz mains hum couples strongly into tank water, electrode–water interfaces generate slow DC polarization offsets that saturate amplifiers, and different fish species produce biometric signals across a wide, variable frequency range.</p>
+    <p>A conventional approach — rigid analog brick-wall filters tuned to a single species — fails on all three counts: it can't adapt to different species without a hardware re-spin, it doesn't handle variable lab noise floors, and tight filter poles near the signal band risk introducing phase distortion into the very signals you're trying to measure.</p>
+    <div class="callout">
+      <p><strong>Design decision:</strong> Use a deliberately wide analog passband to capture all biological signals while enforcing two hard limits against ADC saturation. Delegate all species-specific and noise-specific filtering to software DSP running on the nRF52840's hardware FPU.</p>
+    </div>
+
+    <!-- ANALOG FRONT END -->
+    <div class="section-label">Wideband Analog Front-End</div>
+    <p>The passband runs from <strong>0.15 Hz to 40.8 Hz</strong> — wide enough to cover every known aquatic vertebrate biometric in the biological action-potential range, tight enough to block the two dominant noise sources before the ADC ever sees them.</p>
+
+    <div class="filter-row">
+      <div class="filter-card">
+        <div class="fc-label">High-Pass Filter — DC Block</div>
+        <div class="fc-freq">0.159 Hz</div>
+        <div class="fc-desc">Blocks electrode–water DC polarization using the AD8232's internal 100× feedback gain multiplier with a 10 µF capacitor and 10 MΩ resistor. The 100× multiplication means the effective RC time constant is 100× larger than the passive product alone — achieving an ultra-low corner without impractical component values.</div>
+      </div>
+      <div class="filter-card">
+        <div class="fc-label">Low-Pass Filter — Anti-Aliasing</div>
+        <div class="fc-freq">40.8 Hz</div>
+        <div class="fc-desc">2-pole Sallen-Key active filter (100 kΩ resistors, 39 nF capacitors) placed between the AD8232 output and the ADC input. Rolling off at 40.8 Hz is intended to band-limit the signal for anti-aliasing and to attenuate 60 Hz mains noise in hardware before it reaches the ADC (see the simulated Bode plot below), reducing harmonic folding in the digitized data.</div>
+      </div>
+    </div>
+
+    <div class="diagram-block">
+  <img src="pictures/diagrams/signal-chain.svg" alt="Frequency plan" onclick="openZoom(this.src)"/>
+  <div class="dcap">Frequency axis, 0.1–100 Hz: analog passband 0.15–40.8 Hz, HPF 0.159 Hz, LPF 40.8 Hz, 60 Hz mains, and where the firmware notch acts.</div>
+</div>
+<div class="diagram-block">
+  <img src="pictures/fish_monitor/bode-plot.png" alt="LTspice AC analysis of the analog chain: magnitude and phase" onclick="openZoom(this.src)"/>
+  <div class="dcap">LTspice AC simulation (fish_monitor.asc) from ideal component values: 1st-order HPF (10 µF, 100 kΩ), ×100 gain stage, unity-gain Sallen-Key LPF (100 kΩ, 39 nF). Magnitude and phase, 1 mHz–10 kHz.</div>
+</div>
+
+    <h2>Active Shielding — Right Leg Drive</h2>
+    <p>The third electrode is not a passive ground reference. The AD8232's <strong>Right Leg Drive (RLD)</strong> output actively injects a signal that is the inverted, amplified sum of the common-mode noise seen at both differential inputs. Submerging this electrode in the tank water is expected to create a feedback loop that reduces 60 Hz EMI at the source — a fundamentally superior strategy to filtering it downstream, especially in an unshielded open-water environment.</p>
+
+    <!-- DSP -->
+    <div class="section-label">Digital Signal Processing</div>
+    <p>The wideband strategy intentionally passes some residual noise to the ADC. The firmware running on the nRF52840's ARM Cortex-M4F is responsible for all signal extraction.</p>
+
+    <h2>ARM Cortex-M4F FPU Filtering</h2>
+    <p>The nRF52840's hardware floating-point unit is designed to run <strong>IIR and FIR digital filter</strong> routines in real time at the ADC sample rate. Two filter types are deployed:</p>
+    <ul class="overview-list" style="margin-bottom: 20px;">
+      <li><strong>Digital notch filter at 60 Hz</strong> — is designed to remove residual mains hum with a Q-factor sharper than is practical in analog hardware, applied to every ADC sample</li>
+      <li><strong>Variable digital bandpass filters</strong> — IIR/FIR coefficients are recalculated in firmware to isolate the specific cardiac (ECG) and gill-ventilation (respiratory) frequency bands of any target fish species; changing species means updating a configuration parameter, not re-spinning the PCB</li>
+    </ul>
+    <div class="callout gold">
+      <p><strong>Hardware-software co-design pivot:</strong> This firmware DSP architecture is designed to allow the platform — originally designed for plant electrophysiology — to be repurposed for aquatic bio-telemetry without any hardware modification.</p>
+    </div>
+
+    <!-- FIRMWARE -->
+    <div class="section-label">Firmware</div>
+    <p>The firmware is written for Zephyr on the nRF52840 and has not yet run on hardware, since the board is not fabricated.</p>
+    <ul class="overview-list" style="margin-bottom: 20px;">
+      <li><strong>Sampling</strong> — SAADC at 100 Hz, 12-bit</li>
+      <li><strong>Filtering</strong> — IIR bandpass plus a 60 Hz notch on Zephyr</li>
+      <li><strong>Detection</strong> — peak detection, then heart-rate, ventilation-rate and cough classification</li>
+      <li><strong>Telemetry</strong> — a 26-byte packed BLE payload sent on each detected peak</li>
+      <li><strong>Persistence</strong> — the active species profile is saved to NVS flash and restored at boot</li>
+    </ul>
+<div class="diagram-block">
+  <img src="pictures/diagrams/firmware-flow.svg" alt="Firmware flow" onclick="openZoom(this.src)"/>
+  <div class="dcap">Firmware flow: SAADC 100 Hz → IIR bandpass → 60 Hz notch → peak detect → HR / ventilation / cough classify → BLE burst + NVS.</div>
+</div>
+
+    <!-- RTOS -->
+    <div class="section-label">Firmware Architecture — Zephyr RTOS</div>
+    <p>The firmware (v3.0.0) is split into three preemptive Zephyr threads connected by message queues, so sampling timing never depends on DSP or BLE work. It builds against the nRF Connect SDK; it has not yet run on the custom board.</p>
+    <table class="spec-table thread-table">
+      <thead><tr><th>Thread</th><th>Stack</th><th>Priority</th><th>Job</th></tr></thead>
+      <tbody>
+        <tr><td>adc_thread</td><td>1024 B</td><td>2</td><td>Wakes on a semaphore from a 10 ms <code>k_timer</code>, reads the SAADC, posts to <code>raw_sample_queue</code></td></tr>
+        <tr><td>dsp_thread</td><td>3072 B</td><td>3</td><td>Notch + bandpass, peak detection, BPM / HRV / ventilation / cough, health classification, posts to <code>telem_queue</code></td></tr>
+        <tr><td>ble_thread</td><td>2048 B</td><td>5</td><td>Packs the 26-byte telemetry packet and sends a GATT notification</td></tr>
+      </tbody>
+    </table>
+    <ul class="overview-list" style="margin-bottom: 20px;">
+      <li><strong>Timing</strong> — the 100 Hz sample clock is a <code>k_timer</code> whose expiry gives a semaphore, so the ISR stays short and the ADC thread does the work</li>
+      <li><strong>Queues</strong> — <code>k_msgq</code> between stages: 8 raw samples deep, 4 telemetry packets deep; puts use <code>K_NO_WAIT</code> so a slow stage drops data instead of blocking the sampler</li>
+      <li><strong>Shared filter state</strong> — a <code>k_mutex</code> guards the active species profile and bandpass coefficients, so a species change over BLE can re-initialize the filter safely while the DSP thread runs</li>
+      <li><strong>DSP</strong> — CMSIS-DSP float biquad cascades on the Cortex-M4F: one notch stage and a two-stage bandpass</li>
+      <li><strong>Species profiles</strong> — four selectable profiles (glass catfish, Atlantic silverside, inland silverside, <em>Chromis viridis</em>), each with its own heart-rate range and bandpass; the choice is written over BLE and kept in NVS</li>
+      <li><strong>GATT service</strong> — species write, telemetry notify, and an acquisition-control characteristic that starts and stops the sample timer</li>
+    </ul>
+    <div class="img-block">
+      <img src="pictures/fish_monitor/aquamonitor_gui.png" alt="AquaBioMonitor live telemetry dashboard layout" onclick="openZoom(this.src)"/>
+      <div class="img-cap">Host-side Python dashboard (matplotlib) for the BLE telemetry stream: heart rate, HRV RMSSD, ventilation rate, cough rate and filtered waveform. Layout only; no live data yet.</div>
+    </div>
+    <div class="img-block">
+      <img src="pictures/fish_monitor/Aquamonitor_venv.png" alt="VS Code with Zephyr firmware source and the BLE monitor script scanning for AquaBioMonitor" onclick="openZoom(this.src)"/>
+      <div class="img-cap">Firmware project in VS Code and <code>tools/ble_monitor.py</code> (bleak) scanning for the "AquaBioMonitor" peripheral, 26-byte packets, 60 s window. No board connected in this capture.</div>
+    </div>
+
+    <!-- PCB LAYOUT -->
+    <div class="section-label">PCB Layout & Manufacturing</div>
+
+    <h2>4-Layer Stackup & RF Keepout</h2>
+    <p>The 4-layer stackup is designed with dedicated power and ground planes to support domain separation between the noise-sensitive analog measurement path and the switching digital/RF domain. A strict <strong>copper keepout zone</strong> is enforced on all four layers directly beneath the MDBT50Q-1MV2's integrated 2.4 GHz ceramic antenna. Removing ground copper from the antenna footprint is intended to keep the ground plane from loading the antenna, to maximize expected Bluetooth range in the lab.</p>
+
+    <div class="diagram-block">
+  <img src="pictures/diagrams/power-layout.svg" alt="Power and layout domains" onclick="openZoom(this.src)"/>
+  <div class="dcap">Analog vs digital/RF domains, 4-layer stack (signals / ground / power / signals), antenna keepout, C3 flow-through decoupling at the AD8232 supply.</div>
+</div>
+
+    <h2>Signal Integrity — Flow-Through Decoupling</h2>
+    <p>High-frequency switching transients from the nRF52840's internal DC-DC converter are intended to be blocked from coupling into the analog measurement path via <strong>flow-through power decoupling</strong> on the AD8232 supply pin (C3, 100 nF placed as close to the IC pin as the layout permits). The goal is to keep digital switching noise from appearing as correlated interference in the biopotential measurement.</p>
+
+    <h2>DFM — Via-in-Pad Mitigation & Automated Assembly</h2>
+    <p>Several SMD passive footprints in the design placed vias within the pad copper. Without mitigation, solder wicks through the via during reflow, causing insufficient joints and potential opens. Each instance was identified in layout review and resolved by offsetting or tenting the via before Gerber generation.</p>
+    <p>The BOM, CPL, and POS files were optimized for <strong>JLCPCB's automated SMT pick-and-place</strong> service, with all standard passives and commodity ICs assigned to the JLCPCB parts library. The AD8232 and MDBT50Q-1MV2 — both with non-standard footprints — are flagged for manual lab soldering after automated reflow, minimizing per-unit cost while maintaining assembly quality on the critical components.</p>
+
+
+    <!-- HIDDEN SECTIONS: unhide only after real data exists -->
+    <section id="layout-stackup" hidden>
+      <div class="section-label">Layout &amp; Stackup</div>
+      <!-- Layout images are shown in the featured viewer at the top of the page -->
+      <!-- TODO(stackup table): fill from fab house stackup; do not guess thickness/dielectric values -->
+      <table class="spec-table"><thead><tr><th>Layer</th><th>Function</th><th>Thickness</th></tr></thead><tbody>
+        <tr><td>L1</td><td>Signals</td><td>TODO</td></tr><tr><td>L2</td><td>Ground</td><td>TODO</td></tr>
+        <tr><td>L3</td><td>Power</td><td>TODO</td></tr><tr><td>L4</td><td>Signals</td><td>TODO</td></tr></tbody></table>
+    </section>
+    <section id="validation-plan" hidden>
+      <div class="section-label">Validation Plan</div>
+      <!-- TODO(validation plan): planned tests, equipment, pass criteria (noise floor, gain, filter response, RLD CMRR, BLE range, current draw) -->
+    </section>
+    <section id="bringup-log" hidden>
+      <div class="section-label">Bring-up Log</div>
+      <!-- TODO(bring-up log): fill after board is fabricated and assembled; dated entries with measurements -->
+    </section>
+  </div><!-- /main -->
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <div class="scard">
+      <div class="scard-title">Core Components</div>
+      <div class="srow">
+        <span class="sicon">AFE</span>
+        <div class="sinfo">
+          <strong>AD8232ACPZ-R7</strong>
+          <span>Analog Devices biopotential amplifier — high-CMRR instrumentation amp stage for µV-level biosignals</span>
+        </div>
+      </div>
+      <div class="srow">
+        <span class="sicon">RF</span>
+        <div class="sinfo">
+          <strong>MDBT50Q-1MV2</strong>
+          <span>Raytac nRF52840 module — ARM Cortex-M4F + FPU, BLE 5.0, integrated 2.4 GHz ceramic antenna</span>
+        </div>
+      </div>
+      <div class="srow">
+        <span class="sicon">PWR</span>
+        <div class="sinfo">
+          <strong>CR2032 Coin Cell</strong>
+          <span>Keystone 1060 SMD retainer — 3 V supply<!-- TODO(power budget): state expected battery life only after a measured/calculated power budget --></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="scard">
+      <div class="scard-title">Analog Specs</div>
+      <div class="srow">
+        <span class="sicon">HPF</span>
+        <div class="sinfo">
+          <strong>HPF Cutoff: 0.159 Hz</strong>
+          <span>10 µF cap + 10 MΩ resistor via AD8232 100× feedback multiplier</span>
+        </div>
+      </div>
+      <div class="srow">
+        <span class="sicon">LPF</span>
+        <div class="sinfo">
+          <strong>LPF Cutoff: 40.8 Hz</strong>
+          <span>2-pole Sallen-Key, 100 kΩ + 39 nF — anti-aliasing &amp; 60 Hz pre-attenuation</span>
+        </div>
+      </div>
+      <div class="srow">
+        <span class="sicon">RLD</span>
+        <div class="sinfo">
+          <strong>RLD Active Shield</strong>
+          <span>Inverted common-mode injection into tank water — cancels 60 Hz EMI at source</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="scard gold-card">
+      <div class="scard-title">Skills Demonstrated</div>
+      <ul class="skill-list">
+        <li><strong>Mixed-Signal PCB Design</strong> — 4-layer KiCad, domain separation</li>
+        <li><strong>RF Layout</strong> — nRF52840 antenna keepout, BLE 5.0</li>
+        <li><strong>DSP</strong> — ARM Cortex-M4F FPU, IIR/FIR, digital notch</li>
+        <li><strong>Analog Front-End</strong> — AD8232, Sallen-Key, RLD shielding</li>
+        <li><strong>DFM</strong> — Via-in-pad mitigation, JLCPCB BOM/CPL</li>
+        <li><strong>Embedded Systems</strong> — nRF52840, SWD, low-power BLE</li>
+        <li><strong>RTOS</strong> — Zephyr threads, message queues, mutex, timers</li>
+      </ul>
+    </div>
+
+    <div class="scard">
+      <div class="scard-title">Schematic Tool</div>
+      <div class="srow">
+        <span class="sicon">EDA</span>
+        <div class="sinfo">
+          <strong>KiCad E.D.A. 10.0.1</strong>
+          <span>plant_stressor.kicad_sch</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /sidebar -->
+</div><!-- /two-col -->
+</div><!-- /body-wrap -->
+
+<!-- ZOOM LIGHTBOX -->
+<div class="zoom-overlay" id="zoom-overlay" onclick="closeZoom()">
+  <img id="zoom-img" src="" alt=""/>
+</div>
+
+<footer>
+  <p>Will Hovel · UC San Diego · Electrical Engineering</p>
+  <p>
+    <a href="mailto:will.hovel@gmail.com">will.hovel@gmail.com</a> ·
+    <a href="https://github.com/WillHovel" target="_blank">GitHub</a> ·
+    <a href="https://www.linkedin.com/in/will-hovel-24824a379" target="_blank">LinkedIn</a>
+  </p>
+</footer>
+
+<script>
+function openZoom(src) {
+  document.getElementById('zoom-img').src = src;
+  document.getElementById('zoom-overlay').classList.add('open');
+}
+function closeZoom() {
+  document.getElementById('zoom-overlay').classList.remove('open');
+}
+document.querySelectorAll('.fv-tab').forEach(function(b){b.addEventListener('click',function(){
+  document.querySelectorAll('.fv-tab').forEach(function(x){x.classList.toggle('active',x===b)});
+  document.querySelectorAll('.fv-panel').forEach(function(p){p.classList.toggle('active',p.id==='fv-'+b.dataset.fv)});
+});});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeZoom();
+});
+</script>
+
+</body>
+</html>

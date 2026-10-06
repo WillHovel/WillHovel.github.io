@@ -479,6 +479,11 @@ nav {
   letter-spacing: 0.06em;
 }
 .course-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.course-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 28px 40px; margin-top: 8px; }
+.cg-title { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-sage); margin-bottom: 10px; padding-bottom: 6px; border-bottom: var(--border); }
+.course-group ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.course-group li { font-size: 0.88rem; color: #cbd5e1; line-height: 1.5; }
+.cg-code { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); display: inline-block; min-width: 72px; }
 
 /* ── ABOUT STRIP ────────────────────────────────── */
 .about-grid {
@@ -564,22 +569,23 @@ footer a:hover { text-decoration: underline; }
   <div class="container">
     <div class="hero-grid fade-up">
       <div class="hero-photo">
-        <img src="profile.jpg" alt="Will Hovel"/>
+        <img src="pictures/Profile/profile.jpg" alt="Will Hovel"/>
       </div>
       <div>
         <div class="hero-eyebrow">Electrical Engineering · UC San Diego · 4.0 GPA</div>
-        <h1>Will Hovel<span class="easter-egg" title="漪鸥">漪鸥</span></h1>
+        <h1>Will Hovel<span class="easter-egg" aria-hidden="true" title="漪鸥">漪鸥</span></h1>
         <p class="hero-bio">
-          I build hardware and signal processing tools for environmental research. Right now 
-          I study how ocean acidification affects fish schooling at UC San Diego's Di Santo Lab, 
-          and I lead electrical design for a humanoid robot at Triton Droids. I work mostly 
-          with PCB design, embedded firmware, and MATLAB.
+          I design PCBs and embedded firmware, and build signal-processing tools for research. Electrical Lead on Triton Droids' humanoid robot; Research Engineer at UCSD's Di Santo Lab. Seeking Summer 2027 hardware/embedded internship.
         </p>
         <div class="hero-links">
           <a class="btn btn-primary" href="#projects">Projects</a>
           <a class="btn btn-outline" href="about.html">About</a>
           <a class="btn btn-outline" href="mailto:will.hovel@gmail.com">will.hovel@gmail.com</a>
+          <a class="btn btn-outline" href="pictures/willhovel_resume.pdf">Resume</a>
+          <a class="btn btn-outline" href="https://github.com/WillHovel" target="_blank">GitHub</a>
+          <a class="btn btn-outline" href="https://www.linkedin.com/in/will-hovel-24824a379" target="_blank">LinkedIn</a>
         </div>
+        <div class="hero-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;"><span class="tag tag-green">KiCad</span><span class="tag tag-green">Altium</span><span class="tag tag-green">4-layer mixed-signal</span><span class="tag tag-green">nRF52840</span><span class="tag tag-green">ESP32-S3</span><span class="tag tag-green">Zephyr RTOS</span><span class="tag tag-green">BLE</span><span class="tag tag-green">PCBA bring-up</span><span class="tag tag-green">MATLAB</span></div>
       </div>
     </div>
   </div>
@@ -590,84 +596,66 @@ footer a:hover { text-decoration: underline; }
   <div class="container">
     <div class="section-label">Projects</div>
 
-    <!-- Featured: Flapping Foil -->
+    <!-- Featured: Kinemetrix -->
     <a class="featured-project fade-up" href="project-flapping-foil.html">
       <div class="fp-left">
-        <div class="fp-num">01 · Environmental Research</div>
-        <div class="fp-title">Ocean Acidification &amp; Fish Kinematics</div>
+        <div class="fp-num">Featured · Environmental Research</div>
+        <div class="fp-title">Kinemetrix: Ocean Acidification &amp; Fish Kinematics</div>
         <p class="fp-desc">
-          I built a MATLAB-based analysis pipeline for my research in the Di Santo Lab. It 
-          processes high-speed video of fish swimming near flapping foils, extracts kinematic 
-          profiles (curvature, frequency, amplitude), and compares behavior across pH conditions. 
-          This is the core tool I use for my environmental research.
+          MATLAB analysis pipeline for high-speed video of fish swimming near flapping foils: midline alignment, FFT interpolation, and kinematic metrics. Built and used in my research at the Di Santo Lab.
         </p>
         <div class="fp-tags">
           <span class="tag tag-green">MATLAB</span>
           <span class="tag tag-green">Signal Processing</span>
           <span class="tag tag-green">FFT</span>
-          <span class="tag">Data Pipeline</span>
-          <span class="tag">3-D Kinematics</span>
         </div>
       </div>
       <div class="fp-right">
         <div class="fp-bullet">
-          <span class="fp-bnum">01</span>
-          <span class="fp-btext"><strong>Signal processing pipeline</strong> — automated extraction of curvature, frequency, and amplitude from noisy high-speed video data</span>
+          <span class="fp-bnum">$</span>
+          <span class="fp-btext"><strong>David Marc Belkin Memorial Scholarship — $6,500</strong> — awarded for creating Kinemetrix and performing research with it</span>
         </div>
         <div class="fp-bullet">
-          <span class="fp-bnum">02</span>
-          <span class="fp-btext"><strong>Flapping foil control GUI</strong> — set frequency, amplitude, and position of biomimetic foil arrays</span>
-        </div>
-        <div class="fp-bullet">
-          <span class="fp-bnum">03</span>
-          <span class="fp-btext"><strong>URS-funded research</strong> — David Marc Belkin Memorial Scholarship for Environment &amp; Ecology ($6,500)</span>
+          <span class="fp-bnum">5</span>
+          <span class="fp-btext"><strong>Used by 5 biologists</strong> — for their research across 5 species</span>
         </div>
       </div>
     </a>
 
-    <!-- Other projects -->
     <div class="project-grid">
-      <a class="project-card fade-up" href="project-glove.html">
+      <a class="project-card fade-up" href="project-biotelemetry.html">
+        <div class="pc-num">01 · Mixed-Signal PCB</div>
+        <div class="pc-title">Fish Health Monitor: Wireless ECG Through Tank Water</div>
+        <p class="pc-desc">Custom 4-layer mixed-signal PCB designed to monitor fish ECG and ventilation rates through water conductivity. Wideband analog front-end with software DSP on an nRF52840. Design complete, firmware written, board not yet fabricated.</p>
+        <div class="pc-tags"><span class="tag tag-green">nRF52840</span><span class="tag tag-green">AD8232</span><span class="tag tag-green">DSP</span><span class="tag">KiCad</span><span class="tag">PCB Design</span></div>
+      </a>
+      <a class="project-card fade-up fade-d1" href="project-glove.html">
         <div class="pc-num">02 · Embedded Systems</div>
         <div class="pc-title">Sensorized Gesture Glove</div>
         <p class="pc-desc">I designed a sensorized glove that detects hand gestures using a custom PCB and classifies them with a machine learning algorithm. Full hardware design in KiCad with ESP32-S3.</p>
-        <div class="pc-tags">
-          <span class="tag tag-green">KiCad</span>
-          <span class="tag tag-green">ESP32</span>
-          <span class="tag">PCB Design</span>
-          <span class="tag">ML</span>
-        </div>
+        <div class="pc-tags"><span class="tag tag-green">KiCad</span><span class="tag tag-green">ESP32</span><span class="tag">PCB Design</span><span class="tag">ML</span></div>
       </a>
-      <a class="project-card fade-up fade-d1" href="project-robot.html">
+      <a class="project-card fade-up fade-d2" href="project-mini.html#balancer">
         <div class="pc-num">03 · Controls</div>
+        <div class="pc-title">Self-Balancing Robot</div>
+        <p class="pc-desc">Two-wheeled robot with a custom ESP32-S3 PCB, BNO08X IMU and an L298N driver, balanced by a PID loop (Kp 20, Ki 0.5, Kd 5).</p>
+        <div class="pc-tags"><span class="tag tag-green">PID Control</span><span class="tag">ESP32-S3</span><span class="tag">KiCad</span></div>
+      </a>
+      <a class="project-card fade-up fade-d3" href="project-robot.html">
+        <div class="pc-num">04 · Controls</div>
         <div class="pc-title">PID Line-Following Robot</div>
         <p class="pc-desc">I built a line-following robot for ECE 5 using photoresistors and a PID control loop. My team won 1st place overall. Tuning the algorithm against real mechanical inconsistency was the hard part.</p>
-        <div class="pc-tags">
-          <span class="tag tag-green">PID Control</span>
-          <span class="tag">Arduino</span>
-          <span class="tag">Sensors</span>
-        </div>
+        <div class="pc-tags"><span class="tag tag-green">PID Control</span><span class="tag">Arduino</span><span class="tag">Sensors</span></div>
       </a>
-      <a class="project-card fade-up fade-d2" href="project-mini.html">
-        <div class="pc-num">04 · Hardware</div>
-        <div class="pc-title">Mini Projects</div>
-        <p class="pc-desc">Self-balancing robot, Mini Aloha bimanual robot, lemon-battery game, LM386 speaker amplifier. Each one is a standalone build tackling a different engineering problem.</p>
-        <div class="pc-tags">
-          <span class="tag">Robotics</span>
-          <span class="tag">KiCad</span>
-          <span class="tag">PID</span>
-        </div>
-      </a>
-      <a class="project-card fade-up fade-d3" href="project-minecraft.html">
-        <div class="pc-num">05 · Software</div>
-        <div class="pc-title">Minecraft Server Plugins</div>
-        <p class="pc-desc">I wrote 14 Spigot plugins in Java for a private server. The most complex is Manhunt — real-time position tracking, dimension-aware compass, event-driven state management.</p>
-        <div class="pc-tags">
-          <span class="tag">Java</span>
-          <span class="tag">Spigot API</span>
-          <span class="tag">Maven</span>
-        </div>
-      </a>
+      <details class="other-builds" style="grid-column:1/-1;margin-top:8px;">
+        <summary style="cursor:pointer;font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);padding:10px 0;">Other builds</summary>
+        <ul style="list-style:none;padding:8px 0 0;display:flex;flex-direction:column;gap:8px;">
+          <li><a class="btn btn-outline" href="project-mini.html#aloha">Mini Aloha</a></li>
+          <li><a class="btn btn-outline" href="project-mini.html#lemonrun">Lemon Run</a></li>
+          <li><a class="btn btn-outline" href="project-mini.html#speaker">LM386 speaker amplifier</a></li>
+          <li><a class="btn btn-outline" href="project-minecraft.html">Minecraft server plugins</a></li>
+        </ul>
+      </details>
     </div>
   </div>
 </section>
@@ -686,20 +674,41 @@ footer a:hover { text-decoration: underline; }
         <span>GPA</span>
       </div>
     </div>
-    <div class="course-list">
-      <span class="tag tag-green">ECE 35 — Circuit Analysis</span>
-      <span class="tag tag-green">ECE 45 — Fourier/Laplace Analysis</span>
-      <span class="tag tag-green">ECE 65 — Electronics</span>
-      <span class="tag tag-green">ECE 100 — Circuit Design</span>
-      <span class="tag tag-green">ECE 102 — Amplifier Design</span>
-      <span class="tag tag-green">ECE 109 — Probability &amp; Statistics</span>
-      <span class="tag tag-green">ECE 171A — Root Locus / Compensator Design</span>
-      <span class="tag tag-green">ECE 174 — Least Squares Optimization</span>
-      <span class="tag">ECE 5 — Intro to EE</span>
-      <span class="tag">ECE 15 — C Programming</span>
-      <span class="tag">ECE 25 — Digital Logic / Verilog</span>
-      <span class="tag">MATH 20D — Differential Equations</span>
-      <span class="tag">MATH 18 — Linear Algebra</span>
+    <div class="course-groups">
+      <div class="course-group">
+        <div class="cg-title">Circuits &amp; Electronics</div>
+        <ul>
+          <li><span class="cg-code">ECE 35</span>Circuit Analysis</li>
+          <li><span class="cg-code">ECE 65</span>Electronics</li>
+          <li><span class="cg-code">ECE 100</span>Circuit Design</li>
+          <li><span class="cg-code">ECE 102</span>Amplifier Design</li>
+        </ul>
+      </div>
+      <div class="course-group">
+        <div class="cg-title">Signals &amp; Controls</div>
+        <ul>
+          <li><span class="cg-code">ECE 45</span>Fourier/Laplace Analysis</li>
+          <li><span class="cg-code">ECE 171A</span>Root Locus / Compensator Design</li>
+        </ul>
+      </div>
+      <div class="course-group">
+        <div class="cg-title">Math, Probability &amp; Optimization</div>
+        <ul>
+          <li><span class="cg-code">MATH 18</span>Linear Algebra</li>
+          <li><span class="cg-code">MATH 20D</span>Differential Equations</li>
+          <li><span class="cg-code">MATH 20E</span>Vector Calculus</li>
+          <li><span class="cg-code">ECE 109</span>Probability &amp; Statistics</li>
+          <li><span class="cg-code">ECE 174</span>Least Squares Optimization</li>
+        </ul>
+      </div>
+      <div class="course-group">
+        <div class="cg-title">Programming &amp; Digital</div>
+        <ul>
+          <li><span class="cg-code">ECE 5</span>Intro to EE</li>
+          <li><span class="cg-code">ECE 15</span>C Programming</li>
+          <li><span class="cg-code">ECE 25</span>Digital Logic / Verilog</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>

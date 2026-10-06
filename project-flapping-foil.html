@@ -778,6 +778,15 @@ code { font-family:'Space Mono',monospace;font-size:0.82em;background:rgba(46,13
   .present-row figcaption { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--muted); letter-spacing: 0.04em; line-height: 1.5; margin-top: 0.45rem; }
   @media(max-width: 560px) { .present-row { grid-template-columns: 1fr; } }
 
+
+.sicon{font-family:'JetBrains Mono','Inter Mono',monospace!important;font-size:0.5rem!important;letter-spacing:0;font-weight:600;color:#48bb78;min-width:30px;text-align:center}
+.sch-img{background:#fff!important;object-fit:contain}
+.dl-pdf{display:block;padding:8px 14px;font-family:'JetBrains Mono','Inter Mono',monospace;font-size:0.62rem;letter-spacing:0.05em;color:#48bb78;text-decoration:none;border-top:1px solid rgba(255,255,255,0.08)}
+.dl-pdf:hover{text-decoration:underline}
+.diagram-block{margin:24px 0;background:#142019;border:1px solid rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
+.diagram-block img{width:100%;height:auto;display:block;cursor:zoom-in}
+.diagram-block .dcap{padding:10px 14px;font-family:'JetBrains Mono','Inter Mono',monospace;font-size:0.6rem;color:#94a3b8;border-top:1px solid rgba(255,255,255,0.08);line-height:1.55}
+.status-badge{display:inline-block;margin:0 0 18px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.06em;text-transform:uppercase;color:#d4a843;background:rgba(212,168,67,0.08);border:1px solid rgba(212,168,67,0.28);padding:4px 10px;border-radius:2px}
 </style>
 </head>
 <body>
@@ -839,7 +848,7 @@ code { font-family:'Space Mono',monospace;font-size:0.82em;background:rgba(46,13
 
 <div class="spec-bar">
   <div class="spec-item"><div class="spec-label">Lab</div><div class="spec-value">Di Santo Lab, UCSD</div></div>
-  <div class="spec-item"><div class="spec-label">Species</div><div class="spec-value">Menidia sp.</div></div>
+  <div class="spec-item"><div class="spec-label">Species</div><div class="spec-value">Menidia menidia</div></div>
   <div class="spec-item"><div class="spec-label">Funding</div><div class="spec-value" style="color:var(--gold)">URS Belkin — $6,500</div></div>
   <div class="spec-item"><div class="spec-label">Timeline</div><div class="spec-value">Summer 2026</div></div>
 </div>
@@ -963,7 +972,7 @@ code { font-family:'Space Mono',monospace;font-size:0.82em;background:rgba(46,13
     <h2>Abstract</h2>
 
     <p>Fish that swim in schools make rapid decisions: when to join, where to position themselves, and how to respond to their neighbors' movement. These decisions are driven by visual and hydrodynamic cues. Ocean acidification, caused by rising atmospheric CO2 dissolving into seawater, is known to impair sensory processing in fish. Whether elevated CO2 disrupts the decision-making underlying collective schooling is poorly understood.</p>
-    <p>I'm investigating how CO2-exposed silversides (<em>Menidia</em> sp.) make schooling decisions in a controlled flow tank setting. Rather than using live schools, I use flapping foils that mimic the hydrodynamic signatures of schoolmates, creating a repeatable artificial school. This lets me isolate the behavior of a single focal fish responding to its simulated neighbors.</p>
+    <p><strong>Proposal:</strong> investigate how CO2-exposed Atlantic silversides (<em>Menidia menidia</em>) make schooling decisions in a controlled flow tank setting. Rather than using live schools, the design uses flapping foils that mimic the hydrodynamic signatures of schoolmates, creating a repeatable artificial school. This lets me isolate the behavior of a single focal fish responding to its simulated neighbors.</p>
 
     <h2>Analysis Pipeline</h2>
     <ul class="prose-list">
@@ -976,20 +985,16 @@ code { font-family:'Space Mono',monospace;font-size:0.82em;background:rgba(46,13
       <li><strong>Fin/tail vector analysis</strong> — for any pair of named landmarks, I compute pitch, yaw, and roll angles, tip trajectory, cumulative tip distance, and angular velocity, animated with a live 3D canvas</li>
     </ul>
 
-    <h2>Personal Statement</h2>
-    <p>I am drawn to systems that are hard to measure. Whether it is a fish swimming in a flow tank, a hand making a gesture, or a robot reacting to a track, the interesting engineering problems share the same structure: a physical system generating a continuous, noisy signal, and the goal of pulling something meaningful and repeatable out of it.</p>
-    <p><strong>What connects these projects is iteration.</strong> None of them worked on the first try. Each required diagnosing what was actually failing and fixing it at the right level of abstraction. That process of building, debugging, and redesigning is where I have learned the most.</p>
-
     <h2>Summer Research Conference</h2>
     <p>I presented this research at the UC San Diego <strong>Summer Research Conference (SRC)</strong> on August 13, 2026.</p>
 
     <div class="present-row">
       <figure>
-        <img src="pictures/src-presenting-1.jpg" alt="Will Hovel presenting ocean acidification and fish kinematics research at the Summer Research Conference" />
+        <img src="pictures/ocean_acidification/src-presenting-1.jpg" alt="Will Hovel presenting ocean acidification and fish kinematics research at the Summer Research Conference" />
         <figcaption>Presenting at the SRC &mdash; August 13, 2026</figcaption>
       </figure>
       <figure>
-        <img src="pictures/src-presenting-2.jpg" alt="Will Hovel presenting ocean acidification and fish kinematics research at the Summer Research Conference" />
+        <img src="pictures/ocean_acidification/src-presenting-2.jpg" alt="Will Hovel presenting ocean acidification and fish kinematics research at the Summer Research Conference" />
         <figcaption>Presenting at the SRC &mdash; August 13, 2026</figcaption>
       </figure>
     </div>
@@ -1003,11 +1008,11 @@ code { font-family:'Space Mono',monospace;font-size:0.82em;background:rgba(46,13
   <div class="sidebar">
     <div class="sidebar-block">
       <h4>Project Details</h4>
-      <div class="sitem"><div class="sicon">🐟</div><div class="stext"><strong>Study organism</strong>Atlantic silverside (Menidia menidia)</div></div>
-      <div class="sitem"><div class="sicon">🌊</div><div class="stext"><strong>Setup</strong>Flapping foil array in a recirculating flow tank</div></div>
-      <div class="sitem"><div class="sicon">🎥</div><div class="stext"><strong>Data</strong>High-speed video, 3D body tracking</div></div>
-      <div class="sitem"><div class="sicon">⚙️</div><div class="stext"><strong>Tools</strong>MATLAB: FFT interpolation, kinematics, fin vector animation</div></div>
-      <div class="sitem"><div class="sicon">✅</div><div class="stext"><strong>Funding</strong>URS David Marc Belkin Memorial Research Scholarship — $6,500 (2026 SRP)</div></div>
+      <div class="sitem"><div class="sicon">SPEC</div><div class="stext"><strong>Study organism</strong>Atlantic silverside (Menidia menidia)</div></div>
+      <div class="sitem"><div class="sicon">RIG</div><div class="stext"><strong>Setup</strong>Flapping foil array in a recirculating flow tank</div></div>
+      <div class="sitem"><div class="sicon">DATA</div><div class="stext"><strong>Data</strong>High-speed video, 3D body tracking</div></div>
+      <div class="sitem"><div class="sicon">TOOL</div><div class="stext"><strong>Tools</strong>MATLAB: FFT interpolation, kinematics, fin vector animation</div></div>
+      <div class="sitem"><div class="sicon">FUND</div><div class="stext"><strong>Funding</strong>URS David Marc Belkin Memorial Research Scholarship — $6,500 (2026 SRP)</div></div>
     </div>
     <div style="margin-top:2px;">
       <a class="btn-primary" href="https://github.com/WillHovel/schooling-vs-CO2" target="_blank" style="width:100%;justify-content:center;">View on GitHub ↗</a>
