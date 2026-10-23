@@ -401,9 +401,10 @@ nav {
 
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
 }
+@media(max-width:700px){.project-grid{grid-template-columns:1fr}}
 .project-card {
   background: var(--bg-card);
   border: var(--border);
@@ -504,6 +505,14 @@ nav {
   line-height: 1.75;
 }
 
+
+/* ── BENCH PHOTOS ───────────────────────────────── */
+.photo-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.photo-strip figure{margin:0;background:var(--bg-card);border:var(--border);border-radius:var(--radius);overflow:hidden}
+.photo-strip img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.photo-strip figcaption{font-family:var(--font-mono);font-size:.62rem;line-height:1.5;color:var(--text-muted);padding:9px 11px;border-top:var(--border)}
+@media (max-width:900px){.photo-strip{grid-template-columns:repeat(2,1fr)}}
+
 /* ── FOOTER ─────────────────────────────────────── */
 footer {
   border-top: var(--border);
@@ -559,6 +568,8 @@ footer a:hover { text-decoration: underline; }
   <a class="nav-logo" href="index.html">Will Hovel</a>
   <div class="nav-links">
     <a href="#projects" class="active">Projects</a>
+    <a href="#research">Research</a>
+    <a href="#team">Team</a>
     <a href="about.html">About</a>
     <a href="https://github.com/WillHovel" target="_blank">GitHub</a>
   </div>
@@ -575,7 +586,7 @@ footer a:hover { text-decoration: underline; }
         <div class="hero-eyebrow">Electrical Engineering · UC San Diego · 4.0 GPA</div>
         <h1>Will Hovel<span class="easter-egg" aria-hidden="true" title="漪鸥">漪鸥</span></h1>
         <p class="hero-bio">
-          I design PCBs and embedded firmware, and build signal-processing tools for research. Electrical Lead on Triton Droids' humanoid robot; Research Engineer at UCSD's Di Santo Lab. Seeking Summer 2027 hardware/embedded internship.
+          I build sensors and embedded systems that turn messy natural signals into something people can read: fish heartbeats, hand gestures, tank noise. Electrical Lead on Triton Droids' humanoid robot; Research Engineer at UCSD's Di Santo Lab. Seeking a Summer 2027 hardware/embedded internship.
         </p>
         <div class="hero-links">
           <a class="btn btn-primary" href="#projects">Projects</a>
@@ -595,11 +606,42 @@ footer a:hover { text-decoration: underline; }
 <section class="section" id="projects">
   <div class="container">
     <div class="section-label">Projects</div>
-
+    <div class="project-grid">
+      <a class="project-card fade-up " href="project-glove.html">
+        <div class="pc-num">01 · Embedded systems · field logging</div>
+        <div class="pc-title">Motion Sense Glove</div>
+        <p class="pc-desc"><strong>97.8%</strong> held-out accuracy on 5 gestures, <strong>24 µs</strong> per inference on an ESP32-S3. Hands-free data logging for field work; custom board, flex sensors, and a GUI that trains your own gesture set.</p>
+        <div class="pc-tags"><span class="tag tag-green">ESP32-S3</span><span class="tag tag-green">KiCad</span><span class="tag">ML</span><span class="tag">PCBA bring-up</span></div>
+      </a>
+      <a class="project-card fade-up fade-d1" href="project-biotelemetry.html">
+        <div class="pc-num">02 · Mixed-signal PCB · aquatic sensing</div>
+        <div class="pc-title">Fish Health Monitor</div>
+        <p class="pc-desc">Wireless ECG through tank water on a coin cell. 100 V/V front-end, 60 Hz rejection in hardware and firmware, nRF52840 BLE. Design complete and simulated; board not yet fabricated.</p>
+        <div class="pc-tags"><span class="tag tag-green">nRF52840</span><span class="tag tag-green">AD8232</span><span class="tag">LTspice</span><span class="tag">Zephyr</span></div>
+      </a>
+      <a class="project-card fade-up fade-d2" href="project-control-board.html">
+        <div class="pc-num">03 · Humanoid robot · PCB</div>
+        <div class="pc-title">Humanoid Control Board</div>
+        <p class="pc-desc">Five CAN buses from one ESP32-S3 on a 4-layer, 90.8 × 48.9 mm board for the Triton Droids humanoid. Schematic, layout and production files done; validation plan written, not yet assembled.</p>
+        <div class="pc-tags"><span class="tag tag-green">KiCad</span><span class="tag tag-green">CAN</span><span class="tag">ESP32-S3</span><span class="tag">4-layer</span></div>
+      </a>
+      <a class="project-card fade-up fade-d3" href="project-robot.html">
+        <div class="pc-num">04 · Controls · competition</div>
+        <div class="pc-title">1st-Place Line-Following Robot</div>
+        <p class="pc-desc">1st of 300+ students in ECE 5: drag race 7.96 s (1st), frequency sweep checkpoint 9 (1st), circuit loop 34.68 laps (2nd). Photoresistor array, light shield, PID re-tuned per event.</p>
+        <div class="pc-tags"><span class="tag tag-green">PID</span><span class="tag">ESP32</span><span class="tag">CAD</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+<!-- ═══ AWARD-WINNING RESEARCH ═══ -->
+<section class="section" id="research">
+  <div class="container">
+    <div class="section-label">Award-Winning Research</div>
     <!-- Featured: Kinemetrix -->
     <a class="featured-project fade-up" href="project-flapping-foil.html">
       <div class="fp-left">
-        <div class="fp-num">Featured · Environmental Research</div>
+        <div class="fp-num">Environmental research · funded</div>
         <div class="fp-title">Kinemetrix: Ocean Acidification &amp; Fish Kinematics</div>
         <p class="fp-desc">
           MATLAB analysis pipeline for high-speed video of fish swimming near flapping foils: midline alignment, FFT interpolation, and kinematic metrics. Built and used in my research at the Di Santo Lab.
@@ -617,45 +659,50 @@ footer a:hover { text-decoration: underline; }
         </div>
         <div class="fp-bullet">
           <span class="fp-bnum">5</span>
-          <span class="fp-btext"><strong>Used by 5 biologists</strong> — for their research across 5 species</span>
+          <span class="fp-btext"><strong>Used by the Di Santo PhD lab</strong> — to analyze swimming across 5 species</span>
         </div>
       </div>
     </a>
 
-    <div class="project-grid">
-      <a class="project-card fade-up" href="project-biotelemetry.html">
-        <div class="pc-num">01 · Mixed-Signal PCB</div>
-        <div class="pc-title">Fish Health Monitor: Wireless ECG Through Tank Water</div>
-        <p class="pc-desc">Custom 4-layer mixed-signal PCB designed to monitor fish ECG and ventilation rates through water conductivity. Wideband analog front-end with software DSP on an nRF52840. Design complete, firmware written, board not yet fabricated.</p>
-        <div class="pc-tags"><span class="tag tag-green">nRF52840</span><span class="tag tag-green">AD8232</span><span class="tag tag-green">DSP</span><span class="tag">KiCad</span><span class="tag">PCB Design</span></div>
-      </a>
-      <a class="project-card fade-up fade-d1" href="project-glove.html">
-        <div class="pc-num">02 · Embedded Systems</div>
-        <div class="pc-title">Sensorized Gesture Glove</div>
-        <p class="pc-desc">I designed a sensorized glove that detects hand gestures using a custom PCB and classifies them with a machine learning algorithm. Full hardware design in KiCad with ESP32-S3.</p>
-        <div class="pc-tags"><span class="tag tag-green">KiCad</span><span class="tag tag-green">ESP32</span><span class="tag">PCB Design</span><span class="tag">ML</span></div>
-      </a>
-      <a class="project-card fade-up fade-d2" href="project-mini.html#balancer">
-        <div class="pc-num">03 · Controls</div>
-        <div class="pc-title">Self-Balancing Robot</div>
-        <p class="pc-desc">Two-wheeled robot with a custom ESP32-S3 PCB, BNO08X IMU and an L298N driver, balanced by a PID loop (Kp 20, Ki 0.5, Kd 5).</p>
-        <div class="pc-tags"><span class="tag tag-green">PID Control</span><span class="tag">ESP32-S3</span><span class="tag">KiCad</span></div>
-      </a>
-      <a class="project-card fade-up fade-d3" href="project-robot.html">
-        <div class="pc-num">04 · Controls</div>
-        <div class="pc-title">PID Line-Following Robot</div>
-        <p class="pc-desc">I built a line-following robot for ECE 5 using photoresistors and a PID control loop. My team won 1st place overall. Tuning the algorithm against real mechanical inconsistency was the hard part.</p>
-        <div class="pc-tags"><span class="tag tag-green">PID Control</span><span class="tag">Arduino</span><span class="tag">Sensors</span></div>
-      </a>
-      <details class="other-builds" style="grid-column:1/-1;margin-top:8px;">
-        <summary style="cursor:pointer;font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);padding:10px 0;">Other builds</summary>
-        <ul style="list-style:none;padding:8px 0 0;display:flex;flex-direction:column;gap:8px;">
-          <li><a class="btn btn-outline" href="project-mini.html#aloha">Mini Aloha</a></li>
-          <li><a class="btn btn-outline" href="project-mini.html#lemonrun">Lemon Run</a></li>
-          <li><a class="btn btn-outline" href="project-mini.html#speaker">LM386 speaker amplifier</a></li>
-          <li><a class="btn btn-outline" href="project-minecraft.html">Minecraft server plugins</a></li>
-        </ul>
-      </details>
+  </div>
+</section>
+<!-- ═══ TEAM ═══ -->
+<section class="section" id="team">
+  <div class="container">
+    <div class="section-label">Team</div>
+    <a class="featured-project fade-up" href="team-triton-droids.html">
+      <div class="fp-left">
+        <div class="fp-num">Electrical Lead · Triton Droids</div>
+        <div class="fp-title">Building humanoids so people don’t have to do dangerous, unsustainable work</div>
+        <p class="fp-desc">I lead electrical design for a full-scale humanoid robot at UCSD: the CAN control board, power bring-up, and the onboarding project that trained new members.</p>
+        <div class="fp-tags"><span class="tag tag-green">Altium</span><span class="tag tag-green">KiCad</span><span class="tag tag-green">CAN</span><span class="tag tag-green">PCBA bring-up</span></div>
+      </div>
+      <div class="fp-right">
+        <div class="fp-bullet"><span class="fp-bnum">5</span><span class="fp-btext"><strong>5 CAN buses</strong> — one ESP32-S3 control board for limbs, head and torso</span></div>
+        <div class="fp-bullet"><span class="fp-bnum">20</span><span class="fp-btext"><strong>20+ members trained</strong> — through a self-balancing robot onboarding task</span></div>
+      </div>
+    </a>
+    <details class="other-builds" style="margin-top:20px;">
+      <summary style="cursor:pointer;font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);padding:10px 0;">Smaller builds</summary>
+      <ul style="list-style:none;padding:8px 0 0;display:flex;flex-wrap:wrap;gap:8px;">
+        <li><a class="btn btn-outline" href="project-mini.html#balancer">Self-balancing robot</a></li>
+        <li><a class="btn btn-outline" href="project-mini.html#aloha">Mini Aloha</a></li>
+        <li><a class="btn btn-outline" href="project-mini.html#lemonrun">Lemon Run</a></li>
+        <li><a class="btn btn-outline" href="project-mini.html#speaker">LM386 speaker amplifier</a></li>
+        <li><a class="btn btn-outline" href="project-minecraft.html">Minecraft server plugins</a></li>
+      </ul>
+    </details>
+  </div>
+</section>
+<!-- ═══ BENCH PHOTOS ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">At the bench</div>
+    <div class="photo-strip">
+      <figure><img src="pictures/glove/final-glove.jpg" alt="Will Hovel holding up the gesture glove with the PCB mounted on the back of the hand" loading="lazy"/><figcaption>The glove, with the board on the back of the hand.</figcaption></figure>
+      <figure><img src="pictures/glove/smd-rework.jpg" alt="Will Hovel reworking SMD joints on a PCB under a magnifying lamp" loading="lazy"/><figcaption>Reworking SMD joints on the glove board.</figcaption></figure>
+      <figure><img src="pictures/Profile/desk-kicad-ltspice.jpg" alt="Will Hovel at a desk with a KiCad PCB layout and an LTspice filter simulation on two monitors" loading="lazy"/><figcaption>KiCad layout next to an LTspice filter simulation.</figcaption></figure>
+      <figure><img src="pictures/triton droids/team-robot.jpg" alt="The Triton Droids team gathered around the humanoid robot in the lab" loading="lazy"/><figcaption>With the Triton Droids team and the robot.</figcaption></figure>
     </div>
   </div>
 </section>
@@ -721,10 +768,10 @@ footer a:hover { text-decoration: underline; }
         <div class="section-label">About</div>
         <h2>What I work on</h2>
         <p>
-          I am drawn to systems that are hard to measure. Whether it is a fish swimming in a 
-          flow tank, a hand making a gesture, or a robot reacting to a track, the interesting 
-          engineering problems all share the same structure: a physical system generating a 
-          continuous, noisy signal, and the challenge of pulling something meaningful out of it.
+          I turn messy natural signals into something legible to human senses: a fish heartbeat
+          buried in 60 Hz hum, a hand gesture in five noisy flex sensors, a line on a track under
+          changing light. The environmental thread is deliberate. I want better instruments for
+          watching ecosystems, and robots that take over unsafe, unsustainable manual work.
         </p>
       </div>
       <div>

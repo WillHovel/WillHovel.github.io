@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Humanoid Control Board: Five CAN Buses — Will Hovel</title>
+  <meta name="description" content="A 4-layer ESP32-S3 control board with five CAN buses for the Triton Droids humanoid robot: design, estimates, and validation plan."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+:root{
+  --bg-primary:#0c1610;--bg-card:#142019;--text-main:#e2e8f0;--text-muted:#94a3b8;--text-light:#64748b;
+  --accent-forest:#38a169;--accent-sage:#48bb78;--accent-active:#4ade80;--accent-sage-light:rgba(56,161,105,0.10);
+  --border-light:rgba(255,255,255,0.08);--border-hover:rgba(255,255,255,0.16);--gold:#d4a843;
+  --font-sans:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--font-mono:'JetBrains Mono',monospace;
+  --radius:6px;--border:1px solid var(--border-light);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg-primary);color:var(--text-main);font-family:var(--font-sans);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.4;background-image:radial-gradient(circle,rgba(255,255,255,0.04) .5px,transparent .5px);background-size:24px 24px}
+a{color:var(--accent-sage)}
+a:focus-visible,summary:focus-visible,button:focus-visible{outline:2px solid var(--accent-active);outline-offset:3px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,4vw,48px);border-bottom:var(--border);background:rgba(12,22,16,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.nav-logo{font-weight:700;font-size:.95rem;color:var(--accent-forest);text-decoration:none;letter-spacing:-.01em}
+.nav-links{display:flex;gap:1.8rem;align-items:center}
+.nav-links a{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.04em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .15s}
+.nav-links a:hover{color:var(--accent-sage)}
+
+.container{max-width:1120px;margin:0 auto;padding:0 clamp(20px,4vw,48px);position:relative;z-index:1}
+.prose{max-width:760px}
+
+/* header */
+.head{padding:calc(56px + 48px) 0 36px}
+.crumb{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-sage);margin-bottom:12px}
+.crumb a{color:var(--text-muted);text-decoration:none}.crumb a:hover{color:var(--accent-sage)}
+h1{font-size:clamp(2rem,4.4vw,3rem);line-height:1.08;letter-spacing:-.02em;color:#f1f5f9;font-weight:700;margin-bottom:16px}
+.lede{font-size:1.02rem;color:#cbd5e1;line-height:1.7;max-width:720px;margin-bottom:20px}
+.skills{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.03em;padding:4px 9px;border:var(--border);border-radius:3px;color:var(--text-muted);background:var(--bg-card);white-space:nowrap}
+.tag-green{border-color:rgba(46,139,87,.3);color:var(--accent-sage);background:var(--accent-sage-light)}
+.facts{display:flex;flex-wrap:wrap;gap:6px 28px;margin-top:20px;font-size:.82rem;color:var(--text-muted)}
+.facts b{color:#cbd5e1;font-weight:600}
+
+/* results box */
+.results{padding:0 0 44px}
+.box{background:var(--bg-card);border:var(--border);border-left:4px solid var(--accent-sage);border-radius:var(--radius);padding:clamp(18px,3vw,28px)}
+.box-title{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.box-title h2{font-size:1.1rem;color:#f1f5f9;letter-spacing:-.01em;margin:0}
+.box-title span{font-family:var(--font-mono);font-size:.64rem;color:var(--text-light);letter-spacing:.04em}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.metric{padding:14px 16px;border:var(--border);border-radius:var(--radius);background:rgba(255,255,255,.015)}
+.metric .n{font-family:var(--font-mono);font-size:1.9rem;font-weight:700;color:var(--accent-active);line-height:1.1;letter-spacing:-.02em}
+.metric .n small{font-size:.9rem;font-weight:500;color:var(--accent-sage);margin-left:3px}
+.metric .l{font-size:.82rem;font-weight:600;color:#f1f5f9;margin:6px 0 4px}
+.metric .m{font-size:.76rem;color:var(--text-muted);line-height:1.5}
+.rb-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:12px;align-items:stretch}
+.fig{border:var(--border);border-radius:var(--radius);background:rgba(0,0,0,.22);overflow:hidden;display:flex;flex-direction:column}
+.fig img{width:100%;height:100%;min-height:0;object-fit:cover;display:block;cursor:zoom-in}
+.fig .cap{margin-top:auto;font-family:var(--font-mono);font-size:.64rem;line-height:1.55;color:var(--text-muted);padding:9px 12px;border-top:var(--border)}
+.plot{padding:16px 16px 4px}
+.plot h3{font-size:.82rem;color:#f1f5f9;margin-bottom:10px}
+.legend{list-style:none;display:grid;gap:5px;font-size:.78rem;color:#cbd5e1;padding:10px 0 12px}
+.legend li{display:flex;align-items:center;gap:8px}
+.legend i{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.legend span{margin-left:auto;font-family:var(--font-mono);font-size:.72rem;color:var(--text-muted)}
+
+/* sections */
+.section{padding:48px 0;border-top:var(--border)}
+.section-label{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.section-label::before{content:'';width:20px;height:2px;background:var(--accent-sage);flex-shrink:0}
+h2{font-size:1.35rem;letter-spacing:-.015em;color:#f1f5f9;margin:0 0 14px;font-weight:700}
+h3{font-size:.98rem;color:#f1f5f9;margin:0 0 8px}
+p{color:#cbd5e1;margin-bottom:12px;line-height:1.7;font-size:.94rem}
+ul.plain{list-style:none;display:flex;flex-direction:column;gap:9px}
+ul.plain li{font-size:.9rem;color:#cbd5e1;line-height:1.65;padding-left:18px;position:relative}
+ul.plain li::before{content:'';position:absolute;left:0;top:.72em;width:5px;height:5px;border-radius:50%;background:var(--accent-sage)}
+ul.plain li b{color:#f1f5f9;font-weight:600}
+code{font-family:var(--font-mono);font-size:.8em;color:var(--accent-sage);background:rgba(46,139,87,.08);padding:1px 5px;border-radius:3px}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.card{background:var(--bg-card);border:var(--border);border-radius:var(--radius);padding:22px}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:var(--border);border-radius:var(--radius);background:var(--bg-card)}
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+th,td{text-align:left;padding:11px 14px;vertical-align:top;border-bottom:var(--border)}
+tr:last-child td{border-bottom:none}
+th{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-light);font-weight:500;background:rgba(255,255,255,.02)}
+td{color:#cbd5e1;line-height:1.55}
+td.m{font-family:var(--font-mono);font-size:.82rem;color:var(--accent-active);white-space:nowrap}
+td.k{color:#f1f5f9;font-weight:600}
+td.d{color:var(--text-muted);font-size:.8rem}
+.note{font-size:.8rem;color:var(--text-muted);margin-top:10px;line-height:1.6}
+
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.gallery .fig img{aspect-ratio:4/3}
+.gallery.g4{grid-template-columns:repeat(4,1fr)}
+.vids .fig{margin-bottom:12px}
+.video-wrap{position:relative;aspect-ratio:16/9;background:#000}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+details{border:var(--border);border-radius:var(--radius);background:var(--bg-card);margin-top:12px}
+summary{cursor:pointer;padding:14px 18px;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';color:var(--accent-sage);font-size:1rem;line-height:1}
+details[open] summary::after{content:'–'}
+summary:hover{color:var(--accent-sage)}
+.det-body{padding:4px 20px 20px;border-top:var(--border)}
+.det-body h3{margin-top:18px}
+.sch img{background:#fff;object-fit:contain!important}
+
+footer{border-top:var(--border);padding:20px clamp(20px,4vw,48px);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;position:relative;z-index:1}
+footer p{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.04em;color:var(--text-light);margin:0}
+footer a{color:var(--accent-sage);text-decoration:none}
+
+.zoom{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.95);align-items:center;justify-content:center;padding:28px;cursor:zoom-out}
+.zoom.open{display:flex}.zoom img{max-width:100%;max-height:100%;object-fit:contain}
+
+@media(max-width:900px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .rb-grid,.two{grid-template-columns:1fr}
+  .gallery,.gallery.g4{grid-template-columns:repeat(2,1fr)}
+  .nav-links{gap:1rem}
+}
+@media(max-width:480px){.gallery,.gallery.g4{grid-template-columns:1fr}.metrics{grid-template-columns:1fr}.metric .n{font-size:1.6rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  .lw{max-width:1120px;margin:0 auto;padding:0 clamp(20px,4vw,48px);position:relative;z-index:1}.head{padding:calc(56px + 48px) 0 36px}.status{display:inline-block;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.04em;padding:4px 9px;border:1px solid rgba(212,168,67,.35);color:var(--gold);background:rgba(212,168,67,.08);border-radius:3px;margin-bottom:14px}.mini-card{display:block;text-decoration:none;color:inherit}.mini-card:hover{border-color:var(--border-hover)}.mini-card h3{margin-bottom:6px}.mini-card p,.card p.s{margin:0;font-size:.86rem;color:var(--text-muted)}.cards3{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}@media(max-width:900px){.cards3{grid-template-columns:1fr}}</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Will Hovel</a>
+  <div class="nav-links">
+    <a href="index.html#projects">Projects</a>
+    <a href="about.html">About</a>
+    <a href="https://github.com/WillHovel" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</nav>
+
+<header class="head"><div class="lw"><div class="crumb"><a href="index.html#projects">Projects</a> / Motor control · <a href="team-triton-droids.html">Triton Droids</a></div><h1>Humanoid Control Board: Five CAN Buses from One ESP32-S3</h1><p class="lede">I designed the control board for the Triton Droids humanoid robot. One ESP32-S3 talks to the motor controllers in four limbs and in the head and torso over five CAN buses, so the joints share two-wire networks instead of a tangle of PWM and serial lines. I drew the schematic, laid out the 4-layer board in KiCad, and exported the production files.</p><div class="status">Design complete · production files exported · not yet assembled</div><div class="skills" aria-label="Skills used"><span class="tag tag-green">KiCad schematic &amp; 4-layer layout</span><span class="tag tag-green">CAN bus: MCP2515, SN65HVD230, TWAI</span><span class="tag tag-green">ESP32-S3 (SPI, USB-C)</span><span class="tag tag-green">LDO power, reverse-polarity diode</span><span class="tag tag-green">Production export: BOM, pick-and-place</span></div><div class="facts"><span><b>Role</b> board owner, Electrical Lead</span><span><b>Team</b> Triton Droids</span><span><b>Date</b> Oct 2026</span><span><b>Tools</b> KiCad 10</span></div></div></header><section class="results" aria-labelledby="res-h"><div class="lw"><div class="box"><div class="box-title"><h2 id="res-h">Results</h2><span>from the design files · estimates labeled</span></div><div class="metrics"><div class="metric"><div class="n">5</div><div class="l">CAN buses</div><div class="m">4 limbs on MCP2515 over SPI, plus head/torso on the ESP32-S3’s own TWAI controller.</div></div><div class="metric"><div class="n">1<small>Mbps</small></div><div class="l">Bus-rate ceiling</div><div class="m">Limit of every part on the bus, from datasheets. Not measured yet.</div></div><div class="metric"><div class="n">4<small> layers</small></div><div class="l">90.8 × 48.9 mm</div><div class="m">1.6 mm board with 171 vias and 0.2–0.3 mm traces, from the KiCad layout.</div></div><div class="metric"><div class="n">60</div><div class="l">Components</div><div class="m">11 ICs on 24 BOM lines, 0603 and 0805 passives. Production files exported.</div></div></div><div class="rb-grid"><div class="fig"><div class="plot"><h3>Estimated 3.3 V current budget</h3><svg viewBox="0 0 360 140" width="100%" role="img" aria-label="Estimated 3.3 V load: about 130 mA typical and about 470 mA worst case against the 600 mA AP2112K limit"><rect x="40.0" y="24" width="30.0" height="26" fill="#4ade80"/><rect x="70.0" y="24" width="10.0" height="26" fill="#38a169"/><rect x="80.0" y="24" width="25.0" height="26" fill="#d4a843"/><rect x="105.0" y="24" width="1.2" height="26" fill="#94a3b8"/><rect x="40.0" y="72" width="170.0" height="26" fill="#4ade80"/><rect x="210.0" y="72" width="20.0" height="26" fill="#38a169"/><rect x="230.0" y="72" width="42.5" height="26" fill="#d4a843"/><rect x="272.5" y="72" width="1.2" height="26" fill="#94a3b8"/><line x1="340" y1="12" x2="340" y2="106" stroke="#f87171" stroke-dasharray="4 3"/><text x="338" y="9" fill="#f87171" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="end">600 mA LDO limit</text><text x="40" y="19" fill="#94a3b8" font-family="JetBrains Mono,monospace" font-size="9">typical ≈ 130 mA</text><text x="40" y="67" fill="#94a3b8" font-family="JetBrains Mono,monospace" font-size="9">worst-case bound ≈ 470 mA</text><text x="40" y="124" fill="#94a3b8" font-family="JetBrains Mono,monospace" font-size="9">0</text><text x="190" y="124" fill="#94a3b8" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle">300 mA</text></svg><ul class="legend"><li><i style="background:#4ade80"></i>ESP32-S3 (60 mA typical, 340 mA with radio TX)</li><li><i style="background:#38a169"></i>4 × MCP2515 (5 mA typical, 10 mA max)</li><li><i style="background:#d4a843"></i>5 × SN65HVD230 (10 mA recessive, 17 mA dominant)</li></ul></div><div class="cap">Estimated from datasheet typicals, not measured. The worst case has every bus driving and the radio transmitting at once.</div></div><div class="fig"><img src="pictures/triton%20droids/Screenshot%202026-10-15%20151351.png" alt="KiCad layout of the control board: ESP32-S3 module at left, four CAN controller stages in a row, five bus connectors along the top" onclick="openZoom(this)" style="object-fit:contain;background:#0b1220"/><div class="cap">KiCad layout: ESP32-S3 and antenna keepout at left, four MCP2515 stages in a row, bus connectors along the top. (A layout screenshot, since the board is not assembled yet.)</div></div></div></div></div></section><section class="section"><div class="lw"><div class="two"><div><div class="section-label">Problem</div><h2>A robot with many joints needs a robust network</h2><p>A humanoid has many joints, and every extra wire is weight, a failure point, and a debugging session. The robot is only worth building if it can take over work that is dangerous or unsustainable for people, so I wanted a controller that is simple to bring up and tolerant of the electrical noise from the motor drivers nearby.</p><p>CAN gives each limb one differential pair that rejects common-mode noise and lets me add nodes without adding pins.</p></div><div><div class="section-label">Design</div><h2>What I built</h2><ul class="plain"><li><b>Controller:</b> ESP32-S3-MINI-1 with USB-C straight to the chip for flashing, plus BOOT and reset buttons.</li><li><b>Limb buses (4):</b> MCP2515 CAN controllers over SPI, two on each of two SPI buses, each with its own chip select and interrupt, feeding SN65HVD230 3.3 V transceivers.</li><li><b>Head/torso bus:</b> the ESP32-S3’s built-in TWAI controller on GPIO17/18 into a fifth SN65HVD230.</li><li><b>Termination:</b> a 120 Ω resistor behind a 2-pin jumper on every bus.</li><li><b>Clock:</b> the ESP32 drives the MCP2515 clock inputs through a 33 Ω series resistor, so the four controllers share one source.</li><li><b>Power:</b> 5 V in through an SS14 Schottky, an AP2112K-3.3 LDO, a power LED, and test pins for 5 V and 3.3 V.</li></ul></div></div><div class="gallery" style="margin-top:28px;grid-template-columns:repeat(2,1fr)"><div class="fig"><img src="pictures/triton%20droids/Screenshot%202026-10-14%20212553.png" alt="Control board top-level schematic: power input, LDO, USB-C, ESP32-S3, buttons, LED and the CAN sub-sheet" onclick="openZoom(this)" style="object-fit:contain;background:#fff;aspect-ratio:auto"/><div class="cap">Top-level schematic.</div></div><div class="fig"><img src="pictures/triton%20droids/Screenshot%202026-10-14%20212534.png" alt="CAN sub-sheet schematic: four MCP2515 and SN65HVD230 limb stages and one head/torso transceiver" onclick="openZoom(this)" style="object-fit:contain;background:#fff;aspect-ratio:auto"/><div class="cap">CAN sub-sheet: four limb stages and the head/torso transceiver.</div></div></div></div></section></div></section><section class="section"><div class="lw"><div class="section-label">Results</div><h2>Spec vs. measured</h2><div class="tbl-wrap"><table><thead><tr><th>Metric</th><th>Target</th><th>Result</th><th>Basis</th></tr></thead><tbody><tr><td class="k">CAN buses</td><td class="d">4 limbs + head/torso</td><td class="m">5 routed, each with a transceiver and a connector</td><td class="d">Schematic and layout</td></tr><tr><td class="k">Bus rate</td><td class="d">Up to 1 Mbps</td><td class="m">1 Mbps ceiling for every part on the bus</td><td class="d">Datasheets, not measured</td></tr><tr><td class="k">Termination</td><td class="d">120 Ω, switchable</td><td class="m">5 × 120 Ω behind 2-pin jumpers; 60 Ω across CANH/CANL with two on</td><td class="d">Schematic; I measure at bring-up</td></tr><tr><td class="k">3.3 V load</td><td class="d">Under 600 mA (AP2112K)</td><td class="m">≈130 mA typical, ≈470 mA worst-case bound</td><td class="d">My estimate from datasheet typicals</td></tr><tr><td class="k">LDO dissipation</td><td class="d">Low</td><td class="m">≈0.2 W typical, ≈0.7 W worst case (about 1.4 V drop)</td><td class="d">Calculated; the worst case is more than a SOT-23-5 should carry</td></tr><tr><td class="k">Board</td><td class="d">4-layer, 1.6 mm</td><td class="m">90.8 × 48.9 mm, 60 parts, 171 vias, 14 copper zones</td><td class="d">KiCad layout and BOM</td></tr><tr><td class="k">Design rules</td><td class="d">0.2 mm trace, 0.6/0.3 mm via</td><td class="m">0.2 and 0.3 mm traces, 0.6/0.3 mm vias</td><td class="d">Project design rules</td></tr><tr><td class="k">Bring-up</td><td class="d">Loopback on every controller</td><td class="m">Not run yet</td><td class="d">Validation plan below</td></tr></tbody></table></div><p class="note">I have not powered a board yet, so every number above comes from the schematic, layout, BOM, datasheets or my own estimate, and the Basis column says which. I will replace them with measurements after bring-up.</p></div></section><section class="section"><div class="lw"><div class="section-label">Lessons</div><div class="two"><div class="card"><h3>Design choices</h3><ul class="plain"><li>The ESP32-S3 has one CAN (TWAI) controller and I needed five buses, so the limbs use MCP2515s that add controllers over SPI.</li><li>Splitting the four MCP2515s across two SPI buses keeps each bus lightly loaded.</li><li>Termination sits behind jumpers so a bus can be terminated or left open depending on where the board lands in the harness.</li></ul></div><div class="card"><h3>What I will check or change</h3><ul class="plain"><li><b>LDO heat.</b> At 5 V in, the AP2112K drops about 1.4 V, so the worst-case bound puts about 0.7 W in a SOT-23-5. I will check its temperature under CAN load at bring-up and move to a buck regulator if it runs hot.</li><li><b>USB lines.</b> D+ and D− go straight to the connector. After the glove, I would add ESD protection and keep those traces short and matched.</li><li><b>Termination.</b> I confirm 60 Ω across CANH/CANL with two jumpers on before connecting any motor.</li></ul></div></div></div></section><section class="section"><div class="lw"><div class="section-label">Documentation</div><h2>Methods and hardware files</h2><details><summary>Validation plan: how I will measure each row</summary><div class="det-body prose"><h3>Before power</h3><p>I check continuity and shorts between 5 V, 3.3 V and ground, and measure 120 Ω on each termination with the jumper in.</p><h3>Power-up</h3><p>I apply 5 V from a current-limited bench supply and record input current, 3.3 V rail voltage and LDO temperature.</p><h3>Firmware</h3><p>I flash over USB, then run each MCP2515 in loopback mode and the TWAI controller in self-test, so every controller works before I add a second node.</p><h3>Bus</h3><p>I connect two nodes with both terminations on, confirm 60 Ω across CANH/CANL with the board off, run 500 kbps and 1 Mbps while I watch CANH/CANL on a scope, and log error counters for 10 minutes.</p></div></details><details><summary>Hardware: BOM summary and filled copper layout</summary><div class="det-body"><p style="margin-top:14px">60 parts: 15 capacitors, 15 resistors, 11 ICs (1 ESP32-S3 module, 4 MCP2515, 5 SN65HVD230, 1 AP2112K), 14 connectors and headers, 2 SS14 diodes, 2 tactile buttons, 1 LED.</p><div class="fig"><img src="pictures/triton%20droids/Screenshot%202026-10-15%20151156.png" alt="Control board layout with copper zones filled" onclick="openZoom(this)" style="object-fit:contain;background:#0b1220"/><div class="cap">Layout with copper zones filled.</div></div></div></details></div></section>
+
+<footer>
+  <p>Will Hovel · UC San Diego · Electrical Engineering</p>
+  <p><a href="mailto:will.hovel@gmail.com">will.hovel@gmail.com</a> · <a href="https://github.com/WillHovel" target="_blank" rel="noopener">GitHub</a> · <a href="https://www.linkedin.com/in/will-hovel-24824a379" target="_blank" rel="noopener">LinkedIn</a></p>
+</footer>
+
+<div class="zoom" id="zoomOverlay" onclick="closeZoom()" role="dialog" aria-label="Enlarged image"><img id="zoomImg" alt=""/></div>
+<script>
+function openZoom(img){var z=document.getElementById('zoomImg');z.src=img.src;z.alt=img.alt;document.getElementById('zoomOverlay').classList.add('open');document.body.style.overflow='hidden'}
+function closeZoom(){document.getElementById('zoomOverlay').classList.remove('open');document.body.style.overflow=''}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeZoom()});
+</script>
+</body>
+</html>

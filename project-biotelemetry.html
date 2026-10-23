@@ -85,9 +85,9 @@ nav {
 
 /* HERO */
 .hero {
-  max-width: 1160px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 104px 40px 0;
+  padding: 104px clamp(20px,4vw,48px) 0;
   position: relative;
   z-index: 1;
 }
@@ -421,6 +421,94 @@ footer a:hover { color: var(--teal); }
 .fv-tab:hover{color:#48bb78}.fv-tab.active{color:#48bb78;border-bottom-color:#48bb78}
 .fv-panel{display:none}.fv-panel.active{display:block}
 .thread-table td:nth-child(n+2){font-family:'JetBrains Mono',monospace;font-size:0.78rem}
+.two-col>*{min-width:0}.body-wrap{overflow-x:clip}
+</style>
+<style>/* lab-inline */
+/* Lab-report blocks, scoped under .lab. Generated from the glove page styles. */
+.lab{
+  --bg-primary:#0c1610;--bg-card:#142019;--text-main:#e2e8f0;--text-muted:#94a3b8;--text-light:#64748b;
+  --accent-forest:#38a169;--accent-sage:#48bb78;--accent-active:#4ade80;--accent-sage-light:rgba(56,161,105,0.10);
+  --border-light:rgba(255,255,255,0.08);--border-hover:rgba(255,255,255,0.16);--gold:#d4a843;
+  --font-sans:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--font-mono:'JetBrains Mono',monospace;
+  --radius:6px;--border:1px solid var(--border-light);
+font-family:var(--font-sans);color:var(--text-main);font-size:15px;line-height:1.6;position:relative;z-index:1}
+.lab a{color:var(--accent-sage)}
+.lab .lw{max-width:1120px;margin:0 auto;padding:0 clamp(20px,4vw,48px);position:relative;z-index:1}
+.lab .prose{max-width:760px}
+.lab /* header */
+.head{padding:calc(56px + 48px) 0 36px}
+.lab h1{font-size:clamp(2rem,4.4vw,3rem);line-height:1.08;letter-spacing:-.02em;color:#f1f5f9;font-weight:700;margin-bottom:16px}
+.lab .lede{font-size:1.02rem;color:#cbd5e1;line-height:1.7;max-width:720px;margin-bottom:20px}
+.lab .skills{display:flex;flex-wrap:wrap;gap:6px}
+.lab .tag{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.03em;padding:4px 9px;border:var(--border);border-radius:3px;color:var(--text-muted);background:var(--bg-card);white-space:nowrap}
+.lab .tag-green{border-color:rgba(46,139,87,.3);color:var(--accent-sage);background:var(--accent-sage-light)}
+.lab .facts{display:flex;flex-wrap:wrap;gap:6px 28px;margin-top:20px;font-size:.82rem;color:var(--text-muted)}
+.lab .facts b{color:#cbd5e1;font-weight:600}
+.lab /* results box */
+.results{padding:0 0 44px}
+.lab .box{background:var(--bg-card);border:var(--border);border-left:4px solid var(--accent-sage);border-radius:var(--radius);padding:clamp(18px,3vw,28px)}
+.lab .box-title{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.lab .box-title h2{font-size:1.1rem;color:#f1f5f9;letter-spacing:-.01em;margin:0}
+.lab .box-title span{font-family:var(--font-mono);font-size:.64rem;color:var(--text-light);letter-spacing:.04em}
+.lab .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.lab .metric{padding:14px 16px;border:var(--border);border-radius:var(--radius);background:rgba(255,255,255,.015)}
+.lab .metric .n{font-family:var(--font-mono);font-size:1.9rem;font-weight:700;color:var(--accent-active);line-height:1.1;letter-spacing:-.02em}
+.lab .metric .n small{font-size:.9rem;font-weight:500;color:var(--accent-sage);margin-left:3px}
+.lab .metric .l{font-size:.82rem;font-weight:600;color:#f1f5f9;margin:6px 0 4px}
+.lab .metric .m{font-size:.76rem;color:var(--text-muted);line-height:1.5}
+.lab .rb-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:12px;align-items:stretch}
+.lab .fig{border:var(--border);border-radius:var(--radius);background:rgba(0,0,0,.22);overflow:hidden;display:flex;flex-direction:column}
+.lab .fig img{width:100%;height:100%;min-height:0;object-fit:cover;display:block;cursor:zoom-in}
+.lab .fig .cap{margin-top:auto;font-family:var(--font-mono);font-size:.64rem;line-height:1.55;color:var(--text-muted);padding:9px 12px;border-top:var(--border)}
+.lab .plot{padding:16px 16px 4px}
+.lab .plot h3{font-size:.82rem;color:#f1f5f9;margin-bottom:10px}
+.lab .legend{list-style:none;display:grid;gap:5px;font-size:.78rem;color:#cbd5e1;padding:10px 0 12px}
+.lab .legend li{display:flex;align-items:center;gap:8px}
+.lab .legend i{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.lab .legend span{margin-left:auto;font-family:var(--font-mono);font-size:.72rem;color:var(--text-muted)}
+.lab /* sections */
+.section{padding:48px 0;border-top:var(--border)}
+.lab .section-label{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.lab .section-label::before{content:'';width:20px;height:2px;background:var(--accent-sage);flex-shrink:0}
+.lab h2{font-size:1.35rem;letter-spacing:-.015em;color:#f1f5f9;margin:0 0 14px;font-weight:700}
+.lab h3{font-size:.98rem;color:#f1f5f9;margin:0 0 8px}
+.lab p{color:#cbd5e1;margin-bottom:12px;line-height:1.7;font-size:.94rem}
+.lab ul.plain{list-style:none;display:flex;flex-direction:column;gap:9px}
+.lab ul.plain li{font-size:.9rem;color:#cbd5e1;line-height:1.65;padding-left:18px;position:relative}
+.lab ul.plain li::before{content:'';position:absolute;left:0;top:.72em;width:5px;height:5px;border-radius:50%;background:var(--accent-sage)}
+.lab ul.plain li b{color:#f1f5f9;font-weight:600}
+.lab code{font-family:var(--font-mono);font-size:.8em;color:var(--accent-sage);background:rgba(46,139,87,.08);padding:1px 5px;border-radius:3px}
+.lab .two{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.lab .card{background:var(--bg-card);border:var(--border);border-radius:var(--radius);padding:22px}
+.lab /* tables */
+.tbl-wrap{overflow-x:auto;border:var(--border);border-radius:var(--radius);background:var(--bg-card)}
+.lab table{width:100%;border-collapse:collapse;font-size:.86rem}
+.lab th,.lab td{text-align:left;padding:11px 14px;vertical-align:top;border-bottom:var(--border)}
+.lab tr:last-child td{border-bottom:none}
+.lab th{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-light);font-weight:500;background:rgba(255,255,255,.02)}
+.lab td{color:#cbd5e1;line-height:1.55}
+.lab td.m{font-family:var(--font-mono);font-size:.82rem;color:var(--accent-active);white-space:nowrap}
+.lab td.k{color:#f1f5f9;font-weight:600}
+.lab td.d{color:var(--text-muted);font-size:.8rem}
+.lab .note{font-size:.8rem;color:var(--text-muted);margin-top:10px;line-height:1.6}
+.lab .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.lab .gallery .fig img{aspect-ratio:4/3}
+.lab .gallery.g4{grid-template-columns:repeat(4,1fr)}
+.lab .vids .fig{margin-bottom:12px}
+.lab .video-wrap{position:relative;aspect-ratio:16/9;background:#000}
+.lab .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.lab .det-body{padding:4px 20px 20px;border-top:var(--border)}
+.lab .det-body h3{margin-top:18px}
+.lab .sch img{background:#fff;object-fit:contain!important}
+
+
+
+@media(max-width:480px){.lab .gallery,.lab .gallery.g4{grid-template-columns:1fr}.lab .metrics{grid-template-columns:1fr}.lab .metric .n{font-size:1.6rem}}
+.lab a{color:var(--accent-sage)}.lab .lw{max-width:1120px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}.lab .fig img{cursor:default}.lab .fig img[onclick]{cursor:zoom-in}.lab summary{cursor:pointer;padding:14px 18px;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);list-style:none;display:flex;justify-content:space-between}.lab details{border:var(--border);border-radius:var(--radius);background:var(--bg-card);margin-top:12px}.lab .head{padding:32px 0 8px}.lab .lede{font-size:1.02rem;color:#cbd5e1;max-width:720px}
+@media(max-width:900px){.lab .metrics{grid-template-columns:repeat(2,1fr)}.lab .rb-grid,.lab .two{grid-template-columns:1fr}.lab .gallery,.lab .gallery.g4{grid-template-columns:repeat(2,1fr)}.lab .lw{padding:0 20px}}
+.lab .tbl-wrap{overflow-x:auto;max-width:100%}.lab .section,.lab .lw{min-width:0}.lab table{min-width:560px}
+
+.lab svg{max-width:100%;height:auto;display:block;margin:0 auto}.lab .vid{position:relative;aspect-ratio:16/9;max-width:760px;background:#000;border:var(--border);border-radius:var(--radius);overflow:hidden}.lab .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.lab .vcap{font-family:var(--font-mono);font-size:.64rem;color:var(--text-muted);margin-top:8px;max-width:760px}.lab .results{padding-bottom:28px}
 </style>
 </head>
 <body>
@@ -460,7 +548,8 @@ footer a:hover { color: var(--teal); }
     <span class="chip">JLCPCB DFM</span>
   </div>
 
-  <div class="hero-overview">
+  <div class="lab bio-res" style="margin:30px 0 36px"><style>.bio-res .lw{padding:0}.bio-res .results{padding-bottom:0}</style><div class="lab"><section class="results" aria-labelledby="res-h"><div class="lw"><div class="box"><div class="box-title"><h2 id="res-h">Results</h2><span>design values · board not yet fabricated</span></div><div class="metrics"><div class="metric"><div class="n">100<small>V/V</small></div><div class="l">Front-end gain</div><div class="m">AD8232, 40 dB: lifts µV-to-mV biopotentials to the ADC range</div></div><div class="metric"><div class="n">26<small>Hz</small></div><div class="l">Upper −3 dB point</div><div class="m">Sallen-Key with Q = 0.5; corner f0 = 40.8 Hz</div></div><div class="metric"><div class="n">−10<small>dB</small></div><div class="l">At 60 Hz mains</div><div class="m">calculated and simulated; firmware notch removes the rest</div></div><div class="metric"><div class="n">26<small>B</small></div><div class="l">BLE packet</div><div class="m">100 Hz × 12-bit samples; CR2032, deep-sleep duty cycling</div></div></div><div class="rb-grid"><div class="fig"><img src="pictures/fish_monitor/bode-plot.png" alt="LTspice AC analysis of the analog chain" onclick="labZoom(this)" style="height:100%;object-fit:contain;background:#fff"/><div class="cap">LTspice AC simulation of the analog chain (HPF, ×100 gain, Sallen-Key LPF), 1 mHz to 10 kHz. Simulated, not bench-measured.</div></div><div class="fig"><img src="pictures/fish_monitor/fish_layout.png" alt="KiCad layout of the fish monitor board" onclick="labZoom(this)" style="height:100%;object-fit:cover"/><div class="cap">4-layer layout, copper filled. Antenna keepout at top right.</div></div></div></div></div></section></div>
+<div class="hero-overview">
     <h2 class="overview-heading">Overview</h2>
     <p class="overview-body">I designed a coin-cell-powered wireless bio-sensing platform for non-invasive aquatic biometric monitoring. With electrodes submerged in the tank water, the system is designed to measure biological action potentials through water conductivity alone and pick up fish ECG and gill-ventilation rates without contact with the animal — no implants or restraints.</p>
     <p class="overview-body">Originally conceived as a plant action-potential recorder, the architecture was pivoted via hardware-software co-design so the same board can serve as an aquatic monitor, with the species-specific changes made in firmware. The analog front-end stays wide; all species-specific signal extraction is handled in firmware.</p>
@@ -475,6 +564,10 @@ footer a:hover { color: var(--teal); }
     </ul>
   </div>
 </div><!-- /hero -->
+<div class="lab"><section class="section"><div class="lw"><div class="section-label">Spec vs. design</div><h2>Spec vs. design value</h2><p style="color:var(--text-muted);margin-bottom:14px;max-width:720px">Nothing here is bench-measured yet. The Basis column says where each number comes from; the validation plan (collapsed below) covers how I will measure them once the board is assembled.</p><div class="tbl-wrap"><table><thead><tr><th>Parameter</th><th>Target</th><th>Design value</th><th>Basis</th></tr></thead><tbody><tr><td class="k">High-pass corner</td><td class="d">~0.16 Hz</td><td class="m">0.159 Hz</td><td class="d">calculated (10 µF, 100 kΩ)</td></tr><tr><td class="k">Gain</td><td class="d">100 V/V</td><td class="m">100 V/V</td><td class="d">datasheet + LTspice</td></tr><tr><td class="k">Low-pass</td><td class="d">Alias-safe at 100 Hz sampling</td><td class="m">f0 40.8 Hz, −3 dB ≈ 26 Hz</td><td class="d">calculated + LTspice</td></tr><tr><td class="k">60 Hz attenuation (analog)</td><td class="d">> 6 dB</td><td class="m">≈ −10 dB</td><td class="d">calculated + LTspice</td></tr><tr><td class="k">Sample rate / resolution</td><td class="d">100 Hz, 12-bit</td><td class="m">100 Hz, 12-bit SAADC</td><td class="d">firmware config</td></tr><tr><td class="k">Firmware</td><td class="d">3 threads (acquire, DSP, BLE)</td><td class="m">3 Zephyr threads, 4 species profiles</td><td class="d">code, not yet run on the board</td></tr></tbody></table></div></div></section><section class="section"><div class="lw"><div class="two"><div class="card"><h3>Problem</h3><ul class="plain"><li>Fish ECG is a few hundred µV, and tank water adds 60 Hz mains hum plus slow electrode drift that can saturate an amplifier.</li><li>I wanted a sensor that never touches the animal: electrodes sit in the water, so no implants or restraint.</li></ul></div><div class="card"><h3>Lessons so far</h3><ul class="plain"><li>A Sallen-Key with equal R and C has Q = 0.5, so its −3 dB point is about 26 Hz, not the 40.8 Hz corner. I now quote both.</li><li>Keep the analog front-end wide and move species-specific filtering into firmware so one board serves several species.</li></ul></div></div></div></section><div style="height:8px"></div><style>.labz{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;z-index:9999;cursor:zoom-out}.labz.on{display:flex}.labz img{max-width:94vw;max-height:92vh}</style>
+<div class="labz" id="labz" onclick="this.classList.remove('on')"><img id="labzi" alt=""/></div>
+<script>function labZoom(i){document.getElementById('labzi').src=i.src;document.getElementById('labz').classList.add('on')}document.addEventListener('keydown',function(e){if(e.key==='Escape')document.getElementById('labz').classList.remove('on')})</script></div>
+
 
 <!-- ═══ BODY ═══ -->
 <div class="body-wrap">
@@ -519,7 +612,7 @@ footer a:hover { color: var(--teal); }
 
     <!-- ANALOG FRONT END -->
     <div class="section-label">Wideband Analog Front-End</div>
-    <p>The passband runs from <strong>0.15 Hz to 40.8 Hz</strong> — wide enough to cover every known aquatic vertebrate biometric in the biological action-potential range, tight enough to block the two dominant noise sources before the ADC ever sees them.</p>
+    <p>The analog band runs from a <strong>0.16 Hz high-pass</strong> to a <strong>40.8 Hz low-pass corner</strong> (−3 dB at about 26 Hz) — wide enough to cover every known aquatic vertebrate biometric in the biological action-potential range, tight enough to block the two dominant noise sources before the ADC ever sees them.</p>
 
     <div class="filter-row">
       <div class="filter-card">
