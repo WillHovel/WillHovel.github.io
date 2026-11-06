@@ -422,6 +422,7 @@ footer a:hover { color: var(--teal); }
 .fv-panel{display:none}.fv-panel.active{display:block}
 .thread-table td:nth-child(n+2){font-family:'JetBrains Mono',monospace;font-size:0.78rem}
 .two-col>*{min-width:0}.body-wrap{overflow-x:clip}
+.test-table td:nth-child(n+2){font-family:'JetBrains Mono',monospace;font-size:0.78rem;white-space:nowrap}
 </style>
 <style>/* lab-inline */
 /* Lab-report blocks, scoped under .lab. Generated from the glove page styles. */
@@ -529,9 +530,9 @@ font-family:var(--font-sans);color:var(--text-main);font-size:15px;line-height:1
     <div class="hero-line"></div>
     <span class="hero-yr">2026</span>
   </div>
-  <div class="status-badge">Design complete · firmware written · board not yet fabricated</div>
+  <div class="status-badge">Prototype assembled &amp; bench-tested · full firmware host-tested, not yet run on the board</div>
   <h1>Fish Health<br/>Monitor</h1>
-  <p class="hero-sub"><strong>Wireless ECG and ventilation sensing through tank water.</strong> A custom 4-layer mixed-signal PCB designed to monitor fish cardiac and ventilation rates non-invasively through water conductivity, with wireless telemetry over Bluetooth 5. No contact with the subject is required by design.</p>
+  <p class="hero-sub"><strong>Wireless fish ECG through tank water.</strong> A custom 4-layer mixed-signal PCB that picks up a fish's heartbeat through the water itself and streams heart rate, HRV and artifact counts over Bluetooth 5. The electrodes never touch the animal.</p>
 
   <div class="chips">
     <span class="chip">nRF52840</span>
@@ -539,32 +540,35 @@ font-family:var(--font-sans);color:var(--text-main);font-size:15px;line-height:1
     <span class="chip">4-Layer PCB</span>
     <span class="chip">KiCad 10</span>
     <span class="chip">Mixed-Signal</span>
-    <span class="chip">DSP / IIR&amp;FIR</span>
+    <span class="chip">CMSIS-DSP Biquads</span>
+    <span class="chip">QRS Detection</span>
     <span class="chip">Sallen-Key LPF</span>
     <span class="chip">ARM Cortex-M4F</span>
     <span class="chip">BLE 5.0</span>
     <span class="chip">Zephyr RTOS</span>
     <span class="chip">CR2032</span>
     <span class="chip">JLCPCB DFM</span>
+    <span class="chip">Python / bleak</span>
   </div>
 
-  <div class="lab bio-res" style="margin:30px 0 36px"><style>.bio-res .lw{padding:0}.bio-res .results{padding-bottom:0}</style><div class="lab"><section class="results" aria-labelledby="res-h"><div class="lw"><div class="box"><div class="box-title"><h2 id="res-h">Results</h2><span>design values · board not yet fabricated</span></div><div class="metrics"><div class="metric"><div class="n">100<small>V/V</small></div><div class="l">Front-end gain</div><div class="m">AD8232, 40 dB: lifts µV-to-mV biopotentials to the ADC range</div></div><div class="metric"><div class="n">26<small>Hz</small></div><div class="l">Upper −3 dB point</div><div class="m">Sallen-Key with Q = 0.5; corner f0 = 40.8 Hz</div></div><div class="metric"><div class="n">−10<small>dB</small></div><div class="l">At 60 Hz mains</div><div class="m">calculated and simulated; firmware notch removes the rest</div></div><div class="metric"><div class="n">26<small>B</small></div><div class="l">BLE packet</div><div class="m">100 Hz × 12-bit samples; CR2032, deep-sleep duty cycling</div></div></div><div class="rb-grid"><div class="fig"><img src="pictures/fish_monitor/bode-plot.png" alt="LTspice AC analysis of the analog chain" onclick="labZoom(this)" style="height:100%;object-fit:contain;background:#fff"/><div class="cap">LTspice AC simulation of the analog chain (HPF, ×100 gain, Sallen-Key LPF), 1 mHz to 10 kHz. Simulated, not bench-measured.</div></div><div class="fig"><img src="pictures/fish_monitor/fish_layout.png" alt="KiCad layout of the fish monitor board" onclick="labZoom(this)" style="height:100%;object-fit:cover"/><div class="cap">4-layer layout, copper filled. Antenna keepout at top right.</div></div></div></div></div></section></div>
+  <div class="lab bio-res" style="margin:30px 0 36px"><style>.bio-res .lw{padding:0}.bio-res .results{padding-bottom:0}</style><div class="lab"><section class="results" aria-labelledby="res-h"><div class="lw"><div class="box"><div class="box-title"><h2 id="res-h">Results</h2><span>bench-measured on the assembled board · beat detection is simulated</span></div><div class="metrics"><div class="metric"><div class="n">98<small>V/V</small></div><div class="l">Front-end gain</div><div class="m">measured 5–20 Hz with a 1000:1 divider into the inputs (design: 100 V/V)</div></div><div class="metric"><div class="n">42.5<small>Hz</small></div><div class="l">Upper −3 dB point</div><div class="m">model from part values: 41.6 Hz; 0.33 dB RMS fit, 0.5–200 Hz</div></div><div class="metric"><div class="n">3.2<small>µV rms</small></div><div class="l">Input-referred noise</div><div class="m">inputs shorted, scope floor subtracted, about 1–42 Hz</div></div><div class="metric"><div class="n">88<small>dB</small></div><div class="l">CMRR at 60 Hz</div><div class="m">1 Vpp common-mode in, 3.8 mVpp out at the AD8232 output</div></div><div class="metric"><div class="n">58<small>days</small></div><div class="l">Continuous on one CR2032</div><div class="m">159 µA measured at 3.0 V with the amplifier on and the MCU idle; 220 mAh ÷ 159 µA</div></div><div class="metric"><div class="n">−6.9<small>dB</small></div><div class="l">Analog 60 Hz attenuation</div><div class="m">measured at the filter output; the firmware notch removes the rest</div></div><div class="metric"><div class="n">−12<small>dB/oct</small></div><div class="l">Roll-off above corner</div><div class="m">150–200 Hz, matching a 2-pole filter</div></div><div class="metric"><div class="n">97<small>%</small></div><div class="l">Beats detected (sim)</div><div class="m">193 of 199 simulated beats, 0 false; misses are the 4 s threshold-learning window</div></div></div><div class="rb-grid"><div class="fig"><img src="pictures/fish_monitor/bode-measured.png" alt="Measured TP5 frequency response overlaid on the Sallen-Key model" onclick="openZoom(this.src)" style="height:100%;object-fit:contain;background:#132217"/><div class="cap">Measured response at TP5 (38 points) vs. the 2-pole model from the part values. Open marker at 300 Hz is near the scope noise floor.</div></div><div class="fig"><img src="pictures/fish_monitor/board-assembled.jpg" alt="Assembled fish monitor board" onclick="openZoom(this.src)" style="height:100%;object-fit:cover"/><div class="cap">The hand-assembled board: AD8232 front end at left, nRF52840 module at right, SWD wires taped at J1.</div></div></div></div></div></section></div>
 <div class="hero-overview">
     <h2 class="overview-heading">Overview</h2>
-    <p class="overview-body">I designed a coin-cell-powered wireless bio-sensing platform for non-invasive aquatic biometric monitoring. With electrodes submerged in the tank water, the system is designed to measure biological action potentials through water conductivity alone and pick up fish ECG and gill-ventilation rates without contact with the animal — no implants or restraints.</p>
+    <p class="overview-body">I designed a coin-cell-powered wireless bio-sensing platform for non-invasive aquatic biometric monitoring. With electrodes submerged in the tank water, the system is designed to measure the fish's cardiac signal through water conductivity alone, with no implants or restraints.</p>
     <p class="overview-body">Originally conceived as a plant action-potential recorder, the architecture was pivoted via hardware-software co-design so the same board can serve as an aquatic monitor, with the species-specific changes made in firmware. The analog front-end stays wide; all species-specific signal extraction is handled in firmware.</p>
 
     <h2 class="overview-heading">What I Built</h2>
     <ul class="overview-list">
-      <li><strong>Custom 4-layer mixed-signal PCB</strong> — KiCad schematic, full layout with separated analog/digital domains, RF keepout zone, and Gerbers prepared for JLCPCB SMT assembly</li>
-      <li><strong>Wideband analog front-end</strong> — AD8232 biopotential amplifier with a 0.15 Hz HPF (DC block) and 40.8 Hz Sallen-Key LPF, avoiding rigid brick-wall filters to allow software-defined signal extraction</li>
+      <li><strong>Custom 4-layer mixed-signal PCB</strong> — KiCad schematic, full layout with separated analog/digital domains, RF keepout zone, and Gerbers prepared for JLCPCB SMT assembly; I hand-assembled and bench-tested the prototype</li>
+      <li><strong>Wideband analog front-end</strong> — AD8232 biopotential amplifier with a sub-0.5 Hz HPF (DC block) and a Sallen-Key LPF measured at −3 dB = 42.5 Hz, avoiding rigid brick-wall filters to allow software-defined signal extraction</li>
       <li><strong>Active noise cancellation</strong> — Right Leg Drive electrode submerged in tank water is designed to inject an inverted common-mode signal, intended to cancel 60 Hz EMI at the source</li>
-      <li><strong>ARM Cortex-M4F DSP firmware</strong> — IIR/FIR digital bandpass and notch filters running on the nRF52840's hardware FPU; filter coefficients reconfigurable per fish species in software</li>
+      <li><strong>Zephyr firmware on the Cortex-M4F</strong> — 60 Hz notch, per-species QRS band-pass and a Pan-Tompkins-style beat detector; band, thresholds and species list are editable over BLE and saved to flash</li>
+      <li><strong>Host tools and tests</strong> — Python GUI for species setup, calibration and baselines, plus a test suite that runs the real C detector and config parser against simulated recordings</li>
       <li><strong>RF layout</strong> — strict copper keepout beneath the MDBT50Q-1MV2's ceramic antenna across all four layers to maximize Bluetooth range</li>
     </ul>
   </div>
 </div><!-- /hero -->
-<div class="lab"><section class="section"><div class="lw"><div class="section-label">Spec vs. design</div><h2>Spec vs. design value</h2><p style="color:var(--text-muted);margin-bottom:14px;max-width:720px">Nothing here is bench-measured yet. The Basis column says where each number comes from; the validation plan (collapsed below) covers how I will measure them once the board is assembled.</p><div class="tbl-wrap"><table><thead><tr><th>Parameter</th><th>Target</th><th>Design value</th><th>Basis</th></tr></thead><tbody><tr><td class="k">High-pass corner</td><td class="d">~0.16 Hz</td><td class="m">0.159 Hz</td><td class="d">calculated (10 µF, 100 kΩ)</td></tr><tr><td class="k">Gain</td><td class="d">100 V/V</td><td class="m">100 V/V</td><td class="d">datasheet + LTspice</td></tr><tr><td class="k">Low-pass</td><td class="d">Alias-safe at 100 Hz sampling</td><td class="m">f0 40.8 Hz, −3 dB ≈ 26 Hz</td><td class="d">calculated + LTspice</td></tr><tr><td class="k">60 Hz attenuation (analog)</td><td class="d">> 6 dB</td><td class="m">≈ −10 dB</td><td class="d">calculated + LTspice</td></tr><tr><td class="k">Sample rate / resolution</td><td class="d">100 Hz, 12-bit</td><td class="m">100 Hz, 12-bit SAADC</td><td class="d">firmware config</td></tr><tr><td class="k">Firmware</td><td class="d">3 threads (acquire, DSP, BLE)</td><td class="m">3 Zephyr threads, 4 species profiles</td><td class="d">code, not yet run on the board</td></tr></tbody></table></div></div></section><section class="section"><div class="lw"><div class="two"><div class="card"><h3>Problem</h3><ul class="plain"><li>Fish ECG is a few hundred µV, and tank water adds 60 Hz mains hum plus slow electrode drift that can saturate an amplifier.</li><li>I wanted a sensor that never touches the animal: electrodes sit in the water, so no implants or restraint.</li></ul></div><div class="card"><h3>Lessons so far</h3><ul class="plain"><li>A Sallen-Key with equal R and C has Q = 0.5, so its −3 dB point is about 26 Hz, not the 40.8 Hz corner. I now quote both.</li><li>Keep the analog front-end wide and move species-specific filtering into firmware so one board serves several species.</li></ul></div></div></div></section><div style="height:8px"></div><style>.labz{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;z-index:9999;cursor:zoom-out}.labz.on{display:flex}.labz img{max-width:94vw;max-height:92vh}</style>
+<div class="lab"><section class="section"><div class="lw"><div class="section-label">Spec vs. measured</div><h2>Spec vs. measured value</h2><p style="color:var(--text-muted);margin-bottom:14px;max-width:720px">Analog numbers are bench-measured on the assembled board with a Keysight EDUX1052G scope, EDU34450A DMM and EDU36311A supply. Firmware numbers come from the host test suite on simulated ECG.</p><div class="tbl-wrap"><table><thead><tr><th>Parameter</th><th>Target</th><th>Result</th><th>Basis</th></tr></thead><tbody><tr><td class="k">Gain</td><td class="d">100 V/V</td><td class="m">97.8 V/V</td><td class="d">measured, 5–20 Hz midband</td></tr><tr><td class="k">Low-pass −3 dB</td><td class="d">Alias-safe at 256 Hz sampling</td><td class="m">42.5 Hz (model 41.6 Hz)</td><td class="d">measured, 38-point sweep</td></tr><tr><td class="k">High-pass corner</td><td class="d">below the heart-rate band</td><td class="m">flat to 0.5 Hz (−0.24 dB)</td><td class="d">measured; corner itself is below the sweep</td></tr><tr><td class="k">60 Hz attenuation (analog)</td><td class="d">&gt; 6 dB</td><td class="m">−6.9 dB</td><td class="d">measured at TP5</td></tr><tr><td class="k">Input-referred noise</td><td class="d">below ~10 µV rms</td><td class="m">3.2 µV rms (20–35 µVpp)</td><td class="d">measured, inputs shorted</td></tr><tr><td class="k">CMRR at 60 Hz</td><td class="d">&ge; 80 dB (datasheet min)</td><td class="m">88 dB</td><td class="d">measured, 1 Vpp common mode</td></tr><tr><td class="k">Output offset</td><td class="d">output at REFOUT</td><td class="m">&lt; 10 mV (TP4 = TP5 = REFOUT = 1.51 V)</td><td class="d">measured, inputs tied to REFOUT</td></tr><tr><td class="k">Supply current</td><td class="d">weeks on a CR2032</td><td class="m">159 µA at 3.0 V → 58 days continuous</td><td class="d">measured, AFE on, MCU idle</td></tr><tr><td class="k">Sample rate / resolution</td><td class="d">60 Hz below Nyquist, 12-bit</td><td class="m">256 Hz, 12-bit SAADC</td><td class="d">firmware config</td></tr><tr><td class="k">Beat detection</td><td class="d">&ge; 90 % of beats, no false beats</td><td class="m">193/199, 0 false</td><td class="d">host test, simulated ECG</td></tr><tr><td class="k">Beat timing error</td><td class="d">&lt; 4 ms (1 sample)</td><td class="m">0.5 ms SD</td><td class="d">host test, simulated ECG</td></tr></tbody></table></div></div></section><section class="section"><div class="lw"><div class="two"><div class="card"><h3>Problem</h3><ul class="plain"><li>Fish ECG is a few hundred µV, and tank water adds 60 Hz mains hum plus slow electrode drift that can saturate an amplifier.</li><li>I wanted a sensor that never touches the animal: electrodes sit in the water, so no implants or restraint.</li></ul></div><div class="card"><h3>Lessons</h3><ul class="plain"><li>A Sallen-Key with equal capacitors has Q = 0.5 and a −3 dB point near 26 Hz. The board uses 56 nF and 27 nF (Q ≈ 0.72), so the −3 dB point sits at 41.6 Hz in theory and 42.5 Hz measured. Quote the −3 dB point, not just f0.</li><li>Check the programming header pitch before ordering cables. My J1 footprint did not fit my ST-Link leads, so I soldered jumper wires straight to the pins.</li><li>Power a reworked board through a current limit first. A 2.6 Ω short only showed up as a supply OCP trip and a 0.08 V rail.</li><li>Keep the analog front-end wide and move species-specific filtering into firmware so one board serves several species.</li><li>A 1 kHz Zephyr tick on the nRF's 32.768 kHz RTC is really 32 cycles (0.977 ms), so my "250 Hz" sampler ran at 256 Hz and the notch only removed 1.8 dB of 60 Hz. I now sample at 256 Hz on a 32768 Hz tick, which divides exactly.</li><li>I removed ventilation rate from the output. It was calculated from heart rate, not measured, so reporting it would have been misleading.</li></ul></div></div></div></section><div style="height:8px"></div><style>.labz{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;z-index:9999;cursor:zoom-out}.labz.on{display:flex}.labz img{max-width:94vw;max-height:92vh}</style>
 <div class="labz" id="labz" onclick="this.classList.remove('on')"><img id="labzi" alt=""/></div>
 <script>function labZoom(i){document.getElementById('labzi').src=i.src;document.getElementById('labz').classList.add('on')}document.addEventListener('keydown',function(e){if(e.key==='Escape')document.getElementById('labz').classList.remove('on')})</script></div>
 
@@ -612,7 +616,7 @@ font-family:var(--font-sans);color:var(--text-main);font-size:15px;line-height:1
 
     <!-- ANALOG FRONT END -->
     <div class="section-label">Wideband Analog Front-End</div>
-    <p>The analog band runs from a <strong>0.16 Hz high-pass</strong> to a <strong>40.8 Hz low-pass corner</strong> (−3 dB at about 26 Hz) — wide enough to cover every known aquatic vertebrate biometric in the biological action-potential range, tight enough to block the two dominant noise sources before the ADC ever sees them.</p>
+    <p>The analog band runs from a <strong>sub-0.5 Hz high-pass</strong> to a <strong>low-pass with its −3 dB point at 42.5 Hz</strong> (measured; 41.6 Hz from the part values) — wide enough to cover every known aquatic vertebrate biometric in the biological action-potential range, tight enough to block the two dominant noise sources before the ADC ever sees them.</p>
 
     <div class="filter-row">
       <div class="filter-card">
@@ -622,18 +626,26 @@ font-family:var(--font-sans);color:var(--text-main);font-size:15px;line-height:1
       </div>
       <div class="filter-card">
         <div class="fc-label">Low-Pass Filter — Anti-Aliasing</div>
-        <div class="fc-freq">40.8 Hz</div>
-        <div class="fc-desc">2-pole Sallen-Key active filter (100 kΩ resistors, 39 nF capacitors) placed between the AD8232 output and the ADC input. Rolling off at 40.8 Hz is intended to band-limit the signal for anti-aliasing and to attenuate 60 Hz mains noise in hardware before it reaches the ADC (see the simulated Bode plot below), reducing harmonic folding in the digitized data.</div>
+        <div class="fc-freq">42.5 Hz (−3 dB, measured)</div>
+        <div class="fc-desc">2-pole Sallen-Key built on the AD8232's spare op-amp (R4 = R5 = 100 kΩ, C5 = 56 nF, C6 = 27 nF; f0 = 40.9 Hz, Q = 0.72), between the instrumentation-amp output and the ADC input. It band-limits the signal for the 256 Hz sampler and takes 6.9 dB off 60 Hz mains before the ADC; the measured response below matches the model to 0.33 dB RMS.</div>
       </div>
     </div>
 
     <div class="diagram-block">
   <img src="pictures/diagrams/signal-chain.svg" alt="Frequency plan" onclick="openZoom(this.src)"/>
-  <div class="dcap">Frequency axis, 0.1–100 Hz: analog passband 0.15–40.8 Hz, HPF 0.159 Hz, LPF 40.8 Hz, 60 Hz mains, and where the firmware notch acts.</div>
+  <div class="dcap">Frequency axis, 0.1–100 Hz: analog passband, 60 Hz mains, and where the firmware notch acts (drawn from the original design values; the measured −3 dB point is 42.5 Hz).</div>
 </div>
 <div class="diagram-block">
-  <img src="pictures/fish_monitor/bode-plot.png" alt="LTspice AC analysis of the analog chain: magnitude and phase" onclick="openZoom(this.src)"/>
-  <div class="dcap">LTspice AC simulation (fish_monitor.asc) from ideal component values: 1st-order HPF (10 µF, 100 kΩ), ×100 gain stage, unity-gain Sallen-Key LPF (100 kΩ, 39 nF). Magnitude and phase, 1 mHz–10 kHz.</div>
+  <img src="pictures/fish_monitor/bode-measured.png" alt="Measured frequency response at TP5 overlaid on the Sallen-Key model" onclick="openZoom(this.src)"/>
+  <div class="dcap">Measured response at TP5 vs. the 2-pole model (R4 = R5 = 100 kΩ, C5 = 56 nF, C6 = 27 nF). Input came through a 100 kΩ / 100 Ω divider (about 1 mVpp at the AD8232), with probe and generator grounds on REFOUT.</div>
+</div>
+<div class="diagram-block">
+  <img src="pictures/fish_monitor/ltspice-schematic.png" alt="LTspice schematic of the analog chain with the board's real part values" onclick="openZoom(this.src)"/>
+  <div class="dcap">LTspice model with the board's real values: an ideal gain of 100 (E1) standing in for the AD8232 in-amp, a 10 &micro;F / 10 M&Omega; high-pass (C1, R1), then the same two-pole Sallen-Key as the PCB (R2 = R3 = 100 k&Omega;, C2 = 56 nF, C3 = 27 nF) into a unity-gain buffer. AC sweep 1 mHz&ndash;10 kHz.</div>
+</div>
+<div class="diagram-block">
+  <img src="pictures/fish_monitor/ltspice-ac-response.png" alt="LTspice AC response: 40 dB passband, low-pass roll-off near 40 Hz, phase trace" onclick="openZoom(this.src)"/>
+  <div class="dcap">Simulated response of that model: 40 dB (100 V/V) passband, low-pass corner near 40 Hz, &minus;12 dB/octave roll-off, with the phase trace. The bench sweep above matches the low-pass side (42.5 Hz measured). The high-pass end is only simulated; the bench sweep stopped at 0.5 Hz.</div>
 </div>
 
     <h2>Active Shielding — Right Leg Drive</h2>
@@ -644,10 +656,10 @@ font-family:var(--font-sans);color:var(--text-main);font-size:15px;line-height:1
     <p>The wideband strategy intentionally passes some residual noise to the ADC. The firmware running on the nRF52840's ARM Cortex-M4F is responsible for all signal extraction.</p>
 
     <h2>ARM Cortex-M4F FPU Filtering</h2>
-    <p>The nRF52840's hardware floating-point unit is designed to run <strong>IIR and FIR digital filter</strong> routines in real time at the ADC sample rate. Two filter types are deployed:</p>
+    <p>The nRF52840's hardware FPU runs CMSIS-DSP <strong>IIR biquad cascades</strong> on every sample. Two filters run before the beat detector:</p>
     <ul class="overview-list" style="margin-bottom: 20px;">
-      <li><strong>Digital notch filter at 60 Hz</strong> — is designed to remove residual mains hum with a Q-factor sharper than is practical in analog hardware, applied to every ADC sample</li>
-      <li><strong>Variable digital bandpass filters</strong> — IIR/FIR coefficients are recalculated in firmware to isolate the specific cardiac (ECG) and gill-ventilation (respiratory) frequency bands of any target fish species; changing species means updating a configuration parameter, not re-spinning the PCB</li>
+      <li><strong>60 Hz notch</strong> — Q = 30 (about 2 Hz wide), much sharper than is practical in analog hardware; regenerated for 50 Hz mains with one script flag</li>
+      <li><strong>Per-species QRS band-pass</strong> — 2nd-order Butterworth, 5–25 Hz by default; each species slot stores its own coefficients, which the GUI designs and the firmware checks for stability before using</li>
     </ul>
     <div class="callout gold">
       <p><strong>Hardware-software co-design pivot:</strong> This firmware DSP architecture is designed to allow the platform — originally designed for plant electrophysiology — to be repurposed for aquatic bio-telemetry without any hardware modification.</p>
@@ -655,45 +667,73 @@ font-family:var(--font-sans);color:var(--text-main);font-size:15px;line-height:1
 
     <!-- FIRMWARE -->
     <div class="section-label">Firmware</div>
-    <p>The firmware is written for Zephyr on the nRF52840 and has not yet run on hardware, since the board is not fabricated.</p>
+    <p>The firmware is written for Zephyr (nRF Connect SDK) on the nRF52840. It has not run on the custom board yet; the detector and configuration code have been tested on my PC against simulated recordings (see Testing below).</p>
     <ul class="overview-list" style="margin-bottom: 20px;">
-      <li><strong>Sampling</strong> — SAADC at 100 Hz, 12-bit</li>
-      <li><strong>Filtering</strong> — IIR bandpass plus a 60 Hz notch on Zephyr</li>
-      <li><strong>Detection</strong> — peak detection, then heart-rate, ventilation-rate and cough classification</li>
-      <li><strong>Telemetry</strong> — a 26-byte packed BLE payload sent on each detected peak</li>
-      <li><strong>Persistence</strong> — the active species profile is saved to NVS flash and restored at boot</li>
+      <li><strong>Sampling</strong> — SAADC at 256 Hz, 12-bit, 4× oversampled; every sample carries a tick count, so dropped samples are detected and gap-filled</li>
+      <li><strong>Filtering</strong> — 60 Hz notch, then the species QRS band-pass; delay lines are primed to the DC level so the 1.5 V AD8232 offset doesn't ring through on start</li>
+      <li><strong>Detection</strong> — 20 ms RMS envelope, adaptive signal/noise thresholds, refractory period and an R-R outlier gate; oversized transients are counted as artifacts (cough or movement) and never as beats</li>
+      <li><strong>Telemetry</strong> — a 26-byte packet per detected beat (BPM, HRV RMSSD, artifacts/min, beat amplitude, status), plus a 1 Hz NO_SIGNAL packet when no beat is seen for 5 s</li>
+      <li><strong>Health calls only after a baseline</strong> — no literature heart-rate limits are compiled in; a species reports UNCALIBRATED until I record that fish at rest and apply measured limits</li>
+      <li><strong>Persistence</strong> — species list, bands, limits and detector thresholds are saved to NVS flash, validated again at boot, and ignored if they were made for a different sample rate</li>
     </ul>
 <div class="diagram-block">
   <img src="pictures/diagrams/firmware-flow.svg" alt="Firmware flow" onclick="openZoom(this.src)"/>
-  <div class="dcap">Firmware flow: SAADC 100 Hz → IIR bandpass → 60 Hz notch → peak detect → HR / ventilation / cough classify → BLE burst + NVS.</div>
+  <div class="dcap">Firmware flow (diagram predates v3.4: the rate is now 256 Hz, the notch runs before the band-pass, and ventilation has been removed).</div>
 </div>
 
     <!-- RTOS -->
     <div class="section-label">Firmware Architecture — Zephyr RTOS</div>
-    <p>The firmware (v3.0.0) is split into three preemptive Zephyr threads connected by message queues, so sampling timing never depends on DSP or BLE work. It builds against the nRF Connect SDK; it has not yet run on the custom board.</p>
+    <p>The firmware (v3.4.0) is split into four preemptive Zephyr threads connected by message queues, so sampling timing never depends on DSP or BLE work.</p>
     <table class="spec-table thread-table">
       <thead><tr><th>Thread</th><th>Stack</th><th>Priority</th><th>Job</th></tr></thead>
       <tbody>
-        <tr><td>adc_thread</td><td>1024 B</td><td>2</td><td>Wakes on a semaphore from a 10 ms <code>k_timer</code>, reads the SAADC, posts to <code>raw_sample_queue</code></td></tr>
-        <tr><td>dsp_thread</td><td>3072 B</td><td>3</td><td>Notch + bandpass, peak detection, BPM / HRV / ventilation / cough, health classification, posts to <code>telem_queue</code></td></tr>
-        <tr><td>ble_thread</td><td>2048 B</td><td>5</td><td>Packs the 26-byte telemetry packet and sends a GATT notification</td></tr>
+        <tr><td>adc_thread</td><td>1024 B</td><td>2</td><td>Wakes on a semaphore from a 256 Hz <code>k_timer</code>, reads the SAADC, posts the sample and its tick count</td></tr>
+        <tr><td>dsp_thread</td><td>3072 B</td><td>3</td><td>Notch + band-pass, QRS detection, BPM / HRV / artifact rate, status, posts to <code>telem_queue</code></td></tr>
+        <tr><td>ble_thread</td><td>2048 B</td><td>5</td><td>Sends the 26-byte telemetry packet as a GATT notification</td></tr>
+        <tr><td>aux_thread</td><td>1536 B</td><td>6</td><td>Sends configuration replies and the raw-ADC calibration stream</td></tr>
       </tbody>
     </table>
     <ul class="overview-list" style="margin-bottom: 20px;">
-      <li><strong>Timing</strong> — the 100 Hz sample clock is a <code>k_timer</code> whose expiry gives a semaphore, so the ISR stays short and the ADC thread does the work</li>
-      <li><strong>Queues</strong> — <code>k_msgq</code> between stages: 8 raw samples deep, 4 telemetry packets deep; puts use <code>K_NO_WAIT</code> so a slow stage drops data instead of blocking the sampler</li>
+      <li><strong>Timing</strong> — the sample clock is a <code>k_timer</code> of exactly 128 RTC ticks whose expiry gives a semaphore, so the ISR stays short; all beat timing comes from the sample index, not wall-clock time</li>
+      <li><strong>Queues</strong> — <code>k_msgq</code> between stages: 32 raw samples (125 ms of slack), 4 telemetry packets, 16 aux packets; puts use <code>K_NO_WAIT</code> so a slow stage drops data instead of blocking the sampler</li>
       <li><strong>Shared filter state</strong> — a <code>k_mutex</code> guards the active species profile and bandpass coefficients, so a species change over BLE can re-initialize the filter safely while the DSP thread runs</li>
-      <li><strong>DSP</strong> — CMSIS-DSP float biquad cascades on the Cortex-M4F: one notch stage and a two-stage bandpass</li>
-      <li><strong>Species profiles</strong> — four selectable profiles (glass catfish, Atlantic silverside, inland silverside, <em>Chromis viridis</em>), each with its own heart-rate range and bandpass; the choice is written over BLE and kept in NVS</li>
-      <li><strong>GATT service</strong> — species write, telemetry notify, and an acquisition-control characteristic that starts and stops the sample timer</li>
+      <li><strong>DSP</strong> — CMSIS-DSP float biquad cascades on the Cortex-M4F: one notch stage and a two-stage band-pass</li>
+      <li><strong>Species slots</strong> — eight slots, four pre-named (glass catfish, Atlantic silverside, inland silverside, <em>Chromis viridis</em>); slots can be added, renamed or deleted over BLE, and each has its own band and measured limits</li>
+      <li><strong>GATT service</strong> — species select, telemetry notify, acquisition start/stop, a command/response configuration characteristic, and a raw-ADC stream for calibration</li>
     </ul>
     <div class="img-block">
       <img src="pictures/fish_monitor/aquamonitor_gui.png" alt="AquaBioMonitor live telemetry dashboard layout" onclick="openZoom(this.src)"/>
-      <div class="img-cap">Host-side Python dashboard (matplotlib) for the BLE telemetry stream: heart rate, HRV RMSSD, ventilation rate, cough rate and filtered waveform. Layout only; no live data yet.</div>
+      <div class="img-cap">Host-side Python dashboard (matplotlib) for the BLE telemetry stream: heart rate, HRV RMSSD, artifact rate and beat amplitude (the ventilation panel is now unused). Layout only; no live data yet.</div>
     </div>
     <div class="img-block">
       <img src="pictures/fish_monitor/Aquamonitor_venv.png" alt="VS Code with Zephyr firmware source and the BLE monitor script scanning for AquaBioMonitor" onclick="openZoom(this.src)"/>
       <div class="img-cap">Firmware project in VS Code and <code>tools/ble_monitor.py</code> (bleak) scanning for the "AquaBioMonitor" peripheral, 26-byte packets, 60 s window. No board connected in this capture.</div>
+    </div>
+
+    <!-- TESTING -->
+    <div class="section-label">Host Tools &amp; Testing</div>
+    <p>Before the board is up, I test the firmware's detector (<code>qrs_detect.c</code>) and configuration parser (<code>cfg_proto.c</code>) on my PC. Both files have no Zephyr dependencies, so the test suite compiles the same C code into a shared library and drives it from Python with simulated ECG passed through a model of my analog front end (0.16 Hz high-pass, two 40.8 Hz poles, 12-bit ADC, mains hum, baseline wander and noise).</p>
+    <table class="spec-table test-table">
+      <thead><tr><th>Simulated case (120 s)</th><th>Beats found</th><th>False</th><th>Timing SD</th></tr></thead>
+      <tbody>
+        <tr><td>Inverted polarity</td><td>193/199</td><td>0</td><td>0.46 ms</td></tr>
+        <tr><td>15 mV hum + 40 mV wander</td><td>193/199</td><td>0</td><td>0.47 ms</td></tr>
+        <tr><td>Signal drops to 0.35× at 60 s</td><td>193/199</td><td>0</td><td>5.4 ms</td></tr>
+        <tr><td>Heart rate 60 → 120 BPM</td><td>136/139</td><td>0</td><td>2.9 ms</td></tr>
+        <tr><td>Electrode off for 30 s</td><td>144/150</td><td>0</td><td>0.53 ms</td></tr>
+        <tr><td>Three cough bursts</td><td>187/199</td><td>1</td><td>0.46 ms</td></tr>
+        <tr><td>Small signal (60 µV at input)</td><td>193/199</td><td>0</td><td>16 ms</td></tr>
+      </tbody>
+    </table>
+    <ul class="overview-list" style="margin-bottom: 20px;">
+      <li><strong>What the misses are</strong> — about 6 beats per run fall in the 4 s window where the detector learns its thresholds; the cough case also skips beats inside each 1 s artifact hold-off. All three coughs were flagged as artifacts.</li>
+      <li><strong>Weak spot</strong> — at the smallest signal, timing jitter rises to 16 ms and HRV reads about twice the true value. Heart rate holds up; HRV needs a stronger signal, which I will check on real recordings.</li>
+      <li><strong>Configuration GUI</strong> — a tkinter + bleak app with four tabs: detector thresholds, species (add, rename, band design), baseline (record a resting fish and turn the measured heart-rate range into limits), and calibration</li>
+      <li><strong>Calibration from data</strong> — three raw captures (empty tank, resting fish, deliberate artifacts) set the beat threshold between the noise floor and the weakest beat, and report whether the front end is noise-limited or would benefit from more gain</li>
+      <li><strong>Automated checks</strong> — 53 pass/fail checks across protocol, capture, calibration and baseline code, including invalid names, unstable filter coefficients and bad species IDs being rejected by the real firmware parser</li>
+    </ul>
+    <div class="callout">
+      <p><strong>Limit of these numbers:</strong> the ECG is synthetic. It shows the algorithm works on a known waveform, not that it fits real fish QRS shapes. Real recordings come next.</p>
     </div>
 
     <!-- PCB LAYOUT -->
@@ -724,13 +764,33 @@ font-family:var(--font-sans);color:var(--text-main);font-size:15px;line-height:1
         <tr><td>L1</td><td>Signals</td><td>TODO</td></tr><tr><td>L2</td><td>Ground</td><td>TODO</td></tr>
         <tr><td>L3</td><td>Power</td><td>TODO</td></tr><tr><td>L4</td><td>Signals</td><td>TODO</td></tr></tbody></table>
     </section>
-    <section id="validation-plan" hidden>
-      <div class="section-label">Validation Plan</div>
-      <!-- TODO(validation plan): planned tests, equipment, pass criteria (noise floor, gain, filter response, RLD CMRR, BLE range, current draw) -->
+    <section id="bench-validation">
+      <div class="section-label">Bench Validation</div>
+      <p>I hand-assembled the board with paste and hot air, then measured the analog chain at its test points: TP3 (REFOUT), TP4 (instrumentation-amp output) and TP5 (after the low-pass). A tiny bare-metal program flashed over SWD holds the AD8232's SDN pin high so the board runs on the coin cell with the debugger unplugged.</p>
+      <div class="lab"><div class="gallery"><div class="fig"><img src="pictures/fish_monitor/afe-closeup.jpg" alt="AD8232 front end close-up" onclick="openZoom(this.src)"/><div class="cap">AD8232 (replacement part), low-pass network C5/C6/R4/R5 and test points TP3–TP5.</div></div><div class="fig"><img src="pictures/fish_monitor/mcu-swd-closeup.jpg" alt="nRF52840 module and SWD header" onclick="openZoom(this.src)"/><div class="cap">MDBT50Q nRF52840 module, decoupling C2/C8 and the J1 SWD header.</div></div><div class="fig"><img src="pictures/fish_monitor/board-3d.png" alt="KiCad 3D render" onclick="openZoom(this.src)" style="object-fit:contain;background:#fff"/><div class="cap">KiCad 3D render of the same revision, for comparison.</div></div></div></div>
+      <table class="spec-table test-table">
+        <thead><tr><th>Test</th><th>Method</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Rails and reference</td><td>DMM, inputs tied to REFOUT</td><td>VBAT 3.04 V, REFOUT 1.51 V, TP4 = TP5 = 1.51 V</td></tr>
+          <tr><td>Gain and response</td><td>Generator through 1000:1 divider, 0.5–300 Hz</td><td>97.8 V/V, −3 dB at 42.5 Hz</td></tr>
+          <tr><td>Noise</td><td>Inputs shorted, scope AC RMS, floor subtracted</td><td>306 µV rms at TP5 → 3.2 µV rms input-referred</td></tr>
+          <tr><td>CMRR</td><td>1 Vpp 60 Hz on both inputs, 64× averaging</td><td>3.77 mVpp at TP4 → 88 dB</td></tr>
+          <tr><td>Supply current</td><td>100 Ω in series with the cell, DMM across it</td><td>15.9 mV → 159 µA at 3.0 V</td></tr>
+        </tbody>
+      </table>
+      <ul class="overview-list" style="margin-bottom: 20px;">
+        <li><strong>Battery life</strong> — 159 µA with the AFE on gives 58 days of continuous recording on a 220 mAh CR2032. That is the floor while recording: sampling, DSP and BLE notifications add to it, so the next measurement is the average current with the full firmware running. Going past 58 days means duty-cycling the AD8232 through its SDN pin between recording windows.</li>
+        <li><strong>Not yet measured</strong> — Right Leg Drive benefit in a saline phantom, shutdown current, full-firmware average current, BLE range, and heart rate against a reference on real fish.</li>
+        <li><strong>Limits</strong> — the noise window was 1 s, so content below about 1 Hz is under-counted; the high-pass corner sits below the 0.5 Hz sweep floor.</li>
+      </ul>
     </section>
-    <section id="bringup-log" hidden>
-      <div class="section-label">Bring-up Log</div>
-      <!-- TODO(bring-up log): fill after board is fabricated and assembled; dated entries with measurements -->
+    <section id="bringup-log">
+      <div class="section-label">Bring-up Problems</div>
+      <h2>Wrong-pitch programming header</h2>
+      <p>The J1 SWD header on my board did not match the leads I had for my ST-Link, so nothing would seat. I soldered jumper wires directly to VDD, GND, SWDIO and SWCLK and taped them down. The first loose connections dropped the SWD link mid-session; soldered wires fixed it, and OpenOCD then identified the nRF52840 and flashed it reliably.</p>
+      <div class="lab"><div class="gallery"><div class="fig"><img src="pictures/fish_monitor/swd-header-mismatch.jpg" alt="Programming lead next to the J1 header" onclick="openZoom(this.src)"/><div class="cap">The ST-Link lead crimp next to the J1 header it was meant to fit.</div></div><div class="fig"><img src="pictures/fish_monitor/swd-wires-soldered.jpg" alt="Jumper wires soldered to the SWD pins" onclick="openZoom(this.src)"/><div class="cap">The fix: wires soldered to J1 during bench testing.</div></div><div class="fig"><img src="pictures/fish_monitor/short-ocp-trip.jpg" alt="Bench supply in overcurrent protection" onclick="openZoom(this.src)"/><div class="cap">The supply tripping OCP: the first sign of the VDD–GND short.</div></div></div></div>
+      <h2>Burned chip and a 2.6 Ω short</h2>
+      <p>Midway through testing, the bench supply hit its current limit as soon as I connected it, and a 100 Ω series resistor showed why: 29 mA flowed and the board rail sat at 0.08 V. With power removed, VDD to GND read 2.6 Ω (lead resistance about 0.3 Ω), drifting to 3.4 Ω as it warmed. That is too high for a solder bridge, so I treated it as a damaged part. J1 measured clean, the short was there with SW1 on or off, and no capacitor got warm under a low-voltage current test. I replaced the chip, the short cleared, and I re-flashed and re-ran gain spot checks before trusting the rest of the data.</p>
     </section>
   </div><!-- /main -->
 
@@ -757,7 +817,7 @@ font-family:var(--font-sans);color:var(--text-main);font-size:15px;line-height:1
         <span class="sicon">PWR</span>
         <div class="sinfo">
           <strong>CR2032 Coin Cell</strong>
-          <span>Keystone 1060 SMD retainer — 3 V supply<!-- TODO(power budget): state expected battery life only after a measured/calculated power budget --></span>
+          <span>Keystone 1060 SMD retainer — 3 V supply; 159 µA measured with the AFE on, 58 days continuous</span>
         </div>
       </div>
     </div>
@@ -767,22 +827,22 @@ font-family:var(--font-sans);color:var(--text-main);font-size:15px;line-height:1
       <div class="srow">
         <span class="sicon">HPF</span>
         <div class="sinfo">
-          <strong>HPF Cutoff: 0.159 Hz</strong>
-          <span>10 µF cap + 10 MΩ resistor via AD8232 100× feedback multiplier</span>
+          <strong>HPF: below 0.5 Hz</strong>
+          <span>C4 + R3 (10 MΩ) in the AD8232 high-pass loop; response flat to 0.5 Hz measured</span>
         </div>
       </div>
       <div class="srow">
         <span class="sicon">LPF</span>
         <div class="sinfo">
-          <strong>LPF Cutoff: 40.8 Hz</strong>
-          <span>2-pole Sallen-Key, 100 kΩ + 39 nF — anti-aliasing &amp; 60 Hz pre-attenuation</span>
+          <strong>LPF −3 dB: 42.5 Hz</strong>
+          <span>2-pole Sallen-Key, 100 kΩ, 56 nF / 27 nF; −6.9 dB at 60 Hz measured</span>
         </div>
       </div>
       <div class="srow">
         <span class="sicon">RLD</span>
         <div class="sinfo">
           <strong>RLD Active Shield</strong>
-          <span>Inverted common-mode injection into tank water — cancels 60 Hz EMI at source</span>
+          <span>Inverted common-mode injection into tank water; 88 dB CMRR measured without it</span>
         </div>
       </div>
     </div>
@@ -792,11 +852,13 @@ font-family:var(--font-sans);color:var(--text-main);font-size:15px;line-height:1
       <ul class="skill-list">
         <li><strong>Mixed-Signal PCB Design</strong> — 4-layer KiCad, domain separation</li>
         <li><strong>RF Layout</strong> — nRF52840 antenna keepout, BLE 5.0</li>
-        <li><strong>DSP</strong> — ARM Cortex-M4F FPU, IIR/FIR, digital notch</li>
+        <li><strong>DSP</strong> — CMSIS-DSP biquads, notch, QRS detection</li>
         <li><strong>Analog Front-End</strong> — AD8232, Sallen-Key, RLD shielding</li>
         <li><strong>DFM</strong> — Via-in-pad mitigation, JLCPCB BOM/CPL</li>
         <li><strong>Embedded Systems</strong> — nRF52840, SWD, low-power BLE</li>
-        <li><strong>RTOS</strong> — Zephyr threads, message queues, mutex, timers</li>
+        <li><strong>Bring-up &amp; Test</strong> — Bode sweep, noise, CMRR, current; short isolation and IC rework</li>
+        <li><strong>RTOS</strong> — Zephyr threads, message queues, mutex, timers, NVS</li>
+        <li><strong>Test &amp; Tooling</strong> — Python (bleak, scipy, tkinter), C tested from Python via ctypes</li>
       </ul>
     </div>
 

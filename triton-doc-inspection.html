@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Leg Wires Inspection Procedure &mdash; Triton Droids &mdash; Will Hovel</title>
+  <meta name="description" content="The procedure I wrote so new members with no harness experience could survey, inspect and qualify to rebuild the robot&rsquo;s leg wiring."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+:root{
+  --bg-primary:#0c1610;--bg-card:#142019;--text-main:#e2e8f0;--text-muted:#94a3b8;--text-light:#64748b;
+  --accent-forest:#38a169;--accent-sage:#48bb78;--accent-active:#4ade80;--accent-sage-light:rgba(56,161,105,0.10);
+  --border-light:rgba(255,255,255,0.08);--border-hover:rgba(255,255,255,0.16);--gold:#d4a843;
+  --font-sans:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--font-mono:'JetBrains Mono',monospace;
+  --radius:6px;--border:1px solid var(--border-light);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg-primary);color:var(--text-main);font-family:var(--font-sans);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.4;background-image:radial-gradient(circle,rgba(255,255,255,0.04) .5px,transparent .5px);background-size:24px 24px}
+a{color:var(--accent-sage)}
+a:focus-visible,summary:focus-visible,button:focus-visible{outline:2px solid var(--accent-active);outline-offset:3px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,4vw,48px);border-bottom:var(--border);background:rgba(12,22,16,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.nav-logo{font-weight:700;font-size:.95rem;color:var(--accent-forest);text-decoration:none;letter-spacing:-.01em}
+.nav-links{display:flex;gap:1.8rem;align-items:center}
+.nav-links a{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.04em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .15s}
+.nav-links a:hover{color:var(--accent-sage)}
+
+.container{max-width:1120px;margin:0 auto;padding:0 clamp(20px,4vw,48px);position:relative;z-index:1}
+.prose{max-width:760px}
+
+/* header */
+.head{padding:calc(56px + 48px) 0 36px}
+.crumb{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-sage);margin-bottom:12px}
+.crumb a{color:var(--text-muted);text-decoration:none}.crumb a:hover{color:var(--accent-sage)}
+h1{font-size:clamp(2rem,4.4vw,3rem);line-height:1.08;letter-spacing:-.02em;color:#f1f5f9;font-weight:700;margin-bottom:16px}
+.lede{font-size:1.02rem;color:#cbd5e1;line-height:1.7;max-width:720px;margin-bottom:20px}
+.skills{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.03em;padding:4px 9px;border:var(--border);border-radius:3px;color:var(--text-muted);background:var(--bg-card);white-space:nowrap}
+.tag-green{border-color:rgba(46,139,87,.3);color:var(--accent-sage);background:var(--accent-sage-light)}
+.facts{display:flex;flex-wrap:wrap;gap:6px 28px;margin-top:20px;font-size:.82rem;color:var(--text-muted)}
+.facts b{color:#cbd5e1;font-weight:600}
+
+/* results box */
+.results{padding:0 0 44px}
+.box{background:var(--bg-card);border:var(--border);border-left:4px solid var(--accent-sage);border-radius:var(--radius);padding:clamp(18px,3vw,28px)}
+.box-title{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.box-title h2{font-size:1.1rem;color:#f1f5f9;letter-spacing:-.01em;margin:0}
+.box-title span{font-family:var(--font-mono);font-size:.64rem;color:var(--text-light);letter-spacing:.04em}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.metric{padding:14px 16px;border:var(--border);border-radius:var(--radius);background:rgba(255,255,255,.015)}
+.metric .n{font-family:var(--font-mono);font-size:1.9rem;font-weight:700;color:var(--accent-active);line-height:1.1;letter-spacing:-.02em}
+.metric .n small{font-size:.9rem;font-weight:500;color:var(--accent-sage);margin-left:3px}
+.metric .l{font-size:.82rem;font-weight:600;color:#f1f5f9;margin:6px 0 4px}
+.metric .m{font-size:.76rem;color:var(--text-muted);line-height:1.5}
+.rb-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:12px;align-items:stretch}
+.fig{border:var(--border);border-radius:var(--radius);background:rgba(0,0,0,.22);overflow:hidden;display:flex;flex-direction:column}
+.fig img{width:100%;height:100%;min-height:0;object-fit:cover;display:block;cursor:zoom-in}
+.fig .cap{margin-top:auto;font-family:var(--font-mono);font-size:.64rem;line-height:1.55;color:var(--text-muted);padding:9px 12px;border-top:var(--border)}
+.plot{padding:16px 16px 4px}
+.plot h3{font-size:.82rem;color:#f1f5f9;margin-bottom:10px}
+.legend{list-style:none;display:grid;gap:5px;font-size:.78rem;color:#cbd5e1;padding:10px 0 12px}
+.legend li{display:flex;align-items:center;gap:8px}
+.legend i{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.legend span{margin-left:auto;font-family:var(--font-mono);font-size:.72rem;color:var(--text-muted)}
+
+/* sections */
+.section{padding:48px 0;border-top:var(--border)}
+.section-label{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.section-label::before{content:'';width:20px;height:2px;background:var(--accent-sage);flex-shrink:0}
+h2{font-size:1.35rem;letter-spacing:-.015em;color:#f1f5f9;margin:0 0 14px;font-weight:700}
+h3{font-size:.98rem;color:#f1f5f9;margin:0 0 8px}
+p{color:#cbd5e1;margin-bottom:12px;line-height:1.7;font-size:.94rem}
+ul.plain{list-style:none;display:flex;flex-direction:column;gap:9px}
+ul.plain li{font-size:.9rem;color:#cbd5e1;line-height:1.65;padding-left:18px;position:relative}
+ul.plain li::before{content:'';position:absolute;left:0;top:.72em;width:5px;height:5px;border-radius:50%;background:var(--accent-sage)}
+ul.plain li b{color:#f1f5f9;font-weight:600}
+code{font-family:var(--font-mono);font-size:.8em;color:var(--accent-sage);background:rgba(46,139,87,.08);padding:1px 5px;border-radius:3px}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.card{background:var(--bg-card);border:var(--border);border-radius:var(--radius);padding:22px}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:var(--border);border-radius:var(--radius);background:var(--bg-card)}
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+th,td{text-align:left;padding:11px 14px;vertical-align:top;border-bottom:var(--border)}
+tr:last-child td{border-bottom:none}
+th{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-light);font-weight:500;background:rgba(255,255,255,.02)}
+td{color:#cbd5e1;line-height:1.55}
+td.m{font-family:var(--font-mono);font-size:.82rem;color:var(--accent-active);white-space:nowrap}
+td.k{color:#f1f5f9;font-weight:600}
+td.d{color:var(--text-muted);font-size:.8rem}
+.note{font-size:.8rem;color:var(--text-muted);margin-top:10px;line-height:1.6}
+
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.gallery .fig img{aspect-ratio:4/3}
+.gallery.g4{grid-template-columns:repeat(4,1fr)}
+.vids .fig{margin-bottom:12px}
+.video-wrap{position:relative;aspect-ratio:16/9;background:#000}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+details{border:var(--border);border-radius:var(--radius);background:var(--bg-card);margin-top:12px}
+summary{cursor:pointer;padding:14px 18px;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';color:var(--accent-sage);font-size:1rem;line-height:1}
+details[open] summary::after{content:'–'}
+summary:hover{color:var(--accent-sage)}
+.det-body{padding:4px 20px 20px;border-top:var(--border)}
+.det-body h3{margin-top:18px}
+.sch img{background:#fff;object-fit:contain!important}
+
+footer{border-top:var(--border);padding:20px clamp(20px,4vw,48px);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;position:relative;z-index:1}
+footer p{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.04em;color:var(--text-light);margin:0}
+footer a{color:var(--accent-sage);text-decoration:none}
+
+.zoom{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.95);align-items:center;justify-content:center;padding:28px;cursor:zoom-out}
+.zoom.open{display:flex}.zoom img{max-width:100%;max-height:100%;object-fit:contain}
+
+@media(max-width:900px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .rb-grid,.two{grid-template-columns:1fr}
+  .gallery,.gallery.g4{grid-template-columns:repeat(2,1fr)}
+  .nav-links{gap:1rem}
+}
+@media(max-width:480px){.gallery,.gallery.g4{grid-template-columns:1fr}.metrics{grid-template-columns:1fr}.metric .n{font-size:1.6rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  .lw{max-width:1120px;margin:0 auto;padding:0 clamp(20px,4vw,48px);position:relative;z-index:1}.head{padding:calc(56px + 48px) 0 36px}.status{display:inline-block;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.04em;padding:4px 9px;border:1px solid rgba(212,168,67,.35);color:var(--gold);background:rgba(212,168,67,.08);border-radius:3px;margin-bottom:14px}.mini-card{display:block;text-decoration:none;color:inherit}.mini-card:hover{border-color:var(--border-hover)}.mini-card h3{margin-bottom:6px}.mini-card p,.card p.s{margin:0;font-size:.86rem;color:var(--text-muted)}.cards3{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}@media(max-width:900px){.cards3{grid-template-columns:1fr}}</style>
+<style>
+.doc-note{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.03em;color:var(--text-muted);border:1px solid rgba(212,168,67,.3);background:rgba(212,168,67,.06);padding:10px 14px;border-radius:4px;margin:0 0 28px;max-width:820px;line-height:1.6}
+.doc h2{margin-top:40px;padding-top:28px;border-top:var(--border)}.doc h2:first-child{margin-top:0;padding-top:0;border-top:none}
+.doc h3{margin-top:28px;font-size:1.05rem}.doc h4{margin:22px 0 8px;font-size:.92rem;color:#e2e8f0}
+.doc p{color:#cbd5e1;margin:0 0 12px;max-width:820px}.doc ul{margin:0 0 16px 20px;max-width:820px;color:#cbd5e1}.doc li{margin-bottom:5px}
+.doc ul.chk{list-style:none;margin-left:2px}
+.doc .tbl-wrap{margin:14px 0 22px}.doc table{font-size:.8rem}.doc td,.doc th{padding:8px 11px}
+.doc .lbl{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-sage);margin:20px 0 6px}
+.doc .done{color:#e2e8f0;border-left:2px solid var(--accent-forest);padding:2px 0 2px 12px;margin:10px 0 18px}
+.doc .answer{border:1px dashed rgba(255,255,255,.18);border-radius:4px;min-height:64px;padding:10px 14px;margin:6px 0 22px;color:var(--text-light);font-size:.8rem;max-width:820px;font-family:var(--font-mono)}
+.doc details{margin:0 0 6px;max-width:820px}.doc summary{cursor:pointer;font-family:var(--font-mono);font-size:.68rem;color:var(--text-light);letter-spacing:.04em}
+.doc details p{margin:6px 0 0;font-size:.82rem;color:var(--text-muted)}
+.docnav{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:44px;padding-top:24px;border-top:var(--border);font-size:.86rem}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Will Hovel</a>
+  <div class="nav-links">
+    <a href="index.html#projects">Projects</a>
+    <a href="about.html">About</a>
+    <a href="https://github.com/WillHovel" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</nav>
+
+<header class="head"><div class="lw"><div class="crumb"><a href="index.html#team">Team</a> / <a href="team-triton-droids.html">Triton Droids</a> / Documents</div><h1>Leg Wires Inspection Procedure</h1><p class="lede">I wrote this so a brand-new electrical member could pick it up with no harness experience: survey every motor-to-motor segment, test every harness against ten pass/fail checks, and earn solder qualification before touching the robot. Tables A and B are the logs the team actually filled in on the robot.</p><div class="facts"><span><b>Document</b> TD-ELEC-PRC-001</span><span><b>Scope</b> Gen 1 legs, motors 1&ndash;10</span><span><b>Checks</b> 10 inspection tests, 6 workmanship criteria</span><span><b>Author</b> Will Hovel, Electrical Lead</span></div></div></header><section class="section doc"><div class="lw"><div class="doc-note">Reproduced from the team&rsquo;s working document. Teammate names are replaced with Member numbers; links to team files are omitted.</div><div class="tbl-wrap"><table><thead><tr><th>Field</th><th>Value</th></tr></thead><tbody><tr><td>Document No.</td><td><code>TD-ELEC-PRC-001</code></td></tr><tr><td>Revision</td><td>A (initial release)</td></tr><tr><td>Applies to</td><td>Gen 1 humanoid, lower body: Robstride actuators 1–10 (legs)</td></tr><tr><td>Owner</td><td>Electrical subteam</td></tr><tr><td>Audience</td><td>New electrical members (no prior harness experience assumed)</td></tr><tr><td>Outputs</td><td>Table A (segment survey), Table B (inspection log), Table C (solder qualification), Section 7 BOM</td></tr></tbody></table></div>
+<h3>1. Purpose &amp; Scope</h3>
+<p>This procedure surveys every motor-to-motor CAN/power segment, inspects every existing harness, and qualifies members to build replacements. The data recorded in Tables A and B drives the replacement BOM in Section 7.</p>
+<ul>
+<li>In scope: CAN signal leads, XT30 power leads, and motor-side connectors on the two leg chains (motors 1–5, 6–10).</li>
+<li>Out of scope: PDB, Jetson, ESP32 and battery wiring (see Gen 1 spec sheet, Torso Electronics).</li>
+<li>Rule: Record what you observe, not what you expect. If unsure, write “?” and flag it in the Notes column.</li>
+</ul>
+<h3>2. Safety &amp; Required Equipment</h3>
+<p>The robot runs on a 12S LiPo (44.4 V nominal, 50.4 V full charge). The E-stop cuts only the 48 V motor rail, so it is not a lockout.</p>
+<h4>2.1 Pre-work checklist</h4>
+<ul class="chk">
+<li>☐ Battery disconnected at the XT90-S connector and physically removed from the enclosure</li>
+<li>☐ Robot supported on the bench (legs cannot fold or fall when a harness is pulled)</li>
+<li>☐ No bench power supply connected to the PDB</li>
+<li>☐ Soldering station on a heat mat, fume extractor on, safety glasses worn</li>
+<li>☐ Lead or senior member signed off before first solder joint</li>
+</ul>
+<h4>2.2 Equipment</h4>
+<div class="tbl-wrap"><table><thead><tr><th>Item</th><th>Spec / Note</th><th>Used in</th></tr></thead><tbody><tr><td>Digital multimeter</td><td>Continuity (beep) + resistance mode</td><td>B8</td></tr><tr><td>Measuring tape, flexible</td><td>cm scale, ≥ 150 cm</td><td>A</td></tr><tr><td>Masking tape + fine Sharpie</td><td>For wire and robot location tags</td><td>B</td></tr><tr><td>Wire strippers + flush cutters</td><td>14–28 AWG</td><td>B, C</td></tr><tr><td>Soldering iron</td><td>Temp-controlled; chisel tip for XT30</td><td>C</td></tr><tr><td>Solder + flux</td><td>63/37 or SAC305, rosin flux pen</td><td>C</td></tr><tr><td>Heat gun</td><td>For heat shrink</td><td>C</td></tr><tr><td>Helping hands / XT30 jig</td><td>Holds connector during soldering</td><td>C</td></tr><tr><td>Crimp pliers</td><td>Engineer PA-09 (20–32 AWG) for JST GH contacts</td><td>C</td></tr><tr><td>Calipers</td><td>Check wire OD vs gauge; confirm connector pitch (GH = 1.25 mm)</td><td>B5, 3.2</td></tr></tbody></table></div>
+<h3>3. Harness Architecture &amp; Connector Reference</h3>
+<p>Each leg is one daisy chain: CAN and 48 V power enter the first motor and hop motor-to-motor to the last. Motors carry a yellow numbered label (1–10).</p>
+<h4>3.1 Chain topology</h4>
+<div class="tbl-wrap"><table><thead><tr><th>Chain</th><th>Motors (in order)</th><th>Segments to survey</th><th>Feed segment</th><th>Chain end</th></tr></thead><tbody><tr><td>A</td><td>1 → 2 → 3 → 4 → 5</td><td>1–2, 2–3, 3–4, 4–5</td><td>F–1 (PDB/controller → motor 1)</td><td>Motor 5</td></tr><tr><td>B</td><td>6 → 7 → 8 → 9 → 10</td><td>6–7, 7–8, 8–9, 9–10</td><td>F–6 (PDB/controller → motor 6)</td><td>Motor 10</td></tr></tbody></table></div>
+<h4>3.2 Connector reference</h4>
+<p>Use the Ref code when filling Tables A and B. Names below come from the RS03 user manual (power: AMASS XT30 family; CAN: JST GH 1.25 mm). Only the RS03 manual has been read; the other motor models are still to be checked.</p>
+<div class="tbl-wrap"><table><thead><tr><th>Ref</th><th>Function</th><th>Harness-side connector</th><th>Motor-side (board-end)</th><th>Contacts</th><th>Notes</th></tr></thead><tbody><tr><td>P1</td><td>Power, 48 V</td><td>Amass XT30UW-F (female, yellow)</td><td>Amass XT30APW-M</td><td>2: pin 1 = +, pin 2 = −</td><td>Housing is stamped “XT30UW-F” on the harness plugs in our photos.</td></tr><tr><td>S1</td><td>CAN</td><td>JST GH 1.25 mm, 2-position: housing GHR-02V-S + contacts SSHL-002T-P0.2 (crimp, 26–30 AWG only)</td><td>GH1.25-2PWT</td><td>2: CAN_L, CAN_H</td><td>White latching plug next to P1. Crimped, not soldered. Measure pitch with calipers to confirm 1.25 mm.</td></tr><tr><td>P2</td><td>Power (variant)</td><td>Not yet identified: black housing, two gold screw-type contacts</td><td>Not yet identified</td><td>2 (+ a small third pin?)</td><td>Seen on at least two motors in the reference photos. The RS02 listing names “XT30PB”. Confirm against the RS00/RS02 manual before ordering.</td></tr><tr><td>—</td><td>Other / unknown</td><td>—</td><td>—</td><td>—</td><td>Photograph it and write “Other” + description.</td></tr></tbody></table></div>
+<h4>3.3 Wire color caution</h4>
+<p>CAN pairs on this robot are not color-consistent: green/white, blue/brown and red/black pairs have all been seen on S1 plugs. Never assume red = +48 V on a signal lead. Identify by connector, then confirm with the multimeter. New builds standardize on one CAN pair color (BOM item 7).</p>
+<h3>4. Procedure A — Motor-to-Motor Segment Survey</h3>
+<p>One row in Table A per segment x–y. Complete Procedure A before removing any harness in Procedure B, so lengths are measured with motors in their installed positions.</p>
+<h4>4.1 Steps</h4>
+<ul>
+<li>Find (or add) the row for segment x–y in Table A (e.g. 7–8).</li>
+<li>Locate the starting motor by its yellow label x. Record its connector Ref (P1 / P2 / S1, Section 3.2) in Conn @ x.</li>
+<li>Locate the ending motor y. Record its connector Ref in Conn @ y.</li>
+<li>Measure L_min: with joints in neutral, route a tape along the path a harness would take (along the frame, not through air) from connector face x to connector face y. Record in cm.</li>
+<li>Measure L_max: move every joint between x and y slowly through its full range of motion by hand. Record the longest connector-to-connector path seen.</li>
+<li>Record Slack = L_max − L_min (cm). If the path rubs an edge or pinches at any joint angle, note it.</li>
+<li>Compute L_cut = L_min + Slack +4 cm (2 cm per end for strip, solder and strain relief).</li>
+</ul>
+<h4>4.2 Table A — Segment Survey Log</h4>
+<div class="tbl-wrap"><table><thead><tr><th>Seg</th><th>Chain</th><th>Conn @ x</th><th>Conn @ y</th><th>L_min (cm)</th><th>Slack (cm)</th><th>L_cut (cm)</th><th>Inspector</th><th>Notes</th></tr></thead><tbody><tr><td>F–1</td><td>A</td><td>P1, S1</td><td>P1, S1</td><td>TBD</td><td>TBD</td><td>TBD</td><td>Member 1</td><td>Same as F-6</td></tr><tr><td>1–2</td><td>A</td><td>P1 &amp; S1</td><td>P1 &amp; S1</td><td>16</td><td>Max = 36 Slack = 20</td><td>40</td><td>Member 2</td><td></td></tr><tr><td>2–3</td><td>A</td><td>P1 &amp; S1</td><td>P1 &amp; S1</td><td>7.62</td><td>Max = 10.16 Slack = 2.54</td><td>14.16</td><td>Member 2</td><td></td></tr><tr><td>3–4</td><td>A</td><td>P1 &amp; S1</td><td>P1 &amp; S1</td><td>19cm</td><td>11cm (max=30, 15 detach  )</td><td>34</td><td>Member 3</td><td>Measured from base of motor</td></tr><tr><td>4–5</td><td>A</td><td>P1, S1</td><td>P1, S1</td><td>12.2</td><td>17.8 Max = 30.0</td><td>34.0</td><td>Member 1</td><td>Missing CAN wires</td></tr><tr><td>F–6</td><td>B</td><td>P1, S1</td><td>P1, S1</td><td>TBD</td><td>TBD</td><td>TBD</td><td>Member 4</td><td>S1 in y will connect to the computer Battery unconnected when measuring</td></tr><tr><td>6–7</td><td>B</td><td>P1 &amp; S1</td><td>P1 &amp; S1</td><td>16.51</td><td>Max = 33 Slack = 16.49</td><td>37</td><td>Member 2</td><td></td></tr><tr><td>7–8</td><td>B</td><td>P1 &amp; S1</td><td>P1 &amp; S1</td><td>TBD</td><td>TBD</td><td>TBD</td><td>Member 4</td><td>Taped Y-Connecter</td></tr><tr><td>8–9</td><td>B</td><td>P1</td><td>P1</td><td>19</td><td>8</td><td>31</td><td>Member 4</td><td>27: L_max</td></tr><tr><td>9–10</td><td>B</td><td>P1 &amp; S1</td><td>P2</td><td>13</td><td>17</td><td>34</td><td>Member 4</td><td>L_max: 30</td></tr></tbody></table></div>
+<p>Acceptance for Table A: every row filled, no “?” left in Conn @ x / y, and L_cut computed. A lead reviews before Section 7 is built.</p>
+<h3>5. Procedure B — Harness Removal, Tagging &amp; Inspection</h3>
+<p>Every harness gets a letter ID, is tested against B1–B10, and ends in exactly one pile. A harness passes only if B1–B8 all pass.</p>
+<h4>5.1 Removal and tagging</h4>
+<ul>
+<li>Write your name in the next free row of Table B. Your harness ID is that row’s letter (e.g. “C”).</li>
+<li>Before unplugging, wrap masking tape around the harness and write the ID in Sharpie.</li>
+<li>Put a second tape tag on the robot at each motor the harness connected to: ID + segment (e.g. “C / 7–8”). This records which harnesses were installed and where.</li>
+<li>Unplug by the connector housing, never by the wires. Depress the latch on S1 plugs first.</li>
+<li>In Table B, set Removed from to the segment, or “Loose” if the harness came from a bin.</li>
+<li>Log the CAN lead and the power lead as two rows under the same ID. A harness with only one lead gets one row.</li>
+</ul>
+<h4>5.2 Inspection criteria (perform in order)</h4>
+<div class="tbl-wrap"><table><thead><tr><th>Test</th><th>Parameter</th><th>Method</th><th>Pass criterion</th><th>Record</th></tr></thead><tbody><tr><td>B1</td><td>Build</td><td>Inspect both ends</td><td>Full: connector terminated at both ends. Half (one end only) = fail</td><td>Full / Half</td></tr><tr><td>B2</td><td>Joint insulation</td><td>Inspect each solder joint</td><td>Heat shrink, fully covering joint. Tape only = fail</td><td>HS / Tape / None</td></tr><tr><td>B3</td><td>Protective sleeve</td><td>Inspect run</td><td>Braided sleeve over ≥ 90 % of run, ends not frayed</td><td>Y / N</td></tr><tr><td>B4</td><td>Flexibility at connector</td><td>Grip the wire 5 cm from the connector, move your grip toward the connector, flexing at each point</td><td>Wire still flexes freely close to the housing (A lot or Some). Rigid right at the connector (Almost none) = fail: the stress concentrates there and the wire snaps off</td><td>A lot / Some / Almost none</td></tr><tr><td>B5</td><td>Gauge</td><td>Read jacket print or caliper OD</td><td>Power: 16 AWG silicone. CAN: 22 AWG or thicker (lower AWG number). 24 and 26 AWG = fail (these keep breaking)</td><td>AWG seen + Y / N</td></tr><tr><td>B6</td><td>Pull test</td><td>Hold connector and wire, pull hard by hand, each end</td><td>No movement, no exposed conductor, housing intact</td><td>Pass / Fail</td></tr><tr><td>B7</td><td>Joint quality</td><td>Remove tape/heat shrink; inspect under light. Solder: wire fully in cup, smooth concave fillet, no cold/grainy joint, no stray strands. Crimp: contact latched, no strands outside barrel</td><td>Pass on the criteria for that joint type; insulation gap ≤ 1 mm</td><td>Pass / Fail</td></tr><tr><td>B8</td><td>Continuity</td><td>DMM beep mode, each conductor end-to-end; then conductor-to-conductor. Wiggle wire while probing</td><td>Each conductor &lt; 1 Ω with no dropout; conductor-to-conductor reads OL</td><td>Pass / Fail</td></tr><tr><td>B9</td><td>Maintainable</td><td>Judge repair: re-solder joint, re-terminate connector, new heat shrink, hot glue relief</td><td>Repairable without shortening below L_cut (Table A)</td><td>Y / N</td></tr><tr><td>B10</td><td>Replace</td><td>Rule, not a test</td><td>Y unless B1–B8 all pass</td><td>Y / N</td></tr></tbody></table></div>
+<h4>5.3 Disposition</h4>
+<div class="tbl-wrap"><table><thead><tr><th>Result</th><th>Disposition</th><th>Pile</th></tr></thead><tbody><tr><td>B1–B8 all pass</td><td>Return to service</td><td>Tag green, back on robot at its tagged location</td></tr><tr><td>Any fail, B9 = Y</td><td>Maintenance</td><td>Maintenance bin. Counts toward BOM as a future replacement</td></tr><tr><td>Any fail, B9 = N</td><td>Replace</td><td>Replace bin. Do not reinstall</td></tr></tbody></table></div>
+<h4>5.4 Table B — Harness Inspection Log</h4>
+<div class="tbl-wrap"><table><thead><tr><th>ID</th><th>Inspector</th><th>Removed from</th><th>Lead</th><th>Conn ends</th><th>B1</th><th>B2</th><th>B3</th><th>B4</th><th>B5</th><th>B6</th><th>B7</th><th>B8</th><th>B9</th><th>B10</th><th>Disposition</th><th>Notes</th></tr></thead><tbody><tr><td>A</td><td>Member 6</td><td>1-2</td><td>CAN</td><td></td><td>Full</td><td>HS</td><td>Y</td><td>A lot</td><td>28AWG  Y</td><td>Fail</td><td>Pass</td><td></td><td>Y</td><td>N</td><td></td><td></td></tr><tr><td>A</td><td>Member 6</td><td>1-2</td><td>PWR</td><td></td><td>Full</td><td>Tape</td><td>Y</td><td>Almost none</td><td>16AWG Seen Y</td><td>Pass</td><td>Fail</td><td>Pass</td><td>Y</td><td>N</td><td></td><td></td></tr><tr><td>B</td><td></td><td></td><td>CAN</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>B</td><td>Member 4</td><td>7-8</td><td>PWR</td><td></td><td>Full</td><td>Tape</td><td>Y</td><td>A lot</td><td>16 &amp; 22</td><td>P</td><td></td><td></td><td></td><td>N</td><td>(B Power)</td><td>Threw away</td></tr><tr><td>C</td><td>Member 4</td><td>2</td><td>CAN</td><td></td><td>Full</td><td>Tape</td><td>Y</td><td>A lot</td><td>16 &amp; 22 PWR &amp; CAN</td><td>P</td><td>Fail</td><td>Pass</td><td></td><td>N</td><td></td><td></td></tr><tr><td>C</td><td></td><td></td><td>PWR</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>D</td><td>Member 2</td><td>N/A</td><td>CAN</td><td></td><td>Full</td><td></td><td>Y</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>D</td><td>Member 2</td><td>N/A</td><td>PWR</td><td></td><td>Full</td><td></td><td>Y</td><td>A lot</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>E</td><td>Member 5</td><td>4-5</td><td>CAN</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>Threw Away</td></tr><tr><td>E</td><td>Member 5</td><td>4-5</td><td>PWR</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>Threw Away</td></tr><tr><td>F</td><td>Member 3</td><td>N/A</td><td>PWR</td><td></td><td>Full</td><td>HS</td><td>N</td><td>A lot</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>F</td><td>Member 3</td><td></td><td>PWR</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>G</td><td></td><td></td><td>CAN</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>G</td><td></td><td></td><td>PWR</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>H</td><td></td><td></td><td>CAN</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>H</td><td></td><td></td><td>PWR</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>I</td><td></td><td>8-9</td><td>CAN</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>I</td><td></td><td>8-9</td><td>PWR</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>J</td><td>Member 5</td><td>Bat</td><td>PWR</td><td></td><td>Full</td><td>Tape</td><td>No</td><td>Alot</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>J</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+<p>Conn ends uses Section 3.2 Refs, e.g. “S1–S1” or “P1–P2”. Add rows as needed; keep CAN and PWR rows of one ID adjacent.</p>
+<h3>6. Procedure C — Soldering Qualification (Practice)</h3>
+<p>A member is qualified to build replacement harnesses after 3 accepted joints per connector type. Practice parts come from the shop stock, not the robot.</p>
+<h4>6.1 Steps</h4>
+<ul>
+<li>Watch at least one XT30 soldering video from the table below before your first joint.</li>
+<li>Solder 3 Amass XT30UW-F connectors to 16 AWG silicone wire (pin 1 = +; check the polarity mark on the housing).</li>
+<li>Slide heat shrink on before soldering; shrink after the joint cools.</li>
+<li>Have a qualified member inspect each joint against 6.2 and run B6 (pull) and B8 (continuity).</li>
+<li>Repeat for the S1 CAN connector: crimp 3 JST GH housings (GHR-02V-S) with SSHL-002T-P0.2 contacts using the PA-09 pliers. GH contacts accept 26–30 AWG only, so practice on 26 AWG wire. Check that each contact latches in the housing and does not pull out by hand (log as C1–C3 in Table C).</li>
+<li>If the lead approves the splice method (Section 8.1), solder a 22 AWG CAN trunk to a short 26–28 AWG GH pigtail and cover it with adhesive-lined heat shrink. Practice 3 of these.</li>
+<li>Log every attempt in Table C, including rejects.</li>
+</ul>
+<h4>6.1a Reference videos</h4>
+<p>I could read each video's title and channel only, not watch them. A lead should preview them first.</p>
+<div class="tbl-wrap"><table><thead><tr><th>Video</th><th>Channel</th><th>Why it is listed</th></tr></thead><tbody><tr><td>How to Solder XT30 Connector (4:42)</td><td>Blakbird TV</td><td>Short, XT30 only</td></tr><tr><td>How to build custom XT30 cables</td><td>Josh Pieper</td><td>Cables for a motor controller, closest to our use</td></tr><tr><td>xt30 Soldering Tutorial</td><td>Manos 3D</td><td>Second view of the same joint</td></tr><tr><td>Soldering replacing XT60 XT30 XT90 Connector Perfectly</td><td>Robojax</td><td>Covers XT30/60/90</td></tr><tr><td>Crimping JST PH connectors using Engineer PA-09</td><td>DigiKey TechForum</td><td>Same pliers as GH, but this guide is for PH, a bigger connector. No GH-specific video was found.</td></tr></tbody></table></div>
+<h4>6.2 Workmanship criteria</h4>
+<div class="tbl-wrap"><table><thead><tr><th>#</th><th>Criterion</th><th>Reject if</th></tr></thead><tbody><tr><td>W1</td><td>Strip length matches cup depth</td><td>Bare strands visible above cup, or insulation inside cup</td></tr><tr><td>W2</td><td>Strands tinned and fully seated in cup</td><td>Strands splayed or outside cup</td></tr><tr><td>W3</td><td>Fillet smooth, shiny, concave, wets cup and wire</td><td>Dull, grainy, balled or cracked</td></tr><tr><td>W4</td><td>Housing undamaged</td><td>Melted or deformed plastic, pins misaligned</td></tr><tr><td>W5</td><td>Heat shrink covers joint to housing</td><td>Any exposed metal</td></tr><tr><td>W6</td><td>Correct polarity</td><td>Red/+ not on the marked + contact</td></tr></tbody></table></div>
+<h4>6.3 Table C — Solder Qualification Log</h4>
+<div class="tbl-wrap"><table><thead><tr><th>Member</th><th>Date</th><th>Connector (Ref)</th><th>Wire AWG</th><th>Joint #</th><th>W1–W6</th><th>B6</th><th>B8</th><th>Accepted (Y/N)</th><th>Inspector</th></tr></thead><tbody><tr><td></td><td></td><td>P1</td><td>16</td><td>1</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td>P1</td><td>16</td><td>2</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td>P1</td><td>16</td><td>3</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td>S1</td><td></td><td>1</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td>S1</td><td></td><td>2</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td>S1</td><td></td><td>3</td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+<h3>7. Bill of Materials — Replacement Harnesses</h3>
+<p>Quantities are filled after Tables A and B are complete and reviewed. Each Qty basis below states how to derive the number; round up to the vendor pack size.</p>
+<h4>7.1 Derivation rules</h4>
+<ul>
+<li>N_seg = number of Table A segments whose installed harness is Replace, Maintenance, or missing.</li>
+<li>N_P1, N_S1 = connector ends of each type across those segments (from Conn @ x and Conn @ y), counted per gender. Add N_P2 once that connector is identified.</li>
+<li>L_pwr = Σ L_cut of those segments. Item 8 is a bonded red/black pair, so one length covers both conductors.</li>
+<li>L_can = Σ L_cut of those segments (twisted pair).</li>
+<li>Spares: +20 % on connectors and wire, plus Procedure C practice stock.</li>
+</ul>
+<h4>7.2 BOM</h4>
+<p>Prices: only the two Studica items were read from the vendor page (October 23, 2026). Amazon and DigiKey blocked automated price reads, so those prices stay blank to be filled at checkout.</p>
+<div class="tbl-wrap"><table><thead><tr><th>Item</th><th>Description</th><th>Spec / P/N</th><th>Qty basis</th><th>Qty</th><th>Unit</th><th>Unit price (USD)</th><th>Ext. price</th><th>Vendor / link</th><th>Notes</th></tr></thead><tbody><tr><td>1</td><td>XT30 power connector, harness side (+ male for inline joints)</td><td>Amass XT30UW-F (+ XT30AW-M)</td><td>N_P1 × 1.2 + 6 practice</td><td>0</td><td>ea</td><td></td><td></td><td>Amazon, 5 pairs XT30AW-M + XT30UW-F</td><td>Exact pair named in the RS03 manual. Confirm “UW” is stamped on the parts received.</td></tr><tr><td>2</td><td>Power connector, black variant</td><td>Not identified yet</td><td>N_P2 × 1.2</td><td>10</td><td>ea</td><td></td><td></td><td>Not sourced</td><td>Identify first (Section 8.1)</td></tr><tr><td>3</td><td>JST GH housing, 2-position</td><td>JST GHR-02V-S</td><td>N_S1 × 1.2 + 6 practice</td><td>30</td><td>ea</td><td></td><td></td><td>DigiKey GHR-02V-S</td><td></td></tr><tr><td>4</td><td>JST GH crimp contact</td><td>JST SSHL-002T-P0.2, 26–30 AWG</td><td>2 per housing, × 1.2</td><td>30</td><td>ea</td><td></td><td></td><td>DigiKey SSHL-002T-P0.2</td><td>Does not accept 22 AWG (Section 8.1)</td></tr><tr><td>5</td><td>GH pre-crimped pigtail, 2-pin</td><td>28 AWG, 150 mm</td><td>N_S1 × 1.2 (only if splice method approved)</td><td>0</td><td>ea</td><td></td><td></td><td>Amazon, GH1.25 pre-crimped cables</td><td>Optional</td></tr><tr><td>6</td><td>Crimp pliers</td><td>Engineer PA-09</td><td>1</td><td>0</td><td>ea</td><td></td><td></td><td>Amazon, PA-09</td><td>One-time tool; this listing is a PA-09 bundle, check contents</td></tr><tr><td>7</td><td>CAN wire, 22 AWG twisted pair, silicone</td><td>Studica 71026, green/yellow, 8 m</td><td>L_can × 1.2 ÷ 8 m</td><td>1</td><td>roll</td><td>9.99</td><td></td><td>Studica</td><td>Standard CAN color. Flexible silicone, per the flexibility rule (B4)</td></tr><tr><td>8</td><td>Power wire, 16 AWG red/black bonded silicone</td><td>Studica 71024, 8 m</td><td>L_pwr × 1.2 ÷ 8 m</td><td>1</td><td>roll</td><td>18.99</td><td></td><td>Studica</td><td></td></tr><tr><td>9</td><td>Heat shrink, 3:1 adhesive-lined, assorted</td><td>6 sizes, 3/32–1/2 in</td><td>1 kit</td><td>1</td><td>kit</td><td></td><td></td><td>Amazon, MILAPEAK 130 pcs</td><td>Joint insulation and strain relief (B2, B4)</td></tr><tr><td>10</td><td>Braided expandable sleeving, PET, 1/4 in</td><td>50 ft</td><td>L_pwr × 1.1</td><td>1</td><td>roll</td><td></td><td></td><td>Amazon, 50 ft PET sleeving</td><td>Size to bundle OD; check listing for sizes</td></tr><tr><td>11</td><td>Solder + flux</td><td>63/37 or SAC305; rosin flux pen</td><td>Restock as needed</td><td>0</td><td>ea</td><td></td><td></td><td>Lab stock</td><td></td></tr><tr><td>Total</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+<h3>8. Open Items &amp; Revision History</h3>
+<h4>8.1 Open items (resolve before ordering)</h4>
+<ul class="chk">
+<li>☐ Decision needed: GH contacts accept 26–30 AWG only, but CAN wire must be 22 AWG or thicker. Options: (a) solder a 22 AWG trunk to a short 26–28 AWG GH pigtail and protect the splice with adhesive heat shrink; (b) confirm the CAN plugs in our photos use a different crimp that takes 22 AWG. Check what is in the plug in the photo first.</li>
+<li>☐ Identify the black power connector (P2) and read the RS00/RS02/RS04 manuals (only RS03 was read)</li>
+<li>☐ Confirm the white CAN plugs are GH1.25 by measuring pitch with calipers</li>
+<li>☐ Confirm 16 AWG is adequate for peak current on RS03/RS04 segments</li>
+<li>☐ Confirm F–1 and F–6 feed routing from PDB/ESP32 CAN transceivers</li>
+<li>☐ Fill BOM prices at checkout (Amazon/DigiKey blocked automated reads); preview the videos in 6.1a</li>
+<li>☐ Confirm the motors have the CAN terminator built in (the manual does not say)</li>
+</ul>
+<h4>8.2 Revision history</h4>
+<div class="tbl-wrap"><table><thead><tr><th>Rev</th><th>Date</th><th>Author</th><th>Change</th></tr></thead><tbody><tr><td>A</td><td>2026-10-23</td><td>Electrical subteam</td><td>Initial release</td></tr><tr><td>B</td><td>2026-10-23</td><td>Electrical subteam</td><td>Connector names from RS03 manual; CAN min 22 AWG; flexibility is a pass; removed terminator step and tape BOM line; added videos and BOM links</td></tr></tbody></table></div><div class="docnav"><a href="team-triton-droids.html#documents">&larr; Back to Triton Droids</a><a href="triton-doc-harness-rebuild.html">Next: Leg Harness Rebuild: BOM, Cut List &amp; Build Guide &rarr;</a></div></div></section>
+<footer>
+  <p>Will Hovel · UC San Diego · Electrical Engineering</p>
+  <p><a href="mailto:will.hovel@gmail.com">will.hovel@gmail.com</a> · <a href="https://github.com/WillHovel" target="_blank" rel="noopener">GitHub</a> · <a href="https://www.linkedin.com/in/will-hovel-24824a379" target="_blank" rel="noopener">LinkedIn</a></p>
+</footer>
+
+<div class="zoom" id="zoomOverlay" onclick="closeZoom()" role="dialog" aria-label="Enlarged image"><img id="zoomImg" alt=""/></div>
+<script>
+function openZoom(img){var z=document.getElementById('zoomImg');z.src=img.src;z.alt=img.alt;document.getElementById('zoomOverlay').classList.add('open');document.body.style.overflow='hidden'}
+function closeZoom(){document.getElementById('zoomOverlay').classList.remove('open');document.body.style.overflow=''}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeZoom()});
+</script>
+</body>
+</html>

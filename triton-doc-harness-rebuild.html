@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Leg Harness Rebuild: BOM, Cut List &amp; Build Guide &mdash; Triton Droids &mdash; Will Hovel</title>
+  <meta name="description" content="One wiring standard, a $72.57 BOM, cut list and step-by-step builds for all 10 leg harnesses."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+:root{
+  --bg-primary:#0c1610;--bg-card:#142019;--text-main:#e2e8f0;--text-muted:#94a3b8;--text-light:#64748b;
+  --accent-forest:#38a169;--accent-sage:#48bb78;--accent-active:#4ade80;--accent-sage-light:rgba(56,161,105,0.10);
+  --border-light:rgba(255,255,255,0.08);--border-hover:rgba(255,255,255,0.16);--gold:#d4a843;
+  --font-sans:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--font-mono:'JetBrains Mono',monospace;
+  --radius:6px;--border:1px solid var(--border-light);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg-primary);color:var(--text-main);font-family:var(--font-sans);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.4;background-image:radial-gradient(circle,rgba(255,255,255,0.04) .5px,transparent .5px);background-size:24px 24px}
+a{color:var(--accent-sage)}
+a:focus-visible,summary:focus-visible,button:focus-visible{outline:2px solid var(--accent-active);outline-offset:3px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,4vw,48px);border-bottom:var(--border);background:rgba(12,22,16,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.nav-logo{font-weight:700;font-size:.95rem;color:var(--accent-forest);text-decoration:none;letter-spacing:-.01em}
+.nav-links{display:flex;gap:1.8rem;align-items:center}
+.nav-links a{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.04em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .15s}
+.nav-links a:hover{color:var(--accent-sage)}
+
+.container{max-width:1120px;margin:0 auto;padding:0 clamp(20px,4vw,48px);position:relative;z-index:1}
+.prose{max-width:760px}
+
+/* header */
+.head{padding:calc(56px + 48px) 0 36px}
+.crumb{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-sage);margin-bottom:12px}
+.crumb a{color:var(--text-muted);text-decoration:none}.crumb a:hover{color:var(--accent-sage)}
+h1{font-size:clamp(2rem,4.4vw,3rem);line-height:1.08;letter-spacing:-.02em;color:#f1f5f9;font-weight:700;margin-bottom:16px}
+.lede{font-size:1.02rem;color:#cbd5e1;line-height:1.7;max-width:720px;margin-bottom:20px}
+.skills{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.03em;padding:4px 9px;border:var(--border);border-radius:3px;color:var(--text-muted);background:var(--bg-card);white-space:nowrap}
+.tag-green{border-color:rgba(46,139,87,.3);color:var(--accent-sage);background:var(--accent-sage-light)}
+.facts{display:flex;flex-wrap:wrap;gap:6px 28px;margin-top:20px;font-size:.82rem;color:var(--text-muted)}
+.facts b{color:#cbd5e1;font-weight:600}
+
+/* results box */
+.results{padding:0 0 44px}
+.box{background:var(--bg-card);border:var(--border);border-left:4px solid var(--accent-sage);border-radius:var(--radius);padding:clamp(18px,3vw,28px)}
+.box-title{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.box-title h2{font-size:1.1rem;color:#f1f5f9;letter-spacing:-.01em;margin:0}
+.box-title span{font-family:var(--font-mono);font-size:.64rem;color:var(--text-light);letter-spacing:.04em}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.metric{padding:14px 16px;border:var(--border);border-radius:var(--radius);background:rgba(255,255,255,.015)}
+.metric .n{font-family:var(--font-mono);font-size:1.9rem;font-weight:700;color:var(--accent-active);line-height:1.1;letter-spacing:-.02em}
+.metric .n small{font-size:.9rem;font-weight:500;color:var(--accent-sage);margin-left:3px}
+.metric .l{font-size:.82rem;font-weight:600;color:#f1f5f9;margin:6px 0 4px}
+.metric .m{font-size:.76rem;color:var(--text-muted);line-height:1.5}
+.rb-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:12px;align-items:stretch}
+.fig{border:var(--border);border-radius:var(--radius);background:rgba(0,0,0,.22);overflow:hidden;display:flex;flex-direction:column}
+.fig img{width:100%;height:100%;min-height:0;object-fit:cover;display:block;cursor:zoom-in}
+.fig .cap{margin-top:auto;font-family:var(--font-mono);font-size:.64rem;line-height:1.55;color:var(--text-muted);padding:9px 12px;border-top:var(--border)}
+.plot{padding:16px 16px 4px}
+.plot h3{font-size:.82rem;color:#f1f5f9;margin-bottom:10px}
+.legend{list-style:none;display:grid;gap:5px;font-size:.78rem;color:#cbd5e1;padding:10px 0 12px}
+.legend li{display:flex;align-items:center;gap:8px}
+.legend i{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.legend span{margin-left:auto;font-family:var(--font-mono);font-size:.72rem;color:var(--text-muted)}
+
+/* sections */
+.section{padding:48px 0;border-top:var(--border)}
+.section-label{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.section-label::before{content:'';width:20px;height:2px;background:var(--accent-sage);flex-shrink:0}
+h2{font-size:1.35rem;letter-spacing:-.015em;color:#f1f5f9;margin:0 0 14px;font-weight:700}
+h3{font-size:.98rem;color:#f1f5f9;margin:0 0 8px}
+p{color:#cbd5e1;margin-bottom:12px;line-height:1.7;font-size:.94rem}
+ul.plain{list-style:none;display:flex;flex-direction:column;gap:9px}
+ul.plain li{font-size:.9rem;color:#cbd5e1;line-height:1.65;padding-left:18px;position:relative}
+ul.plain li::before{content:'';position:absolute;left:0;top:.72em;width:5px;height:5px;border-radius:50%;background:var(--accent-sage)}
+ul.plain li b{color:#f1f5f9;font-weight:600}
+code{font-family:var(--font-mono);font-size:.8em;color:var(--accent-sage);background:rgba(46,139,87,.08);padding:1px 5px;border-radius:3px}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.card{background:var(--bg-card);border:var(--border);border-radius:var(--radius);padding:22px}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:var(--border);border-radius:var(--radius);background:var(--bg-card)}
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+th,td{text-align:left;padding:11px 14px;vertical-align:top;border-bottom:var(--border)}
+tr:last-child td{border-bottom:none}
+th{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-light);font-weight:500;background:rgba(255,255,255,.02)}
+td{color:#cbd5e1;line-height:1.55}
+td.m{font-family:var(--font-mono);font-size:.82rem;color:var(--accent-active);white-space:nowrap}
+td.k{color:#f1f5f9;font-weight:600}
+td.d{color:var(--text-muted);font-size:.8rem}
+.note{font-size:.8rem;color:var(--text-muted);margin-top:10px;line-height:1.6}
+
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.gallery .fig img{aspect-ratio:4/3}
+.gallery.g4{grid-template-columns:repeat(4,1fr)}
+.vids .fig{margin-bottom:12px}
+.video-wrap{position:relative;aspect-ratio:16/9;background:#000}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+details{border:var(--border);border-radius:var(--radius);background:var(--bg-card);margin-top:12px}
+summary{cursor:pointer;padding:14px 18px;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';color:var(--accent-sage);font-size:1rem;line-height:1}
+details[open] summary::after{content:'–'}
+summary:hover{color:var(--accent-sage)}
+.det-body{padding:4px 20px 20px;border-top:var(--border)}
+.det-body h3{margin-top:18px}
+.sch img{background:#fff;object-fit:contain!important}
+
+footer{border-top:var(--border);padding:20px clamp(20px,4vw,48px);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;position:relative;z-index:1}
+footer p{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.04em;color:var(--text-light);margin:0}
+footer a{color:var(--accent-sage);text-decoration:none}
+
+.zoom{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.95);align-items:center;justify-content:center;padding:28px;cursor:zoom-out}
+.zoom.open{display:flex}.zoom img{max-width:100%;max-height:100%;object-fit:contain}
+
+@media(max-width:900px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .rb-grid,.two{grid-template-columns:1fr}
+  .gallery,.gallery.g4{grid-template-columns:repeat(2,1fr)}
+  .nav-links{gap:1rem}
+}
+@media(max-width:480px){.gallery,.gallery.g4{grid-template-columns:1fr}.metrics{grid-template-columns:1fr}.metric .n{font-size:1.6rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  .lw{max-width:1120px;margin:0 auto;padding:0 clamp(20px,4vw,48px);position:relative;z-index:1}.head{padding:calc(56px + 48px) 0 36px}.status{display:inline-block;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.04em;padding:4px 9px;border:1px solid rgba(212,168,67,.35);color:var(--gold);background:rgba(212,168,67,.08);border-radius:3px;margin-bottom:14px}.mini-card{display:block;text-decoration:none;color:inherit}.mini-card:hover{border-color:var(--border-hover)}.mini-card h3{margin-bottom:6px}.mini-card p,.card p.s{margin:0;font-size:.86rem;color:var(--text-muted)}.cards3{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}@media(max-width:900px){.cards3{grid-template-columns:1fr}}</style>
+<style>
+.doc-note{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.03em;color:var(--text-muted);border:1px solid rgba(212,168,67,.3);background:rgba(212,168,67,.06);padding:10px 14px;border-radius:4px;margin:0 0 28px;max-width:820px;line-height:1.6}
+.doc h2{margin-top:40px;padding-top:28px;border-top:var(--border)}.doc h2:first-child{margin-top:0;padding-top:0;border-top:none}
+.doc h3{margin-top:28px;font-size:1.05rem}.doc h4{margin:22px 0 8px;font-size:.92rem;color:#e2e8f0}
+.doc p{color:#cbd5e1;margin:0 0 12px;max-width:820px}.doc ul{margin:0 0 16px 20px;max-width:820px;color:#cbd5e1}.doc li{margin-bottom:5px}
+.doc ul.chk{list-style:none;margin-left:2px}
+.doc .tbl-wrap{margin:14px 0 22px}.doc table{font-size:.8rem}.doc td,.doc th{padding:8px 11px}
+.doc .lbl{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-sage);margin:20px 0 6px}
+.doc .done{color:#e2e8f0;border-left:2px solid var(--accent-forest);padding:2px 0 2px 12px;margin:10px 0 18px}
+.doc .answer{border:1px dashed rgba(255,255,255,.18);border-radius:4px;min-height:64px;padding:10px 14px;margin:6px 0 22px;color:var(--text-light);font-size:.8rem;max-width:820px;font-family:var(--font-mono)}
+.doc details{margin:0 0 6px;max-width:820px}.doc summary{cursor:pointer;font-family:var(--font-mono);font-size:.68rem;color:var(--text-light);letter-spacing:.04em}
+.doc details p{margin:6px 0 0;font-size:.82rem;color:var(--text-muted)}
+.docnav{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:44px;padding-top:24px;border-top:var(--border);font-size:.86rem}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Will Hovel</a>
+  <div class="nav-links">
+    <a href="index.html#projects">Projects</a>
+    <a href="about.html">About</a>
+    <a href="https://github.com/WillHovel" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</nav>
+
+<header class="head"><div class="lw"><div class="crumb"><a href="index.html#team">Team</a> / <a href="team-triton-droids.html">Triton Droids</a> / Documents</div><h1>Leg Harness Rebuild: BOM, Cut List &amp; Build Guide</h1><p class="lede">This is the document that turned the inspection results into a rebuild: one wire standard, a priced and stock-checked BOM, a cut list derived from measured lengths, step-by-step build procedures for each connector, and eight acceptance checks. The robot is now fully wired from these builds.</p><div class="facts"><span><b>Document</b> TD-ELEC-PRC-002</span><span><b>BOM</b> $72.57 before shipping and tax</span><span><b>Harnesses</b> 10, to one standard</span><span><b>Author</b> Will Hovel, Electrical Lead</span></div></div></header><section class="section doc"><div class="lw"><div class="doc-note">Reproduced from the team&rsquo;s working document. The build log in Section 5.2 is the Oct 31 snapshot; all harnesses have since been completed and installed. Teammate names are replaced with Member numbers; links to team files are omitted.</div><p>All 10 leg harnesses are being rebuilt to one standard: 16 AWG red/black for power and 22 AWG twisted pair for CAN. The BOM comes to $72.57 before shipping and tax, and it covers every wire in the cut list except the two feed segments still to be measured.</p>
+<div class="tbl-wrap"><table><thead><tr><th>Field</th><th>Value</th></tr></thead><tbody><tr><td>Document No.</td><td><code>TD-ELEC-PRC-002</code></td></tr><tr><td>Revision</td><td>A (initial release)</td></tr><tr><td>Applies to</td><td>Gen 1 humanoid, leg chains A (motors 1–5) and B (motors 6–10)</td></tr><tr><td>Input</td><td><code>TD-ELEC-PRC-001</code> results (Table A segment survey, Table B inspection log, Section 7 BOM quantities)</td></tr><tr><td>References</td><td>RS03 user manual, RS02 user manual</td></tr><tr><td>Prices</td><td>Read from vendor pages on 2026-10-24, USD, excluding shipping and tax</td></tr></tbody></table></div>
+<h3>1. Bill of Materials</h3>
+<p>Quantities are the ones recorded in <code>TD-ELEC-PRC-001</code> Section 7. Ext. price = Qty × Unit price. Where the original link had no readable price (Amazon), a priced equivalent is substituted and marked “sub”.</p>
+<h4>1.1 BOM as ordered</h4>
+<div class="tbl-wrap"><table><thead><tr><th>#</th><th>Item (P/N)</th><th>Qty</th><th>Unit price</th><th>Ext. price</th><th>Vendor</th></tr></thead><tbody><tr><td>1</td><td>XT30 connectors, 20 pairs, female + male (Amass XT30)</td><td>1</td><td>$9.07</td><td>$9.07</td><td>Amazon</td></tr><tr><td>2</td><td>XT30(2+2) female plug, black (XT30(2+2)-F.G.B)</td><td>10</td><td>$0.29</td><td>$2.86</td><td>LCSC C19268028</td></tr><tr><td>3</td><td>JST GH housing, 2-pos (GHR-02V-S)</td><td>30</td><td>$0.067</td><td>$2.01</td><td>Mouser</td></tr><tr><td>4</td><td>JST GH crimp contact, 26–30 AWG (SSHL-002T-P0.2)</td><td>50</td><td>$0.136</td><td>$6.80</td><td>Newark 74M3274</td></tr><tr><td>6</td><td>CAN wire, 22 AWG twisted pair, green/yellow, 8 m (Studica 71026)</td><td>1</td><td>$9.99</td><td>$9.99</td><td>Studica</td></tr><tr><td>7</td><td>Power wire, 16 AWG red/black, 8 m (Studica 71024)</td><td>1</td><td>$18.99</td><td>$18.99</td><td>Studica</td></tr><tr><td>9</td><td>Braided sleeving, 1/4 in black, per foot (Steinair)</td><td>25 ft</td><td>$0.40</td><td>$10.00</td><td>Steinair</td></tr><tr><td></td><td>Total, excl. shipping and tax</td><td></td><td></td><td>$72.57</td><td></td></tr></tbody></table></div>
+<p>BOM notes:</p>
+<ul>
+<li>Item 1: price is the team’s. I could not open the Amazon listing, so confirm it is XT30U-F or XT30UW-F and mates with the motors.</li>
+<li>Item 2: $0.2858 is LCSC’s lowest tier, so the qty-10 price may be higher. 25,172 in stock.</li>
+<li>Item 3: 25+ price via TrustedParts. DigiKey showed out of stock; Mouser factory lead time 112 days. Check before ordering.</li>
+<li>Item 4: 50+ price tier, 2 contacts per housing.</li>
+<li>Item 5: out of stock at read time.</li>
+<li>Item 9: alternative is Techflex 100 ft, $40.</li>
+</ul>
+<h4>1.2 Coverage check</h4>
+<p>Ordered quantities against the Section 2 cut list, with 20 % spare.</p>
+<div class="tbl-wrap"><table><thead><tr><th>Item</th><th>Ordered</th><th>Needed (with spare)</th><th>Covered</th></tr></thead><tbody><tr><td>XT30 female</td><td>20 + stock on hand</td><td>18 ends (22)</td><td>Yes</td></tr><tr><td>XT30(2+2)-F</td><td>10</td><td>2 ends (3)</td><td>Yes</td></tr><tr><td>GH housing</td><td>30</td><td>18 ends (22)</td><td>Yes</td></tr><tr><td>GH contact</td><td>50</td><td>36 (44)</td><td>Yes</td></tr><tr><td>22 AWG CAN wire</td><td>800 cm</td><td>288 cm known (346) + 2 feeds</td><td>Yes, about 200 cm left per feed</td></tr><tr><td>16 AWG power wire</td><td>800 cm</td><td>288 cm known (346) + 2 feeds</td><td>Yes, about 200 cm left per feed</td></tr><tr><td>Sleeving</td><td>762 cm</td><td>288 cm known (317) + 2 feeds</td><td>Yes</td></tr></tbody></table></div>
+<h3>2. Harness Cut List</h3>
+<p>There are 10 harnesses: 8 have a cut length and 2 (the feed segments) are TBD. Cut length = longest connector-to-connector length at full joint extension (L_max in Table A) + 10 cm, rounded up to a whole cm. The 10 cm covers strip length, strain relief and some slack at each end.</p>
+<p>Each harness is a power pair plus a CAN pair cut to the same length, unless noted. Every connector on the harness side is a female plug that mates with the motor’s male board-end connector.</p>
+<h4>2.1 Connector codes</h4>
+<div class="tbl-wrap"><table><thead><tr><th>Code</th><th>Harness-side part</th><th>Carries</th><th>Motor board-end</th><th>Build procedure</th></tr></thead><tbody><tr><td>P1</td><td>Amass XT30UW-F</td><td>+48 V (pin 1), GND (pin 2)</td><td>XT30APW-M (RS03 manual)</td><td>4.1</td></tr><tr><td>S1</td><td>JST GH 2-pos, GHR-02V-S + SSHL-002T-P0.2</td><td>CAN_L, CAN_H</td><td>GH1.25-2PWT (RS03 manual)</td><td>4.3</td></tr><tr><td>P2</td><td>Amass XT30(2+2)-F.G.B, black</td><td>+ (pin 1), − (pin 2), CAN_L (3), CAN_H (4)</td><td>XT30PB(2+2)-M.G.B (RS02 manual)</td><td>4.2</td></tr></tbody></table></div>
+<h4>2.2 Cut list</h4>
+<div class="tbl-wrap"><table><thead><tr><th>Wire</th><th>Segment</th><th>Max (cm)</th><th>Cut (cm)</th><th>End X</th><th>End Y</th></tr></thead><tbody><tr><td>W-F1</td><td>Feed → 1</td><td>TBD</td><td>TBD</td><td>P1 + S1</td><td>P1 + S1</td></tr><tr><td>W-12</td><td>1–2</td><td>36</td><td>46</td><td>P1 + S1</td><td>P1 + S1</td></tr><tr><td>W-23</td><td>2–3</td><td>10.16</td><td>21</td><td>P1 + S1</td><td>P1 + S1</td></tr><tr><td>W-34</td><td>3–4</td><td>30</td><td>40</td><td>P1 + S1</td><td>P1 + S1</td></tr><tr><td>W-45</td><td>4–5</td><td>30</td><td>40</td><td>P1 + S1</td><td>P2</td></tr><tr><td>W-F6</td><td>Feed → 6</td><td>TBD</td><td>TBD</td><td>P1 + S1</td><td>P1 + S1</td></tr><tr><td>W-67</td><td>6–7</td><td>33</td><td>43</td><td>P1 + S1</td><td>P1 + S1</td></tr><tr><td>W-78</td><td>7–8</td><td>10.16</td><td>21</td><td>P1 + S1</td><td>P1 + S1</td></tr><tr><td>W-89</td><td>8–9</td><td>27</td><td>37</td><td>P1 + S1</td><td>P1 + S1</td></tr><tr><td>W-910</td><td>9–10</td><td>30</td><td>40</td><td>P1 + S1</td><td>P2</td></tr></tbody></table></div>
+<p>Every wire is a power pair plus a CAN pair of the same length. Notes:</p>
+<ul>
+<li>W-F1 and W-F6: measure. The survey says they are the same, and the feed end at the PDB/controller is the S1 that connects to the computer.</li>
+<li>W-45 and W-910: P2 is one XT30(2+2) plug that takes both pairs at motors 5 and 10.</li>
+<li>W-78: the legs are mirrored, so it copies W-23.</li>
+<li>W-34: measured from the motor base.</li>
+</ul>
+<h4>2.3 Totals</h4>
+<div class="tbl-wrap"><table><thead><tr><th>Quantity</th><th>Known runs</th><th>Not yet counted</th></tr></thead><tbody><tr><td>Power pair length</td><td>288 cm</td><td>W-F1, W-F6</td></tr><tr><td>CAN pair length</td><td>288 cm</td><td>W-F1, W-F6</td></tr><tr><td>P1 ends (XT30 female)</td><td>18</td><td></td></tr><tr><td>S1 ends (GH housings)</td><td>18 (36 contacts)</td><td></td></tr><tr><td>P2 ends (XT30(2+2)-F)</td><td>2</td><td></td></tr></tbody></table></div>
+<p>Lengths are measured values where Table A has them. The legs are mirrored, so W-78 copies W-23. The other chain-B lengths keep their own measurements.</p>
+<h3>3. Build Standard</h3>
+<p>Every harness is built the same way, so any member can inspect or repair any wire. Deviations need a lead’s sign-off, noted in the build log (Section 5).</p>
+<h4>3.1 Wire and color code</h4>
+<div class="tbl-wrap"><table><thead><tr><th>Signal</th><th>Wire</th><th>Color</th><th>Connector pin</th></tr></thead><tbody><tr><td>+48 V</td><td>16 AWG silicone (BOM 7)</td><td>Red</td><td>P1/P2 pin 1 (+)</td></tr><tr><td>GND</td><td>16 AWG silicone (BOM 7)</td><td>Black</td><td>P1/P2 pin 2 (−)</td></tr><tr><td>CAN_H</td><td>22 AWG twisted pair (BOM 6)</td><td>Yellow</td><td>P2 pin 4; S1 CAN_H</td></tr><tr><td>CAN_L</td><td>22 AWG twisted pair (BOM 6)</td><td>Green</td><td>P2 pin 3; S1 CAN_L</td></tr><tr><td>GH pigtail (S1 only)</td><td>26 AWG silicone, 4 cm (BOM 5)</td><td>Same color as the trunk wire it joins</td><td>S1 contacts</td></tr></tbody></table></div>
+<h4>3.2 Rules</h4>
+<ul>
+<li>Straight-through pinout: pin 1 at End X goes to pin 1 at End Y, and CAN_H goes to CAN_H. Never cross a pair.</li>
+<li>Length: cut the power pair to the Section 2 length. Cut the CAN pair to match, then trim it so its connectors sit level with the power connectors.</li>
+<li>Twist: keep the CAN pair twisted to within 2 cm of each connector or splice.</li>
+<li>Flexibility: no rigid boot at any connector. Heat shrink covers only the joint and ≤ 5 mm of insulation, so the wire can still bend close to the housing (inspection test B4).</li>
+<li>Sleeve: run both pairs in one 1/4 in braided sleeve. Stop the sleeve 3 cm short of each connector and lock each sleeve end with a 6.5 mm heat-shrink band.</li>
+<li>Label: put a masking-tape flag 5 cm from End X with the Wire ID and “X” (e.g. “W-67 X”). Lab stock; it is not a BOM line.</li>
+<li>No tape insulation: heat shrink only. Tape on a joint fails inspection.</li>
+</ul>
+<h3>4. Build Procedures</h3>
+<p>Build each harness in this order: cut, terminate End X, terminate End Y, sleeve, label, inspect (Section 5). Watch the videos for a connector before your first one; Section 4.5 lists them.</p>
+<h4>4.0 Setup (every harness)</h4>
+<ul>
+<li>Cut the power pair and CAN pair to the Section 2 length. Slide on the sleeve now if both ends use the same connector type, otherwise after End X.</li>
+<li>Pre-load heat shrink on each wire: 3.7 mm for 16 AWG cups, 1.5 mm for 22 AWG cups and splices.</li>
+<li>Iron at about 350–370 °C with a chisel tip for XT30 power cups. Use a fine tip for the small cups and splices.</li>
+<li>Mate the plug with a spare male connector while soldering. It holds the pins aligned and stops the housing deforming from heat.</li>
+</ul>
+<h4>4.1 P1: Amass XT30UW-F (power)</h4>
+<ul>
+<li>Strip the 16 AWG red and black wires to the depth of the solder cup. Twist the strands and tin them.</li>
+<li>Fill each cup about half full of solder.</li>
+<li>Find pin 1 (+) from the housing’s polarity mark. Red goes to pin 1, black to pin 2.</li>
+<li>Reheat the cup, push the tinned wire in until it bottoms out, and hold it still until the solder sets.</li>
+<li>Slide the 3.7 mm heat shrink over each cup up to the housing, then shrink.</li>
+<li>Check with inspection criteria W1–W6 (shiny concave fillet, no stray strands, no melted plastic).</li>
+</ul>
+<h4>4.2 P2: Amass XT30(2+2)-F.G.B (power + CAN, RS02 motors)</h4>
+<p>Pin map from the RS02 manual: 1 = +, 2 = −, 3 = CAN_L, 4 = CAN_H.</p>
+<ul>
+<li>Terminate the signal contacts first, while there is room to reach them: green to pin 3, yellow to pin 4. The XT30(2+2) is an XT30 power block with crimped signal contacts, so crimp these with the PA-09 as in 4.3 steps 2–4 (the LCSC listing calls the part “solder type”, so check the contacts on the part you receive).</li>
+<li>Solder the power cups as in 4.1, steps 1–5: red to pin 1, black to pin 2.</li>
+<li>The supplier gives 16–20 AWG for the power cups and no size for the signal contacts. If the 22 AWG CAN wire does not fit a signal contact, stop. Use a 4 cm 26 AWG pigtail and splice it as in 4.3, steps 6–10.</li>
+<li>Continuity-check all four pins against End X before sleeving.</li>
+</ul>
+<h4>4.3 S1: JST GH 1.25 mm (CAN, crimp + splice)</h4>
+<p>GH contacts take 26–30 AWG only, so the 22 AWG trunk cannot be crimped directly. Each S1 end is a short 26 AWG pigtail, crimped into the housing and soldered to the trunk.</p>
+<div class="lbl">Crimp the pigtail</div>
+<ul>
+<li>Cut two 4 cm pieces of 26 AWG wire, one green and one yellow (BOM 5).</li>
+<li>Strip just enough of one end to fill the contact’s conductor barrel. The insulation barrel must grip the jacket, not bare wire.</li>
+<li>Crimp each contact (SSHL-002T-P0.2) with the PA-09 in the smallest die that closes fully: conductor barrel first, then insulation barrel.</li>
+<li>Push each contact into the GHR-02V-S housing until it clicks. Tug it gently: it must not come out.</li>
+<li>Match the pin order to the motor’s GH header (CAN_L / CAN_H). Use the same order at both ends of every harness. Check it against a known-good motor before the first build.</li>
+</ul>
+<div class="lbl">Splice to the 22 AWG trunk</div>
+<ul>
+<li>Strip about 6 mm of the 26 AWG free end and of the 22 AWG trunk. Slide 1.5 mm heat shrink onto the trunk.</li>
+<li>Lay the wires end to end, green to green and yellow to yellow, and solder them as an inline splice (SparkFun method, 4.5).</li>
+<li>Stagger the two splices by about 1 cm so the bundle does not bulge.</li>
+<li>Keep each splice 2–3 cm from the housing so the pigtail stays free to flex.</li>
+<li>Shrink the heat shrink over each splice and continuity-check through the housing.</li>
+</ul>
+<h4>4.4 Sleeve and label</h4>
+<ul>
+<li>Pull the 1/4 in sleeve over both pairs. Stop it 3 cm short of each connector.</li>
+<li>Lock each sleeve end with a 6.5 mm heat-shrink band. Melt any frayed sleeve ends lightly with the heat gun.</li>
+<li>Add the End X label flag (rule 3.2.6).</li>
+</ul>
+<h4>4.5 Reference videos and guides</h4>
+<p>Videos marked Essential must be watched before a first build. I read each video’s title, channel and description only, so a lead should still preview them. The XT30(2+2) power block is covered by the XT30 video; its crimped signal contacts by the GH crimp guides.</p>
+<div class="tbl-wrap"><table><thead><tr><th>For</th><th>Resource</th><th>Source</th><th>Status</th></tr></thead><tbody><tr><td>P1 / P2 power</td><td>How to build custom XT30 cables</td><td>Josh Pieper (mjbots)</td><td>Essential. XT30 cables for a robot motor controller</td></tr><tr><td>P1 replacement</td><td>Soldering replacing XT60 XT30 XT90 Connector Perfectly</td><td>Robojax</td><td>Only when replacing an XT30 on an existing wire</td></tr><tr><td>P1 background</td><td>XT30 connector: everything you need to know, measured and tested</td><td>dronelab</td><td>Helpful for understanding, not essential</td></tr><tr><td>S1 crimp</td><td>Tutorial on handling and crimping a micro JST 1.25 connector</td><td>PakkenTech</td><td>1.25 mm pitch, same as GH</td></tr><tr><td>S1 crimp</td><td>Crimping JST PH connectors using Engineer PA-09</td><td>DigiKey TechForum</td><td>Same pliers, larger PH connector</td></tr><tr><td>S1 splice</td><td>Working with Wire: how to splice wires</td><td>SparkFun</td><td>Soldered inline splice + heat shrink</td></tr></tbody></table></div>
+<h3>5. Final Inspection and Build Log</h3>
+<p>A harness is installed only after a second member passes it on every check below. Failed harnesses are reworked and re-inspected; they are never installed “for now”.</p>
+<h4>5.1 Acceptance checks</h4>
+<div class="tbl-wrap"><table><thead><tr><th>Check</th><th>Method</th><th>Pass</th></tr></thead><tbody><tr><td>K1 Length</td><td>Tape, connector face to connector face</td><td>Within ±1 cm of Section 2 length − 4 cm</td></tr><tr><td>K2 Continuity</td><td>DMM beep, each conductor end to end</td><td>&lt; 1 Ω, no dropout while wiggling</td></tr><tr><td>K3 Isolation</td><td>DMM, every conductor to every other</td><td>OL (open)</td></tr><tr><td>K4 Pin map</td><td>DMM, pin 1→1, 2→2, CAN_H→CAN_H, CAN_L→CAN_L</td><td>Straight-through, matches 3.1</td></tr><tr><td>K5 Pull</td><td>Hold housing and wire, firm pull, each joint</td><td>No movement, no exposed metal</td></tr><tr><td>K6 Flex</td><td><code>TD-ELEC-PRC-001</code> test B4</td><td>“A lot” or “Some”</td></tr><tr><td>K7 Workmanship</td><td>Visual: W1–W6, heat shrink only, sleeve 3 cm short</td><td>No defects</td></tr><tr><td>K8 Fit</td><td>Mate both ends on the robot, move joints through full range</td><td>Latches fully, no strain at any angle</td></tr></tbody></table></div>
+<h4>5.2 Build log</h4>
+<div class="tbl-wrap"><table><thead><tr><th>Wire</th><th>Builder</th><th>Inspector</th><th>Date</th><th>K1–K8 (P/F each)</th><th>Result</th></tr></thead><tbody><tr><td>W-12</td><td>Member 7/Member 2</td><td></td><td>10/31</td><td>In progress</td><td></td></tr><tr><td>W-23</td><td>Member 6</td><td></td><td>10/31</td><td></td><td></td></tr><tr><td>W-34</td><td>Member 8</td><td></td><td>10/31</td><td></td><td></td></tr><tr><td>W-45</td><td>Member 9</td><td>Lead</td><td>10/31</td><td>Wrong ending connector</td><td></td></tr><tr><td>W-67</td><td>Member 3</td><td></td><td>10/31</td><td>Using old one</td><td>Good for now</td></tr><tr><td>W-78</td><td>Member 10</td><td>Lead</td><td>10/31</td><td></td><td>Good</td></tr><tr><td>W-89</td><td>Member 4</td><td>Lead</td><td>10/31</td><td>Not done; missing a connecter</td><td></td></tr><tr><td>W-910</td><td>Member 1</td><td></td><td>10/31</td><td></td><td></td></tr></tbody></table></div>
+<h3>6. Open Items, Sources and Revision History</h3>
+<h4>6.1 Open items (resolve before building the affected wire)</h4>
+<ul class="chk">
+<li>☐ Confirm the GH pin order (CAN_L / CAN_H) on a motor header before the first S1 build</li>
+<li>☐ Check GHR-02V-S stock (DigiKey showed out of stock; Mouser lead time 112 days). The Adafruit 26 AWG wire was also out of stock</li>
+</ul>
+<h4>6.2 Sources (opened 2026-10-24)</h4>
+<ul>
+<li>RobStride RS02 user manual: XT30PB(2+2)-M.G.B / XT30(2+2)-F.G.B, pins 1 +, 2 −, 3 CAN_L, 4 CAN_H</li>
+<li>RobStride RS03 user manual: XT30APW-M / XT30UW-F power; GH1.25-2PWT CAN</li>
+<li>JST GH contact range 26–30 AWG: DigiKey SSHL-002T-P0.2</li>
+<li>XT30(2+2)-F power cup range 16–20 AWG: Jameco 2845111</li>
+<li>Prices: vendor links in Section 1.1</li>
+</ul>
+<h4>6.3 Revision history</h4>
+<div class="tbl-wrap"><table><thead><tr><th>Rev</th><th>Date</th><th>Author</th><th>Change</th></tr></thead><tbody><tr><td>A</td><td>2026-10-24</td><td>Electrical subteam</td><td>Initial release from <code>TD-ELEC-PRC-001</code> results</td></tr><tr><td>B</td><td>2026-10-24</td><td>Electrical subteam</td><td>Cut length = max extended + 10 cm; W-89 has CAN; W-45 ends on P2; W-78 mirrors W-23; BOM: 20-pair XT30 pack, 50 GH contacts, removed solder, pigtails and pliers; video list reordered</td></tr></tbody></table></div><div class="docnav"><a href="team-triton-droids.html#documents">&larr; Back to Triton Droids</a><a href="triton-doc-mini-humanoid.html">Next: Mini Humanoid Build Guide &rarr;</a></div></div></section>
+<footer>
+  <p>Will Hovel · UC San Diego · Electrical Engineering</p>
+  <p><a href="mailto:will.hovel@gmail.com">will.hovel@gmail.com</a> · <a href="https://github.com/WillHovel" target="_blank" rel="noopener">GitHub</a> · <a href="https://www.linkedin.com/in/will-hovel-24824a379" target="_blank" rel="noopener">LinkedIn</a></p>
+</footer>
+
+<div class="zoom" id="zoomOverlay" onclick="closeZoom()" role="dialog" aria-label="Enlarged image"><img id="zoomImg" alt=""/></div>
+<script>
+function openZoom(img){var z=document.getElementById('zoomImg');z.src=img.src;z.alt=img.alt;document.getElementById('zoomOverlay').classList.add('open');document.body.style.overflow='hidden'}
+function closeZoom(){document.getElementById('zoomOverlay').classList.remove('open');document.body.style.overflow=''}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeZoom()});
+</script>
+</body>
+</html>

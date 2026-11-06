@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mini Humanoid Build Guide &mdash; Triton Droids &mdash; Will Hovel</title>
+  <meta name="description" content="Five-week plan for ten new members: fork Otto, design a shared PCB, then split into two teams."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+:root{
+  --bg-primary:#0c1610;--bg-card:#142019;--text-main:#e2e8f0;--text-muted:#94a3b8;--text-light:#64748b;
+  --accent-forest:#38a169;--accent-sage:#48bb78;--accent-active:#4ade80;--accent-sage-light:rgba(56,161,105,0.10);
+  --border-light:rgba(255,255,255,0.08);--border-hover:rgba(255,255,255,0.16);--gold:#d4a843;
+  --font-sans:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--font-mono:'JetBrains Mono',monospace;
+  --radius:6px;--border:1px solid var(--border-light);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg-primary);color:var(--text-main);font-family:var(--font-sans);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.4;background-image:radial-gradient(circle,rgba(255,255,255,0.04) .5px,transparent .5px);background-size:24px 24px}
+a{color:var(--accent-sage)}
+a:focus-visible,summary:focus-visible,button:focus-visible{outline:2px solid var(--accent-active);outline-offset:3px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,4vw,48px);border-bottom:var(--border);background:rgba(12,22,16,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.nav-logo{font-weight:700;font-size:.95rem;color:var(--accent-forest);text-decoration:none;letter-spacing:-.01em}
+.nav-links{display:flex;gap:1.8rem;align-items:center}
+.nav-links a{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.04em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .15s}
+.nav-links a:hover{color:var(--accent-sage)}
+
+.container{max-width:1120px;margin:0 auto;padding:0 clamp(20px,4vw,48px);position:relative;z-index:1}
+.prose{max-width:760px}
+
+/* header */
+.head{padding:calc(56px + 48px) 0 36px}
+.crumb{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-sage);margin-bottom:12px}
+.crumb a{color:var(--text-muted);text-decoration:none}.crumb a:hover{color:var(--accent-sage)}
+h1{font-size:clamp(2rem,4.4vw,3rem);line-height:1.08;letter-spacing:-.02em;color:#f1f5f9;font-weight:700;margin-bottom:16px}
+.lede{font-size:1.02rem;color:#cbd5e1;line-height:1.7;max-width:720px;margin-bottom:20px}
+.skills{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.03em;padding:4px 9px;border:var(--border);border-radius:3px;color:var(--text-muted);background:var(--bg-card);white-space:nowrap}
+.tag-green{border-color:rgba(46,139,87,.3);color:var(--accent-sage);background:var(--accent-sage-light)}
+.facts{display:flex;flex-wrap:wrap;gap:6px 28px;margin-top:20px;font-size:.82rem;color:var(--text-muted)}
+.facts b{color:#cbd5e1;font-weight:600}
+
+/* results box */
+.results{padding:0 0 44px}
+.box{background:var(--bg-card);border:var(--border);border-left:4px solid var(--accent-sage);border-radius:var(--radius);padding:clamp(18px,3vw,28px)}
+.box-title{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.box-title h2{font-size:1.1rem;color:#f1f5f9;letter-spacing:-.01em;margin:0}
+.box-title span{font-family:var(--font-mono);font-size:.64rem;color:var(--text-light);letter-spacing:.04em}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.metric{padding:14px 16px;border:var(--border);border-radius:var(--radius);background:rgba(255,255,255,.015)}
+.metric .n{font-family:var(--font-mono);font-size:1.9rem;font-weight:700;color:var(--accent-active);line-height:1.1;letter-spacing:-.02em}
+.metric .n small{font-size:.9rem;font-weight:500;color:var(--accent-sage);margin-left:3px}
+.metric .l{font-size:.82rem;font-weight:600;color:#f1f5f9;margin:6px 0 4px}
+.metric .m{font-size:.76rem;color:var(--text-muted);line-height:1.5}
+.rb-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:12px;align-items:stretch}
+.fig{border:var(--border);border-radius:var(--radius);background:rgba(0,0,0,.22);overflow:hidden;display:flex;flex-direction:column}
+.fig img{width:100%;height:100%;min-height:0;object-fit:cover;display:block;cursor:zoom-in}
+.fig .cap{margin-top:auto;font-family:var(--font-mono);font-size:.64rem;line-height:1.55;color:var(--text-muted);padding:9px 12px;border-top:var(--border)}
+.plot{padding:16px 16px 4px}
+.plot h3{font-size:.82rem;color:#f1f5f9;margin-bottom:10px}
+.legend{list-style:none;display:grid;gap:5px;font-size:.78rem;color:#cbd5e1;padding:10px 0 12px}
+.legend li{display:flex;align-items:center;gap:8px}
+.legend i{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.legend span{margin-left:auto;font-family:var(--font-mono);font-size:.72rem;color:var(--text-muted)}
+
+/* sections */
+.section{padding:48px 0;border-top:var(--border)}
+.section-label{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.section-label::before{content:'';width:20px;height:2px;background:var(--accent-sage);flex-shrink:0}
+h2{font-size:1.35rem;letter-spacing:-.015em;color:#f1f5f9;margin:0 0 14px;font-weight:700}
+h3{font-size:.98rem;color:#f1f5f9;margin:0 0 8px}
+p{color:#cbd5e1;margin-bottom:12px;line-height:1.7;font-size:.94rem}
+ul.plain{list-style:none;display:flex;flex-direction:column;gap:9px}
+ul.plain li{font-size:.9rem;color:#cbd5e1;line-height:1.65;padding-left:18px;position:relative}
+ul.plain li::before{content:'';position:absolute;left:0;top:.72em;width:5px;height:5px;border-radius:50%;background:var(--accent-sage)}
+ul.plain li b{color:#f1f5f9;font-weight:600}
+code{font-family:var(--font-mono);font-size:.8em;color:var(--accent-sage);background:rgba(46,139,87,.08);padding:1px 5px;border-radius:3px}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.card{background:var(--bg-card);border:var(--border);border-radius:var(--radius);padding:22px}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:var(--border);border-radius:var(--radius);background:var(--bg-card)}
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+th,td{text-align:left;padding:11px 14px;vertical-align:top;border-bottom:var(--border)}
+tr:last-child td{border-bottom:none}
+th{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-light);font-weight:500;background:rgba(255,255,255,.02)}
+td{color:#cbd5e1;line-height:1.55}
+td.m{font-family:var(--font-mono);font-size:.82rem;color:var(--accent-active);white-space:nowrap}
+td.k{color:#f1f5f9;font-weight:600}
+td.d{color:var(--text-muted);font-size:.8rem}
+.note{font-size:.8rem;color:var(--text-muted);margin-top:10px;line-height:1.6}
+
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.gallery .fig img{aspect-ratio:4/3}
+.gallery.g4{grid-template-columns:repeat(4,1fr)}
+.vids .fig{margin-bottom:12px}
+.video-wrap{position:relative;aspect-ratio:16/9;background:#000}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+details{border:var(--border);border-radius:var(--radius);background:var(--bg-card);margin-top:12px}
+summary{cursor:pointer;padding:14px 18px;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';color:var(--accent-sage);font-size:1rem;line-height:1}
+details[open] summary::after{content:'–'}
+summary:hover{color:var(--accent-sage)}
+.det-body{padding:4px 20px 20px;border-top:var(--border)}
+.det-body h3{margin-top:18px}
+.sch img{background:#fff;object-fit:contain!important}
+
+footer{border-top:var(--border);padding:20px clamp(20px,4vw,48px);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;position:relative;z-index:1}
+footer p{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.04em;color:var(--text-light);margin:0}
+footer a{color:var(--accent-sage);text-decoration:none}
+
+.zoom{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.95);align-items:center;justify-content:center;padding:28px;cursor:zoom-out}
+.zoom.open{display:flex}.zoom img{max-width:100%;max-height:100%;object-fit:contain}
+
+@media(max-width:900px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .rb-grid,.two{grid-template-columns:1fr}
+  .gallery,.gallery.g4{grid-template-columns:repeat(2,1fr)}
+  .nav-links{gap:1rem}
+}
+@media(max-width:480px){.gallery,.gallery.g4{grid-template-columns:1fr}.metrics{grid-template-columns:1fr}.metric .n{font-size:1.6rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  .lw{max-width:1120px;margin:0 auto;padding:0 clamp(20px,4vw,48px);position:relative;z-index:1}.head{padding:calc(56px + 48px) 0 36px}.status{display:inline-block;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.04em;padding:4px 9px;border:1px solid rgba(212,168,67,.35);color:var(--gold);background:rgba(212,168,67,.08);border-radius:3px;margin-bottom:14px}.mini-card{display:block;text-decoration:none;color:inherit}.mini-card:hover{border-color:var(--border-hover)}.mini-card h3{margin-bottom:6px}.mini-card p,.card p.s{margin:0;font-size:.86rem;color:var(--text-muted)}.cards3{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}@media(max-width:900px){.cards3{grid-template-columns:1fr}}</style>
+<style>
+.doc-note{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.03em;color:var(--text-muted);border:1px solid rgba(212,168,67,.3);background:rgba(212,168,67,.06);padding:10px 14px;border-radius:4px;margin:0 0 28px;max-width:820px;line-height:1.6}
+.doc h2{margin-top:40px;padding-top:28px;border-top:var(--border)}.doc h2:first-child{margin-top:0;padding-top:0;border-top:none}
+.doc h3{margin-top:28px;font-size:1.05rem}.doc h4{margin:22px 0 8px;font-size:.92rem;color:#e2e8f0}
+.doc p{color:#cbd5e1;margin:0 0 12px;max-width:820px}.doc ul{margin:0 0 16px 20px;max-width:820px;color:#cbd5e1}.doc li{margin-bottom:5px}
+.doc ul.chk{list-style:none;margin-left:2px}
+.doc .tbl-wrap{margin:14px 0 22px}.doc table{font-size:.8rem}.doc td,.doc th{padding:8px 11px}
+.doc .lbl{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-sage);margin:20px 0 6px}
+.doc .done{color:#e2e8f0;border-left:2px solid var(--accent-forest);padding:2px 0 2px 12px;margin:10px 0 18px}
+.doc .answer{border:1px dashed rgba(255,255,255,.18);border-radius:4px;min-height:64px;padding:10px 14px;margin:6px 0 22px;color:var(--text-light);font-size:.8rem;max-width:820px;font-family:var(--font-mono)}
+.doc details{margin:0 0 6px;max-width:820px}.doc summary{cursor:pointer;font-family:var(--font-mono);font-size:.68rem;color:var(--text-light);letter-spacing:.04em}
+.doc details p{margin:6px 0 0;font-size:.82rem;color:var(--text-muted)}
+.docnav{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:44px;padding-top:24px;border-top:var(--border);font-size:.86rem}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Will Hovel</a>
+  <div class="nav-links">
+    <a href="index.html#projects">Projects</a>
+    <a href="about.html">About</a>
+    <a href="https://github.com/WillHovel" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</nav>
+
+<header class="head"><div class="lw"><div class="crumb"><a href="index.html#team">Team</a> / <a href="team-triton-droids.html">Triton Droids</a> / Documents</div><h1>Mini Humanoid Build Guide</h1><p class="lede">The new-member project: ten members (6 electrical, 2 mechanical, 2 simulation/ML) build a stock Otto humanoid on SG90 servos, design and order one shared PCB, then split into two teams that each modify their own robot. I wrote the schedule, requirements and review gates so every number traces back to a measurement or a datasheet.</p><div class="facts"><span><b>Team</b> 6 electrical, 2 mechanical, 2 sim/ML</span><span><b>Timeline</b> Oct 24 &ndash; Nov 28, 2026</span><span><b>Output</b> Two robots, shared PCB, write-up</span><span><b>Author</b> Will Hovel, Electrical Lead</span></div></div></header><section class="section doc"><div class="lw"><div class="doc-note">Reproduced from the team&rsquo;s working document. Teammate names are replaced with Member numbers; the milestone chart and scheduling links are omitted.</div><h3>Overview</h3>
+<p>Ten new members build stock Otto together by Fri Oct 30 and a shared PCB by Nov 3, then split into two teams that each modify their own mini humanoid; both robots done Saturday Nov 28.</p>
+<ul>
+<li>Team: 6 electrical (new Triton Droids members), 2 mechanical, 2 simulation/ML.</li>
+<li>What you already know: each electrical member did either the Power Distribution Board breakdown or the Control Board breakdown. This project reuses both: fusing, bulk/decoupling caps, buck vs LDO, and current budgets from the PDB; ESP32-S3 boot/reset, USB-C, decoupling and connector placement from the Control Board.</li>
+<li>Thanksgiving is Thu Nov 26. Plan as if the last week has only three working days.</li>
+</ul>
+<h4>The actuator: SG90 micro servo</h4>
+<p>The team is using the Beffkkip SG90 3-pack on Amazon. Typical SG90 ratings from a published SG90 spec sheet:</p>
+<div class="tbl-wrap"><table><thead><tr><th>Spec</th><th>Typical SG90 value</th></tr></thead><tbody><tr><td>Weight</td><td>9 g</td></tr><tr><td>Size</td><td>22.2 × 11.8 × 31 mm</td></tr><tr><td>Stall torque</td><td>1.8 kgf·cm (at 4.8 V)</td></tr><tr><td>Speed</td><td>0.1 s / 60°</td></tr><tr><td>Supply</td><td>4.8–6 V</td></tr><tr><td>Gears / range</td><td>Plastic, about 180°</td></tr></tbody></table></div>
+<h3>Starting point: fork Otto DIY Humanoid</h3>
+<p>Don't start the CAD from scratch. Fork the open-source Otto DIY Humanoid, which already walks on SG90s, and spend the team's design time on upgrades instead.</p>
+<ul>
+<li>Base CAD: Otto DIY Humanoid "the fat version" on Printables. It uses 6 micro servos (2 hips, 2 ankles, 2 arms), and the page links the Fusion 360 CAD source so Mechanical can edit parts, not just print STLs. Same part serves as leg and arm.</li>
+<li>Smaller expansion version: Otto DIY Humanoid expansion, which bolts arms onto the basic biped; it takes about 3.5 h and 51 g of filament to print the expansion.</li>
+<li>Assembly reference: Otto DIY Humanoid on Instructables (assembly steps, servo centering, Blockly/Arduino code).</li>
+<li>License: Otto is CC-BY-SA, so credit Otto DIY and share any remixed CAD under the same license.</li>
+</ul>
+<p>Why Otto and not a 16–17 DOF kit? The 17-DOF open humanoids we found (for example the Atom-X) are built around stronger bus servos, not SG90s. A 6-servo base walks on SG90 torque and gets a robot standing by mid-November; extra DOF is a stretch goal.</p>
+<p>Modifications come later. Phase 1 builds stock Otto exactly as published. In Phase 2 each team picks its own upgrades (elbows, shoulder roll, head pan, an IMU, a PCB Rev B, a new gait). The club has 50+ SG90s on hand, so servo count is not a constraint; mass and torque are.</p>
+<h3>Team structure: build one Otto together, then split into two teams</h3>
+<p>Recommendation: everyone builds a stock Otto, and one shared Otto PCB together (Phase 1, Oct 24 – Nov 6), then the group splits into two teams that each own and modify their own Otto (Phase 2, Nov 7 – Nov 28).</p>
+<p>Phase 2 teams (leads assigned by the club):</p>
+<div class="tbl-wrap"><table><thead><tr><th>Team</th><th>Electrical</th><th>Mechanical</th><th>Sim/ML</th><th>Owns</th></tr></thead><tbody><tr><td>Team A</td><td>3</td><td>1</td><td>1</td><td>Otto A, PCB copy A, its own upgrade plan</td></tr><tr><td>Team B</td><td>3</td><td>1</td><td>1</td><td>Otto B, PCB copy B, its own upgrade plan</td></tr></tbody></table></div>
+<p>Inside each team, electrical members divide the work themselves — nobody is assigned to power or logic. Teams write down who took which task at the start of each week.</p>
+<h3>Week-by-week plan</h3>
+<p>Stock Otto walks by Fri Oct 30 and the shared PCB is ordered by Tue Nov 3, leaving three and a half weeks for each team to modify its own robot.</p>
+<h4>Phase 1 — everyone together (Sat Oct 24 to Fri Nov 6)</h4>
+<p>Electrical members pick tasks at the kickoff and swap so everyone touches power, MCU, layout and firmware at least once.</p>
+<h4>Week 1 — Sat Oct 24 to Fri Oct 30: stock Otto walking</h4>
+<div class="lbl">Mechanical </div>
+<ul class="chk">
+<li>☐ Download Otto Humanoid STLs and the Fusion 360 source; print two full stock Ottos (one per future team).</li>
+<li>☐ Weigh every printed part and servo; start a shared mass spreadsheet.</li>
+<li>☐ Assemble both Ottos with all electrical members; center every servo at 90° before fixing horns.</li>
+<li>☐ Sketch the space inside the body for a PCB: max outline, mounting holes, where wires exit.</li>
+</ul>
+<div class="lbl">Electrical </div>
+<ul class="chk">
+<li>☐ Drive one SG90 from a dev board (ESP32 or Arduino); record real pulse widths for 0°, 90°, 180°.</li>
+<li>☐ Measure idle, moving and stall current for 3 servos at 5 V and 6 V on a bench supply.</li>
+<li>☐ Wire both Ottos on a dev board + breadboard and get them walking with Otto's example code.</li>
+<li>☐ Write the PCB requirements doc (Electrical section) — review Wed Oct 28.</li>
+<li>☐ Start the KiCad schematic right after the review.</li>
+</ul>
+<div class="lbl">Sim/ML </div>
+<ul class="chk">
+<li>☐ Build a URDF of stock Otto from the CAD (link lengths, masses from the spreadsheet, joint limits from servo tests).</li>
+<li>☐ Load it in a simulator (PyBullet or MuJoCo) and get it standing.</li>
+</ul>
+<p class="done">Done when (Fri Oct 30): both stock Ottos walk on a dev board; requirements approved; schematic started; URDF stands in sim.</p>
+<h4>Week 2 — Sat Oct 31 to Fri Nov 6: shared PCB ordered</h4>
+<div class="lbl">Electrical (all six, self-assigned)</div>
+<ul class="chk">
+<li>☐ Finish schematic, run ERC — schematic review Sat Oct 31.</li>
+<li>☐ Layout (connectors on edges, decoupling at pins, wide servo-power copper) — layout review Mon Nov 2.</li>
+<li>☐ Fix, run DRC, order at least 5 PCBs + parts by Tue Nov 3.</li>
+<li>☐ Write firmware that sets all joints from one array of angles, with per-servo trim offsets; test on the dev-board Ottos.</li>
+<li>☐ Write the bring-up test plan (order of checks, expected voltages) before boards arrive.</li>
+</ul>
+<div class="lbl">Mechanical (both)</div>
+<ul class="chk">
+<li>☐ Design a PCB mount for the stock body from the final board outline.</li>
+<li>☐ Print the mount for both Ottos.</li>
+</ul>
+<div class="lbl">Sim/ML (both)</div>
+<ul class="chk">
+<li>☐ Make stock Otto walk in sim; export the walk cycle as a CSV of joint angles at a fixed time step.</li>
+<li>☐ Hand the CSV format to Electrical so firmware can play it.</li>
+</ul>
+<p class="done">Done when (Fri Nov 6): PCB ordered; firmware plays a sim CSV on a real Otto; teams and leads announced.</p>
+<h4>Phase 2 — two teams, own robots (Sat Nov 7 to Sat Nov 28)</h4>
+<p>Team A and Team B each run the same checklist on their own Otto. The only difference is the upgrade each team picks. Each team's lead tracks who owns	 what.</p>
+<h4>Week 3 — Sat Nov 7 to Fri Nov 13: pick upgrades, bring up the PCB</h4>
+<ul class="chk">
+<li>☐ Team meeting Sat Nov 7: choose 1–2 upgrades (elbows, shoulder roll, head pan, IMU, better gait) and write a one-paragraph plan with a mass estimate.</li>
+<li>☐ Electrical: when boards arrive (typically 1–2 weeks after ordering, check your fab's quote), solder your team's copy and run the bring-up plan: rails with nothing attached, then MCU, then one servo, then all.</li>
+<li>☐ Electrical: move firmware from the dev board to the PCB; confirm every servo channel.</li>
+<li>☐ Mechanical: CAD the upgrade parts; print and test-fit.</li>
+<li>☐ Sim: add the upgrade joints to your team's URDF; check the robot still balances.</li>
+<li>☐ Electrical: decide whether the upgrade needs a PCB Rev B (more servo channels, IMU). If yes, write the delta requirements.</li>
+</ul>
+<p class="done">Done when (Fri Nov 13): your Otto walks on the team PCB; upgrade parts printed.</p>
+<h4>Week 4 — Sat Nov 14 to Fri Nov 20: build the upgrade</h4>
+<ul class="chk">
+<li>☐ Mechanical + Electrical: install the upgrade on your Otto; wire new servos.</li>
+<li>☐ Electrical (optional second revision): schematic + layout review, order by Tue Nov 17; until it arrives, run extra servos from spare PCB headers or a breadboard.</li>
+<li>☐ Sim + Electrical: play the updated sim gait on the real robot; tune trims; note where sim and hardware disagree.</li>
+<li>☐ Whole team: record a video of the robot doing the new motion.</li>
+</ul>
+<p class="done">Done when (Fri Nov 20): upgraded robot moves under firmware.</p>
+<h4>Week 5 — Sat Nov 21 to Sat Nov 28: finish and demo</h4>
+<p>Thanksgiving is Thu Nov 26 — plan on Sat–Wed only.</p>
+<ul class="chk">
+<li>☐ Electrical: bring up Rev B if ordered; otherwise finalize wiring on Rev A.</li>
+<li>☐ Mechanical: mount battery and board, tidy wiring.</li>
+<li>☐ Whole team: full battery test run by Wed Nov 25.</li>
+<li>☐ Whole team: demo and a one-page write-up (what you changed, measured numbers, what broke) Sat Nov 28.</li>
+</ul>
+<p>Fallback: a team's stock Otto on Rev A from Week 3 is always a working robot; an unfinished upgrade becomes the next project, not a missed deadline.</p>
+<h3>Electrical: PCB requirements</h3>
+<p>By Wed Oct 28 the electrical group writes a one-page PCB requirements doc answering every point below with a number or decision and one line of reasoning. Nobody owns a section: split it however you like, then everyone reads the whole doc before the review.</p>
+<p>Design Rev A for stock Otto plus headroom, so teams can add servos and sensors in Phase 2 without a new board.</p>
+<h4>General requirements</h4>
+<ul>
+<li>Servo outputs: drive all 6 stock Otto servos plus spare channels for upgrades. Decide how many spares and justify it.</li>
+<li>Servo power: a servo rail inside the SG90's 4.8–6 V range across the full battery range, sized for your measured peak current.</li>
+<li>Logic power: a clean 3.3 V rail that does not brown out when every servo moves at once.</li>
+<li>Battery: choose a battery and justify voltage range, weight, run time and charging.</li>
+<li>Protection: input fuse or current limit, reverse-battery protection, bulk and decoupling capacitance.</li>
+<li>Microcontroller: pick one with enough PWM outputs (or a PWM driver chip), USB programming, and boot/reset access.</li>
+<li>Expansion: at least one spare I²C header for an IMU or other sensor in Phase 2.</li>
+<li>Battery sensing: firmware can read battery voltage and stop before over-discharge.</li>
+<li>Bring-up: test points on every rail, a power LED, and labeled connectors.</li>
+<li>Fit: board outline, mounting holes and connector edges match Mechanical's sketch of the body.</li>
+</ul>
+<h4>Questions to answer (with what you already learned)</h4>
+<ul>
+<li>What is your measured stall current per servo, and what peak current do you design for? Do the fuse, regulator and trace widths all agree with that number? (PDB Q1.1, Q5.1)</li>
+<li>LDO or buck for each rail, and how much heat would an LDO make at your current? (PDB Q2.1; Control Board AP2112K, Q1.3)</li>
+<li>What happens to the logic rail when the servos start together, and where does bulk capacitance go? (PDB Q1.2; Control Board Q1.4)</li>
+<li>How is a backwards battery handled? (Control Board Q1.2)</li>
+<li>How many hardware PWM channels does your MCU have? Look it up in the datasheet; if short, compare direct PWM vs. an I²C PWM driver.</li>
+<li>Is a 3.3 V PWM signal enough to drive the SG90's signal input? Test it in Week 1 rather than guessing.</li>
+<li>Do servo ground and logic ground meet at one point? (PDB Q5.3)</li>
+<li>How is the board programmed: USB-C direct to the MCU, boot and reset buttons? (Control Board Q2.3, Q3.2, Q3.3)</li>
+<li>Pin map: every MCU pin, its net name and its job, agreed with whoever writes firmware before layout starts.</li>
+</ul>
+<h4>What leads check at each review</h4>
+<ul class="chk">
+<li>☐ Every number traces back to a measurement or a datasheet page.</li>
+<li>☐ Peak current, fuse rating and regulator rating are consistent.</li>
+<li>☐ Spare servo channels and the expansion header are on the board.</li>
+<li>☐ Board outline fits Mechanical's sketch.</li>
+<li>☐ Every electrical member has contributed to the schematic or layout.</li>
+</ul>
+<h3>Milestones and risks</h3>
+<p>milestones · Oct 24 to Nov 28</p>
+<p>Ordering the shared PCB by Nov 3 is what gives each team three weeks to modify its robot; slipping it eats directly into Phase 2.</p>
+<div class="tbl-wrap"><table><thead><tr><th>Risk</th><th>Early sign</th><th>Fallback</th></tr></thead><tbody><tr><td>PCB order slips</td><td>Review not done by Mon Nov 2</td><td>Split teams on schedule anyway; each runs its Otto on the dev board until boards arrive</td></tr><tr><td>PCB broken on arrival</td><td>Bring-up fails on a rail or MCU</td><td>Bodge-wire fix, keep the dev-board harness, fold fixes into Rev B</td></tr><tr><td>SG90s too weak for an upgrade</td><td>Servos buzz, droop or overheat holding a pose</td><td>Cut mass, shorten links, or swap leg servos for metal-gear MG90S</td></tr><tr><td>Stripped plastic gears</td><td>Servo spins freely or skips</td><td>Swap from the 50+ spares; never force a horn by hand</td></tr><tr><td>Brownouts reset the MCU</td><td>Board reboots when several servos move</td><td>Separate rails, more bulk capacitance, check battery peak current</td></tr><tr><td>Some members only do one kind of task</td><td>Same names on the same tasks two weeks running</td><td>Leads rotate tasks at the weekly check-in</td></tr><tr><td>Thanksgiving week lost</td><td>Tasks pile into Nov 23–25</td><td>Battery test run by Wed Nov 25; nothing new starts after Nov 21</td></tr></tbody></table></div>
+<h3>Sources</h3>
+<ul>
+<li>Beffkkip SG90 3-pack (Amazon) — listing not opened; confirm specs on the box</li>
+<li>SG90 spec sheet</li>
+<li>Otto DIY Humanoid "the fat version" (Printables)</li>
+<li>Otto DIY Humanoid expansion (Printables)</li>
+<li>Otto DIY Humanoid (Instructables)</li>
+<li>Otto DIY license and origin (Hackaday)</li>
+<li>Atom-X 17-DOF robot (MakerWorld)</li>
+</ul>
+<h3>Tasks - Week 1</h3>
+<p>Hiya everyone! I hope everyone has had a bit of time to glance over the build guide above ^^</p>
+<p>There’s a lot to get done this week, so let’s get started :)</p>
+<p>Action items:</p>
+<p>1. Figure out a shared meeting time</p>
+<p>2. Split up tasks</p>
+<p>Shared meeting time:</p>
+<p>A lot of the tasks have us test/build together. In general, try to finish pre-meeting tasks so we can spend the meeting together yapping and building. (less logistics and standups I hope lol)</p>
+<p>Mechanical</p>
+<p>Member 12 &amp; Member 11</p>
+<p>Before the meeting:</p>
+<ul class="chk">
+<li>☐ Download Otto Humanoid STLs and the Fusion 360 source; print two full stock Ottos (one per future team).</li>
+<li>☐ Weigh every printed part and servo; start a shared mass spreadsheet.</li>
+</ul>
+<p>Preferably before the meeting (but lmk if it’s not feasible)</p>
+<ul class="chk">
+<li>☐ Sketch the space inside the body for a PCB: max outline, mounting holes, where wires exit.</li>
+</ul>
+<div class="lbl">During the meeting</div>
+<ul class="chk">
+<li>☐ Assemble both Ottos with all electrical members; center every servo at 90° before fixing horns.</li>
+</ul>
+<p>Sim/ML </p>
+<p>For this week, I think you guys can honestly skip the shared meeting since it’s mostly going to be assembling the robots unfortunately. We will send out videos and measurements after the fact, but feel free to drop by if you want to help out/see the Ottos in person.</p>
+<p>Member 13, Member 14, and Member 15:</p>
+<p>By end of Saturday’s meeting (but please try to work on it throughout the week lol):</p>
+<ul class="chk">
+<li>☐ Build a URDF of stock Otto from the CAD (link lengths, masses from the spreadsheet, joint limits from servo tests).</li>
+<li>☐ Load it in a simulator (PyBullet or MuJoCo) and get it standing.</li>
+</ul>
+<p>Because the actual values and limits are blocked by testing, apologies if we can’t get the data to you in time</p>
+<p>However, I would like you guys to still build/load the models with variables we can replace later :)</p>
+<p>Electrical:</p>
+<p>We have a lot to do 😭</p>
+<p>Realistically, we’re probably not going to be able to flesh out PCB design requirements by Wednesday because we need a lot of measured data for that. So I’ll push for Wednesday to be more of a guidance thing.</p>
+<p>In the meantime, I think we should split into two groups to collect said data. </p>
+<p>The servos are in the electrical cabinet in the project space. But once you’re all together feel free to move wherever you want (just put the servos back after). </p>
+<p>Before meeting:</p>
+<div class="lbl">Member 8, Member 1, and Member 10: </div>
+<ul>
+<li>☐ Drive one SG90 from a dev board (ESP32 or Arduino); record real pulse widths for 0°, 90°, 180°.</li>
+<li>Servo_calibrate.ino ← arduino program we used</li>
+<li>We tested the real pulse widths by writing an arduino program that returns the pulse widths through serial. We used buttons “a” and “d” on our keyboard to adjust to the real degrees, and recorded the values we got from our data into the table below.</li>
+</ul>
+<div class="tbl-wrap"><table><thead><tr><th></th><th>0°</th><th>90°</th><th>180°</th></tr></thead><tbody><tr><td>PWM (Visually checked)</td><td>560</td><td>1530</td><td>2460</td></tr></tbody></table></div>
+<div class="lbl">Member 4, Member 3, and Member 9: </div>
+<ul class="chk">
+<li>☐ Measure idle, moving and stall current for 3 servos at 5 V and 6 V on a bench supply.</li>
+</ul>
+<p>During meeting (everyone):</p>
+<p>Member 8, Member 1, Member 10, Member 4, Member 3, and Member 9:</p>
+<ul>
+<li>☐ Wire both Ottos on a dev board + breadboard and get them walking with Otto's example code.</li>
+<li>^^ I think we can split up into 3 again and each group of 3 takes one Otto</li>
+<li>☐ Begin writing PCB requirements doc (Electrical section) </li>
+</ul><div class="docnav"><a href="team-triton-droids.html#documents">&larr; Back to Triton Droids</a><a href="triton-doc-control-board.html">Next: Control Board Breakdown (Week 1 Assignment) &rarr;</a></div></div></section>
+<footer>
+  <p>Will Hovel · UC San Diego · Electrical Engineering</p>
+  <p><a href="mailto:will.hovel@gmail.com">will.hovel@gmail.com</a> · <a href="https://github.com/WillHovel" target="_blank" rel="noopener">GitHub</a> · <a href="https://www.linkedin.com/in/will-hovel-24824a379" target="_blank" rel="noopener">LinkedIn</a></p>
+</footer>
+
+<div class="zoom" id="zoomOverlay" onclick="closeZoom()" role="dialog" aria-label="Enlarged image"><img id="zoomImg" alt=""/></div>
+<script>
+function openZoom(img){var z=document.getElementById('zoomImg');z.src=img.src;z.alt=img.alt;document.getElementById('zoomOverlay').classList.add('open');document.body.style.overflow='hidden'}
+function closeZoom(){document.getElementById('zoomOverlay').classList.remove('open');document.body.style.overflow=''}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeZoom()});
+</script>
+</body>
+</html>

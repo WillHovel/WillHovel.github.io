@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Power Distribution Board Breakdown (Week 1 Assignment) &mdash; Triton Droids &mdash; Will Hovel</title>
+  <meta name="description" content="14 questions on the 44 V battery input, fused motor outputs and the 44 V to 12 V synchronous buck."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+:root{
+  --bg-primary:#0c1610;--bg-card:#142019;--text-main:#e2e8f0;--text-muted:#94a3b8;--text-light:#64748b;
+  --accent-forest:#38a169;--accent-sage:#48bb78;--accent-active:#4ade80;--accent-sage-light:rgba(56,161,105,0.10);
+  --border-light:rgba(255,255,255,0.08);--border-hover:rgba(255,255,255,0.16);--gold:#d4a843;
+  --font-sans:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--font-mono:'JetBrains Mono',monospace;
+  --radius:6px;--border:1px solid var(--border-light);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg-primary);color:var(--text-main);font-family:var(--font-sans);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.4;background-image:radial-gradient(circle,rgba(255,255,255,0.04) .5px,transparent .5px);background-size:24px 24px}
+a{color:var(--accent-sage)}
+a:focus-visible,summary:focus-visible,button:focus-visible{outline:2px solid var(--accent-active);outline-offset:3px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,4vw,48px);border-bottom:var(--border);background:rgba(12,22,16,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.nav-logo{font-weight:700;font-size:.95rem;color:var(--accent-forest);text-decoration:none;letter-spacing:-.01em}
+.nav-links{display:flex;gap:1.8rem;align-items:center}
+.nav-links a{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.04em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .15s}
+.nav-links a:hover{color:var(--accent-sage)}
+
+.container{max-width:1120px;margin:0 auto;padding:0 clamp(20px,4vw,48px);position:relative;z-index:1}
+.prose{max-width:760px}
+
+/* header */
+.head{padding:calc(56px + 48px) 0 36px}
+.crumb{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-sage);margin-bottom:12px}
+.crumb a{color:var(--text-muted);text-decoration:none}.crumb a:hover{color:var(--accent-sage)}
+h1{font-size:clamp(2rem,4.4vw,3rem);line-height:1.08;letter-spacing:-.02em;color:#f1f5f9;font-weight:700;margin-bottom:16px}
+.lede{font-size:1.02rem;color:#cbd5e1;line-height:1.7;max-width:720px;margin-bottom:20px}
+.skills{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.03em;padding:4px 9px;border:var(--border);border-radius:3px;color:var(--text-muted);background:var(--bg-card);white-space:nowrap}
+.tag-green{border-color:rgba(46,139,87,.3);color:var(--accent-sage);background:var(--accent-sage-light)}
+.facts{display:flex;flex-wrap:wrap;gap:6px 28px;margin-top:20px;font-size:.82rem;color:var(--text-muted)}
+.facts b{color:#cbd5e1;font-weight:600}
+
+/* results box */
+.results{padding:0 0 44px}
+.box{background:var(--bg-card);border:var(--border);border-left:4px solid var(--accent-sage);border-radius:var(--radius);padding:clamp(18px,3vw,28px)}
+.box-title{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.box-title h2{font-size:1.1rem;color:#f1f5f9;letter-spacing:-.01em;margin:0}
+.box-title span{font-family:var(--font-mono);font-size:.64rem;color:var(--text-light);letter-spacing:.04em}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.metric{padding:14px 16px;border:var(--border);border-radius:var(--radius);background:rgba(255,255,255,.015)}
+.metric .n{font-family:var(--font-mono);font-size:1.9rem;font-weight:700;color:var(--accent-active);line-height:1.1;letter-spacing:-.02em}
+.metric .n small{font-size:.9rem;font-weight:500;color:var(--accent-sage);margin-left:3px}
+.metric .l{font-size:.82rem;font-weight:600;color:#f1f5f9;margin:6px 0 4px}
+.metric .m{font-size:.76rem;color:var(--text-muted);line-height:1.5}
+.rb-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:12px;align-items:stretch}
+.fig{border:var(--border);border-radius:var(--radius);background:rgba(0,0,0,.22);overflow:hidden;display:flex;flex-direction:column}
+.fig img{width:100%;height:100%;min-height:0;object-fit:cover;display:block;cursor:zoom-in}
+.fig .cap{margin-top:auto;font-family:var(--font-mono);font-size:.64rem;line-height:1.55;color:var(--text-muted);padding:9px 12px;border-top:var(--border)}
+.plot{padding:16px 16px 4px}
+.plot h3{font-size:.82rem;color:#f1f5f9;margin-bottom:10px}
+.legend{list-style:none;display:grid;gap:5px;font-size:.78rem;color:#cbd5e1;padding:10px 0 12px}
+.legend li{display:flex;align-items:center;gap:8px}
+.legend i{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.legend span{margin-left:auto;font-family:var(--font-mono);font-size:.72rem;color:var(--text-muted)}
+
+/* sections */
+.section{padding:48px 0;border-top:var(--border)}
+.section-label{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.section-label::before{content:'';width:20px;height:2px;background:var(--accent-sage);flex-shrink:0}
+h2{font-size:1.35rem;letter-spacing:-.015em;color:#f1f5f9;margin:0 0 14px;font-weight:700}
+h3{font-size:.98rem;color:#f1f5f9;margin:0 0 8px}
+p{color:#cbd5e1;margin-bottom:12px;line-height:1.7;font-size:.94rem}
+ul.plain{list-style:none;display:flex;flex-direction:column;gap:9px}
+ul.plain li{font-size:.9rem;color:#cbd5e1;line-height:1.65;padding-left:18px;position:relative}
+ul.plain li::before{content:'';position:absolute;left:0;top:.72em;width:5px;height:5px;border-radius:50%;background:var(--accent-sage)}
+ul.plain li b{color:#f1f5f9;font-weight:600}
+code{font-family:var(--font-mono);font-size:.8em;color:var(--accent-sage);background:rgba(46,139,87,.08);padding:1px 5px;border-radius:3px}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.card{background:var(--bg-card);border:var(--border);border-radius:var(--radius);padding:22px}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:var(--border);border-radius:var(--radius);background:var(--bg-card)}
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+th,td{text-align:left;padding:11px 14px;vertical-align:top;border-bottom:var(--border)}
+tr:last-child td{border-bottom:none}
+th{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-light);font-weight:500;background:rgba(255,255,255,.02)}
+td{color:#cbd5e1;line-height:1.55}
+td.m{font-family:var(--font-mono);font-size:.82rem;color:var(--accent-active);white-space:nowrap}
+td.k{color:#f1f5f9;font-weight:600}
+td.d{color:var(--text-muted);font-size:.8rem}
+.note{font-size:.8rem;color:var(--text-muted);margin-top:10px;line-height:1.6}
+
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.gallery .fig img{aspect-ratio:4/3}
+.gallery.g4{grid-template-columns:repeat(4,1fr)}
+.vids .fig{margin-bottom:12px}
+.video-wrap{position:relative;aspect-ratio:16/9;background:#000}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+details{border:var(--border);border-radius:var(--radius);background:var(--bg-card);margin-top:12px}
+summary{cursor:pointer;padding:14px 18px;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';color:var(--accent-sage);font-size:1rem;line-height:1}
+details[open] summary::after{content:'–'}
+summary:hover{color:var(--accent-sage)}
+.det-body{padding:4px 20px 20px;border-top:var(--border)}
+.det-body h3{margin-top:18px}
+.sch img{background:#fff;object-fit:contain!important}
+
+footer{border-top:var(--border);padding:20px clamp(20px,4vw,48px);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;position:relative;z-index:1}
+footer p{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.04em;color:var(--text-light);margin:0}
+footer a{color:var(--accent-sage);text-decoration:none}
+
+.zoom{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.95);align-items:center;justify-content:center;padding:28px;cursor:zoom-out}
+.zoom.open{display:flex}.zoom img{max-width:100%;max-height:100%;object-fit:contain}
+
+@media(max-width:900px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .rb-grid,.two{grid-template-columns:1fr}
+  .gallery,.gallery.g4{grid-template-columns:repeat(2,1fr)}
+  .nav-links{gap:1rem}
+}
+@media(max-width:480px){.gallery,.gallery.g4{grid-template-columns:1fr}.metrics{grid-template-columns:1fr}.metric .n{font-size:1.6rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  .lw{max-width:1120px;margin:0 auto;padding:0 clamp(20px,4vw,48px);position:relative;z-index:1}.head{padding:calc(56px + 48px) 0 36px}.status{display:inline-block;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.04em;padding:4px 9px;border:1px solid rgba(212,168,67,.35);color:var(--gold);background:rgba(212,168,67,.08);border-radius:3px;margin-bottom:14px}.mini-card{display:block;text-decoration:none;color:inherit}.mini-card:hover{border-color:var(--border-hover)}.mini-card h3{margin-bottom:6px}.mini-card p,.card p.s{margin:0;font-size:.86rem;color:var(--text-muted)}.cards3{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}@media(max-width:900px){.cards3{grid-template-columns:1fr}}</style>
+<style>
+.doc-note{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.03em;color:var(--text-muted);border:1px solid rgba(212,168,67,.3);background:rgba(212,168,67,.06);padding:10px 14px;border-radius:4px;margin:0 0 28px;max-width:820px;line-height:1.6}
+.doc h2{margin-top:40px;padding-top:28px;border-top:var(--border)}.doc h2:first-child{margin-top:0;padding-top:0;border-top:none}
+.doc h3{margin-top:28px;font-size:1.05rem}.doc h4{margin:22px 0 8px;font-size:.92rem;color:#e2e8f0}
+.doc p{color:#cbd5e1;margin:0 0 12px;max-width:820px}.doc ul{margin:0 0 16px 20px;max-width:820px;color:#cbd5e1}.doc li{margin-bottom:5px}
+.doc ul.chk{list-style:none;margin-left:2px}
+.doc .tbl-wrap{margin:14px 0 22px}.doc table{font-size:.8rem}.doc td,.doc th{padding:8px 11px}
+.doc .lbl{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-sage);margin:20px 0 6px}
+.doc .done{color:#e2e8f0;border-left:2px solid var(--accent-forest);padding:2px 0 2px 12px;margin:10px 0 18px}
+.doc .answer{border:1px dashed rgba(255,255,255,.18);border-radius:4px;min-height:64px;padding:10px 14px;margin:6px 0 22px;color:var(--text-light);font-size:.8rem;max-width:820px;font-family:var(--font-mono)}
+.doc details{margin:0 0 6px;max-width:820px}.doc summary{cursor:pointer;font-family:var(--font-mono);font-size:.68rem;color:var(--text-light);letter-spacing:.04em}
+.doc details p{margin:6px 0 0;font-size:.82rem;color:var(--text-muted)}
+.docnav{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:44px;padding-top:24px;border-top:var(--border);font-size:.86rem}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Will Hovel</a>
+  <div class="nav-links">
+    <a href="index.html#projects">Projects</a>
+    <a href="about.html">About</a>
+    <a href="https://github.com/WillHovel" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</nav>
+
+<header class="head"><div class="lw"><div class="crumb"><a href="index.html#team">Team</a> / <a href="team-triton-droids.html">Triton Droids</a> / Documents</div><h1>Power Distribution Board Breakdown (Week 1 Assignment)</h1><p class="lede">The companion Week 1 assignment for the power side: members trace a 44 V battery input through fusing and TVS protection to four motor outputs, then work through a 100 V synchronous buck converter, bootstrap gate drive, feedback, soft-start and undervoltage lockout, and finish with layout rules for a high-power board. Fourteen questions, each tied to a datasheet section.</p><div class="facts"><span><b>Board</b> 44 V in, 4 fused motor outputs, 12 V buck</span><span><b>Questions</b> 14 across 5 parts</span><span><b>Parts</b> LTC3810, FDD86102, 1.5KE TVS</span><span><b>Author</b> Will Hovel, Electrical Lead</span></div></div></header><section class="section doc"><div class="lw"><div class="doc-note">Reproduced from the team&rsquo;s working document. Answer boxes are left blank as new members receive them; links to team files are omitted.</div><p>Goal: Learn how our robot's Power Distribution Board (PDB) works, why each component and protection stage was chosen, and how to find and navigate component datasheets efficiently.</p>
+<p>How to Complete This Report:</p>
+<ul>
+<li>Make a copy of this Google Doc for your personal write-up.</li>
+<li>Keep your answers short, clear, and direct—1 to 3 sentences or bullet points per question is plenty. You do not need to write long essays or calculate complex equations.</li>
+<li>Type your answers directly into the bordered Your Answer boxes below each question.</li>
+<li>Compare this report with a partner and check your reports with an electrical team member.</li>
+</ul>
+<p>Rules:</p>
+<ul>
+<li>You are welcome to work with others on this project, just keep in mind the goal is your understanding.</li>
+<li>You are welcome to ask anyone on the electrical team, AI, or me for help if you need it.</li>
+</ul>
+<h2>1. Getting Started: KiCad &amp; Project Files</h2>
+<p>Instead of looking at static pictures, you will inspect the actual work-in-progress design files in KiCad, just like you will when designing and reviewing hardware for the robot.</p>
+<ul>
+<li>Step 1: Download &amp; Install KiCad: If you don't already have KiCad installed, download the latest version (v8+) from the KiCad Official Download Page.</li>
+<li>Step 2: Download the Project Zip: Download our PDB design files from Google Drive: droids_pdb_project.zip.</li>
+<li>Step 3: Open the Project: Extract the zip folder on your computer. Open KiCad, click Open Project, and select Droids PDB.kicad_pro.</li>
+<li>Double-click Droids PDB.kicad_sch to open Sheet 1 (Main PDB Sheet) containing the 44V battery input and the 4 high-power motor output channels.</li>
+<li>Double-click the hierarchical sheet box labeled Buck Converter on Sheet 1 to navigate into Sheet 2 (Buck_Converter.kicad_sch), which steps the 44V battery down to 12V.</li>
+<li>Note on Current Design Status: This schematic is a work-in-progress. Right now, it includes the 44V battery input, the 4 fused motor outputs, and the 44V-to-12V step-down buck converter. Two additional subsystems are currently being added before we start PCB layout and routing:</li>
+<li>A DC barrel jack output (on the 12V rail) to power the robot's Jetson Nano compute board.</li>
+<li>A 12V-to-3.3V step-down buck converter (a simpler version of the 44V-to-12V buck converter) to power the Control Board (CB).</li>
+</ul>
+<h2>2. Component Datasheets &amp; Search Strategy</h2>
+<p>In real hardware engineering, someone won't always hand you a pre-made list of PDF links—you often have to look up parts from a schematic yourself.</p>
+<h2>How to Find Datasheets from a KiCad Schematic</h2>
+<ul>
+<li>Inspect Component Properties in KiCad: Hover over any part on the schematic and press E (or double-click it) to open its Symbol Properties. Look at the Value field (which usually holds the Manufacturer Part Number, or MPN) and the Datasheet field (which often has a URL pre-filled).</li>
+<li>Decode Generic Suffixes &amp; Packaging Codes:</li>
+<li>Placeholder letters (xx): On Sheet 1, the diodes D1–D4 are labeled 1.5KExxCA. Here, 1.5KE is the series name, xx is a placeholder for the specific breakdown voltage rating we order (e.g., 1.5KE51CA or 1.5KE68CA), and CA means bidirectional. Searching "1.5KE Vishay datasheet" brings up the entire family datasheet.</li>
+<li>Ordering/Packaging suffixes (#TRPBF, TR): On Sheet 2, IC2 is labeled LTC3810IG#TRPBF. The base part number is LTC3810 (I = industrial temperature range, G = 28-lead SSOP package, #TRPBF = Tape &amp; Reel, Lead-Free). Always search using the base part number ("LTC3810 datasheet").</li>
+<li>Where to Search: Type "&lt;Base Part Number&gt; datasheet pdf" into Google, or search the part number directly on DigiKey or Mouser and click the Datasheet link on the product page.</li>
+</ul>
+<p>Use the steps above to practice looking up the five main parts on the PDB, and use these verified links to check your finds:</p>
+<ul>
+<li>Bidirectional TVS Protection Diodes (D1, D2, D3, D4): Vishay 1.5KE Series (1.5KExxCA) Datasheet</li>
+<li>100V Synchronous Buck Controller (IC2): Analog Devices LTC3810 Datasheet</li>
+<li>100V N-Channel Power Trench MOSFETs (IC1, IC3): onsemi FDD86102 Datasheet</li>
+<li>100V SOT-23 N-Channel Pass MOSFET (M1): Diodes Inc. ZXMN10A07F Datasheet</li>
+<li>100V 1A Schottky Barrier Diodes (D5, D6): ROHM RB168MM100 Datasheet</li>
+</ul>
+<h2>How to Skim Datasheets (Without Reading 90 Pages)</h2>
+<p>Datasheets look intimidating because they contain dozens of pages of timing diagrams, characteristic curves, and mechanical tolerances. Never read a datasheet front-to-back. Use Ctrl+F and jump directly to these key sections:</p>
+<ul>
+<li>Features, Description &amp; Typical Application (Page 1): Quick summary of what the device does, its voltage/current ratings, and an example reference schematic.</li>
+<li>Pin Functions / Pin Configuration: A list explaining what every physical pin does and how it should be wired.</li>
+<li>Absolute Maximum Ratings &amp; Electrical Characteristics: Safe voltage limits, on-resistance (rDS(on)), reference voltages (VFB), and threshold voltages.</li>
+<li>Operation &amp; Applications Information: Detailed explanations of how the control loop, gate drivers, current sensing, and component sizing work.</li>
+</ul>
+<p>Spoiler Clue Rule: Each question below lists the general Datasheet Section where the answer lives so you can practice finding numbers. If you've spent 5+ minutes searching and are completely stuck, an Emergency Page Clue is hidden in invisible white text between the brackets. Click and drag your mouse across the space between the brackets to select/highlight it and reveal the page number!</p>
+<h2>3. Quick Primer: KiCad Schematic Symbols</h2>
+<p>Here is a quick cheat sheet for the KiCad notations used across our Power Distribution Board:</p>
+<div class="tbl-wrap"><table><thead><tr><th>KiCad Element</th><th>Schematic Notation</th><th>What It Means</th></tr></thead><tbody><tr><td>Reference Designators</td><td>J1, F1, C1, D1, IC2, M1, L1, R5</td><td>Unique part ID on the board: J = Connector, F = Fuse, C = Capacitor, D = Diode, IC = Integrated Circuit / Power MOSFET, M = MOSFET, L = Inductor, R = Resistor.</td></tr><tr><td>Component Values</td><td>1000u, 270u, 0.1u, 1n, 47p, 10u, 261k</td><td>Physical value: u = microfarads (µF) for capacitors or microhenries (µH) for inductors (L1), n = nanofarads (nF; 1n = 1000 pF), p = picofarads (pF), k = kilo-ohms (kΩ).</td></tr><tr><td>Net Labels</td><td>Text labels sitting directly on a wire (e.g., SW, TG, BG, VFB, NDRV, ITH, VOUT)</td><td>Local virtual wires within the same schematic sheet. Any wires on that sheet with the exact same label name are electrically connected together without drawing cluttering lines across the page.</td></tr><tr><td>Power Symbols</td><td>VDD, +44V, +12V, GND</td><td>Global power and ground rails. Every +44V symbol across both sheets connects to the same 44V bus, and every GND symbol connects to the common ground plane.</td></tr><tr><td>Hierarchical Sheet</td><td>Rectangular box labeled Buck Converter (Buck_Converter.kicad_sch)</td><td>A modular sub-sheet containing the 44V-to-12V step-down converter circuitry, keeping the main PDB sheet clean.</td></tr></tbody></table></div>
+<h2>Part 1: 44V Battery Input &amp; Motor Power Distribution (Droids PDB.kicad_sch)</h2>
+<p>Open Droids PDB.kicad_sch in KiCad and inspect the Battery Input Connector, Input Decoupling, and 4 Motor Output Connectors sections. Refer to the Vishay 1.5KE Series (1.5KExxCA) Datasheet.</p>
+<h2>Question 1.1: Battery Input (J1) &amp; Fusing Architecture (F5 vs. F1–F4)</h2>
+<p>Trace the power path from the main battery connector J1 (XT90) into the board (VDD through F5 to +44V) and out to the four motor connectors J2–J5 through fuses F1–F4:</p>
+<ul>
+<li>Why do we use an XT90 connector for J1 instead of a small pin header?</li>
+<li>Why does the board have both a main input fuse (F5) right after the battery connector AND four individual branch fuses (F1–F4) on the motor outputs? What happens if one motor stalls or shorts out when each motor has its own fuse versus if the entire board only had a single fuse?</li>
+</ul>
+<div class="answer">Your answer</div>
+<h2>Question 1.2: Three-Tier Capacitor Banks on High-Current Motor Outputs (1000u, 1u, 0.1u)</h2>
+<p>Look at any of the four motor output channels (for example, C1 = 1000u, C2 = 1u, and C3 = 0.1u on motor channel 1), as well as the Input Decoupling bank (C13–C16):</p>
+<ul>
+<li>Why do we place huge 1000u (1000 µF) bulk capacitors right at the motor power rails? What happens to the 44V bus voltage when four robot motors suddenly accelerate and draw massive current spikes?</li>
+<li>Why do we still pair each massive 1000u capacitor with much smaller 1u (1 µF) and 0.1u (100 nF) capacitors in parallel?</li>
+</ul>
+<div class="answer">Your answer</div>
+<h2>Question 1.3: Bidirectional TVS Diodes on Motor Rails (D1–D4 — 1.5KExxCA)</h2>
+<p>Each motor output channel has a 1.5KExxCA Transient Voltage Suppressor (TVS) diode (D1–D4) connected between +44V and GND. Check the Vishay 1.5KE Series Datasheet:</p>
+<ul>
+<li>Motors are big inductive loads. What dangerous electrical event happens on the power rail when a spinning motor suddenly brakes, reverses, or disconnects, and how does a TVS diode protect the rest of the PDB?</li>
+<li>According to the datasheet, what is the peak pulse power rating (PPPM) of the 1.5KE series, and what does the CA suffix at the end of the part number signify compared to an A suffix?</li>
+<li>Datasheet Clue: Check the Features, Devices for Bidirection Applications, and Primary Characteristics / Maximum Ratings tables in the Vishay 1.5KE Series Datasheet.</li>
+</ul>
+<details><summary>Emergency page clue</summary><p>Vishay 1.5KE: Page 1 Features &amp; Maximum Ratings Table</p></details>
+<div class="answer">Your answer</div>
+<h2>Part 2: 44V-to-12V Synchronous Buck Power Stage (Buck_Converter.kicad_sch)</h2>
+<p>Double-click the Buck Converter sheet box on Sheet 1 to open Buck_Converter.kicad_sch. Look at the controller IC2 (LTC3810IG#TRPBF) and the high-current switching power stage on the right (IC1, IC3, D6, L1, C22, C23). Refer to the LTC3810 Datasheet, FDD86102 Datasheet, and RB168MM100 Datasheet.</p>
+<h2>Question 2.1: Why a Buck Converter Instead of an LDO? (And Finding the Reference Circuit!)</h2>
+<p>On the Control Board, we used a simple linear regulator (LDO) to drop 5V down to 3.3V. On the PDB, we need to step 44V down to 12V at several amps (to power the Jetson Nano and downstream converters):</p>
+<ul>
+<li>Why would a linear regulator (LDO) be a terrible choice for dropping 44V to 12V at high current, and how does a switching buck converter achieve 90%+ efficiency?</li>
+<li>Compare our schematic in Buck_Converter.kicad_sch to the Typical Application schematic on the very first page of the LTC3810 Datasheet. What input voltage range and output voltage/current is that reference design built for?</li>
+<li>Datasheet Clue: Check the Description and Typical Application schematic on the front page of the LTC3810 Datasheet.</li>
+</ul>
+<details><summary>Emergency page clue</summary><p>LTC3810: Page 1 Typical Application Schematic</p></details>
+<div class="answer">Your answer</div>
+<h2>Question 2.2: Synchronous Switching MOSFETs (IC1 &amp; IC3 — FDD86102)</h2>
+<p>Trace the power stage formed by top MOSFET IC1 (driven by TG), bottom MOSFET IC3 (driven by BG), inductor L1 (10u), and output capacitor C23 (270u):</p>
+<ul>
+<li>In a synchronous buck converter, how do the top MOSFET (IC1) and bottom MOSFET (IC3) take turns switching on and off to step +44V down to +12V through L1? Why must IC1 and IC3 never be turned on at the exact same time?</li>
+<li>Check the FDD86102 Datasheet: what is the maximum drain-to-source breakdown voltage (VDS / BVDSS) and maximum on-resistance (rDS(on) at VGS = 10V) of these MOSFETs? Why is a 100V rating important for a 44V battery system?</li>
+<li>Datasheet Clue: Check Features, MOSFET Maximum Ratings, and Electrical Characteristics in the FDD86102 Datasheet (and Operation — Main Control Loop in the LTC3810 Datasheet).</li>
+</ul>
+<details><summary>Emergency page clue</summary><p>FDD86102: Page 2 Maximum Ratings &amp; Page 3 Electrical Characteristics | LTC3810: Page 12 Main Control Loop</p></details>
+<div class="answer">Your answer</div>
+<h2>Question 2.3: Catch Diode (D6 — RB168MM100) &amp; Resistorless Current Sensing (SENSE+ / SENSE-)</h2>
+<p>Look closely at the bottom MOSFET IC3 on Buck_Converter.kicad_sch:</p>
+<ul>
+<li>Notice Schottky diode D6 (RB168MM100) placed in parallel with IC3 (anode to GND, cathode to SW). If IC3 already acts as a synchronous switch, why do we still place a fast Schottky diode across it during the brief "dead-time" when both MOSFETs are off? What is the reverse voltage rating (VR) of the RB168MM100?</li>
+<li>Notice there is no current-sense resistor in series with inductor L1. Instead, SENSE+ (Pin 25) connects to SW and SENSE- (Pin 21) connects to GND across IC3. How does the LTC3810 measure inductor current without a sense resistor?</li>
+<li>Datasheet Clue: Check Outline / Absolute Maximum Ratings in the RB168MM100 Datasheet, and check Pin Functions (SENSE+, SENSE-) or Applications Information — SENSE+ and SENSE- Connections in the LTC3810 Datasheet.</li>
+</ul>
+<details><summary>Emergency page clue</summary><p>RB168MM100: Page 1 Ratings | LTC3810: Page 10 Pin Functions &amp; Page 15 SENSE+ and SENSE- Connections</p></details>
+<div class="answer">Your answer</div>
+<h2>Part 3: Gate Drive Power &amp; High-Side Bootstrap Circuit (Buck_Converter.kicad_sch)</h2>
+<p>MOSFET gates need around 10V of gate-to-source voltage (VGS) to turn on fully, which is much lower than 44V (so applying 44V directly to a gate would destroy it!), yet for the top MOSFET (IC1), its source pin (SW) jumps all the way up to +44V when it turns on. Let's see how the LTC3810 solves both problems.</p>
+<h2>Question 3.1: Start-Up Linear Regulator (M1 — ZXMN10A07F) &amp; EXTVCC Switchover</h2>
+<p>Look at M1 (ZXMN10A07F), pull-up resistor R3 (100k), net NDRV (Pin 15), net M1_S connected to INTVCC (Pin 17) and DRVCC (Pin 18), and net VOUT (+12V) connected to EXTVCC (Pin 16):</p>
+<ul>
+<li>When 44V battery power is first plugged in (before the 12V output exists), how do NDRV, R3, and external MOSFET M1 work together to supply ~10V power to INTVCC and DRVCC?</li>
+<li>Once the buck converter starts up and VOUT (EXTVCC, Pin 16) rises above 6.7V, what does the LTC3810 automatically do to M1, and where does it draw its INTVCC power from instead? Why does switching over to EXTVCC save heat and improve efficiency?</li>
+<li>Datasheet Clue: Check Pin Functions (NDRV, EXTVCC, INTVCC) and Operation — Bias Supply (INTVCC, DRVCC, EXTVCC, NDRV) in the LTC3810 Datasheet.</li>
+</ul>
+<details><summary>Emergency page clue</summary><p>LTC3810: Page 9 Pin Functions &amp; Page 13–14 Operation / Bias Supply</p></details>
+<div class="answer">Your answer</div>
+<h2>Question 3.2: High-Side Bootstrap Circuit (D5 — RB168MM100 &amp; C17 — 0.1u)</h2>
+<p>Trace the connection from M1_S (DRVCC / INTVCC) through Schottky diode D5 (RB168MM100) to the BOOST net (Pin 28), and look at capacitor C17 (0.1u) connected between BOOST and SW (Pin 26):</p>
+<ul>
+<li>Since IC1 is an N-channel MOSFET whose source is connected to SW, its gate (TG) must be driven higher than +44V (to roughly VIN + 10V ≈ 54V) to stay turned on!</li>
+<li>How do diode D5 and bootstrap capacitor C17 charge up when the bottom MOSFET (IC3) is ON (SW ≈ 0V), and how does C17 then act like a "floating 10V battery" riding on top of SW when the top MOSFET (IC1) turns ON?</li>
+<li>Datasheet Clue: Check Pin Functions (TG, BOOST) and Applications Information — Top MOSFET Driver Supply (CB, DB) in the LTC3810 Datasheet.</li>
+</ul>
+<details><summary>Emergency page clue</summary><p>LTC3810: Page 10 Pin Functions &amp; Page 20 Top MOSFET Driver Supply (CB, DB)</p></details>
+<div class="answer">Your answer</div>
+<h2>Part 4: Feedback, Timing, &amp; Protection Networks (Buck_Converter.kicad_sch)</h2>
+<p>Inspect the passive networks around IC2 (LTC3810IG#TRPBF) on the left and right sides of Buck_Converter.kicad_sch. Refer to the LTC3810 Datasheet.</p>
+<h2>Question 4.1: Output Voltage Feedback Divider (R5 = 14k &amp; R6 = 1k on VFB)</h2>
+<p>Look at resistors R5 (14k, connected between VOUT and VFB) and R6 (1k, connected between VFB and GND), feeding into VFB (Pin 9):</p>
+<ul>
+<li>According to the datasheet, what is the exact internal feedback reference voltage (VFB) that the LTC3810 regulates Pin 9 to?</li>
+<li>Using the datasheet's output voltage formula (or a simple voltage divider calculation with R5 = 14 kΩ and R6 = 1 kΩ), verify that this resistor pair programs the output voltage VOUT to 12V.</li>
+<li>Bonus Thought: When a teammate designs the upcoming 12V-to-3.3V buck converter for the Control Board using a similar feedback divider architecture, what is the main thing he will change in this feedback divider to get 3.3V instead of 12V?</li>
+<li>Datasheet Clue: Check Electrical Characteristics (VFB) and Applications Information — Output Voltage in the LTC3810 Datasheet.</li>
+</ul>
+<details><summary>Emergency page clue</summary><p>LTC3810: Page 2 Electrical Characteristics &amp; Page 20 Output Voltage Formula</p></details>
+<div class="answer">Your answer</div>
+<h2>Question 4.2: Undervoltage Lockout (UVIN) &amp; Shutdown (~{SHDN}) Divider (R1 = 100k &amp; R2 = 20k)</h2>
+<p>Look at the voltage divider formed by R1 (100k from +44V) and R2 (20k to GND), which creates the net V_PULLUP connected to both ~{SHDN} (Pin 13) and UVIN (Pin 14):</p>
+<ul>
+<li>What happens to the LTC3810 when the voltage on UVIN drops below 0.8V (or ~{SHDN} drops below 1.5V)?</li>
+<li>Why is Undervoltage Lockout (UVLO) important when running off a battery pack?</li>
+<li>Datasheet Clue: Check Pin Functions (SHDN, UVIN) and Operation — Fault Monitoring/Protection in the LTC3810 Datasheet.</li>
+</ul>
+<details><summary>Emergency page clue</summary><p>LTC3810: Page 9 Pin Functions &amp; Page 13 Fault Monitoring/Protection</p></details>
+<div class="answer">Your answer</div>
+<h2>Question 4.3: Soft-Start (C18 on SS/TRACK), On-Time (R7 on ION), &amp; Loop Compensation (ITH)</h2>
+<p>Identify these three remaining support networks around IC2:</p>
+<ul>
+<li>C18 (1n / 1000 pF) on SS/TRACK (Pin 11): What is "Soft-Start," and why do we want the 12V output to ramp up smoothly over a few milliseconds during power-up instead of slamming from 0V to 12V instantaneously?</li>
+<li>R7 (261k) on ION (Pin 1): What parameter of the buck converter does resistor R7 (RON) set?</li>
+<li>R4 (200k), C20 (47p), and C19 (5p) between ITH (Pin 8) and VFB (Pin 9): In 1 simple sentence, what is the role of the ITH compensation network in the feedback control loop?</li>
+<li>Datasheet Clue: Check Pin Functions (ION, ITH, SS/TRACK) and Applications Information — Soft-Start and Tracking in the LTC3810 Datasheet.</li>
+</ul>
+<details><summary>Emergency page clue</summary><p>LTC3810: Page 9 Pin Functions &amp; Page 28 Soft-Start and Tracking</p></details>
+<div class="answer">Your answer</div>
+<h2>Part 5: First Look at the PCB Layout (Pre-Layout Design Check)</h2>
+<p>If you open Droids PDB.kicad_pcb right now, you'll notice it is completely blank! Because the Jetson Nano barrel jack and the 12V-to-3.3V buck converter are being finalized this week, PCB layout and routing haven't started yet. Before we lay out the board, answer three quick design questions about what we will need to watch out for when routing a high-power board like the PDB:</p>
+<h2>Question 5.1: Trace Widths &amp; Copper Pours for 44V Motor Rails vs. Signal Nets</h2>
+<p>On the Control Board, most traces only carried tiny logic signals (a few milliamps). On the PDB, the +44V battery input and the four motor outputs (J2–J5) carry tens of amps of motor current, and the buck converter outputs up to 6A at +12V. What happens if we route high-current motor power using thin signal traces, and what should we use instead on the PCB?</p>
+<div class="answer">Your answer</div>
+<h2>Question 5.2: Buck Converter Hot-Loop Placement (IC1, IC3, D6, C22)</h2>
+<p>In a switching buck converter, the loop formed by the input capacitor (C22), top MOSFET (IC1), bottom MOSFET (IC3), and catch diode (D6) has high currents switching on and off in nanoseconds. According to the PC Board Layout Checklist in the LTC3810 Datasheet, how should the pins of C22, IC1, IC3, and D6 be physically arranged on the PCB, and where should the decoupling capacitors (C17 on BOOST and C21 on DRVCC) be placed?</p>
+<ul>
+<li>Datasheet Clue: Check Applications Information — PC Board Layout Checklist near the end of the LTC3810 Datasheet.</li>
+</ul>
+<details><summary>Emergency page clue</summary><p>LTC3810: Page 33 PC Board Layout Checklist</p></details>
+<div class="answer">Your answer</div>
+<h2>Question 5.3: Separating Signal Ground (SGND) from Power Ground (PGND / GND)</h2>
+<p>Notice on Buck_Converter.kicad_sch that Pin 12 of IC2 is labeled SGND (Signal Ground), while the high-current MOSFETs and capacitors connect to power ground (GND / BGRTN). According to the PC Board Layout Checklist in the LTC3810 Datasheet, why should quiet small-signal components (like the VFB feedback divider R5/R6, ITH compensation, and SS/TRACK capacitor C18) return to SGND separately before meeting the noisy high-current power ground at a single point?</p>
+<ul>
+<li>Datasheet Clue: Check Pin Functions (SGND) and Applications Information — PC Board Layout Checklist in the LTC3810 Datasheet.</li>
+</ul>
+<details><summary>Emergency page clue</summary><p>LTC3810: Page 9 SGND Pin Function &amp; Page 33 PC Board Layout Checklist</p></details>
+<div class="answer">Your answer</div><div class="docnav"><a href="team-triton-droids.html#documents">&larr; Back to Triton Droids</a></div></div></section>
+<footer>
+  <p>Will Hovel · UC San Diego · Electrical Engineering</p>
+  <p><a href="mailto:will.hovel@gmail.com">will.hovel@gmail.com</a> · <a href="https://github.com/WillHovel" target="_blank" rel="noopener">GitHub</a> · <a href="https://www.linkedin.com/in/will-hovel-24824a379" target="_blank" rel="noopener">LinkedIn</a></p>
+</footer>
+
+<div class="zoom" id="zoomOverlay" onclick="closeZoom()" role="dialog" aria-label="Enlarged image"><img id="zoomImg" alt=""/></div>
+<script>
+function openZoom(img){var z=document.getElementById('zoomImg');z.src=img.src;z.alt=img.alt;document.getElementById('zoomOverlay').classList.add('open');document.body.style.overflow='hidden'}
+function closeZoom(){document.getElementById('zoomOverlay').classList.remove('open');document.body.style.overflow=''}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeZoom()});
+</script>
+</body>
+</html>
